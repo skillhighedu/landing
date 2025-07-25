@@ -4,7 +4,7 @@ import {
   GraduationCap,
   BookOpen,
   MousePointerClick,
-  BadgeCheck,
+ 
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -101,16 +101,6 @@ export default function Hero() {
         <MousePointerClick size={28} strokeWidth={2.5} className="sm:w-11 sm:h-11" />
       </motion.div>
 
-      <motion.div
-        className="absolute top-16 sm:top-20 left-1/2 -translate-x-1/2 text-emerald-300 cursor-pointer"
-        variants={iconVariants(0.6)}
-        initial="initial"
-        animate="animate"
-        whileHover="hover"
-        aria-hidden="true"
-      >
-        <BadgeCheck size={28} strokeWidth={2.5} className="sm:w-11 sm:h-11" />
-      </motion.div>
 
       {/* Hero Content */}
       <div className="relative z-10 px-4 max-w-md sm:max-w-lg md:max-w-2xl">
@@ -142,7 +132,7 @@ export default function Hero() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
         >
-        <Button className="bg-lime-500 text-black text-lg sm:text-xl font-bold py-3 px-6 sm:px-8 hover:bg-lime-400 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-200 transform hover:-translate-y-1">
+        <Button className="bg-lime-500 cursor-pointer text-black text-lg sm:text-xl font-bold py-3 px-6 sm:px-8 hover:bg-lime-400 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-200 transform hover:-translate-y-1">
             GET STARTED
           </Button>
         </motion.div>
