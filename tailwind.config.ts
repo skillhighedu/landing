@@ -6,6 +6,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        silkscreen: ['Silkscreen', 'cursive', 'sans-serif'],
         pixel: ['PixelDigivolve', 'sans-serif'],
       },
     },
