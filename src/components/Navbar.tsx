@@ -10,7 +10,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Logo from "@/assets/logo.png";
-
+import { Button } from "./ui/button";
+import { Icons } from "@/assets/icons/icons";
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -34,7 +35,7 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-full bg-gradient-to-t font-sans from-neutral-900 text-white to-neutral-800 z-50 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 w-full bg-neutral-900 font-pixel  text-white to-neutral-800 z-50 transition-transform duration-300 ease-in-out ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
         role="navigation"
@@ -47,27 +48,31 @@ export default function Navbar() {
           </Link>
 
           <NavigationMenu>
-            <NavigationMenuList className="flex gap-8  font-medium">
+            <NavigationMenuList className="flex   font-medium">
               <NavigationMenuItem>
-                <Link to="/home" className="hover:text-primary transition">Home</Link>
+                
+                <Button variant="link" className="text-md">{Icons[0].svgIcon} Home </Button>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className=" hover:text-primary transition">
-                  Courses
+                <NavigationMenuTrigger className=" bg-transparent hover:bg-transparent">
+                          <Button variant="link" className="text-md">{Icons[0].svgIcon} Courses </Button>
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-white shadow-md rounded-md p-4">
-                  <div>Coming Soon</div>
+                <NavigationMenuContent className="bg-neutral-900 border-none  rounded-md p-4">
+                  <div className="text-white border-none">Coming Soon</div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
-          <Link
-            to="/contact"
-            className="bg-amber-400 text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-gray-800 transition focus:ring-2 focus:ring-offset-2 focus:ring-amber-400"
+         <Link to="/signup">
+           <Button
+            className="bg-green-800 text-white text-base sm:text-md  py-3 px-6 sm:py-4 sm:px-8 hover:bg-lime-400 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-lime-300 flex items-center gap-2"
+            aria-label="Start Building Skills"
           >
-            Contact
-          </Link>
+           Start Your Journey
+          
+          </Button>
+         </Link>
         </div>
 
         {/* Mobile Navbar */}
@@ -96,7 +101,7 @@ export default function Navbar() {
             <nav className="flex flex-col gap-6 text-lg text-neutral-800 font-semibold">
               <Link to="/home" onClick={() => setDrawerOpen(false)}>Home</Link>
               <Link to="/courses" onClick={() => setDrawerOpen(false)}>Courses</Link>
-              <Link to="/contact" onClick={() => setDrawerOpen(false)}>Contact</Link>
+             
             </nav>
           </motion.aside>
         )}

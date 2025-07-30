@@ -15,9 +15,7 @@ export default function RecognizedBy() {
               key={partner.id}
               src={partner.logo}
               alt={partner.alt}
-             className={`h-60 ${
-    partner.id !== "msme" ? "grayscale hover:grayscale-0" : ""
-  } transition duration-300 ease-in-out cursor-pointer`}
+             className={`h-60  transition duration-300 ease-in-out cursor-pointer`}
             />
           ))}
         </div>

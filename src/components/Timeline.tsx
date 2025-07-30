@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, useScroll, useTransform,type Variants } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion';
 import React, { useRef } from 'react';
 
 // Define timeline data structure
@@ -7,7 +7,7 @@ interface TimelineEvent {
   title: string;
   description: string;
   icon: React.ReactNode;
-  date?: string; // Optional for milestones with specific dates
+  date?: string;
 }
 
 const timelineEvents: TimelineEvent[] = [
@@ -81,7 +81,7 @@ export default function Timeline() {
   const shouldReduceMotion = useReducedMotion();
   const timelineRef = useRef<HTMLDivElement>(null);
 
-  // Track scroll progress of the timeline section
+  // Track vertical scroll progress of the timeline
   const { scrollYProgress } = useScroll({
     target: timelineRef,
     offset: ['start end', 'end start'],
@@ -99,13 +99,13 @@ export default function Timeline() {
       transition: {
         delay: shouldReduceMotion ? 0 : i * 0.2,
         duration: 0.5,
-       ease: "easeOut" as const, // Ensure ease is a literal type
+        ease: "easeOut" as const,
       },
     }),
   };
 
   // Character animation variants
-  const characterVariants : Variants = {
+  const characterVariants: Variants = {
     initial: { scale: 0, opacity: 0 },
     animate: {
       scale: 1,
@@ -116,7 +116,7 @@ export default function Timeline() {
 
   return (
     <section
-      className="bg-gradient-to-b from-neutral-900 to-neutral-800 py-16"
+      className="bg-neutral-900 py-16"
       aria-label="Learning Journey Timeline"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -126,14 +126,14 @@ export default function Timeline() {
         <div className="relative" ref={timelineRef}>
           {/* Vertical timeline line */}
           <div
-            className="absolute left-6 md:left-1/2 top-0 h-full w-1 bg-teal-500/30"
+            className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full w-1 bg-teal-500/30"
             aria-hidden="true"
           ></div>
 
           {/* Animated character */}
           {!shouldReduceMotion && (
             <motion.div
-              className="absolute left-4 md:left-[calc(50%-1rem)] w-8 h-8"
+              className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8"
               style={{ y: characterY }}
               variants={characterVariants}
               initial="initial"
@@ -153,22 +153,17 @@ export default function Timeline() {
           {timelineEvents.map((event, index) => (
             <motion.div
               key={event.id}
-              className={`mb-8 flex items-center w-full ${
-                index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-              }`}
+              className="mb-16 flex items-center w-full"
               custom={index}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
               variants={eventVariants}
+              viewport={{ once: true }}
             >
               {/* Timeline content */}
-              <div
-                className={`w-full md:w-1/2 ${
-                  index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'
-                }`}
-              >
-                <div className="relative bg-neutral-800 rounded-lg p-6 shadow-lg border border-teal-500/20 hover:border-teal-500 transition-colors duration-300">
-                  <div className="flex items-center space-x-4">
+              <div className="w-full flex justify-center">
+                <div className="relative bg-neutral-800 rounded-lg p-6 shadow-lg border border-teal-500/20 hover:border-teal-500 transition-colors duration-300 max-w-md text-center">
+                  <div className="flex flex-col items-center space-y-4">
                     <div className="flex-shrink-0 bg-teal-500/10 p-3 rounded-full">
                       {event.icon}
                     </div>
@@ -188,17 +183,11 @@ export default function Timeline() {
                   </div>
                   {/* Timeline connector */}
                   <div
-                    className={`absolute top-6 w-4 h-4 bg-teal-500 rounded-full ${
-                      index % 2 === 0
-                        ? 'right-[-2rem] md:right-[-0.75rem]'
-                        : 'left-[-2rem] md:left-[-0.75rem]'
-                    }`}
+                    className="absolute top-1/2 w-4 h-4 bg-teal-500 rounded-full transform -translate-y-1/2 left-[-2rem]"
                     aria-hidden="true"
                   ></div>
                 </div>
               </div>
-              {/* Spacer for alignment */}
-              <div className="hidden md:block md:w-1/2"></div>
             </motion.div>
           ))}
         </div>

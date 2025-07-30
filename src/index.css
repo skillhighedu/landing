@@ -5,11 +5,68 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-880px); /* 220px * number of testimonials */
+  }
+}
+
+@keyframes scroll-down {
+  0% {
+    transform: translateY(-880px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-scroll-up {
+  animation-name: scroll-up;
+}
+
+.animate-scroll-down {
+  animation-name: scroll-down;
+}
+
+@layer utilities {
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 1px 1px;
+  }
+}
 #smooth-wrapper {
   height: 100%;
   overflow: hidden;
 }
 
+body {
+  cursor: url('./assets//icons/cursor.svg') 0 0, auto ;
+}
+
+
+/* styles/globals.css */
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-880px); /* 4 testimonials * 220px height */
+  }
+}
+
+@keyframes scroll-down {
+  0% {
+    transform: translateY(-880px); /* 4 testimonials * 220px height */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
 #smooth-content {
   will-change: transform;
 }
