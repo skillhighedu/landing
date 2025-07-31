@@ -12,7 +12,7 @@ import Signup from "./pages/Signup";
 
 function App() {
   return (
-    <div className="bg-gradient-to-b from-[#0f2e1f] to-[#072213] text-white min-h-screen">
+    <div className=" text-white min-h-screen">
     
         <Routes>
           <Route element={<Layout />}>

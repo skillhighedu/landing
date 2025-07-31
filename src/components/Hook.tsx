@@ -2,8 +2,11 @@ import Trees from "@/assets/images/bg.jpg";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea"; // assuming you're using ShadCN or custom Textarea
+import {motion} from 'framer-motion'
 
 export default function BackgroundHook() {
+
+ 
   return (
     <div
       className="relative h-screen w-full bg-cover bg-center"
@@ -14,10 +17,17 @@ export default function BackgroundHook() {
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
-        <h1 className="text-white text-4xl sm:text-7xl font-bold mb-8 text-center ">
-          Join Now
-        </h1>
+      <motion.h1
+  className="text-white text-4xl sm:text-7xl font-bold mb-8 text-center"
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+  viewport={{ once: true }}
+>
+  Join Now
+</motion.h1>
 
+  
         <form className="w-full max-w-md space-y-4">
           <Input
             placeholder="Name"

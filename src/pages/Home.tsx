@@ -8,6 +8,7 @@ import FAQ from '@/components/FAQ'
 import Hook from '@/components/Hook'
 import SkillsCurtainIntro from '@/components/SkillsCurtainIntro'
 import Testimonials from '@/components/Testimonals'
+import { Mentors } from '@/components/Mentors'
 
 const INTRO_EXPIRY_MINUTES = 15
 
@@ -48,9 +49,10 @@ export default function Home() {
         <>
           <Hero />
           <RecognizedBy />
-          <Timeline />
           <CoursesCarousel />
+          <Timeline />
           <Testimonials/>
+          <Mentors/>
           <FAQ />
           <Hook />
         </>

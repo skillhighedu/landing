@@ -1,12 +1,13 @@
 import React from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {  ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import { Link } from "react-router-dom";
 import Trees from "@/assets/images/forest.jpg";
 import Autoplay from "embla-carousel-autoplay";
 import { partners } from "@/data/partners";
 import { Card, CardContent } from "@/components/ui/card";
+import CustomButton from "@/components/Button"
 import {
   Carousel,
   CarouselContent,
@@ -86,13 +87,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
         >
           <Link to="/all-courses">
-            <Button
-              className="bg-green-800 text-white text-base sm:text-md py-3 px-6 sm:py-4 sm:px-8 hover:bg-primary pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 flex items-center gap-2"
-              aria-label="Start Building Skills"
-            >
-              Start Building Skills
-              <ArrowRight size={20} />
-            </Button>
+            <CustomButton title="Start Building Skills" icon={<ArrowRight/>} />
           </Link>
         </motion.div>
 

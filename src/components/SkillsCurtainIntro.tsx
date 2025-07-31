@@ -1,4 +1,4 @@
-// src/components/SkillsCurtainIntro.tsx
+
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -6,11 +6,16 @@ import { Button } from "@/components/ui/button";
 export default function SkillsCurtainIntro({ onFinish }: { onFinish: () => void }) {
   const [show, setShow] = useState(true);
 
+
+
+
+
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(false);
       onFinish(); // Inform parent to reveal main page
-    }, 5000); // Duration of curtain page
+    }, 8000); // Duration of curtain page
     return () => clearTimeout(timer);
   }, [onFinish]);
 

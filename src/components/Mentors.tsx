@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 
-export function CoursesCarousel() {
+export function Mentors() {
   const plugin = React.useRef(
     Autoplay({
       delay: 3000,
@@ -26,15 +26,15 @@ export function CoursesCarousel() {
     <section className="bg-neutral-900 w-full py-12 px-4">
       <div className="max-w-7xl mx-auto text-center">
         {/* Header */}
-     
+     <div className="flex flex-col mb-10 gap-3">
         
-    <div className="text-center space-y-2 mb-7">
-   <Header title=" Master In-Demand Skills"/>
-<p className="text-neutral-400 ">
-    See how each step takes you closer to mastery.
-  </p>
-   
-  </div>
+        <Header title="Learn from Those Who’ve Done It"/>
+        <p className="text-neutral-400 text-sm  mb-3 text-center">
+  Your mentors once started just like you. They’ve built real skills — now they’re here to help you do the same.
+</p>
+
+
+     </div>
         {/* Carousel */}
         <Carousel
           plugins={[plugin.current]}
@@ -76,15 +76,16 @@ export function CoursesCarousel() {
 
         {/* Footer CTA + Quote */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mt-12 px-2">
-          <blockquote className="text-white text-lg italic text-center sm:text-left">
-            “Skills are the new swords.”
-          </blockquote>
+         <blockquote className="text-white text-lg italic text-center sm:text-left">
+  “Behind every skilled person is someone who showed them the way.”
+</blockquote>
 
-          <Link to="/all-courses" aria-label="Browse all skill-building programs">
+
+          <Link to="/contact-us" aria-label="Browse all skill-building programs">
             <Button
               className="bg-green-800 text-white text-base sm:text-md py-3 px-6 hover:bg-primary shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 flex items-center gap-2"
             >
-              Browse Our Programs
+            Message Us
             </Button>
           </Link>
         </div>

@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from 'framer-motion';
+import { easeOut, motion, useReducedMotion } from 'framer-motion';
 import React from 'react';
 import Logo from "@/assets/logo.png";
 
@@ -41,159 +41,118 @@ const quickLinks: QuickLink[] = [
   { name: 'Contact', href: '/contact' },
 ];
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.6,
+      ease: easeOut,
+    },
+  }),
+};
+
 export default function Footer() {
   const shouldReduceMotion = useReducedMotion();
 
-  
-
-  const iconVariants = {
-    hover: shouldReduceMotion
-      ? {}
-      : {
-          scale: 1.15,
-          transition: { duration: 0.2 },
-        },
-  };
-
   return (
-    <footer
-      className="bg-gradient-to-t from-neutral-900/90 to-neutral-800/90 py-12 sm:py-16 relative overflow-hidden"
-      role="contentinfo"
-      aria-label="Footer"
-    >
-      {/* Subtle background pattern */}
+    <footer className="bg-neutral-900 py-12 sm:py-16 relative overflow-hidden" role="contentinfo" aria-label="Footer">
+      {/* Background Grid Pattern */}
       <motion.div
         className="absolute inset-0 bg-[url('/assets/grid-pattern.png')] bg-repeat bg-[length:40px_40px] opacity-5 pointer-events-none z-0"
         initial={{ opacity: 0 }}
-        animate={{ opacity: shouldReduceMotion ? 0.05 : 0.1 }}
-        transition={{ duration: 1 }}
+        animate={{
+          opacity: shouldReduceMotion ? 0.05 : 0.1,
+          backgroundPositionY: [0, 10, 0],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12"
-         
+          className="grid grid-cols-1 md:grid-cols-4 gap-10 lg:gap-14"
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeInUp}
         >
-          {/* Logo and Tagline */}
-          <div className="flex flex-col items-start space-y-4">
-            <motion.a
-              href="/"
-              className="flex items-center space-x-3"
-              whileHover={{ scale: 1.05 }}
-              aria-label="Skill High homepage"
-            >
-              {/* Placeholder for Skill High logo */}
-              <img
-                src={Logo}
-                alt="Skill High Logo"
-                className="h-12 w-auto"
-                loading="lazy"
-              />
-            </motion.a>
-            <p className="text-lg font-semibold text-green-400">Grow and Learn</p>
-            <p className="text-sm text-gray-300 max-w-xs">
+          {/* Logo + Tagline */}
+          <motion.div className="flex flex-col space-y-4" custom={0} variants={fadeInUp}>
+           <div className=''>
+             <a href="/" className="flex items-center space-x-3" aria-label="Skill High homepage">
+              <img src={Logo} alt="Skill High Logo" className="h-20 w-auto " loading="lazy" />
+            </a>
+           </div>
+          
+            <p className="text-sm text-gray-300 max-w-xs font-mono">
               We are dedicated to providing high-quality content and services. Join us to enhance your skills and explore new opportunities.
             </p>
-          </div>
+          </motion.div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
+          <motion.div custom={1} variants={fadeInUp}>
+            <h3 className="text-lg  text-primary mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <motion.li
-                  key={link.name}
-                  variants={iconVariants}
-                  whileHover="hover"
-                >
-                  <a
-                    href={link.href}
-                    className="text-gray-300 hover:text-green-400 focus:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200"
-                    aria-label={link.name}
-                  >
-                    {link.name}
-                  </a>
+              {quickLinks.map((link, i) => (
+                <motion.li key={link.name} custom={i} variants={fadeInUp} whileHover={{ scale: 1.05 }}>
+                  <a href={link.href} className="text-gray-400  transition-colors duration-200">{link.name}</a>
                 </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Follow Us */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Follow Us</h3>
+          <motion.div custom={2} variants={fadeInUp}>
+            <h3 className="text-lg  text-primary mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              {socialLinks.map((link) => (
+              {socialLinks.map((link, i) => (
                 <motion.a
                   key={link.name}
                   href={link.href}
-                  className="text-gray-300 hover:text-green-400 focus:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200"
-                  aria-label={`Visit our ${link.name} page`}
-                  variants={iconVariants}
-                  whileHover="hover"
+                  custom={i}
+                  variants={fadeInUp}
+                  whileHover={{ scale: 1.2 }}
+                  className="text-gray-300  transition-colors duration-200"
                 >
                   {link.icon}
                 </motion.a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
-            <ul className="space-y-2 text-gray-300 text-sm">
+          <motion.div custom={3} variants={fadeInUp}>
+            <h3 className="text-lg  text-primary mb-4">Contact</h3>
+            <ul className="space-y-2 text- font-mono text-gray-300">
               <li>
-                <span className="font-medium">Email: </span>
-                <a
-                  href="mailto:admin@skillhigh.in"
-                  className="hover:text-green-400 focus:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200"
-                  aria-label="Email admin@skillhigh.in"
-                >
-                  admin@skillhigh.in
-                </a>
+                <span className="font-medium">Email:</span>{' '}
+                <a href="mailto:admin@skillhigh.in" className=" transition-colors">admin@skillhigh.in</a>
               </li>
               <li>
-                <span className="font-medium">Phone: </span>
-                <a
-                  href="tel:+917207371204"
-                  className="hover:text-green-400 focus:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200"
-                  aria-label="Call 7207371204"
-                >
-                  7207371204
-                </a>
+                <span className="font-medium">Phone:</span>{' '}
+                <a href="tel:+917207371204" className="transition-colors">7207371204</a>
               </li>
               <li className="max-w-xs">
-                <span className="font-medium">Address: </span>
-                P.No: 169, First Floor, Woods Enclave, Woods Central Park, Suchitra Sub Post, Pet Basheerabad, Suchitra Junction, Quthbullapur, Medchal-Malkajgiri Dist., Telangana, India 500067
+                <span className="font-medium">Address:</span> P.No: 169, First Floor, Woods Enclave, Woods Central Park, Suchitra Sub Post, Pet Basheerabad, Suchitra Junction, Quthbullapur, Medchal-Malkajgiri Dist., Telangana, India 500067
               </li>
             </ul>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Footer Bottom */}
         <motion.div
           className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4"
-       
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
         >
           <div className="flex space-x-4 text-sm text-gray-300">
-            <a
-              href="/privacy"
-              className="hover:text-green-400 focus:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200"
-              aria-label="Privacy Policy"
-            >
-              Privacy Policy
-            </a>
+            <a href="/privacy" className="hover:text-green-400 transition-colors">Privacy Policy</a>
             <span className="text-gray-500">|</span>
-            <a
-              href="/terms"
-              className="hover:text-green-400 focus:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200"
-              aria-label="Terms & Conditions"
-            >
-              Terms & Conditions
-            </a>
+            <a href="/terms" className="hover:text-green-400 transition-colors">Terms & Conditions</a>
           </div>
           <span className="text-sm text-gray-300">
             © {new Date().getFullYear()} Skill High. All rights reserved.

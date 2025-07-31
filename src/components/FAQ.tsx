@@ -2,6 +2,7 @@
 import { motion, useReducedMotion,type Variants } from 'framer-motion';
 import { faqList } from '@/data/faq';
 import { useState } from 'react';
+import Header from './Header';
 
 // Define FAQ item interface for type safety
 interface FAQItem {
@@ -61,14 +62,8 @@ export default function FAQ() {
       aria-label="Frequently Asked Questions"
     >
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-white mb-6 text-left"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' as const }}
-        >
-          Frequently Asked Questions
-        </motion.h2>
+      
+       <Header title=' Frequently Asked Questions'/>
         <motion.p
           className="text-lg text-gray-300 mb-8 font-mono"
           initial={{ opacity: 0, y: 20 }}

@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import Header from "./Header";
 
 const pricingOptions = [
   {
@@ -51,7 +52,8 @@ export default function Pricing() {
   return (
     <section className="w-full bg-neutral-950 py-16 px-4 text-white">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl font-bold mb-4">Choose Your Path</h2>
+
+        <Header title="Choose Your Path"/>
         <p className="text-neutral-400 max-w-2xl mx-auto mb-12">
           Whether you're an independent learner or prefer expert guidance — we’ve got a plan tailored for your journey.
         </p>
