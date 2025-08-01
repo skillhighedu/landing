@@ -8,12 +8,14 @@ import {
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import {  X } from "lucide-react";
 import Logo from "@/assets/logo.png";
 import { Button } from "./ui/button";
 
 import HomeIcon from "@/components/icons/Home";
 import { departments } from "@/data/departments";
+import CustomButton from "./Button";
+import MenuIcon from "./icons/Menu";
 
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
@@ -39,9 +41,8 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-full bg-neutral-900 font-pixel text-white z-50 transition-transform duration-300 ease-in-out ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`fixed top-0 left-0 w-full bg-neutral-900 font-pixel text-white z-50 transition-transform duration-300 ease-in-out ${isVisible ? "translate-y-0" : "-translate-y-full"
+          }`}
         role="navigation"
         aria-label="Main Navigation"
       >
@@ -62,7 +63,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent hover:bg-transparent">
                   <Button variant="link" className="text-md">
-                     Courses
+                    Courses
                   </Button>
                 </NavigationMenuTrigger>
 
@@ -101,9 +102,8 @@ export default function Navbar() {
           </NavigationMenu>
 
           <Link to="/signup">
-            <Button className="bg-green-800 text-white text-base py-3 px-6 hover:bg-lime-400 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-lime-300 flex items-center gap-2">
-              Start Your Journey
-            </Button>
+
+            <CustomButton title=" Start Your Journey" icon="" />
           </Link>
         </div>
 
@@ -115,7 +115,7 @@ export default function Navbar() {
             aria-label={isDrawerOpen ? "Close Menu" : "Open Menu"}
             className="text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 p-1 rounded"
           >
-            {isDrawerOpen ? <X size={24} /> : <Menu size={24} />}
+            {isDrawerOpen ? <X size={24} className="text-red-500" /> : <MenuIcon />}
           </button>
         </div>
       </div>
@@ -128,16 +128,41 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed top-0 right-0 h-full w-3/4 sm:w-1/2 bg-white shadow-lg z-50 px-6 py-10"
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-0 z-50 flex justify-end px-4 py-6 sm:px-6 sm:py-10"
           >
-            <nav className="flex flex-col gap-6 text-lg text-neutral-800 font-semibold">
-              <Link to="/home" onClick={() => setDrawerOpen(false)}>
-                Home
-              </Link>
-              <Link to="/courses" onClick={() => setDrawerOpen(false)}>
-                Courses
-              </Link>
-            </nav>
+            <div className="relative h-full w-full max-w-sm sm:max-w-md bg-neutral-800 rounded-2xl shadow-xl px-6 py-10 overflow-y-auto">
+
+              {/* Close Button */}
+              <button
+                onClick={() => setDrawerOpen(false)}
+                aria-label="Close menu"
+                className="absolute top-4 right-4 text-white hover:text-red-400 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+          <div className="flex flex-col h-full justify-between">
+  {/* Navigation Menu */}
+  <nav className="pt-8 flex flex-col items-end gap-6 text-lg leading-relaxed text-white">
+    <Link to="/home" onClick={() => setDrawerOpen(false)}>
+      Home
+    </Link>
+    <Link to="/courses" onClick={() => setDrawerOpen(false)}>
+      Courses
+    </Link>
+    {/* Add more links here */}
+  </nav>
+
+  {/* CTA Button */}
+  <div className="ml-40">
+    <CustomButton title="Start Your Journey" icon="" />
+  </div>
+</div>
+
+
+            </div>
           </motion.aside>
         )}
       </AnimatePresence>

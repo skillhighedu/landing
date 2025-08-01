@@ -1,8 +1,8 @@
 
-
 import  { useState } from "react"
 import Header from "./Header"
-
+import HeartPixelIcon from "./icons/HeartPixelIcon"
+import {motion} from 'framer-motion'
 const testimonials = [
   {
     name: "Arjun, Frontend Knight",
@@ -32,8 +32,25 @@ export default function Testimonials() {
   return (
     <section className="bg-neutral-900 py-20 px-4 text-white">
       <div className="max-w-5xl mx-auto text-center">
-        <Header title="Loved by Many"/>
-      
+      <div className="flex justify-center items-center gap-2 text-center">
+  <Header title="Loved by Many" />
+ <motion.div
+      className="mb-5 w-6 h-6 text-red-500"
+      initial={{ scale: 0.8, rotate: 0 }}
+      animate={{
+        scale: [1, 1.2, 1, 1.3, 1],
+        rotate: [0, -10, 10, -10, 0],
+        transition: {
+          duration: 1.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+      }}
+    >
+      <HeartPixelIcon className="w-full h-full text-inherit" />
+    </motion.div>
+</div>
+
 
         <p className="text-lg sm:text-xl text-gray-300 font-mono mb-12">
         Their journey wasn’t easy. But the Right Skills made all the difference.
@@ -43,12 +60,12 @@ export default function Testimonials() {
           {/* Left Row: Scrolls Up */}
           <div
             className="overflow-hidden h-[500px] w-1/2 relative "
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
+            onMouseEnter={() => setPaused(false)}
+            onMouseLeave={() => setPaused(true)}
           >
             <div
               className={`flex flex-col gap-3 ${
-                paused ? "animate-none" : "animate-scroll-up"
+                paused ? "animate-scroll-up" : "animate-scroll-up"
               }`}
               style={{
                 animationDuration: `${testimonials.length * 3}s`,
@@ -90,7 +107,7 @@ export default function Testimonials() {
           >
             <div
               className={`flex flex-col gap-3 ${
-                paused ? "animate-none" : "animate-scroll-down"
+                paused ? "animate-scroll-down" : "animate-scroll-down"
               }`}
               style={{
                 animationDuration: `${testimonials.length * 3}s`,

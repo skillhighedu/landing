@@ -1,9 +1,10 @@
 import Trees from "@/assets/images/bg.jpg";
-import { Button } from "./ui/button";
+
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea"; // assuming you're using ShadCN or custom Textarea
 import {motion} from 'framer-motion'
-
+import CustomButton from "./Button";
+import MessageIcon from "./icons/Message";
 export default function BackgroundHook() {
 
  
@@ -49,12 +50,9 @@ export default function BackgroundHook() {
             className="bg-white/90 text-black placeholder:text-gray-700 py-4"
           />
 
-          <Button
-            type="submit"
-            className="w-full bg-green-800 text-white text-base sm:text-md py-3 px-6 hover:bg-lime-400 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-lime-300"
-          >
-            Send Message
-          </Button>
+        
+            <CustomButton title="Send Message" icon={<MessageIcon/>} className="w-full"/>
+         
         </form>
       </div>
     </div>

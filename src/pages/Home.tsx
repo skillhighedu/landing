@@ -10,6 +10,7 @@ import SkillsCurtainIntro from '@/components/SkillsCurtainIntro'
 import Testimonials from '@/components/Testimonals'
 import { Mentors } from '@/components/Mentors'
 
+
 const INTRO_EXPIRY_MINUTES = 15
 
 function hasIntroExpired(): boolean {
@@ -48,6 +49,7 @@ export default function Home() {
       {showMain && (
         <>
           <Hero />
+      
           <RecognizedBy />
           <CoursesCarousel />
           <Timeline />

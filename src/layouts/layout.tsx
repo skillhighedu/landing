@@ -12,7 +12,7 @@ export default function Layout() {
         <div >
        
           <Navbar  />
-             <Banner />
+ <Banner/>
         </div>
       </header>
 

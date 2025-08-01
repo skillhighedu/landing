@@ -1,7 +1,8 @@
 import Trees from "@/assets/images/warrior.jpg";
-import { Button } from "./ui/button";
+
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import CustomButton from "./Button";
 
 export default function ContactUs() {
   return (
@@ -46,13 +47,9 @@ export default function ContactUs() {
             rows={6}
             className="text-black placeholder:text-gray-700 py-4"
           />
-          <Button
-            type="submit"
-            className="w-full bg-green-800 text-white text-base py-3 px-6 hover:bg-primary pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1"
-          >
-            Begin My Training
-         
-          </Button>
+          
+         <CustomButton title="Begin My Training"/>
+        
         </form>
       </div>
     </div>

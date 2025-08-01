@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Header from "./Header";
+import CustomButton from "./Button";
 
 export function Mentors() {
   const plugin = React.useRef(
@@ -82,11 +83,10 @@ export function Mentors() {
 
 
           <Link to="/contact-us" aria-label="Browse all skill-building programs">
-            <Button
-              className="bg-green-800 text-white text-base sm:text-md py-3 px-6 hover:bg-primary shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 flex items-center gap-2"
-            >
-            Message Us
-            </Button>
+        
+            <CustomButton title=" Message Us" icon=""/>
+       
+            
           </Link>
         </div>
       </div>

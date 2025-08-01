@@ -2,11 +2,13 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+ content: [
+    './src/**/*.{js,ts,jsx,tsx,html}', // adjust based on project
+  ],
   theme: {
     extend: {
       fontFamily: {
-        silkscreen: ['Silkscreen', 'cursive', 'sans-serif'],
+        bricolage: ['"Bricolage Grotesque"', 'sans-serif'],
         pixel: ['PixelDigivolve', 'sans-serif'],
       },
     },

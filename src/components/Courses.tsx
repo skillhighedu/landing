@@ -12,29 +12,29 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Header from "./Header";
+import CustomButton from "./Button";
+import SearchIcon from "@/components/icons/Search";
 
 export function CoursesCarousel() {
   const plugin = React.useRef(
     Autoplay({
-      delay: 3000,
+      delay: 4000,
       stopOnInteraction: false,
-      stopOnMouseEnter: false,
+      stopOnMouseEnter: true,
     })
   );
 
   return (
-    <section className="bg-neutral-900 w-full py-12 px-4">
-      <div className="max-w-7xl mx-auto text-center">
-        {/* Header */}
-     
-        
-    <div className="text-center space-y-2 mb-7">
-   <Header title=" Master In-Demand Skills"/>
-<p className="text-neutral-400 ">
-    See how each step takes you closer to mastery.
-  </p>
-   
-  </div>
+    <section className="bg-neutral-900 py-16 px-4 w-full">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Heading */}
+        <div className="text-center space-y-3 mb-10">
+          <Header title="Master In-Demand Skills" />
+          <p className="text-neutral-400 text-base sm:text-lg">
+            Every click takes you one step closer to mastery.
+          </p>
+        </div>
+
         {/* Carousel */}
         <Carousel
           plugins={[plugin.current]}
@@ -47,45 +47,46 @@ export function CoursesCarousel() {
                 key={course.id}
                 className="sm:basis-1/2 md:basis-1/3 px-2"
               >
-                <Card className="relative h-[350px] overflow-hidden rounded-xl group border-none shadow-lg">
-                  {/* Background Image */}
+                <Card className="relative group overflow-hidden h-[360px] rounded-2xl shadow-md border border-neutral-800">
+                  {/* Background */}
                   <img
                     src={course.logo}
                     alt={course.alt || course.name}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/70 to-transparent z-10" />
 
-                  {/* Overlay */}
-                  <CardContent className="relative z-10 p-6 bg-gradient-to-t from-black/80 to-transparent h-full flex flex-col justify-end text-white">
-                    <h3 className="text-xl font-semibold">{course.name}</h3>
-                    <p className="text-sm text-gray-200 mb-4 line-clamp-2">
+                  {/* Content */}
+                  <CardContent className="relative z-20 p-5 flex flex-col justify-end h-full text-white">
+                    <h3 className="text-xl  mb-1">
+                      {course.name}
+                    </h3>
+                    <p className="text-sm text-neutral-300 font-mono mb-4 line-clamp-2">
                       {course.description}
                     </p>
-                    <Button variant="secondary" className="w-fit">
-                      Learn More
+                    <Button variant="secondary" size="sm" className="w-fit cursor-pointer pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]">
+                      Enroll
                     </Button>
+                    
                   </CardContent>
                 </Card>
               </CarouselItem>
             ))}
           </CarouselContent>
 
-          <CarouselPrevious className="text-black" />
-          <CarouselNext className="text-black" />
-        </Carousel>
+          <CarouselPrevious className="text-black hover:bg-white/10 rounded-md pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] hover:text-primary cursor-pointer " />
+          <CarouselNext className="text-black hover:bg-white/10 rounded-md pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]  hover:text-primary cursor-pointer" />
+        </Carousel> 
 
-        {/* Footer CTA + Quote */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mt-12 px-2">
-          <blockquote className="text-white text-lg italic text-center sm:text-left">
-            “Skills are the new swords.”
+        {/* CTA */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mt-14 px-2">
+          <blockquote className="text-white text-lg italic text-center sm:text-left max-w-lg">
+            “Skills are the new swords. Sharpen them often.”
           </blockquote>
 
-          <Link to="/all-courses" aria-label="Browse all skill-building programs">
-            <Button
-              className="bg-green-800 text-white text-base sm:text-md py-3 px-6 hover:bg-primary shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 flex items-center gap-2"
-            >
-              Browse Our Programs
-            </Button>
+          <Link to="/all-courses" aria-label="Browse all programs">
+            <CustomButton title="Browse Our Programs" icon={<SearchIcon />} />
           </Link>
         </div>
       </div>

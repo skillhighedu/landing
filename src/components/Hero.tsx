@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import {  ArrowRight } from "lucide-react";
+import {  ArrowUpRight } from "lucide-react";
 
 import { Link } from "react-router-dom";
 import Trees from "@/assets/images/forest.jpg";
@@ -72,7 +72,7 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p
-          className="text-base sm:text-lg md:text-xl text-neutral-900 leading-relaxed max-w-md sm:max-w-lg md:max-w-4xl mx-auto"
+          className="text-base sm:text-lg md:text-xl text-neutral-900  font-bricolage leading-relaxed max-w-md sm:max-w-lg md:max-w-4xl mx-auto"
           initial={{ y: 60, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -87,7 +87,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
         >
           <Link to="/all-courses">
-            <CustomButton title="Start Building Skills" icon={<ArrowRight/>} />
+            <CustomButton title="Start Building Skills" icon={<ArrowUpRight/>} />
           </Link>
         </motion.div>
 

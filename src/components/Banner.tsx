@@ -1,21 +1,26 @@
+import CustomButton from "./Button";
 
-import { Button } from "./ui/button";
 export default function Banner() {
   return (
-    <div className="w-full bg-primary text-white px-4 py-2 sm:py-3 shadow-sm mt-18">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
-        <p className="text-sm sm:text-base font-medium">
+    <div className="w-full bg-primary/10 text-white px-4 py-3 sm:py-4 mt-14 sm:mt-18 shadow-md border-t border-neutral-800">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+        {/* Text */}
+        <p className="text-sm sm:text-base  leading-snug">
           <span className="mr-1">🚀</span>
-          Join the <span className="underline underline-offset-2 font-normal">Full Stack Course</span> @ just{" "}
-          <span className="text-yellow-300 font-bold">₹4999</span> – Limited Time Only!
+          Join the{" "}
+          <span className=" ">
+            Full Stack Course
+          </span>{" "}
+          at just{" "}
+          <span className="text-yellow-400 font-bold">₹4,999</span> – Limited Time Offer!
         </p>
-         <Button
-            className="bg-red-600 text-white text-base sm:text-md  py-3 px-6 sm:py-4 sm:px-8 hover:bg-lime-400 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-lime-300 flex items-center gap-2"
-            aria-label="Start Building Skills"
-          >
-           Join Now
-          
-          </Button>
+
+        {/* CTA Button */}
+        <CustomButton
+          title="Join Now"
+          icon=""
+          className="bg-yellow-400 text-black hover:bg-yellow-300 transition-colors duration-200 font-semibold px-6 py-2 rounded-md"
+        />
       </div>
     </div>
   );

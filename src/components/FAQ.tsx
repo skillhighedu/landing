@@ -1,10 +1,10 @@
-
-import { motion, useReducedMotion,type Variants } from 'framer-motion';
-import { faqList } from '@/data/faq';
 import { useState } from 'react';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { faqList } from '@/data/faq';
 import Header from './Header';
+import QuestinIcon from './icons/QuestionIcon';
+import { QuestinIcon2 } from './icons/QuestionIcon';
 
-// Define FAQ item interface for type safety
 interface FAQItem {
   question: string;
   answer: string;
@@ -13,105 +13,111 @@ interface FAQItem {
 export default function FAQ() {
   const shouldReduceMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const toggle = (index: number) => setActiveIndex(index === activeIndex ? null : index);
 
-  const toggle = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
-  // Animation variants for FAQ items
   const faqVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
-        ease: 'easeOut' as const,
-        delay: shouldReduceMotion ? 0 : i * 0.2,
+        delay: shouldReduceMotion ? 0 : i * 0.1,
+        duration: 0.4,
+        ease: 'easeOut',
       },
     }),
   };
 
-  // Animation variants for FAQ answer
   const answerVariants: Variants = {
-    hidden: { opacity: 0, height: 0, marginTop: 0 },
+    hidden: { opacity: 0, height: 0, scaleY: 0.95 },
     visible: {
       opacity: 1,
       height: 'auto',
-      marginTop: 16,
-      transition: {
-        duration: 0.3,
-        ease: 'easeOut' as const,
-        when: 'beforeChildren',
-      },
+      scaleY: 1,
+      transition: { duration: 0.3, ease: 'easeOut', when: 'beforeChildren' },
     },
     exit: {
       opacity: 0,
       height: 0,
-      marginTop: 0,
-      transition: {
-        duration: 0.3,
-        ease: 'easeOut' as const,
-      },
+      scaleY: 0.95,
+      transition: { duration: 0.25, ease: 'easeInOut' },
     },
   };
 
   return (
-    <section
-      className="bg-neutral-950 py-16 px-4 sm:px-6 lg:px-8 rounded-t-4xl"
-      aria-label="Frequently Asked Questions"
-    >
-      <div className="max-w-6xl mx-auto">
-      
-       <Header title=' Frequently Asked Questions'/>
+    <section className="relative bg-neutral-950 py-16 px-4 sm:px-6 lg:px-8">
+      {/* Floating icons */}
+      <motion.div
+        className="absolute top-10 right-10"
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0, rotate: 15 }}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        viewport={{ once: true }}
+      >
+        <QuestinIcon className="w-12 h-12 opacity-70" />
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-10 left-10"
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0, rotate: -10 }}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 2.5, repeat: Infinity }}
+        viewport={{ once: true }}
+      >
+        <QuestinIcon2 className="w-12 h-12 opacity-70" />
+      </motion.div>
+
+      <div className="max-w-5xl mx-auto">
+        <Header title="Frequently Asked Questions" />
         <motion.p
-          className="text-lg text-gray-300 mb-8 font-mono"
+          className="text-lg text-gray-300 mb-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' as const, delay: 0.2 }}
-          
+          transition={{ duration: 0.4 }}
         >
-          Find answers to common questions about SkillHigh’s industry-ready training programs. Can’t find what you’re looking for?{' '}
+          Answers to common questions about SkillHigh programs. Still need help?{' '}
           <a
             href="https://skillhigh.com/support"
-            className="text-primary hover:text-teal-300 underline transition-colors duration-200"
-            aria-label="Contact SkillHigh support team"
+            className="text-primary underline hover:text-teal-300"
           >
-            Contact our support team
+            Contact us
           </a>
         </motion.p>
+
         <div className="space-y-4">
           {(faqList as FAQItem[]).map((faq, index) => (
             <motion.div
               key={index}
-              className=" rounded-lg bg-neutral-800/50 shadow-lg  transition-colors duration-300"
-              variants={faqVariants}
+              className="rounded-xl bg-neutral-800/50 shadow-md"
               custom={index}
+              variants={faqVariants}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
             >
               <button
-                className="w-full flex justify-between items-center px-6 py-4 text-left text-lg font-medium text-white cursor-pointer transition-colors duration-200 focus:outline-none "
                 onClick={() => toggle(index)}
+                className="w-full flex justify-between items-center px-6 py-4 text-left text-lg text-white font-medium"
                 aria-expanded={activeIndex === index}
-                aria-controls={`faq-answer-${index}`}
               >
                 <span>{faq.question}</span>
                 <motion.span
                   className="text-xl"
                   animate={{ rotate: activeIndex === index ? 180 : 0 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' as const }}
+                  transition={{ duration: 0.25 }}
                 >
                   {activeIndex === index ? '−' : '+'}
                 </motion.span>
               </button>
+
               <motion.div
-                id={`faq-answer-${index}`}
                 variants={answerVariants}
                 initial="hidden"
                 animate={activeIndex === index ? 'visible' : 'hidden'}
                 exit="exit"
-                className="px-6 pb-4 text-gray-300 font-sans"
+                className="px-6 pb-4 text-gray-300 text-base"
               >
                 {faq.answer}
               </motion.div>

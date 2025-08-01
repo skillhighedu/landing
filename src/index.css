@@ -221,10 +221,8 @@ body {
     @apply bg-background text-foreground;
   }
   
-  /* Ensure Silkscreen font works */
-  .font-silkscreen {
-    font-family: "Silkscreen", cursive, sans-serif !important;
-  }
+
+
 }
 
 

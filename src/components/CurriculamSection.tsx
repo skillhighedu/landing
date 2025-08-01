@@ -10,7 +10,7 @@ export default function CurriculumSection({ sectionTitle, topics }: Props) {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="mb-4 rounded-md overflow-hidden border-none  shadow bg-neutral-900">
+    <div className="mb-4 rounded-md overflow-hidden border-none   shadow bg-neutral-900">
       <button
         className="w-full flex items-center justify-between  text-white px-6 py-4  text-left"
         onClick={() => setOpen(!open)}

@@ -18,7 +18,7 @@ export default function CustomButton({
   return (
     <Button
       onClick={onClick}
-      className={`bg-green-800 text-white text-base sm:text-md py-3 px-6 sm:py-4 sm:px-8 hover:bg-primary pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 flex items-center gap-2 cursor-pointer ${className}`}
+      className={`bg-green-800 text-white text-base sm:text-md py-3 px-6 sm:py-4 sm:px-8 hover:bg-primary pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none  flex items-center gap-2 cursor-pointer ${className}`}
       aria-label={title}
     >
       {title}

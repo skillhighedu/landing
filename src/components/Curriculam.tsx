@@ -4,7 +4,7 @@ import Header from "./Header";
 
 export default function CurriculumAccordion() {
   return (
-    <section className=" mx-auto p-6 bg-neutral-950 w-full">
+    <section className=" mx-auto p-6 bg-neutral-950  w-full">
       
       <Header title="   Learn by Doing: The Hands-On Curriculum"/>
 

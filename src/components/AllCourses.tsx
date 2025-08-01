@@ -1,7 +1,8 @@
 import { Courses } from "@/data/course";
-import { Button } from "@/components/ui/button";
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import CustomButton from "./Button";
 
 export default function AllCourses() {
   return (
@@ -14,7 +15,7 @@ export default function AllCourses() {
       >
      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8 px-2">
   
-  <h2 className="text-4xl sm:text-3xl text-white text-center  pixel-font leading-tight tracking-tight">
+  <h2 className="text-4xl sm:text-3xl text-white text-center  pixel-font leading-tight ">
     Our Courses
   </h2>
 
@@ -45,8 +46,8 @@ export default function AllCourses() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               </div>
               <div className="p-6">
-                <h3 className="text-xl text-white font-semibold mb-2">{course.name}</h3>
-                <p className="text-gray-300 text-sm line-clamp-3 mb-4">
+                <h3 className="text-xl text-white  mb-2">{course.name}</h3>
+                <p className="text-gray-300 text-md leading-relaxed font-mono line-clamp-3 mb-4">
                   {course.description}
                 </p>
                 <div className="flex items-center justify-between">
@@ -55,12 +56,10 @@ export default function AllCourses() {
                   </p>
                 </div>
                 <Link to="/about-course">
-                  <Button
-                    className="bg-green-800 text-white mt-4 py-3 px-6 hover:bg-lime-400 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-lime-300 flex items-center gap-2"
-                    aria-label="Enroll Now"
-                  >
-                    Enroll now
-                  </Button>
+               
+                    
+                    <CustomButton title="Enroll now" icon=""/>
+               
                 </Link>
               </div>
             </motion.div>
@@ -69,24 +68,21 @@ export default function AllCourses() {
       </motion.div>
 
       {/* CTA Section */}
-     <div className="mt-24 bg-neutral-800/60 rounded-2xl shadow-inner py-16 px-6 sm:px-12 text-center max-w-4xl mx-auto">
-      <h3 className="text-2xl sm:text-3xl text-white mb-4">
-        Not sure which skill is right for you?
-      </h3>
-      <p className="text-gray-300 font-mono mb-8 text-sm sm:text-base">
-        Click the button below and drop us a message. Our team will guide you personally to choose the best path for your goals.
-      </p>
+    <div className="mt-24 bg-neutral-800/60 rounded-2xl shadow-inner py-16 px-6 sm:px-12 text-center max-w-4xl mx-auto items-center justify-center">
+  <h3 className="text-2xl sm:text-3xl text-white mb-4">
+    Not sure which skill is right for you?
+  </h3>
+  <p className="text-gray-300 font-mono mb-8 text-sm sm:text-base">
+    Click the button below and drop us a message. Our team will guide you personally to choose the best path for your goals.
+  </p>
 
-      <Link to="/contact-us">
-        <Button
-          className="bg-green-800 text-white text-base sm:text-md py-3 px-6 sm:py-4 sm:px-8 cursor-pointer pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-lime-300 gap-2"
-          aria-label="Start Your Journey"
-        >
-  
-          Let’s talk
-        </Button>
-      </Link>
-    </div>
+  <div className="flex justify-center">
+    <Link to="/contact-us">
+      <CustomButton title="Let’s talk" icon="" />
+    </Link>
+  </div>
+</div>
+
     </section>
   );
 }
