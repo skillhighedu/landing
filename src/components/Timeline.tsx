@@ -4,7 +4,7 @@ import Header from "./Header"
 
 export default function ScrollTriggered() {
   return (
-    <div className="w-full bg-neutral-950 bg-pixel-crt  px-4 sm:px-8 md:px-12 py-20 sm:py-32">
+    <div className="w-full bg-neutral-900 bg-[radial-gradient(#3d3d3d_1px,transparent_0)] [background-size:12px_12px]  px-4 sm:px-8 md:px-12 py-20 sm:py-32">
      <div className="text-center space-y-2">
  
   <Header title=" From Beginner to Pro"/>
@@ -44,7 +44,7 @@ function Card({ emoji, des, i }: CardProps) {
       <motion.div
         style={card}
         variants={cardVariants}
-        className="card bg-neutral-900  text-black text-base sm:text-sm px-4 "
+        className="card bg-neutral-900  text-black text-base sm:text-sm px-4  pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]"
       >
         <div className="bg-green-800 w-10 h-10 rounded-sm text-white mr-40 mb-10 opacity-80 pixel-border items-center justify-center text-2xl "> {i+1}</div>
         <div className="text-4xl mb-4 text-primary">{emoji}</div>
@@ -99,8 +99,7 @@ const card: React.CSSProperties = {
   alignItems: "center",
   borderRadius: 20,
 
-  boxShadow:
-    "0 0 1px hsl(0deg 0% 0% / 0.075), 0 0 2px hsl(0deg 0% 0% / 0.075), 0 0 4px hsl(0deg 0% 0% / 0.075), 0 0 8px hsl(0deg 0% 0% / 0.075), 0 0 16px hsl(0deg 0% 0% / 0.075)",
+
   transformOrigin: "10% 60%",
   textAlign: "center",
   padding: 24,

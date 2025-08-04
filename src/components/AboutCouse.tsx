@@ -5,9 +5,10 @@ import CustomButton from "./Button";
 
 interface AboutCourseProps {
   courseId?: string;
+  scrollToPricing: () => void
 }
 
-export default function AboutCourse({ courseId }: AboutCourseProps) {
+export default function AboutCourse({ courseId,scrollToPricing }: AboutCourseProps) {
   const [course, setCourse] = useState<(typeof Courses)[0] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
@@ -55,6 +56,8 @@ export default function AboutCourse({ courseId }: AboutCourseProps) {
       </section>
     );
   }
+
+  
 
   return (
     <section className="bg-neutral-950 py-20 px-4 sm:px-8 lg:px-16">
@@ -106,7 +109,7 @@ export default function AboutCourse({ courseId }: AboutCourseProps) {
               <CustomButton
                 title="Enroll now"
                 icon=""
-                onClick={() => setShowOptions((prev) => !prev)}
+                 onClick={scrollToPricing}
               />
 
               <AnimatePresence>

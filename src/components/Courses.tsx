@@ -47,7 +47,7 @@ export function CoursesCarousel() {
                 key={course.id}
                 className="sm:basis-1/2 md:basis-1/3 px-2"
               >
-                <Card className="relative group overflow-hidden h-[360px] rounded-2xl shadow-md border border-neutral-800">
+                <Card className="relative group overflow-hidden h-[400px] rounded-2xl pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]">
                   {/* Background */}
                   <img
                     src={course.logo}

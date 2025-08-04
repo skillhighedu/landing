@@ -3,6 +3,7 @@ import { Courses } from "@/data/course";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CustomButton from "./Button";
+import { Input } from "./ui/input";
 
 export default function AllCourses() {
   return (
@@ -19,12 +20,16 @@ export default function AllCourses() {
     Our Courses
   </h2>
 
+
  
   <blockquote className="text-white text-lg italic text-center sm:text-left">
  “One skill. A thousand doors.”
           </blockquote>
 </div>
 
+<div className="mb-4 flex justify-end">
+  <Input placeholder="Search..." className="w-[400px] text-white border-0 bg-neutral-800 py-6" />
+</div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {Courses.map((course, index) => (
@@ -33,7 +38,7 @@ export default function AllCourses() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-neutral-800/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+              className="bg-neutral-800/50 backdrop-blur-sm rounded-2xl pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] overflow-hidden transition-transform duration-300 hover:scale-105 "
             >
               <div className="relative">
                 <img

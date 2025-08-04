@@ -71,7 +71,7 @@ body {
   will-change: transform;
 }
 .bg-pixel-crt {
-  background-color: #1a1a1a;
+
   position: relative;
 }
 
@@ -226,4 +226,21 @@ body {
 }
 
 
+html,
+body {
+  scroll-behavior: auto !important;
+  overflow-x: hidden; /* Prevents horizontal scroll only */
+  height: 100%;
+}
 
+body {
+  height: auto;
+}
+
+.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}

@@ -45,7 +45,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="relative bg-neutral-950 py-16 px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-neutral-950 bg-pixel-crt py-16 px-4 sm:px-6 lg:px-8">
       {/* Floating icons */}
       <motion.div
         className="absolute top-10 right-10"

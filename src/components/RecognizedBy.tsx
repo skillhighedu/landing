@@ -1,5 +1,5 @@
 import { recognizedPartners } from "@/data/recognized"
-import { motion, useAnimation,easeOut } from "framer-motion"
+import { motion, useAnimation, easeOut } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
 import Header from "./Header"
@@ -28,24 +28,40 @@ export default function RecognizedBy() {
   }
 
   return (
-    <section className="w-full bg-neutral-900 py-12 px-4">
+    <section className="w-full bg-neutral-950 bg-pixel-crt py-20 px-4 sm:px-8">
       <div className="max-w-6xl mx-auto text-center">
-       <Header title="We are recognized by"/>
+        {/* Animate heading + subline */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+        >
+          <Header title="We are recognized by" />
+          <p className="text-lg sm:text-xl text-gray-300 font-mono mb-12">
+            Recognized. Certified. Trusted.
+          </p>
+        </motion.div>
+
+        {/* Logos grid */}
         <div
           ref={ref}
           className="flex flex-wrap justify-center items-center gap-10"
         >
           {recognizedPartners.map((partner, i) => (
-            <motion.img
+            <motion.div
               key={partner.id}
-              src={partner.logo}
-              alt={partner.alt}
-              className="h-60 transition duration-300 ease-in-out cursor-pointer"
+              className="bg-black/40 rounded-xl p-4"
               custom={i}
               initial="hidden"
               animate={controls}
               variants={logoVariant}
-            />
+            >
+              <img
+                src={partner.logo}
+                alt={partner.alt}
+                className="h-24 sm:h-28 object-contain mx-auto transition duration-300 ease-in-out hover:grayscale"
+              />
+            </motion.div>
           ))}
         </div>
       </div>
