@@ -1,7 +1,7 @@
-import Trees from "@/assets/images/bg.jpg";
+import Trees from "@/assets/images/water.jpg";
 
 import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea"; // assuming you're using ShadCN or custom Textarea
+import { Textarea } from "./ui/textarea"; 
 import {motion} from 'framer-motion'
 import CustomButton from "./Button";
 import MessageIcon from "./icons/Message";

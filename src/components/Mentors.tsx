@@ -47,7 +47,7 @@ export function Mentors() {
             {mentors.map((course, index) => (
               <CarouselItem
                 key={index}
-                className="sm:basis-1/2 md:basis-1/3 px-2"
+                className="sm:basis-1/2 md:basis-1/3 px-2 h-full"
               >
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}

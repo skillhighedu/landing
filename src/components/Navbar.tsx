@@ -49,7 +49,7 @@ export default function Navbar() {
         {/* Desktop Navbar */}
         <div className="hidden md:flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
           <Link to="/">
-            <img src={Logo} alt="SkillHigh" className="h-12" />
+            <img src={Logo} alt="SkillHigh" className="h-12 " />
           </Link>
 
           <NavigationMenu>
@@ -132,7 +132,7 @@ export default function Navbar() {
             aria-modal="true"
             className="fixed inset-0 z-50 flex justify-end px-4 py-6 sm:px-6 sm:py-10"
           >
-            <div className="relative h-full w-full max-w-sm sm:max-w-md bg-neutral-800 rounded-2xl shadow-xl px-6 py-10 overflow-y-auto">
+            <div className="relative h-full w-full max-w-sm sm:max-w-md bg-neutral-800 rounded-2xl shadow-xl px-6 py-10 ">
 
               {/* Close Button */}
               <button
@@ -156,7 +156,7 @@ export default function Navbar() {
   </nav>
 
   {/* CTA Button */}
-  <div className="ml-40">
+  <div className="">
     <CustomButton title="Start Your Journey" icon="" />
   </div>
 </div>

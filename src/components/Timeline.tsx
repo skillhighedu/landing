@@ -1,21 +1,45 @@
 import * as motion from "motion/react-client"
 import type { Variants } from "motion/react"
 import Header from "./Header"
+import QuestinIcon from './icons/QuestionIcon';
+import Target from './icons/Target';
+
 
 export default function ScrollTriggered() {
   return (
-    <div className="w-full bg-neutral-900 bg-[radial-gradient(#3d3d3d_1px,transparent_0)] [background-size:12px_12px]  px-4 sm:px-8 md:px-12 py-20 sm:py-32">
-     <div className="text-center space-y-2">
- 
-  <Header title=" From Beginner to Pro"/>
-  <p className="text-neutral-400">
-    See how each step takes you closer to mastery.
-  </p>
-</div>
+
+    <div className="w-full relative bg-neutral-900 bg-[radial-gradient(#3d3d3d_1px,transparent_0)] [background-size:12px_12px]  px-4 sm:px-8 md:px-12 py-20 sm:py-32">
+      <div className="text-center space-y-2">
+        <motion.div
+          className="absolute top-10 right-10"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0, rotate: 15 }}
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          viewport={{ once: true }}
+        >
+          <QuestinIcon className="w-12 h-12 opacity-70" />
+        </motion.div>
+
+         <motion.div
+        className="absolute bottom-40 left-10"
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0, rotate: -10 }}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 2.5, repeat: Infinity }}
+        viewport={{ once: true }}
+      >
+        <Target className="w-12 h-12 opacity-70" />
+      </motion.div>
+        <Header title=" From Beginner to Pro" />
+        <p className="text-neutral-400">
+          See how each step takes you closer to mastery.
+        </p>
+      </div>
 
       <div className="mx-auto max-w-[500px] w-full">
-        {food.map(([emoji, des, ], i) => (
-          <Card i={i} emoji={emoji} des={des}  key={i} />
+        {food.map(([emoji, des,], i) => (
+          <Card i={i} emoji={emoji} des={des} key={i} />
         ))}
       </div>
     </div>
@@ -25,7 +49,7 @@ export default function ScrollTriggered() {
 interface CardProps {
   emoji: string
   des: string
- 
+
   i: number
 }
 
@@ -33,6 +57,8 @@ function Card({ emoji, des, i }: CardProps) {
   const background = "linear-gradient(306deg, #000000, #0a0a0a)" // solid black splash
 
   return (
+
+
     <motion.div
       className={`card-container-${i}`}
       style={cardContainer}
@@ -40,13 +66,16 @@ function Card({ emoji, des, i }: CardProps) {
       whileInView="onscreen"
       viewport={{ amount: 0.8 }}
     >
-      <div style={{ ...splash, background }}className=" bg-green-700" />
+
+
+
+      <div style={{ ...splash, background }} className=" bg-green-700" />
       <motion.div
         style={card}
         variants={cardVariants}
         className="card bg-neutral-900  text-black text-base sm:text-sm px-4  pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]"
       >
-        <div className="bg-green-800 w-10 h-10 rounded-sm text-white mr-40 mb-10 opacity-80 pixel-border items-center justify-center text-2xl "> {i+1}</div>
+        <div className="bg-green-800 w-10 h-10 rounded-sm text-white mr-40 mb-10 opacity-80 pixel-border items-center justify-center text-2xl "> {i + 1}</div>
         <div className="text-4xl mb-4 text-primary">{emoji}</div>
         <p className="text-neutral-100 leading-relaxed text-center">{des}</p>
       </motion.div>

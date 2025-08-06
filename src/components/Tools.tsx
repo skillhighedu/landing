@@ -29,7 +29,7 @@ export default function Tools() {
     
               src={tool.logo}
          
-             className={`h-20  transition duration-300 ease-in-out cursor-pointer`}
+             className={`h-20  transition duration-300 ease-in-out cursor-pointer `}
             />
           ))}
         </div>

@@ -24,6 +24,40 @@ export default function Hero() {
     })
   );
 
+const heading = "Skills Build Futures. We Help You Build Them."
+const words = heading.split(' ')
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.3,
+    },
+  },
+}
+
+const wordAnim = {
+  hidden: {
+    y: 40,
+    opacity: 0,
+    skewY: 8,
+    rotate: 2,
+    scale: 0.95,
+  },
+  show: {
+    y: 0,
+    opacity: 1,
+    skewY: 0,
+    rotate: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.2, 0.8, 0.3, 1] as [number, number, number, number],
+    },
+  },
+}
   
   const scanlineVariants: Variants = {
     animate: {
@@ -61,15 +95,21 @@ export default function Hero() {
       {/* Hero Content */}
       <div className="relative z-20 px-4 sm:px-6 md:px-8 max-w-5xl mx-auto grid grid-cols-1 gap-6 sm:gap-8">
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl   pixel-shadow drop-shadow-lg leading-tight"
-          initial={{ y: 60, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+      className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl  pixel-shadow drop-shadow-lg leading-tight tracking-tight"
+      variants={container}
+      initial="hidden"
+      animate="show"
+    >
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          variants={wordAnim}
+          className="inline-block mr-2"
         >
-          Skills Build Futures.
-          <br />
-          We Help You Build Them.
-        </motion.h1>
+          {word}&nbsp;
+        </motion.span>
+      ))}
+    </motion.h1>
 
         <motion.p
           className="text-base sm:text-lg md:text-xl text-neutral-900  font-bricolage leading-relaxed max-w-md sm:max-w-lg md:max-w-4xl mx-auto"
@@ -116,8 +156,8 @@ export default function Hero() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="p-2"
                 >
-                  <Card className=" bg-transparent border-none shadow-none rounded-xl hover:shadow-xl transition-all duration-300 items-center justify-center">
-                    <CardContent className="flex h-full items-center justify-center p-4">
+                  <Card className=" bg-transparent border-gray-300/15  shadow-md rounded-xl hover:shadow-xl transition-all duration-300 items-center justify-center">
+                    <CardContent className="flex h-28 items-center justify-center p-4">
                       <img
                         src={partner.logo}
                         alt={partner.name}

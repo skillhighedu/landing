@@ -11,6 +11,8 @@ import {
 } from 'lucide-react'
 
 import Header from './Header'
+import { DotPatternLinearGradient } from './ui/DotBg'
+
 const benefits = [
   {
     title: 'Live Project Building',
@@ -50,8 +52,6 @@ const benefits = [
   },
 ]
 
-
-
 const fade = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -67,42 +67,50 @@ const fade = {
 
 export default function Benefits() {
   return (
-    <section className="w-full bg-neutral-950 text-white py-20 px-6 md:px-12">
+    <section className="relative w-full bg-neutral-950 text-white py-20 px-6 md:px-12 overflow-hidden">
+      <DotPatternLinearGradient />
 
-       
-          <div className="text-center space-y-2 mb-6">
-         
-          <Header title="What You Gain from SkillHigh"/>
-          <p className="text-neutral-400">
+      <div className="relative z-10 text-center space-y-2 mb-6">
+        <Header title="What You Gain from SkillHigh" />
+        <p className="text-neutral-400">
           What makes Skillhigh more than just another course.
-          </p>
-        </div>
-    
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-     {benefits.map((benefit, i) => {
-  const Icon = benefit.icon
-  return (
-    <motion.div
-      key={i}
-      custom={i}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={fade}
-      className="group border border-neutral-800 rounded-2xl p-6 bg-neutral-900 transition-colors hover:bg-neutral-800"
-    >
-      <div className="flex items-start gap-4">
-        <Icon className="text-primary mt-1" size={52} />
-        <div>
-          <h3 className="text-lg  mb-1">{benefit.title}</h3>
-          <p className="text-neutral-400 font-mono text-sm">{benefit.description}</p>
-        </div>
+        </p>
       </div>
-    </motion.div>
-  )
-})}
 
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        {benefits.map((benefit, i) => {
+          const Icon = benefit.icon
+          return (
+            <motion.div
+  key={i}
+  custom={i}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={fade}
+  className="group relative pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] rounded-2xl p-6 bg-neutral-900 transition-colors hover:bg-neutral-800 overflow-hidden"
+>
+  {/* Animated Floating Icon */}
+  <motion.div
+    initial={{ y: 0 }}
+    animate={{ y: [0, -5, 0] }}
+    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+    className="absolute -top-3 -left-3 bg-primary/10 p-4 rounded-full shadow-lg"
+  >
+    <Icon className="text-primary" size={40} />
+  </motion.div>
+
+  {/* Content */}
+  <div className="pl-12 pt-6"> {/* Padding to account for icon space */}
+    <h3 className="text-lg mb-1">{benefit.title}</h3>
+    <p className="text-neutral-400 font-mono text-sm">
+      {benefit.description}
+    </p>
+  </div>
+</motion.div>
+
+          )
+        })}
       </div>
     </section>
   )

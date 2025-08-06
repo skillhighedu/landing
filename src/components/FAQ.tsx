@@ -90,7 +90,7 @@ export default function FAQ() {
           {(faqList as FAQItem[]).map((faq, index) => (
             <motion.div
               key={index}
-              className="rounded-xl bg-neutral-800/50 shadow-md"
+              className=" rounded-xl bg-neutral-800 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]-800 "
               custom={index}
               variants={faqVariants}
               initial="hidden"

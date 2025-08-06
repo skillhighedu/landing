@@ -58,7 +58,7 @@ export default function Footer() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <footer className="bg-neutral-900 py-12 sm:py-16 relative overflow-hidden" role="contentinfo" aria-label="Footer">
+    <footer className="bg-neutral-900 py-12 sm:py-6 relative overflow-hidden" role="contentinfo" aria-label="Footer">
       {/* Background Grid Pattern */}
       <motion.div
         className="absolute inset-0 bg-[url('/assets/grid-pattern.png')] bg-repeat bg-[length:40px_40px] opacity-5 pointer-events-none z-0"
