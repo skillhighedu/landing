@@ -25,7 +25,9 @@ function hasIntroExpired(): boolean {
 
 export default function Home() {
   const [showMain, setShowMain] = useState(false)
-
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     const introShown = localStorage.getItem('introShown')
     const expired = hasIntroExpired()

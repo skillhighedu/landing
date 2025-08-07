@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Courses } from "@/data/course";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion} from "framer-motion";
 import CustomButton from "./Button";
+import { DotPatternLinearGradient } from './ui/DotBg'
 
 interface AboutCourseProps {
   courseId?: string;
@@ -11,7 +12,7 @@ interface AboutCourseProps {
 export default function AboutCourse({ courseId,scrollToPricing }: AboutCourseProps) {
   const [course, setCourse] = useState<(typeof Courses)[0] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [showOptions, setShowOptions] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -23,20 +24,7 @@ export default function AboutCourse({ courseId,scrollToPricing }: AboutCoursePro
     setIsLoading(false);
   }, [courseId]);
 
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setShowOptions(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
+  
   if (isLoading) {
     return (
       <section className="min-h-[60vh] bg-neutral-900 flex items-center justify-center">
@@ -60,12 +48,14 @@ export default function AboutCourse({ courseId,scrollToPricing }: AboutCoursePro
   
 
   return (
-    <section className="bg-neutral-950 py-20 px-4 sm:px-8 lg:px-16">
+   
+   <section className="relative bg-neutral-950 py-20 px-4 sm:px-8 lg:px-16 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
+        <DotPatternLinearGradient />
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-[0_0_60px_-15px_rgba(0,0,0,0.8)] bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"
+        className="max-w-7xl mx-auto "
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 p-8 lg:p-14">
           {/* Course Image */}
@@ -101,9 +91,7 @@ export default function AboutCourse({ courseId,scrollToPricing }: AboutCoursePro
             <p className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-prose">
               {course.description}
             </p>
-            <p className="text-3xl font-bold text-green-400">
-              ₹{course.price.toLocaleString()}
-            </p>
+     
 
             <div className="pt-2 relative" ref={dropdownRef}>
               <CustomButton
@@ -112,38 +100,7 @@ export default function AboutCourse({ courseId,scrollToPricing }: AboutCoursePro
                  onClick={scrollToPricing}
               />
 
-              <AnimatePresence>
-                {showOptions && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="absolute z-50 mt-2 w-60 rounded-xl bg-white shadow-xl right-0"
-                  >
-                    <div className="flex flex-col">
-                      <button
-                        onClick={() => {
-                          setShowOptions(false);
-                          alert("You selected Pre-registration (₹2,000)");
-                        }}
-                        className="px-5 py-3 hover:bg-gray-100 text-left text-sm font-medium text-gray-800"
-                      >
-                        Pay ₹2,000 (Pre-registration)
-                      </button>
-                      <button
-                        onClick={() => {
-                          setShowOptions(false);
-                          alert(`You selected Full payment (₹${course.price})`);
-                        }}
-                        className="px-5 py-3 hover:bg-gray-100 text-left text-sm font-medium text-gray-800"
-                      >
-                        Pay ₹{course.price.toLocaleString()} (Full Amount)
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+           
             </div>
           </motion.div>
         </div>

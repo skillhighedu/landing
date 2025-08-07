@@ -39,7 +39,7 @@ export default function Header({ title, icon }: HeaderProps) {
       variants={containerVariants}
     >
       <motion.h2
-        className="text-primary text-xl sm:text-3xl pixel-shadow drop-shadow-lg leading-tight"
+        className="text-[#16C47F] text-xl sm:text-3xl md:text-4xl pixel-shadow drop-shadow-lg leading-tight"
         aria-label={title}
       >
         {title.split("").map((char, i) => (

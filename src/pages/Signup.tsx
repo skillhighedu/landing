@@ -6,6 +6,7 @@ import { Swords } from "lucide-react";
 import BgImage from "@/assets/images/warrior.jpg"; // or use `/bg.jpg` if in public/
 
 export default function Signup() {
+  
   const [isSignup, setIsSignup] = useState(true);
   const [form, setForm] = useState({
     name: "",

@@ -4,6 +4,12 @@ export const tools = [
   { name: "VS code", logo: vscode },
   { name: "VS code", logo: vscode },
   { name: "VS code", logo: vscode },
+ { name: "VS code", logo: vscode },
+  { name: "VS code", logo: vscode },
+  { name: "VS code", logo: vscode },
+ { name: "VS code", logo: vscode },
+  { name: "VS code", logo: vscode },
+  { name: "VS code", logo: vscode },
 
  
 ]

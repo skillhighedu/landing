@@ -72,7 +72,7 @@ export default function FAQ() {
       <div className="max-w-5xl mx-auto">
         <Header title="Frequently Asked Questions" />
         <motion.p
-          className="text-lg text-gray-300 mb-10"
+          className=" text-center  text-sm md:text-lg md:text-left font-mono text-gray-300 mb-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -99,7 +99,7 @@ export default function FAQ() {
             >
               <button
                 onClick={() => toggle(index)}
-                className="w-full flex justify-between items-center px-6 py-4 text-left text-lg text-white font-medium"
+                className="w-full flex justify-between items-center px-6 py-4 text-left text-sm md:text-lg text-white "
                 aria-expanded={activeIndex === index}
               >
                 <span>{faq.question}</span>
@@ -117,7 +117,7 @@ export default function FAQ() {
                 initial="hidden"
                 animate={activeIndex === index ? 'visible' : 'hidden'}
                 exit="exit"
-                className="px-6 pb-4 text-gray-300 text-base"
+                className="px-6 pb-4 text-gray-300 text-base font-mono"
               >
                 {faq.answer}
               </motion.div>

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 @keyframes scroll-up {
@@ -62,6 +63,12 @@ body {
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .font-bricolage {
+    font-family: 'Bricolage Grotesque', sans-serif !important;
   }
 }
 #smooth-content {

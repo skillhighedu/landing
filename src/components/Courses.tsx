@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import CustomButton from "./Button";
 import SearchIcon from "@/components/icons/Search";
+import BlockQuote from "./ui/BlockQuote";
 
 export function CoursesCarousel() {
   const plugin = React.useRef(
@@ -81,9 +82,8 @@ export function CoursesCarousel() {
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mt-14 px-2">
-          <blockquote className="text-white text-lg italic text-center sm:text-left max-w-lg">
-            “Skills are the new swords. Sharpen them often.”
-          </blockquote>
+          
+          <BlockQuote quote="Skills are the new swords. Sharpen them often."/>
 
           <Link to="/all-courses" aria-label="Browse all programs">
             <CustomButton title="Browse Our Programs" icon={<SearchIcon />} />

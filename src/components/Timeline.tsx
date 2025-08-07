@@ -77,8 +77,10 @@ function Card({ emoji, des, i }: CardProps) {
       >
         <div className="bg-green-800 w-10 h-10 rounded-sm text-white mr-40 mb-10 opacity-80 pixel-border items-center justify-center text-2xl "> {i + 1}</div>
         <div className="text-4xl mb-4 text-primary">{emoji}</div>
-        <p className="text-neutral-100 leading-relaxed text-center">{des}</p>
+        <p className="text-neutral-100 leading-relaxed text-center font-mono">{des}</p>
       </motion.div>
+
+      
     </motion.div>
   )
 }
@@ -136,9 +138,9 @@ const card: React.CSSProperties = {
 
 // EdTech timeline content with black splash colors
 const food: [string, string][] = [
-  ["🎯 Goal Setting", "Decide your learning path: frontend, backend, fullstack, or product."],
-  ["📚 Learn Fundamentals", "Master HTML, CSS, JavaScript, Git, and basic problem-solving."],
-  ["🛠️ Build Projects", "Apply concepts in real-world projects: dashboards, landing pages, portfolios."],
-  ["⚙️ Learn Advanced Tools", "Pick up React, TypeScript, Tailwind, Node.js, and databases like MongoDB."],
-  ["🚀 Launch & Grow", "Create your portfolio, apply for jobs, freelance, or start your own venture.",],
+  ["Effortless Enrollment", "Register quickly for your chosen course with our streamlined sign-up process."],
+  ["Instant Learning Access","Begin immediately with access to video lessons, projects, and resources."],
+  ["Expert-Led Training", "Learn in-demand skills from industry professionals through practical sessions."],
+  ["Real-World Projects", "Build expertise with hands-on projects that reflect industry challenges."],
+  ["Certification & Career Support", "Earn a recognized certificate and receive placement assistance to advance your career.",],
 ]

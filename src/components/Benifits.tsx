@@ -97,7 +97,7 @@ export default function Benefits() {
     transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
     className="absolute -top-3 -left-3 bg-primary/10 p-4 rounded-full shadow-lg"
   >
-    <Icon className="text-primary" size={40} />
+    <Icon className="text-[#16C47F]" size={40} />
   </motion.div>
 
   {/* Content */}

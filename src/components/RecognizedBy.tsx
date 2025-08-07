@@ -50,7 +50,7 @@ export default function RecognizedBy() {
           {recognizedPartners.map((partner, i) => (
          <motion.div
   key={partner.id}
-  className="bg-neutral-900 rounded-xl p-4 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] relative z-10"
+  className=" bg-[#1a1a1a] rounded-xl p-4 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] relative z-10"
   custom={i}
   initial="hidden"
   animate={controls}
@@ -59,7 +59,7 @@ export default function RecognizedBy() {
   <img
     src={partner.logo}
     alt={partner.alt}
-    className="h-24 sm:h-44 object-contain mx-auto transition duration-300 ease-in-out hover:grayscale"
+    className="h-24 sm:h-44 object-contain mx-auto transition duration-300 ease-in-out "
   />
 </motion.div>
 

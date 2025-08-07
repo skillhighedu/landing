@@ -98,8 +98,8 @@ const Pricing = forwardRef<HTMLDivElement>((_, ref) => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <Header title="Choose Your Path" />
-          <p className="text-neutral-400 max-w-xl mx-auto">
-            Whether you're an independent learner or prefer expert guidance — we’ve got a plan tailored for your journey.
+          <p className="text-neutral-400 max-w-xl  mx-auto font-mono">
+            Whether you're an independent learner or prefer expert guidance we’ve got a plan tailored for your journey.
           </p>
         </div>
 
@@ -129,7 +129,7 @@ const Pricing = forwardRef<HTMLDivElement>((_, ref) => {
                     {option.features.map((feature, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <Check className="text-green-500 w-5 h-5 mt-1 shrink-0" />
-                        <span className="leading-snug">{feature}</span>
+                        <span className="leading-snug font-mono">{feature}</span>
                       </li>
                     ))}
                   </ul>

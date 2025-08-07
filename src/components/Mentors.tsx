@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import CustomButton from "./Button";
 import { motion } from "framer-motion";
+import BlockQuote from "./ui/BlockQuote";
 
 export function Mentors() {
   const plugin = React.useRef(
@@ -92,10 +93,8 @@ export function Mentors() {
 
         {/* Footer CTA + Quote */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mt-12 px-2">
-          <blockquote className="text-white text-lg italic text-center sm:text-left">
-            “Behind every skilled person is someone who showed them the way.”
-          </blockquote>
-
+         
+         <BlockQuote quote="Behind every skilled person is someone who showed them the way."/>
           <Link to="/contact-us" aria-label="Message Us">
             <CustomButton title="Message Us" icon="" />
           </Link>

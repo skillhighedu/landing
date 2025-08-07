@@ -4,8 +4,14 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CustomButton from "./Button";
 import { Input } from "./ui/input";
+import BookingModal from "./BookingModal";
 
 export default function AllCourses() {
+
+
+ 
+
+
   return (
     <section className="bg-neutral-900 py-16 px-4 sm:px-6 lg:px-8">
       <motion.div
@@ -55,11 +61,7 @@ export default function AllCourses() {
                 <p className="text-gray-300 text-md leading-relaxed font-mono line-clamp-3 mb-4">
                   {course.description}
                 </p>
-                <div className="flex items-center justify-between">
-                  <p className="text-lg text-green-400">
-                    ₹{course.price.toLocaleString()}
-                  </p>
-                </div>
+              
                 <Link to="/about-course">
                
                     
@@ -78,16 +80,17 @@ export default function AllCourses() {
     Not sure which skill is right for you?
   </h3>
   <p className="text-gray-300 font-mono mb-8 text-sm sm:text-base">
-    Click the button below and drop us a message. Our team will guide you personally to choose the best path for your goals.
+    Book a quick 15-minute call — our team will personally help you choose the right path based on your goals.
   </p>
 
   <div className="flex justify-center">
-    <Link to="/contact-us">
-      <CustomButton title="Let’s talk" icon="" />
-    </Link>
+
+      <BookingModal />
+
+
   </div>
 </div>
-
+ 
     </section>
   );
 }

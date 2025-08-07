@@ -42,7 +42,7 @@ export default function CurriculumSection({ sectionTitle, topics }: Props) {
                   className="flex gap-3 items-start px-6 py-4 text-sm text-gray-300 hover:bg-neutral-800/40 transition"
                 >
                   <span className="mt-1 w-2 h-2 rounded-full bg-gradient-to-tr from-pink-500 to-violet-400 animate-ping-slow"></span>
-                  <p className="leading-relaxed">{topic}</p>
+                  <p className="leading-relaxed font-mono">{topic}</p>
                 </div>
               ))}
             </motion.div>

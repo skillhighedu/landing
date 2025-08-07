@@ -6,8 +6,11 @@ import { useRef } from "react"
 import FAQ from "@/components/FAQ"
 import Pricing from "@/components/Pricing"
 import Tools from "@/components/Tools"
-
+import { useEffect } from "react"
 export default function CourseDetails() {
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
    const pricingRef = useRef<HTMLDivElement>(null)
   return (
     <>

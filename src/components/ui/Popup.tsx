@@ -20,7 +20,7 @@ const Popup = () => {
   });
 
   useEffect(() => {
-    const timer = setTimeout(() => setOpen(true), 5000);
+    const timer = setTimeout(() => setOpen(true), 10000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -60,7 +60,7 @@ const Popup = () => {
             className="bg-white rounded-2xl shadow-xl max-w-4xl w-full overflow-hidden flex flex-col md:flex-row"
           >
             {/* Left Section - Image with Overlay */}
-            <div className="relative w-full md:w-1/2 h-64 md:h-auto">
+            <div className="relative w-full md:w-1/2 hidden sm:block h-64 md:h-auto">
               <img
                 src={Trees}
                 alt="Nature background"

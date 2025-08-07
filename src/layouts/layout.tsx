@@ -13,7 +13,7 @@ export default function Layout() {
         <div >
 
           <Navbar />
-          <Banner />
+         <Banner targetDate="2025-08-08T23:59:59" />
         </div>
       </header>
 
