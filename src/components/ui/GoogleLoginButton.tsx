@@ -5,10 +5,11 @@ interface Props {
 }
 
 const GoogleLoginButton: React.FC<Props> = ({ redirectUrl }) => {
-  const handleLogin = () => {
-    window.location.href =
-      redirectUrl || "https://skillhigh.in/api/v2/auth/google";
-  };
+ const handleLogin = () => {
+  window.location.href =
+    redirectUrl || "https://api.skillhigh.in/api/v2/auth/google";
+};
+
 
   return (
     <button
