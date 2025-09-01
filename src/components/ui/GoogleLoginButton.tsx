@@ -5,12 +5,15 @@ interface Props {
 }
 
 const GoogleLoginButton: React.FC<Props> = ({ redirectUrl }) => {
- const handleLogin = () => {
-  window.location.href =
-    redirectUrl || "https://api.skillhigh.in/api/v2/auth/google";
-};
+  const handleLogin = () => {
+    const callbackUrl = `${window.location.origin}/api/v2/auth/google/callback`;
+    const googleAuthUrl = redirectUrl || 
+      `https://api.skillhigh.in/api/v2/auth/google?redirect_uri=${encodeURIComponent(callbackUrl)}`;
+    
+    window.location.href = googleAuthUrl;
+  };
 
-
+ 
   return (
     <button
       onClick={handleLogin}
