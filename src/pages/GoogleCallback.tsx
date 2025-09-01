@@ -1,4 +1,5 @@
-import api from '@/config/axiosConfig';
+
+import { googleCallBack } from '@/services/auth-service';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -17,9 +18,9 @@ const GoogleCallback = () => {
           return;
         }
 
-        const response = await api.post("/auth/google/callback",{code})
-
+        const response = await googleCallBack(code)
         if (response) {
+        
           navigate('/profile');
         } else {
           throw new Error('Authentication failed');

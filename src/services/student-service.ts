@@ -69,6 +69,8 @@ export const setNewPassword = async ( newPassword:string,confirmPassword:string)
 };
 
 
+
+
 export const updateProfile = async ( name:string,phoneNumber:string): Promise<string> => {
   try {
     const payload = {  name,phoneNumber };
