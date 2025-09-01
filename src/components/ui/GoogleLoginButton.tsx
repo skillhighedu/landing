@@ -7,7 +7,7 @@ interface Props {
 const GoogleLoginButton: React.FC<Props> = ({ redirectUrl }) => {
   const handleLogin = () => {
     window.location.href =
-      redirectUrl || "http://localhost:4000/api/v2/auth/google";
+      redirectUrl || "https://skillhigh.in//api/v2/auth/google";
   };
 
   return (
