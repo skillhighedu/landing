@@ -18,13 +18,10 @@ const GoogleCallback = () => {
           return;
         }
 
-        const response = await googleCallBack(code)
-        if (response) {
+         await googleCallBack(code)
+ 
+          navigate("/profile", { replace: true });
         
-          navigate('/profile');
-        } else {
-          throw new Error('Authentication failed');
-        }
 
       } catch (error) {
         console.error('OAuth callback error:', error);
