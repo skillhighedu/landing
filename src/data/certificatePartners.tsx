@@ -1,5 +1,5 @@
 import Wipro from "@/assets/Wipro.svg"
-import Microsoft from "@/assets/images/partners/microsoft.png"
+import Microsoft from "@/assets/images/partners/Microsoft.png"
 
 
 
