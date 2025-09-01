@@ -15,7 +15,7 @@ import finance from "@/assets/images/courses/finance.png"
 
 export const Courses = [
   {
-    id: "ai",
+    id: "67691eb73f409fe0a9890a04",
     name: "Artificial Intelligence",
     description: "Master AI concepts including ML, DL, and neural networks from scratch.",
     price: 4999,

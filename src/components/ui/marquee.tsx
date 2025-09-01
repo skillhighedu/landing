@@ -1,88 +1,86 @@
-
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/magicui/marquee";
-import Test from "@/assets/testimonmal.jpg"
-const reviews = [
-  {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "https://avatar.vercel.sh/jack",
-    image: Test
-  },
-  {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "https://avatar.vercel.sh/jill",
-  },
-  {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/john",
-  },
-];
+import { Linkedin } from "lucide-react";
+import { useTestimonialStore } from "@/store/useTestimonalStore";
 
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
 
 const ReviewCard = ({
-  img,
   name,
-  username,
-  body,
-  image,
+  link,
+  review,
 }: {
-  img: string;
   name: string;
-  username: string;
-  body: string;
-  image?: string;
+  link: string;
+  review: string;
 }) => {
   return (
-    <figure
-      className={cn(
-        "relative h-full w-fit sm:w-full cursor-pointer overflow-hidden bg-neutral-800 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] rounded-xl border p-6",
-        "border-gray-950/[.1]"
-      )}
+  <figure
+  className={cn(
+    "relative h-full w-fit sm:w-full cursor-pointer overflow-hidden",
+    "rounded-xl pixel-border border border-gray-800 bg-neutral-900/90",
+    "shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all duration-300",
+    "p-5 flex flex-col justify-between"
+  )}
+>
+  {/* Header: Name + LinkedIn */}
+  <div className="flex items-center justify-between mb-3">
+    <figcaption className="text-base   text-primary truncate">
+      {name}
+    </figcaption>
+    <a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${name}'s LinkedIn profile`}
+      className="p-1 rounded-full bg-neutral-700 hover:bg-blue-500/20 transition-colors"
     >
-      <div className="flex flex-row items-center gap-2">
-        <img className="rounded-full" width="32" height="32" alt={name} src={img} />
-        <div className="flex flex-col">
-          <figcaption className="text-sm dark:text-white">{name}</figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{username}</p>
-        </div>
-      </div>
-      <blockquote className="mt-2 text-sm text-white">{body}</blockquote>
+      <Linkedin size={18} className="text-blue-400 hover:text-blue-300" />
+    </a>
+  </div>
 
-      {image && (
-        <img
-          src={image}
-          alt="testimonial"
-          className="mt-4 rounded-md object-cover w-90 h-auto"
-        />
-      )}
-    </figure>
+  {/* Review Text */}
+  <blockquote className="text-sm leading-relaxed text-gray-300 relative font-bricolage ">
+    <span className="absolute -left-3 top-0 text-primary text-lg font-bricolage ">“</span>
+    {review}
+    <span className="absolute -right-3 bottom-0 text-primary text-lg">”</span>
+  </blockquote>
+</figure>
+
   );
 };
 
-
 export function MarqueeDemoVertical() {
+  const testimonials = useTestimonialStore((state) => state.testimonials);
+
+  if (!testimonials.length) {
+    return <p className="text-center text-gray-400">Loading testimonials...</p>;
+  }
+
+  const half = Math.ceil(testimonials.length / 2);
+  const firstRow = testimonials.slice(0, half);
+  const secondRow = testimonials.slice(half);
+
   return (
     <div className="relative flex h-[500px] w-full flex-row items-center justify-center overflow-hidden">
-      <Marquee pauseOnHover vertical className="[--duration:20s] ">
+      <Marquee pauseOnHover vertical className="[--duration:20s]">
         {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review}  />
+          <ReviewCard key={review.name} {...review} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover vertical className="[--duration:20s] dden sm:flex">
+      <Marquee
+        reverse
+        pauseOnHover
+        vertical
+        className="[--duration:20s] hidden sm:flex"
+      >
         {secondRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
+          <ReviewCard key={review.name} {...review} />
         ))}
       </Marquee>
-       <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-neutral-900"></div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-neutral-900"></div>
+
+      {/* Fade masks
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-neutral-900" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-neutral-900" /> */}
     </div>
   );
 }

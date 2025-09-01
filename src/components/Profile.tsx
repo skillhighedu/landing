@@ -1,146 +1,236 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from "@/components/ui/button";
-import { Courses } from "@/data/course";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { profile } from "@/services/student-service";
+import { useStudentProfileStore } from "@/store/studentStore";
+import { useAuthStore } from "@/store/authStore";
+import { loadRazorpayScript } from "@/utils/razorpay";
+import {
+  razorpayConfig,
+  createPendingPayment,
+  verifyPendingPayment,
+} from "@/services/payment-service";
 
-const mockUser = {
-  name: "Sai Kiran",
-  email: "kiran@example.com",
-};
+import ProfileForm from "./ProfileForm";
+import CustomButton from "./Button";
+import HeaderSection from "./ui/HeaderSection";
+
+const Skeleton = ({ className }: { className?: string }) => (
+  <div className={`animate-pulse bg-neutral-700/50 ${className}`}></div>
+);
 
 export default function Profile() {
-  const handleLogout = () => {
-    console.log("Logging out...");
-  };
+  const { studentProfile, setStudentProfile } = useStudentProfileStore();
+  const { logout } = useAuthStore();
+  const [loading, setLoading] = useState(true);
 
-  // Animation variants for smooth transitions
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        staggerChildren: 0.2,
-      },
-    },
-  };
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const res = await profile();
+        setStudentProfile([res]);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProfile();
+  }, []);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  const handlePayment = async (orderId: string) => {
+    const isLoaded = await loadRazorpayScript();
+    if (!isLoaded) throw new Error("Razorpay SDK failed to load.");
+
+    const config = await razorpayConfig();
+    const orderDetails = await createPendingPayment(orderId);
+
+    return new Promise<void>((resolve, reject) => {
+      const options = {
+        key: config.key,
+        amount: orderDetails.amount!,
+        currency: "INR",
+        name: `${orderDetails.courseName} | Skillhigh`,
+        description: `${orderDetails.courseName} – ${orderDetails.planTitle}`,
+        order_id: orderDetails.orderId,
+        handler: async function (response: any) {
+          try {
+            await verifyPendingPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              amount: orderDetails.amount,
+              orderId,
+            });
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        }
+      };
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    });
   };
 
   return (
-    <motion.div
-      className="min-h-screen mx-auto px-4 sm:px-8 py-12 text-white bg-gradient-to-b from-neutral-950 to-neutral-900"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      {/* Header: Back + Title */}
+    <div className="min-h-screen bg-gradient-to-b from-neutral-950 to-neutral-900 px-4 sm:px-8 py-12 text-white">
+
+      <HeaderSection title="Profile"/>
+      {/* Hero Section */}
       <motion.div
-      className="flex items-center justify-between gap-4 mb-10 px-4 sm:px-8"
-      variants={itemVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <Button
-        variant="ghost"
-        onClick={() => window.history.back()}
-        className="text-white hover:bg-neutral-700 hover:text-lime-400 transition-all duration-300 rounded-full px-4 py-2 flex items-center gap-2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="bg-gradient-to-r from-neutral-900 via-zinc-800 to-neutral-900 p-8 mt-6 rounded-2xl shadow-xl mb-12 text-center max-w-7xl mx-auto border border-neutral-700"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-        Back
-      </Button>
-      <h2 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-green-600">
-        Your Profile
-      </h2>
-    </motion.div>
-      {/* Warrior Hero Block */}
-      <motion.div
-        className="bg-gradient-to-r from-neutral-900 via-zinc-800 to-neutral-900 p-8 rounded-2xl shadow-xl mb-12 border border-neutral-700"
-        variants={itemVariants}
-      >
-        <h1 className="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r bg-primary ">
-          Welcome Back, Warrior
-        </h1>
-        <p className="text-lg sm:text-xl text-gray-300 font-mono max-w-2xl">
-          Your skills are battle-ready. Sharpen your expertise and conquer the digital realm.
-        </p>
+        {loading ? (
+          <Skeleton className="h-12 w-60 mx-auto mb-3 rounded-md" />
+        ) : (
+          <h1 className="text-2xl sm:text-5xl mb-3 text-primary">
+            Welcome Back, {studentProfile[0]?.name?.split(" ")[0] || "Student"}
+          </h1>
+        )}
+        {loading ? (
+          <Skeleton className="h-6 w-80 mx-auto rounded-md" />
+        ) : (
+          <p className="text-md sm:text-xl text-gray-100 font-bricolage max-w-2xl mx-auto">
+            Your skills are battle-ready. Sharpen your expertise and conquer the digital realm.
+          </p>
+        )}
       </motion.div>
 
-      {/* User Info Block */}
-      <motion.div
-        className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-neutral-900 rounded-2xl p-8 mb-12 shadow-xl border border-lime-500/30"
-        variants={itemVariants}
-      >
-        <div>
-          <h2 className="text-2xl ">{mockUser.name}</h2>
-          <p className="text-gray-400">{mockUser.email}</p>
-        </div>
-        <Button
-          variant="destructive"
-          onClick={handleLogout}
-          className="mt-4 sm:mt-0 bg-red-600 hover:bg-red-700 transition-colors duration-300"
+      {/* Profile Section */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+        {/* Profile Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="col-span-1 bg-neutral-900 p-6 rounded-2xl shadow-xl border border-neutral-700 flex flex-col items-center text-center"
         >
-          Logout
-        </Button>
-      </motion.div>
+          {loading ? (
+            <>
+              <Skeleton className="w-28 h-28 rounded-full mb-4" />
+              <Skeleton className="h-6 w-40 mb-2 rounded-md" />
+              <Skeleton className="h-4 w-32 rounded-md" />
+              <Skeleton className="h-10 w-full mt-6 rounded-lg" />
+            </>
+          ) : (
+            <>
+              <div className="relative w-28 h-28 flex items-center justify-center mb-4">
+                <div className="w-28 h-28 rounded-full bg-lime-400/20 flex items-center justify-center text-3xl font-bold text-white">
+                  {studentProfile?.[0]?.name?.[0] || "S"}
+                </div>
+              </div>
+              <h2 className="text-2xl font-semibold">{studentProfile?.[0]?.name}</h2>
+              <p className="text-gray-400 font-sans">{studentProfile?.[0]?.email}</p>
+              <CustomButton
+                onClick={logout}
+                icon=""
+                title="Logout"
+                className="mt-6 bg-red-500 hover:bg-red-700 w-full sm:w-auto"
+              />
+            </>
+          )}
+        </motion.div>
+
+        {/* Profile Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="col-span-1 lg:col-span-2 rounded-2xl shadow-xl border border-neutral-700"
+        >
+          {loading ? (
+            <div className="p-6 space-y-4">
+              <Skeleton className="h-6 w-1/3 rounded-md" />
+              <Skeleton className="h-10 w-full rounded-lg" />
+              <Skeleton className="h-6 w-1/3 rounded-md" />
+              <Skeleton className="h-10 w-full rounded-lg" />
+              <Skeleton className="h-10 w-1/2 rounded-lg mt-4" />
+            </div>
+          ) : (
+            studentProfile[0] && <ProfileForm student={studentProfile[0]} />
+          )}
+        </motion.div>
+      </div>
 
       {/* Courses Section */}
-      <motion.h3
-        className="text-3xl font-semibold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-primary"
-        variants={itemVariants}
-      >
-       Courses You've Equipped
-      </motion.h3>
+      <div className="max-w-7xl mx-auto">
+        <h3 className="text-3xl mb-6 text-primary">Your Courses</h3>
 
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        variants={containerVariants}
-      >
-        <AnimatePresence>
-          {Courses.slice(1, 4).map((course) => (
-            <motion.div
-              key={course.id}
-              className="bg-neutral-800 text-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-neutral-700 hover:border-lime-500/50"
-              variants={itemVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-            >
-              <img
-                src={course.logo}
-                alt={course.name}
-                className="w-full h-48 object-cover transition-transform duration-300"
-              />
-              <div className="p-6">
-                <h4 className="text-xl  mb-4">{course.description}</h4>
-                <Button
-                  variant="secondary"
-                  className="w-full  text-black transition-colors duration-300"
-                >
-                  Continue Training
-                </Button>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
-    </motion.div>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-neutral-800 rounded-2xl shadow-lg border border-neutral-700 overflow-hidden p-4 flex flex-col space-y-2"
+              >
+                <Skeleton className="w-full aspect-video rounded-md" />
+                <Skeleton className="h-6 w-3/4 rounded-md" />
+                <Skeleton className="h-6 w-1/2 rounded-md" />
+                <Skeleton className="h-10 w-full rounded-lg mt-auto" />
+              </motion.div>
+            ))}
+          </div>
+        ) : studentProfile[0]?.courses?.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {studentProfile[0].courses.map((course) => (
+              <motion.div
+                key={course.courseId}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.03 }}
+                className="bg-neutral-800 rounded-2xl shadow-lg border border-neutral-700 hover:border-lime-500/50 transition-all duration-300 flex flex-col overflow-hidden"
+              >
+                <div className="w-full aspect-video">
+                  <img
+                    src={course.courseThumbnail}
+                    alt={course.courseName}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4 flex flex-col flex-1 justify-between">
+                  <h4 className="text-lg font-semibold mb-2">{course.courseName}</h4>
+                  {course.purchaseDetails?.isFullPayment ? (
+                    <a href="https://app.skillhigh.in" className="inline-block">
+                      <CustomButton title="Start Lessons" icon="" />
+                    </a>
+                  ) : (
+                    course.purchaseDetails && (
+                      <>
+                        <p className="text-sm text-gray-400 mb-2">
+                          Remaining: ₹{course.purchaseDetails.remainingAmount}
+                        </p>
+                        <CustomButton
+                          title="Pay Remaining"
+                          onClick={() => handlePayment(course.purchaseDetails.purchaseId)}
+                          className="w-full bg-lime-400 text-black hover:bg-lime-500 rounded-lg"
+                        />
+                      </>
+                    )
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-neutral-800 rounded-2xl shadow-lg border border-neutral-700 p-10 flex flex-col items-center justify-center text-center"
+          >
+            <h4 className="text-xl font-semibold mb-4">No courses yet</h4>
+            <p className="text-gray-400 mb-6">You haven’t enrolled in any course yet.</p>
+            <CustomButton title="Browse our courses" />
+          </motion.div>
+        )}
+      </div>
+    </div>
   );
 }

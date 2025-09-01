@@ -1,69 +1,45 @@
 import { type ReactNode } from "react";
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface HeaderProps {
   title: string;
+  subline: string;
   icon?: ReactNode;
 }
 
-const letterVariants: Variants = {
-  hidden: { y: 50, opacity: 0 },
-  visible: (i: number) => ({
-    y: 0,
-    opacity: 1,
-    transition: {
-      delay: i * 0.05,
-      type: "spring" as const,
-      stiffness: 500,
-      damping: 30,
-    },
-  }),
-};
-
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.03,
-    },
-  },
-};
-
-export default function Header({ title, icon }: HeaderProps) {
+export default function Header({ title, subline, icon }: HeaderProps) {
   return (
     <motion.div
-      className="flex flex-col items-center justify-center text-center gap-4 mb-5"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={containerVariants}
+      className="relative z-10 text-center space-y-3 mb-8 sm:mb-10"
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <motion.h2
-        className="text-[#16C47F] text-xl sm:text-3xl md:text-4xl pixel-shadow drop-shadow-lg leading-tight"
-        aria-label={title}
-      >
-        {title.split("").map((char, i) => (
-          <motion.span
-            key={i}
-            custom={i}
-            variants={letterVariants}
-            className={char === " " ? "w-2 inline-block" : "inline-block"}
-          >
-            {char}
-          </motion.span>
-        ))}
-      </motion.h2>
+      {/* Title */}
+      <h2 className="text-[#16C47F] text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
+        {title}
+      </h2>
 
+      {/* Optional icon */}
       {icon && (
         <motion.div
-          initial={{ scale: 0.6, rotate: -15, opacity: 0 }}
-          whileInView={{ scale: 1, rotate: 0, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 10, delay: 0.5 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           {icon}
         </motion.div>
       )}
+
+      {/* Subtitle */}
+      <motion.p
+        className="text-neutral-400 max-w-2xl mx-auto text-sm sm:text-base"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+      >
+        {subline}
+      </motion.p>
     </motion.div>
   );
 }

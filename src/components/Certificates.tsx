@@ -1,64 +1,69 @@
-'use client'
+import Header from "./Header";
+import { DotPatternLinearGradient } from "./ui/DotBg";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
-import { easeOut, motion } from 'framer-motion'
-import { DotPatternLinearGradient } from './ui/DotBg'
-
-const certificates = [
-  { id: 1, src: '/images/cert1.png', title: 'Certificate 1' },
-  { id: 2, src: '/images/cert2.png', title: 'Certificate 2' },
-  { id: 3, src: '/images/cert3.png', title: 'Certificate 3' },
-  { id: 3, src: '/images/cert3.png', title: 'Certificate 3' },
-]
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: easeOut,
-    },
-  }),
+export interface CertificateProps {
+  id: string;
+  name: string;
+  logo: string;
+  alt: string;
 }
 
-export default function Certificates() {
+interface CertificatesProps {
+  certificates: CertificateProps[];
+}
+
+export default function Certificates({ certificates }: CertificatesProps) {
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+
   return (
-    <section className=" relative w-full bg-neutral-900 text-white py-20 px-6 md:px-12">
-     <DotPatternLinearGradient/>
-      <div className=" relative max-w-6xl mx-auto text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">Certificates</h2>
-        <p className="text-neutral-400 text-lg">
-          Proof of excellence in various domains.
-        </p>
+    <section className="relative w-full bg-neutral-900 text-white py-24 px-6 md:px-12">
+      <DotPatternLinearGradient />
+
+      {/* Section Header */}
+      <div className="relative z-10 text-center space-y-2 mb-12">
+        <Header title="Certificates" subline=" Proof of excellence in various domains." />
+       
+         
+    
       </div>
 
-      <div className=" relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
-        {certificates.map((cert, i) => (
+      {/* Certificates Grid */}
+      <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+        {certificates.map((cert, idx) => (
           <motion.div
             key={cert.id}
-            custom={i}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }}
-            variants={fadeUp}
-            className="group relative   pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 transition-transform hover:scale-105"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4, delay: idx * 0.1 }}
+            className="group overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/80 shadow-sm"
           >
-            <div className="aspect-video relative">
-              <image
-           
-            
-        
-                className="object-cover"
+            {/* Image container with variable height */}
+            <div className="w-full relative">
+              {!loadedImages[cert.id] && (
+                <div className="absolute inset-0 bg-neutral-800 animate-pulse" />
+              )}
+              <img
+                src={cert.logo}
+                alt={cert.alt}
+                className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
+                  loadedImages[cert.id] ? "opacity-100" : "opacity-0"
+                }`}
+                onLoad={() =>
+                  setLoadedImages((prev) => ({ ...prev, [cert.id]: true }))
+                }
+                loading="lazy"
               />
             </div>
-            <div className="p-4 text-center">
-              <h3 className="text-lg font-semibold">{cert.title}</h3>
+
+            <div className="p-2 text-center">
+              <h3 className="text-md font-medium">{cert.name}</h3>
             </div>
           </motion.div>
         ))}
       </div>
     </section>
-  )
+  );
 }

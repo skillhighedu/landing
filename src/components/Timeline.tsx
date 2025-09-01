@@ -31,10 +31,8 @@ export default function ScrollTriggered() {
       >
         <Target className="w-12 h-12 opacity-70" />
       </motion.div>
-        <Header title=" From Beginner to Pro" />
-        <p className="text-neutral-400">
-          See how each step takes you closer to mastery.
-        </p>
+        <Header title=" From Beginner to Pro" subline="   See how each step takes you closer to mastery." />
+      
       </div>
 
       <div className="mx-auto max-w-[500px] w-full">
@@ -77,7 +75,7 @@ function Card({ emoji, des, i }: CardProps) {
       >
         <div className="bg-green-800 w-10 h-10 rounded-sm text-white mr-40 mb-10 opacity-80 pixel-border items-center justify-center text-2xl "> {i + 1}</div>
         <div className="text-4xl mb-4 text-primary">{emoji}</div>
-        <p className="text-neutral-100 leading-relaxed text-center font-mono">{des}</p>
+        <p className="text-neutral-100 leading-relaxed text-center font-bricolage">{des}</p>
       </motion.div>
 
       

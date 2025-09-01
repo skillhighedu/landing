@@ -1,8 +1,7 @@
-'use client'
 
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
-import { mentors } from "@/data/mentor";
+
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -11,12 +10,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
+import { type Mentors } from "@/types";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import CustomButton from "./Button";
 import { motion } from "framer-motion";
 import BlockQuote from "./ui/BlockQuote";
+import { fetchMentors } from "@/services/mentors-service";
 
 export function Mentors() {
   const plugin = React.useRef(
@@ -27,15 +27,23 @@ export function Mentors() {
     })
   );
 
+   const [mentors,setMentors] = React.useState<Mentors[]>([]);
+    React.useEffect(()=> {
+      async function getMentors() {
+        const res = await fetchMentors()
+        setMentors(res)
+      }
+  
+      getMentors()
+    },[])
+
   return (
     <section className="bg-neutral-900 bg-pixel-crt w-full py-12 px-4">
       <div className="max-w-7xl mx-auto text-center">
         {/* Header */}
         <div className="flex flex-col mb-10 gap-3">
-          <Header title="Learn from Those Who’ve Done It" />
-          <p className="text-neutral-400 text-sm mb-3 text-center">
-            Your mentors once started just like you. They’ve built real skills — now they’re here to help you do the same.
-          </p>
+          <Header title="Learn from Those Who’ve Done It" subline=" Your mentors once started just like you. They’ve built real skills — now they’re here to help you do the same" />
+        
         </div>
 
         {/* Carousel */}
@@ -59,7 +67,7 @@ export function Mentors() {
                   <Card className="relative h-[420px] overflow-hidden rounded-2x pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-all group ">
                     {/* Background */}
                     <img
-                      src={course.image}
+                      src={course.photo}
                       alt={course.name}
                       className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -76,7 +84,7 @@ export function Mentors() {
                     <CardContent className="relative z-20 h-full p-6 flex flex-col justify-end text-white">
                       <h3 className="text-xl ">{course.name}</h3>
                       <p className="text-sm text-gray-300 mb-4 line-clamp-2">
-                        {course.profession}
+                        {course.qualification}
                       </p>
 
                    

@@ -1,35 +1,66 @@
 import { Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy} from "react";
 import Layout from "@/layouts/layout";
 import "./App.css";
 import "./index.css";
-import Popup from "./components/ui/Popup";
+import Popup from "@/components/ui/Popup";
+import ProtectedRoute from "@/routes/ProtectedRoute";
+import { useEffect } from "react";
+import { useAuthStore } from "@/store/authStore";
+import PublicRoute from "@/routes/PublicRoute";
+import OutSource from "./pages/OutSource";
+import Spinner from "@/components/ui/Spinner";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("@/pages/Home"));
 const AllCourses = lazy(() => import("./components/AllCourses"));
 const CourseDetails = lazy(() => import("./pages/CourseDetails"));
-const ContactUs = lazy(() => import("./components/contactus"));
+const ContactUs = lazy(() => import("./components/ContactUs"));
 const Profile = lazy(() => import("./components/Profile"));
 const Signup = lazy(() => import("./pages/Signup"));
 
 // Optional: Create a minimal fallback
-const Fallback = () => <div className="bg-neutral-900 text-white h-screen text-center justify-center">Loading...</div>;
+const Fallback = () => <Spinner/>
 
 function App() {
+  const { checkAuth, loading, isAuthenticated } = useAuthStore();
+
+  
+  useEffect(() => {
+    checkAuth(); 
+  }, [isAuthenticated]);
+
   return (
-    <div className="text-white min-h-screen">
-       <Popup/>
+    <div className="text-white bg-neutral-900 min-h-screen">
+      <Popup />
       <Suspense fallback={<Fallback />}>
         <Routes>
           <Route element={<Layout />}>
-         
+
             <Route path="/" element={<Home />} />
-            <Route path="/about-course" element={<CourseDetails />} />
+            <Route path="/course/:courseSlug" element={<CourseDetails />} />
             <Route path="/all-courses" element={<AllCourses />} />
             <Route path="/contact-us" element={<ContactUs />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/outsource" element={<OutSource />} />
+
+              
+            
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute isAuthenticated={isAuthenticated} loading={loading}>
+                  <Signup />
+                </PublicRoute>
+              }
+            />
+            
+
+
+
+            {/* Protected routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
           </Route>
         </Routes>
       </Suspense>

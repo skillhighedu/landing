@@ -4,23 +4,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@keyframes scroll-up {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-880px); /* 220px * number of testimonials */
-  }
+h1, h2, h3, p, img, button,div {
+  user-select: none;
 }
 
-@keyframes scroll-down {
-  0% {
-    transform: translateY(-880px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
 
 .animate-scroll-up {
   animation-name: scroll-up;
@@ -43,9 +30,7 @@
   overflow: hidden;
 }
 
-body {
-  cursor: url('./assets//icons/cursor.svg') 0 0, auto ;
-}
+
 
 /* styles/globals.css */
 @keyframes scroll-up {
@@ -266,10 +251,10 @@ body {
   scroll-behavior: auto !important;
   overflow-x: hidden; /* Prevents horizontal scroll only */
   height: 100%;
-}
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 
-body {
-  height: auto;
 }
 
 .lenis {
@@ -278,4 +263,45 @@ body {
 
 .lenis.lenis-smooth {
   scroll-behavior: auto;
+}
+
+/* Dialog dark theme override */
+.dialog-dark-theme {
+  --background: #171717 !important;
+  --foreground: #ffffff !important;
+  --card: #171717 !important;
+  --card-foreground: #ffffff !important;
+  --popover: #171717 !important;
+  --popover-foreground: #ffffff !important;
+  --muted: #404040 !important;
+  --muted-foreground: #d4d4d4 !important;
+  --accent: #404040 !important;
+  --accent-foreground: #ffffff !important;
+  --border: #404040 !important;
+  --input: #404040 !important;
+  --ring: #0D8267 !important;
+}
+
+.dialog-dark-theme * {
+  color: inherit;
+}
+
+/* Force dialog styling */
+[data-slot="dialog-content"] {
+  background-color: #171717 !important;
+  color: #ffffff !important;
+  border-color: #404040 !important;
+}
+
+[data-slot="dialog-overlay"] {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Ensure dialog content is above overlay */
+[data-slot="dialog-content"] {
+  z-index: 10000 !important;
+}
+
+[data-slot="dialog-overlay"] {
+  z-index: 9999 !important;
 }

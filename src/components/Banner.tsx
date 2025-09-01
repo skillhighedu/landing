@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import BookingModal from "./BookingModal";
 type CountdownProps = {
   targetDate: string; // Format: '2025-08-07T23:59:59'
 };
@@ -43,18 +44,30 @@ export default function CountdownBanner({ targetDate }: CountdownProps) {
   }, []);
 
   return (
-    <div className="w-full bg-gradient-to-r from-primary mt-18 via-neutral-900/10 to-primary text-white shadow-md py-4 px-6 sm:px-10">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+    <div className="w-full bg-primary mt-18 text-white shadow-md py-4 px-6  ">
+     {timeLeft.days !== "00" ? (
+      <div className=" max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <p className="text-sm sm:text-base font-medium tracking-tight">
           🎉 Use code <span className=" text-yellow-400">LEVELUP</span> and save big – Offer ends soon!
         </p>
-        <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-neutral-100 tracking-wide bg-neutral-800 rounded-md px-3 py-1.5">
+        <div className="flex items-center gap-2 text-xs sm:text-sm font-bricolage text-neutral-100 tracking-wide bg-neutral-800 rounded-md px-3 py-1.5">
           <TimeBox label="Days" value={timeLeft.days} />
           <TimeBox label="Hours" value={timeLeft.hours} />
           <TimeBox label="Minutes" value={timeLeft.minutes} />
           <TimeBox label="Seconds" value={timeLeft.seconds} />
         </div>
       </div>
+     ) : (
+       <div className=" max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+        <p className="text-sm sm:text-base font-medium tracking-tight">
+          Book a free consultation with us to learn how we can help you achieve your goals!
+        </p>
+       <div>
+   
+         <BookingModal title={"Book a meet"} icon={""}  className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal" />
+       </div>
+      </div>
+     )}
     </div>
   );
 }

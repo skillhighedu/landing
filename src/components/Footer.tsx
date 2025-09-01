@@ -1,9 +1,9 @@
-"use client";
 
-import { easeOut, motion, useReducedMotion } from "framer-motion";
+
 import React from "react";
 import Logo from "@/assets/logo.png";
-
+import PP from '../assets/PRIVACY_POLICY.pdf'
+import TC from '../assets/TermsandConditions.pdf'
 interface SocialLink {
   name: string;
   href: string;
@@ -13,6 +13,7 @@ interface SocialLink {
 interface QuickLink {
   name: string;
   href: string;
+  open?:() => void;
 }
 
 const socialLinks: SocialLink[] = [
@@ -36,128 +37,102 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
-const quickLinks: QuickLink[] = [
-  { name: "Programs", href: "/programs" },
-  { name: "Success Stories", href: "/success" },
-  { name: "Workshops", href: "/workshops" },
-  { name: "Help Center", href: "/support" },
+ const handlePP = () => {
+    window.open(PP, "_blank");
+  }
+  const handleTC = () => {
+    window.open(TC, "_blank");
+  }
+
+const companyQuickLinks: QuickLink[] = [
+
+  { name: "Contact Us", href: "/contact-us" },
+  { name: "Book a meet", href: "/book-a-meet" },
+  { name: "Privacy Policy", href: "/privacy-policy" ,open:handlePP },
+  { name: "Terms and Conditions", href: "/terms-and-conditions" ,open:handleTC },
+
+
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.6,
-      ease: easeOut,
-    },
-  }),
-};
+
 
 export default function Footer() {
-  const shouldReduceMotion = useReducedMotion();
+ 
 
   return (
-    <footer className="bg-neutral-900 py-12 sm:py-6 relative overflow-hidden" role="contentinfo" aria-label="Footer">
-      {/* Grid Pattern */}
-      <motion.div
-        className="absolute inset-0 bg-[url('/assets/grid-pattern.png')] bg-repeat bg-[length:40px_40px] opacity-5 pointer-events-none z-0"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: shouldReduceMotion ? 0.05 : 0.1,
-          backgroundPositionY: [0, 10, 0],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 gap-10 lg:gap-14"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={fadeInUp}
-        >
-          {/* Logo + Tagline */}
-          <motion.div className="flex flex-col space-y-4" custom={0} variants={fadeInUp}>
-            <a href="/" className="flex items-center space-x-3" aria-label="Skill High homepage">
-              <img src={Logo} alt="Skill High Logo" className="h-20 w-auto" loading="lazy" />
-            </a>
-            <p className="text-sm text-gray-300 max-w-xs font-mono">
-              Learn by building. Grow by doing. We're empowering the next generation of developers and tech leaders through practical, high-impact education.
-            </p>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div custom={1} variants={fadeInUp}>
-            <h3 className="text-lg text-primary mb-4">Explore</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link, i) => (
-                <motion.li key={link.name} custom={i} variants={fadeInUp} whileHover={{ scale: 1.05 }}>
-                  <a href={link.href} className="text-gray-400 transition-colors duration-200">{link.name}</a>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div custom={2} variants={fadeInUp}>
-            <h3 className="text-lg text-primary mb-4">Connect With Us</h3>
-            <div className="flex space-x-4">
-              {socialLinks.map((link, i) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  custom={i}
-                  variants={fadeInUp}
-                  whileHover={{ scale: 1.2 }}
-                  className="text-gray-300 transition-colors duration-200"
-                >
-                  {link.icon}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div custom={3} variants={fadeInUp}>
-            <h3 className="text-lg text-primary mb-4">Contact</h3>
-            <ul className="space-y-2 text-sm font-mono text-gray-300">
-              <li>
-                <span className="font-medium">Email:</span>{" "}
-                <a href="mailto:support@skillhigh.in" className="transition-colors">support@skillhigh.in</a>
-              </li>
-              <li>
-                <span className="font-medium">Phone:</span>{" "}
-                <a href="tel:+917207371204" className="transition-colors">+91 72073 71204</a>
-              </li>
-              <li className="max-w-xs">
-                <span className="font-medium">Campus HQ:</span> Woods Enclave, Suchitra Junction, Hyderabad – 500067
-              </li>
-            </ul>
-          </motion.div>
-        </motion.div>
-
-        {/* Bottom Footer */}
-        <motion.div
-          className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <div className="flex space-x-4 text-sm text-gray-300">
-            <a href="/privacy" className="hover:text-yellow-400 transition-colors">Privacy Policy</a>
-            <span className="text-gray-500">|</span>
-            <a href="/terms" className="hover:text-yellow-400 transition-colors">Terms of Use</a>
-          </div>
-          <span className="text-sm text-gray-300">
-            © {new Date().getFullYear()} Skill High. Empowering Next-Gen Talent.
-          </span>
-        </motion.div>
+  <footer className=" text-gray-400 py-16 bg-neutral-900  backdrop-blur-md">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      
+      {/* Logo + Tagline */}
+      <div className="space-y-4">
+        <a href="/" className="inline-flex items-center">
+          <img src={Logo} alt="Skill High Logo" className="h-16 w-auto" />
+        </a>
+        <p className="text-sm max-w-xs font-bricolage">
+          Learn by building. Grow by doing. Empowering the next generation of developers and tech leaders.
+        </p>
       </div>
-    </footer>
+
+      {/* Quick Links + Social */}
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-primary  mb-2">Explore</h3>
+          <ul className="space-y-2">
+            {companyQuickLinks.map((link) => (
+              <li key={link.name}>
+                <a href={link.href} onClick={link.open} className="hover:text-white font-bricolage transition-colors text-sm">
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-primary mb-2">Connect</h3>
+          <div className="flex space-x-4">
+            {socialLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="hover:text-white transition-colors"
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Info */}
+      <div className="space-y-2 text-sm ">
+        <h3 className="text-primary mb-2">Contact</h3>
+        <p className="font-bricolage">
+          <span className="font-medium">Email:</span>{" "}
+          <a href="mailto:admin@skillhigh.in" className="hover:text-white transition-colors">
+            admin@skillhigh.in
+          </a>
+        </p>
+        <p  className="font-bricolage">
+          <span className="font-medium">Phone:</span>{" "}
+          <a href="tel:+919182661204" className="hover:text-white transition-colors">
+            +91 9182661204
+          </a>
+        </p>
+        <p className="max-w-xs text-justify font-bricolage">
+          <span className="font-medium">Address:</span> P.No: 169, First Floor, Woods Enclave, Woods Central Park, Suchitra Sub Post, Pet Basheerabad, Telangana, India.
+        </p>
+      </div>
+
+    </div>
+
+    {/* Bottom Bar */}
+    <div className="mt-12 border-t border-gray-700 pt-6 text-center text-sm">
+      © {new Date().getFullYear()} SkillHigh. Empowering Next-Gen Talent.
+    </div>
+  </div>
+</footer>
+
   );
 }

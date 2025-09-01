@@ -1,5 +1,5 @@
 import {tools} from "@/data/tools"
-import Header from "./Header"
+
 import { GridPatternDashed } from "./ui/DashedStroke"
 
 import {motion} from "framer-motion"
@@ -27,7 +27,7 @@ export default function Tools() {
       
    <div className="flex flex-row items-center justify-center gap-4">  
        <div>
-<Header title=" Your learning Toolbox"/>     {/*  <motion.div
+    {/*  <motion.div
   initial={{ rotate: -10, scale: 0.9, opacity: 1 }}
   animate={{ rotate: [ -10, 0, 10, 0 ], scale: 1, opacity: 1 }}
   transition={{
@@ -40,7 +40,7 @@ export default function Tools() {
 >
   <ToolIcon className="w-full h-full text-primary" />
 </motion.div> */}
-           <p className="text-lg sm:text-xl text-gray-300 font-mono mb-6">
+           <p className="text-lg sm:text-xl text-gray-300 font-bricolage mb-6">
           Tools we are using in this course
           </p>
        </div>

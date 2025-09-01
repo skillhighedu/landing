@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
-
+import Trees from "@/assets/images/water.jpg";
 import Hero from '@/components/Hero'
 import RecognizedBy from '@/components/RecognizedBy'
 import Timeline from '@/components/Timeline'
 import { CoursesCarousel } from '@/components/Courses'
 import FAQ from '@/components/FAQ'
-import Hook from '@/components/Hook'
 import SkillsCurtainIntro from '@/components/SkillsCurtainIntro'
 import Testimonials from '@/components/Testimonals'
 import { Mentors } from '@/components/Mentors'
 import Benefits from '@/components/Benifits'
 import Stat from '@/components/Stat'
+import CertificatePartners from '@/components/CertificatePartners'
+import BookCallButton from '@/components/MeetBooking'
+import Form from '@/components/Form'
 
 
 const INTRO_EXPIRY_MINUTES = 15
@@ -25,7 +27,7 @@ function hasIntroExpired(): boolean {
 
 export default function Home() {
   const [showMain, setShowMain] = useState(false)
- useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
@@ -53,16 +55,20 @@ export default function Home() {
       {showMain && (
         <>
           <Hero />
+          <CertificatePartners />
           <RecognizedBy />
-      
-          <Benefits/>
+
+          <Benefits />
           <CoursesCarousel />
           <Timeline />
-          <Testimonials/>
-              <Stat/>
-          <Mentors/>
+          <Testimonials />
+          <Stat />
+
+          <Mentors />
           <FAQ />
-          <Hook />
+          <BookCallButton title="Launch Your Future Today" description="In just 15 minutes, discover how to elevate your skills, accelerate your career, and achieve your goals with a personalized roadmap." buttonText="Book my call" />
+
+          <Form backgroundImage={Trees} />
         </>
       )}
     </>

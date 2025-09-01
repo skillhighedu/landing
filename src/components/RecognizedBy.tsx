@@ -36,10 +36,8 @@ export default function RecognizedBy() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <Header title="We are recognized by" />
-          <p className="text-lg sm:text-xl text-gray-300 font-mono mb-12">
-            Recognized. Certified. Trusted.
-          </p>
+          <Header title="We are recognized by" subline="       Recognized. Certified. Trusted." />
+         
         </motion.div>
 
         {/* Logos grid */}

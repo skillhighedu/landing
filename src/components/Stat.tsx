@@ -16,12 +16,16 @@ export default function Stat() {
     <section className="w-full relative py-20 bg-neutral-950 text-white">
       <GridPatternDashed/>
       <div className=" relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+       <div className="text-center text-sm sm:text-xl text-neutral-400 mb-8  border border-neutral-800 rounded-xl px-4 py-2 inline-block bg-neutral-900 shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-shadow">
+  Join our Skillhigh community
+</div>
+
         <div className=" relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 text-center">
           {stats.map((stat, idx) => (
             <div key={idx} className=" relative bg-neutral-900 rounded-2xl py-6 px-4 border border-neutral-800 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]">
               <Counter to={stat.value} suffix={stat.suffix} color={stat.color} />
 
-              <div className="text-sm text-neutral-400 mt-1 font-mono">{stat.label}</div>
+              <div className="text-sm text-neutral-400 mt-1 font-bricolage">{stat.label}</div>
             </div>
           ))}
         </div>

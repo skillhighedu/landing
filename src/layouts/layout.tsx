@@ -2,11 +2,20 @@ import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Outlet } from "react-router-dom";
-
+import { useFetchDepartments } from "@/hooks/useFetchDepartments";
+import { useFetchFaqs } from "@/hooks/useFetchFaqs";
+import { useFetchTestimonals } from "@/hooks/useFetchTestimonals";
+import { useFetchFormattedCourses } from "@/hooks/useFetchFormattedCourses";
+import { useFetchPricings } from "@/hooks/useFetchPricings";
 export default function Layout() {
+  useFetchDepartments();
+  useFetchFaqs();
+  useFetchTestimonals();
+  useFetchFormattedCourses();
+  useFetchPricings()
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#0f2e1f] to-[#072213] ">
+    <div className="min-h-screen flex flex-col  ">
       
       <header className="w-full ">
         {/* Centered Navbar Container */}

@@ -1,41 +1,48 @@
-import { useEffect, useRef, useState } from "react";
-import { Courses } from "@/data/course";
-import { motion} from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import CustomButton from "./Button";
-import { DotPatternLinearGradient } from './ui/DotBg'
+import { DotPatternLinearGradient } from './ui/DotBg';
+import { fetchSelectedCourse } from "@/services/course-service";
+import { useSelectedCourseStore } from "@/store/useSelectedCourse";
+import HeaderSection from "./ui/HeaderSection";
 
 interface AboutCourseProps {
-  courseId?: string;
-  scrollToPricing: () => void
+  courseSlug: string;
+  scrollToPricing: () => void;
 }
 
-export default function AboutCourse({ courseId,scrollToPricing }: AboutCourseProps) {
-  const [course, setCourse] = useState<(typeof Courses)[0] | null>(null);
+export default function AboutCourse({ courseSlug, scrollToPricing }: AboutCourseProps) {
+  const { setSelectedCourse, selectedCourse } = useSelectedCourseStore();
   const [isLoading, setIsLoading] = useState(true);
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
-    setIsLoading(true);
-    const selectedCourse = courseId
-      ? Courses.find((c) => c.id === courseId)
-      : Courses[0];
-    setCourse(selectedCourse || null);
-    setIsLoading(false);
-  }, [courseId]);
+    const fetchCourse = async () => {
+      setIsLoading(true);
+      const res = await fetchSelectedCourse(courseSlug ?? "");
+      setSelectedCourse(res);
+      setIsLoading(false);
+    };
+    fetchCourse();
+  }, [courseSlug, setSelectedCourse]);
 
-  
+  // --- Skeleton Loader ---
   if (isLoading) {
     return (
-      <section className="min-h-[60vh] bg-neutral-900 flex items-center justify-center">
-        <div className="animate-pulse text-white text-xl font-medium">
-          Loading course...
+      <section className="min-h-[60vh] bg-neutral-900 flex items-center justify-center px-4 mt-10 mb-10">
+        <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="animate-pulse bg-neutral-800 rounded-2xl h-[320px] sm:h-[400px] lg:h-[480px]" />
+          <div className="space-y-4">
+            <div className="animate-pulse bg-neutral-800 h-8 w-3/4 rounded" />
+            <div className="animate-pulse bg-neutral-800 h-6 w-full rounded" />
+            <div className="animate-pulse bg-neutral-800 h-6 w-5/6 rounded" />
+            <div className="animate-pulse bg-neutral-800 h-12 w-40 rounded mt-4" />
+          </div>
         </div>
       </section>
     );
   }
 
-  if (!course) {
+  if (!selectedCourse) {
     return (
       <section className="min-h-[60vh] bg-neutral-900 flex items-center justify-center">
         <div className="text-red-400 text-xl font-medium">
@@ -45,66 +52,53 @@ export default function AboutCourse({ courseId,scrollToPricing }: AboutCoursePro
     );
   }
 
-  
-
   return (
-   
-   <section className="relative bg-neutral-950 py-20 px-4 sm:px-8 lg:px-16 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
-        <DotPatternLinearGradient />
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-7xl mx-auto "
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 p-8 lg:p-14">
-          {/* Course Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative group"
-          >
-            <img
-              src={course.logo}
-              alt={course.name}
-              className="rounded-2xl w-full h-[320px] sm:h-[400px] lg:h-[480px] object-cover shadow-xl group-hover:scale-[1.02] transition-transform duration-500"
-              loading="lazy"
-              onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")}
+    <section className="relative bg-neutral-950 py-16 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16 overflow-hidden">
+      <DotPatternLinearGradient />
+      <HeaderSection />
+
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Course Image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative group rounded-2xl overflow-hidden shadow-xl"
+        >
+          <img
+            src={selectedCourse.courseThumbnail}
+            alt={selectedCourse.courseName}
+            className="w-full h-[320px] sm:h-[400px] lg:h-[480px] object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
+        </motion.div>
+
+        {/* Course Info Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="bg-neutral-900 rounded-3xl p-8 shadow-lg flex flex-col justify-between space-y-6"
+        >
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+            {selectedCourse.courseName}
+          </h1>
+
+          <p className="text-gray-300 text-base sm:text-lg leading-relaxed font-bricolage">
+            {selectedCourse.courseDescription}
+          </p>
+
+          <div>
+            <CustomButton
+              title="Enroll now"
+              icon=""
+              onClick={scrollToPricing}
             />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/50 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
-            <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-              Featured
-            </div>
-          </motion.div>
-
-          {/* Course Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col justify-center space-y-6 relative"
-          >
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
-              {course.name}
-            </h1>
-            <p className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-prose">
-              {course.description}
-            </p>
-     
-
-            <div className="pt-2 relative" ref={dropdownRef}>
-              <CustomButton
-                title="Enroll now"
-                icon=""
-                 onClick={scrollToPricing}
-              />
-
-           
-            </div>
-          </motion.div>
-        </div>
-      </motion.div>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }
