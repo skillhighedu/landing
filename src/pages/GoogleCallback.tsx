@@ -1,12 +1,13 @@
 
 import { googleCallBack } from '@/services/auth-service';
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams,useLocation } from 'react-router-dom';
 
 const GoogleCallback = () => {
   const navigate = useNavigate();
+  const location = useLocation()
   const [searchParams] = useSearchParams();
-
+ const from = location.state?.from || "/profile";
   useEffect(() => {
     const handleCallback = async () => {
       try {
@@ -20,7 +21,7 @@ const GoogleCallback = () => {
 
          await googleCallBack(code)
  
-          navigate("/profile", { replace: true });
+          navigate(from, { replace: true });
         
 
       } catch (error) {

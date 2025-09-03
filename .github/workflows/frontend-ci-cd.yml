@@ -3,14 +3,14 @@ name: Frontend CI/CD
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -40,7 +40,10 @@ jobs:
             echo "Removing old build..."
             sudo rm -rf /var/www/html/frontend/*
             echo "Copying new build..."
-            sudo rsync -a ./dist/ /var/www/html/frontend/
+            sudo rsync -avz --chmod=755 /home/ubuntu/landing/dist/ /var/www/html/frontend/
+            echo "Setting permissions for Nginx..."
+            sudo chown -R www-data:www-data /var/www/html/frontend
+            sudo chmod -R 755 /var/www/html/frontend
             echo "Restarting Nginx..."
             sudo systemctl restart nginx
             echo "Deployment complete."

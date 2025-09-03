@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Verified } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import type { SelectedCourse } from "@/types/course";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { initiateRazorpayPayment } from "@/lib/razorpay";
 
 interface PricingProps {
@@ -80,6 +80,7 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug }, ref) =
   const [isFullPayment, setIsFullPayment] = useState(false);
   const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleOpenModal = (plan: { id: string; title: string; price: number; per: string }) => {
     setSelectedPlan(plan);
@@ -117,7 +118,7 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug }, ref) =
 async function calRegAmount(planAmount: number, percentage: number | string): Promise<number> {
   try {
     let numericPercentage: number;
-    console.log(percentage)
+   
     if (typeof percentage === "string") {
       numericPercentage = parseFloat(percentage.replace("%", ""));
     } else {
@@ -138,7 +139,7 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
 
     setLoading(true)
     if (!isAuthenticated) {
-      navigate("/signup", { replace: true });
+     navigate("/signup", { replace: true, state: { from: location.pathname } });
       return;
     }
 
