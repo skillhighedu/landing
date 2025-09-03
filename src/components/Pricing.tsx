@@ -143,6 +143,8 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
       return;
     }
 
+    //comment
+
     try {
       await initiateRazorpayPayment({
         courseId: selectedCourse?.id!,
