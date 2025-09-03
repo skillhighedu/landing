@@ -4,6 +4,7 @@ import React from "react";
 import Logo from "@/assets/logo.png";
 import PP from '../assets/PRIVACY_POLICY.pdf'
 import TC from '../assets/TermsandConditions.pdf'
+
 interface SocialLink {
   name: string;
   href: string;
@@ -47,7 +48,7 @@ const socialLinks: SocialLink[] = [
 const companyQuickLinks: QuickLink[] = [
 
   { name: "Contact Us", href: "/contact-us" },
-  { name: "Book a meet", href: "/book-a-meet" },
+  { name: "Book a meet",  href: "https://cal.com/skillhigh",  },
   { name: "Privacy Policy", href: "/privacy-policy" ,open:handlePP },
   { name: "Terms and Conditions", href: "/terms-and-conditions" ,open:handleTC },
 

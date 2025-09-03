@@ -112,16 +112,27 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug }, ref) =
     calculate();
   }, [selectedPlan]);
 
-  async function calRegAmount(planAmount: number, percentage: string): Promise<number> {
-    try {
-      const numericPercentage = parseFloat(percentage.replace("%", ""));
-      if (isNaN(numericPercentage)) throw new Error("Invalid percentage format");
-      return (planAmount * numericPercentage) / 100;
-    } catch (error) {
-      console.error("Error calculating registration amount:", error);
-      return 0;
+  console.log(selectedPlan)
+
+async function calRegAmount(planAmount: number, percentage: number | string): Promise<number> {
+  try {
+    let numericPercentage: number;
+    console.log(percentage)
+    if (typeof percentage === "string") {
+      numericPercentage = parseFloat(percentage.replace("%", ""));
+    } else {
+      numericPercentage = percentage;
     }
+    console.log(numericPercentage)
+
+
+    if (isNaN(numericPercentage)) throw new Error("Invalid percentage");
+    return (planAmount * numericPercentage) / 100;
+  } catch (error) {
+    console.error("Error calculating registration amount:", error);
+    return 0;
   }
+}
 
   async function handlePayment() {
 

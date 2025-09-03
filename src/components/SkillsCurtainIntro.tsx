@@ -9,7 +9,7 @@ export default function SkillsCurtainIntro({ onFinish }: { onFinish: () => void 
     const timer = setTimeout(() => {
       setShow(false);
       onFinish();
-    }, 7000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, [onFinish]);
 
