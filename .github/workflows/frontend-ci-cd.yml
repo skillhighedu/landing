@@ -11,7 +11,7 @@ jobs:
 
     steps:
       # 1. Checkout repo
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       # 2. Setup Node.js
@@ -29,32 +29,18 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      # 5. Remove old build on EC2
-      - name: Remove old build
+      # 5. Deploy to EC2
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            rm -rf /var/www/html/frontend/*
-
-      # 6. Upload new build
-      - name: Upload new build
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "dist/*"
-          target: "/var/www/html/frontend"
-
-      # 7. Restart Nginx
-      - name: Restart Nginx
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            sudo systemctl restart nginx 
+            echo "Removing old build..."
+            sudo rm -rf /var/www/html/frontend/*
+            echo "Copying new build..."
+            sudo rsync -a ./dist/ /var/www/html/frontend/
+            echo "Restarting Nginx..."
+            sudo systemctl restart nginx
+            echo "Deployment complete."
