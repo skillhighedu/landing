@@ -207,7 +207,7 @@ export default function Navbar() {
     {/* Navigation */}
     <nav className="pt-8 flex flex-col items-end gap-6 text-lg leading-relaxed text-white">
       <Link to="/" onClick={() => setDrawerOpen(false)}>Home</Link>
-      <Link to="/courses" onClick={() => setDrawerOpen(false)}>Courses</Link>
+      <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>Courses</Link>
     </nav>
 
     {/* Conditional Button */}
