@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
-
+import { useAuthStore } from "@/store/authStore";
 interface HeaderSectionProps {
   title?: string;
   showBack?: boolean;
@@ -11,13 +11,13 @@ interface HeaderSectionProps {
 export default function HeaderSection({
   title,
   showBack = true,
-  isUser = false,
 }: HeaderSectionProps) {
   const navigate = useNavigate();
+   const {isAuthenticated} = useAuthStore()
 
   const handleBack = () => {
-    if (isUser) {
-      navigate("/all-courses"); // safe redirect for user pages
+    if (isAuthenticated) {
+      navigate("/all-courses"); 
     } else {
       navigate(-1);
     }
