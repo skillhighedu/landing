@@ -9,34 +9,33 @@ const GoogleCallback = () => {
   const [searchParams] = useSearchParams();
  const from = location.state?.from || "/";
   useEffect(() => {
-    const handleCallback = async () => {
-      try {
-        const code = searchParams.get('code');
-        
-        if (!code) {
-          navigate('/signup');
-          return;
-        }
+  const handleCallback = async () => {
+    try {
+      const code = searchParams.get("code");
 
-         await googleCallBack(code)
- 
-     navigate(from, {
-          replace: true,
-          state: {
-            scrollTo: "pricing",
-            openPayment: location.state?.openPayment,
-          },
-        });
-        
-
-      } catch (error) {
-        console.error('OAuth callback error:', error);
-        navigate('/signup');
+      if (!code) {
+        navigate("/signup");
+        return;
       }
-    };
 
-    handleCallback();
-  }, [searchParams, navigate]);
+      await googleCallBack(code);
+
+      navigate(from, {
+        replace: true,
+        state: {
+          scrollTo: "pricing",
+          openPayment: location.state?.openPayment,
+        },
+      });
+    } catch (error) {
+      console.error("OAuth callback error:", error);
+      navigate("/signup");
+    }
+  };
+
+  handleCallback();
+}, [searchParams, navigate, from, location]);
+
 
   return (
     <div className="flex items-center justify-center min-h-screen">
