@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Trees from "@/assets/images/water.jpg";
-import { Calendar } from 'lucide-react';
+import { Calendar, MessageCircleQuestion } from 'lucide-react';
 import BookingMeet from '../BookingModal';
+import CustomButton from '../Button';
 
 const POPUP_INTERVAL_MINUTES = 10; // Show popup every 10 minutes
 const POPUP_LAST_CLOSED_KEY = 'popupLastClosedTime';
@@ -57,7 +58,7 @@ const Popup = () => {
                 alt="Career guidance background"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center p-6 sm:p-8">
+              <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/20 to-transparent flex items-center p-6 sm:p-8">
                 <div className="text-white max-w-md">
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2">Let's Connect</h2>
                   <p className="text-sm sm:text-base">
@@ -68,23 +69,31 @@ const Popup = () => {
             </div>
 
             {/* Right Section - CTA */}
-            <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-center items-center text-center relative overflow-y-auto">
-              <button
-                onClick={handleClose}
-                className="absolute top-3 right-3 text-white hover:text-gray-400 text-xl sm:text-2xl transition"
-                aria-label="Close popup"
-              >
-                ✕
-              </button>
+           {/* Right Section - CTA */}
+<div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-center items-center text-center relative overflow-y-auto">
+  <button
+    onClick={handleClose}
+    className="absolute top-3 right-3 text-white hover:text-gray-400 text-xl sm:text-2xl transition cursor-pointer"
+    aria-label="Close popup"
+  >
+    ✕
+  </button>
 
-              <h3 className="text-2xl sm:text-3xl text-primary mb-4 font-bold">
-                Book a Free Career Session
-              </h3>
-              <p className="text-white mb-6 text-base sm:text-lg max-w-md">
-                Have questions about your career? Let’s clear them together!
-              </p>
-              <BookingMeet title="Book Now" icon={<Calendar />} />
-            </div>
+  <h3 className="text-2xl sm:text-3xl text-primary mb-4 font-bold">
+    Book a Free Career Session
+  </h3>
+  <p className="text-white mb-6 text-base sm:text-lg max-w-md">
+    Have questions about your career? Let’s clear them together!
+  </p>
+
+  {/* Buttons */}
+  <div className="flex flex-col sm:flex-col gap-4">
+    <BookingMeet title="Book Now" icon={<Calendar />} />
+    or
+   <CustomButton title='Contact Us' icon={<MessageCircleQuestion></MessageCircleQuestion>}/>
+  </div>
+</div>
+
           </motion.div>
         </motion.div>
       )}

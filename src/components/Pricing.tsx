@@ -57,17 +57,27 @@ const Modal = ({
   if (!isOpen) return null;
 
    return (
-    <div
-      className="fixed inset-0 bg-black/70 flex justify-center items-center z-50"
-      onClick={onClose}
+   <div
+  className="fixed inset-0 flex justify-center items-center z-50 "
+  onClick={onClose}
+>
+  <div
+    className="bg-neutral-900 rounded-3xl p-6 max-w-md w-full relative" // <-- relative for absolute positioning
+    onClick={(e) => e.stopPropagation()}
+  >
+    {/* Close button */}
+    <button
+      onClick={onClose} // or handleClose
+      className="absolute top-3 right-3 text-white hover:text-gray-400 text-xl sm:text-2xl transition cursor-pointer"
+      aria-label="Close popup"
     >
-      <div
-        className="bg-neutral-900 rounded-3xl p-6 max-w-md w-full"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {children}
-      </div>
-    </div>
+      ✕
+    </button>
+
+    {children}
+  </div>
+</div>
+
   );
 };
 

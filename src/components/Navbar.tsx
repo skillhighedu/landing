@@ -91,7 +91,7 @@ export default function Navbar() {
                 onClick={() => setCoursesOpen((prev) => !prev)}
                 className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
               >
-                Courses
+               Programs
               </button>
 
               <AnimatePresence>
@@ -207,7 +207,7 @@ export default function Navbar() {
     {/* Navigation */}
     <nav className="pt-8 flex flex-col items-end gap-6 text-lg leading-relaxed text-white">
       <Link to="/" onClick={() => setDrawerOpen(false)}>Home</Link>
-      <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>Courses</Link>
+      <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>Programs</Link>
     </nav>
 
     {/* Conditional Button */}

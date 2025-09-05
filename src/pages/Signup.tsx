@@ -33,7 +33,7 @@ export default function Signup() {
   const location = useLocation();
 
   const from = location.state?.from || "/profile";
-
+  console.log(from)
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

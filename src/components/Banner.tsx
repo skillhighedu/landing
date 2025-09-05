@@ -60,7 +60,7 @@ export default function CountdownBanner({ targetDate }: CountdownProps) {
      ) : (
        <div className=" max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <p className="text-sm sm:text-base font-medium tracking-tight">
-          Book a free consultation with us to learn how we can help you achieve your goals!
+          Book a Meet with us to learn how we can help you achieve your goals!
         </p>
        <div>
    

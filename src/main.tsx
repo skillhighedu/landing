@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
@@ -8,7 +8,7 @@ import { SmoothScrollProvider } from './layouts/SmoothScrollProvider.tsx'
 import { Toaster } from "sonner";
 
 createRoot(document.getElementById('root')!).render(
-   <StrictMode>
+ 
     <BrowserRouter>
       <SmoothScrollProvider>
         <Toaster
@@ -24,6 +24,6 @@ createRoot(document.getElementById('root')!).render(
         <App />
       </SmoothScrollProvider>
     </BrowserRouter>
-  </StrictMode>
+
 )
 
