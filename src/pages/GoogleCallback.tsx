@@ -7,7 +7,8 @@ const GoogleCallback = () => {
   const navigate = useNavigate();
   const location = useLocation()
   const [searchParams] = useSearchParams();
- const from = location.state?.from || "/";
+   const from = searchParams.get("redirect") || "/";
+
   useEffect(() => {
   const handleCallback = async () => {
     try {

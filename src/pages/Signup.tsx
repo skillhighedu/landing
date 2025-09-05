@@ -54,7 +54,7 @@ export default function Signup() {
     try {
       if (isSignup) {
         await createAccount(form.name, form.email, form.password);
-        setIsOtpSent(true); // show OTP form after signup
+        setIsOtpSent(true); 
       } else {
         await login(form.email, form.password);
         navigate(from, {
@@ -271,7 +271,8 @@ export default function Signup() {
                 </form>
 
                 <div className="my-4">
-                  <GoogleLoginButton />
+             <GoogleLoginButton redirectUrl={from || "/"} />
+
                 </div>
 
                 <p className="text-sm text-center text-neutral-300 mt-6">
