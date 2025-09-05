@@ -4,12 +4,14 @@ import Trees from "@/assets/images/water.jpg";
 import { Calendar, MessageCircleQuestion } from 'lucide-react';
 import BookingMeet from '../BookingModal';
 import CustomButton from '../Button';
+import { useNavigate } from 'react-router-dom';
 
 const POPUP_INTERVAL_MINUTES = 10; // Show popup every 10 minutes
 const POPUP_LAST_CLOSED_KEY = 'popupLastClosedTime';
 
 const Popup = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const navigate = useNavigate()
 
   const checkPopup = () => {
     const lastClosed = localStorage.getItem(POPUP_LAST_CLOSED_KEY);
@@ -34,6 +36,11 @@ const Popup = () => {
     setOpen(false);
     localStorage.setItem(POPUP_LAST_CLOSED_KEY, Date.now().toString());
   };
+
+  const handleContactUs = () => {
+    handleClose()
+    navigate("/contact-us")
+  }
 
   return (
     <AnimatePresence>
@@ -90,7 +97,7 @@ const Popup = () => {
   <div className="flex flex-col sm:flex-col gap-4">
     <BookingMeet title="Book Now" icon={<Calendar />} />
     or
-   <CustomButton title='Contact Us' icon={<MessageCircleQuestion></MessageCircleQuestion>}/>
+  <CustomButton title='Contact Us' onClick={()=>handleContactUs()} icon={<MessageCircleQuestion></MessageCircleQuestion>}/>
   </div>
 </div>
 
