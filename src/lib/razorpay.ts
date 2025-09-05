@@ -29,9 +29,9 @@ export async function initiateRazorpayPayment({
     courseId,
     priceId,
     isFullPayment,
-  
+
   });
-  
+
 
 
   return new Promise<void>((resolve, reject) => {
@@ -57,14 +57,15 @@ export async function initiateRazorpayPayment({
 
           resolve(); // success
         } catch (error) {
+          console.log(error)
           reject(error); // verification failed
         }
       },
 
       prefill: {
-        name:  "",
-        email:  "",
-        contact:  "",
+        name: "",
+        email: "",
+        contact: "",
       },
       theme: { color: "#3399cc" },
     };

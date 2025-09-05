@@ -11,8 +11,10 @@ import type { SelectedCourse } from "@/types/course";
 import { useNavigate,useLocation } from "react-router-dom";
 import { initiateRazorpayPayment } from "@/lib/razorpay";
 
+
 interface PricingProps {
   courseSlug: string;
+  autoOpenPayment?: { courseId: string; priceId:string;isFullPayment: boolean };
 }
 
 // Custom modal component
@@ -50,11 +52,11 @@ const Modal = ({
     document.body.style.right = '';
     document.body.style.overflow = '';
   };
-}, [open])
+}, [isOpen])
 
   if (!isOpen) return null;
 
-  return (
+   return (
     <div
       className="fixed inset-0 bg-black/70 flex justify-center items-center z-50"
       onClick={onClose}
@@ -69,7 +71,7 @@ const Modal = ({
   );
 };
 
-const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug }, ref) => {
+const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug,autoOpenPayment }, ref) => {
   const [selectedPlan, setSelectedPlan] = useState<{ id: string; title: string; price: number; per: string } | null>(null);
   const [selectedAmount, setSelectedAmount] = useState<{ id: string; title: string; price: number } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -95,6 +97,31 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug }, ref) =
     setRegistrationAmount(null);
   };
 
+useEffect(() => {
+  if (!autoOpenPayment) return;
+
+  // Capture data first, then clear from history so refresh won't retrigger
+  const pendingPayment = autoOpenPayment;
+  const nextState: any = { ...(location.state || {}) };
+  if (nextState.openPayment) {
+    delete nextState.openPayment;
+    navigate(location.pathname, { replace: true, state: nextState });
+  }
+
+  (async () => {
+    try {
+      await initiateRazorpayPayment({
+        courseId: pendingPayment.courseId,
+        priceId: pendingPayment.priceId,
+        isFullPayment: pendingPayment.isFullPayment,
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  })();
+}, [autoOpenPayment]);
+
+
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await fetchSelectedCourse(courseSlug ?? "");
@@ -113,7 +140,6 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug }, ref) =
     calculate();
   }, [selectedPlan]);
 
-  console.log(selectedPlan)
 
 async function calRegAmount(planAmount: number, percentage: number | string): Promise<number> {
   try {
@@ -124,7 +150,7 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
     } else {
       numericPercentage = percentage;
     }
-    console.log(numericPercentage)
+    
 
 
     if (isNaN(numericPercentage)) throw new Error("Invalid percentage");
@@ -136,14 +162,27 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
 }
 
   async function handlePayment() {
-
+ 
     setLoading(true)
-    if (!isAuthenticated) {
-     navigate("/signup", { replace: true, state: { from: location.pathname } });
-      return;
-    }
+    
+     if (!isAuthenticated) {
+  navigate("/signup", {
+    replace: true,
+    state: {
+      from: location.pathname,
+      scrollTo: "pricing",
+      openPayment: {
+        courseId: selectedCourse?.id!,
+        priceId: selectedAmount?.id!,
+        isFullPayment,
+      },
+    },
+  });
+  return;
+}
 
-    //comment
+  
+  
 
     try {
       await initiateRazorpayPayment({
@@ -222,7 +261,7 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
         </div>
 
         {/* Custom Modal */}
-        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <h2 className="text-2xl  mb-2">Confirm Your Registration</h2>
           <p className="text-neutral-400 mb-6">
             Secure your spot in the <strong>{selectedPlan?.title}</strong> plan.
@@ -270,6 +309,7 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
             <CustomButton title={loading ? "Please wait..":"Finish Payment"} icon="" className="w-full font-normal" onClick={handlePayment} />
           )}
         </Modal>
+
       </div>
     </section>
   );

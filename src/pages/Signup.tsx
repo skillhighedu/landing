@@ -7,7 +7,7 @@ import BgImage from "@/assets/images/warrior.jpg";
 import CustomButton from "@/components/Button";
 import GoogleLoginButton from "@/components/ui/GoogleLoginButton";
 import OtpInput from "@/components/OtpBox";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { login, createAccount } from "@/services/student-service";
 import { ForgetPassword } from "@/services/auth-service";
 import { toast } from "sonner";
@@ -33,6 +33,7 @@ export default function Signup() {
   const location = useLocation();
 
   const from = location.state?.from || "/profile";
+  console.log
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -56,7 +57,13 @@ export default function Signup() {
         setIsOtpSent(true); // show OTP form after signup
       } else {
         await login(form.email, form.password);
-        navigate(from, { replace: true });
+        navigate(from, {
+          replace: true,
+          state: {
+            scrollTo: "pricing",
+            openPayment: location.state?.openPayment,
+          },
+        });
       }
     } catch (err: any) {
       console.error(err);
@@ -111,7 +118,7 @@ export default function Signup() {
           password={form.password}
           isForgetPassword={false} // true if resetting
           resetEmail={resetForm.email}
-          
+
           onClose={() => {
             setIsOtpSent(false);   // close OTP form
             setIsResetting(false); // back to login form

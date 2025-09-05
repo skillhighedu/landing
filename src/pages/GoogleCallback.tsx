@@ -14,14 +14,19 @@ const GoogleCallback = () => {
         const code = searchParams.get('code');
         
         if (!code) {
-          console.error('No authorization code received');
-          navigate('/login');
+          navigate('/signup');
           return;
         }
 
          await googleCallBack(code)
  
-          navigate(from, { replace: true });
+ navigate(from, {
+          replace: true,
+          state: {
+            scrollTo: "pricing",
+            openPayment: location.state?.openPayment,
+          },
+        });
         
 
       } catch (error) {

@@ -18,6 +18,7 @@ interface OtpInputProps {
   isForgetPassword?: boolean;
   resetEmail?: string;
   onClose?: () => void; // <--- add this
+  onSuccess?: () => void; // <-- add this
 }
 
 export default function OtpInput({
