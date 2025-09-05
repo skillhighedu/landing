@@ -1,42 +1,40 @@
-
-import { googleCallBack } from '@/services/auth-service';
-import { useEffect } from 'react';
-import { useNavigate, useSearchParams,useLocation } from 'react-router-dom';
+import { googleCallBack } from "@/services/auth-service";
+import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const GoogleCallback = () => {
   const navigate = useNavigate();
-  const location = useLocation()
   const [searchParams] = useSearchParams();
-   const from = searchParams.get("redirect") || "/";
+
+  // get redirect query param (default to "/")
+  const from = searchParams.get("redirect") || "/";
 
   useEffect(() => {
-  const handleCallback = async () => {
-    try {
-      const code = searchParams.get("code");
+    const handleCallback = async () => {
+      try {
+        const code = searchParams.get("code");
 
-      if (!code) {
-        navigate("/signup");
-        return;
+        if (!code) {
+          navigate("/signup", { replace: true });
+          return;
+        }
+
+        // Call backend to exchange code for token
+        await googleCallBack(code);
+
+        // Navigate to redirect destination
+        navigate(from, {
+          replace: true,
+        state: { scrollTo: "pricing"},
+        });
+      } catch (error) {
+        console.error("OAuth callback error:", error);
+        navigate("/signup", { replace: true });
       }
+    };
 
-      await googleCallBack(code);
-
-      navigate(from, {
-        replace: true,
-        state: {
-          scrollTo: "pricing",
-          openPayment: location.state?.openPayment,
-        },
-      });
-    } catch (error) {
-      console.error("OAuth callback error:", error);
-      navigate("/signup");
-    }
-  };
-
-  handleCallback();
-}, [searchParams, navigate, from, location]);
-
+    handleCallback();
+  }, [searchParams, navigate, from]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
