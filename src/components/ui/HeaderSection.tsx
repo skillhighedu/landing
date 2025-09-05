@@ -17,7 +17,7 @@ export default function HeaderSection({
 
   const handleBack = () => {
     if (isAuthenticated) {
-      navigate("/all-courses"); 
+      navigate("/"); 
     } else {
       navigate(-1);
     }

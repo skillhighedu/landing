@@ -7,7 +7,7 @@ const GoogleCallback = () => {
   const navigate = useNavigate();
   const location = useLocation()
   const [searchParams] = useSearchParams();
- const from = location.state?.from || "/profile";
+ const from = location.state?.from || "/";
   useEffect(() => {
     const handleCallback = async () => {
       try {
@@ -20,7 +20,7 @@ const GoogleCallback = () => {
 
          await googleCallBack(code)
  
- navigate(from, {
+     navigate(from, {
           replace: true,
           state: {
             scrollTo: "pricing",
