@@ -23,11 +23,12 @@ export default function Layout() {
 
           <Navbar />
          <Banner
-  targetDate="2025-08-07T23:59:59"
+targetDate="2025-09-28T23:59:59"
+
   showEvent={true}
   event={{
     title: "Full Stack Hackathon – 28th Sept",
-    description: "Join developers worldwide and showcase your skills!",
+    description: "Hurry up! Limited slots available – Join developers worldwide and showcase your skills!",
     buttonText: "Register Now",
     formLink: "https://forms.gle/67AUHKzS4yUXdzBT6",
   }}

@@ -48,17 +48,27 @@ export default function CountdownBanner({
     <div className="w-full mt-18 bg-gradient-to-r from-primary via-primary/40 to-primary/80 text-white shadow-lg py-4 px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
       <div className="relative max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-        {/* --- CASE 1: Event Announcement --- */}
+        
+        {/* --- Event / Discount Content --- */}
         {showEvent && event ? (
           <>
-            <div>
+            <div className="flex flex-col gap-2">
               <h3 className="text-lg sm:text-xl tracking-tight">
                 🚀 {event.title}
               </h3>
-              <p className="text-sm sm:text-base text-white/90 mt-1">
+              <p className="text-sm sm:text-sm font-bricolage text-white/90">
                 {event.description}
               </p>
             </div>
+
+            {/* Timer for Event */}
+            <div className="flex items-center gap-3 text-xs sm:text-sm font-bricolage text-white tracking-wide bg-black/30 backdrop-blur-md rounded-lg px-4 py-2 shadow-md">
+              <TimeBox label="Days" value={timeLeft.days} />
+              <TimeBox label="Hours" value={timeLeft.hours} />
+              <TimeBox label="Minutes" value={timeLeft.minutes} />
+              <TimeBox label="Seconds" value={timeLeft.seconds} />
+            </div>
+
             <a
               href={event.formLink}
               target="_blank"
@@ -69,7 +79,7 @@ export default function CountdownBanner({
             </a>
           </>
         ) : (
-          /* --- CASE 2: Discount Countdown --- */
+          /* --- Discount Countdown --- */
           <>
             {timeLeft.days !== "00" ? (
               <>
@@ -88,17 +98,11 @@ export default function CountdownBanner({
                 </div>
               </>
             ) : (
-              <>
-                <p className="text-sm sm:text-base font-medium tracking-tight">
-                  Book a Meet with us to learn how we can help you achieve your
-                  goals!
-                </p>
-                <BookingModal
-                  title="Book a meet"
-                  icon=""
-                  className="bg-white text-black font-semibold px-4 py-2 rounded-lg shadow-md hover:scale-105 transition-transform"
-                />
-              </>
+              <BookingModal
+                title="Book a meet"
+                icon=""
+                className="bg-white text-black font-semibold px-4 py-2 rounded-lg shadow-md hover:scale-105 transition-transform"
+              />
             )}
           </>
         )}
@@ -106,6 +110,7 @@ export default function CountdownBanner({
     </div>
   );
 }
+
 
 function TimeBox({ label, value }: { label: string; value: string }) {
   return (
