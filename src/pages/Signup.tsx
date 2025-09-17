@@ -23,7 +23,7 @@ export default function Signup() {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [form, setForm] = useState<SignupForm>({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
-
+  // const [isLastUsed,setIsLastUser] = useState(false) 
   const [isResetting, setIsResetting] = useState(false);
   const [resetForm, setResetForm] = useState({ email: "" });
   const [resetLoading, setResetLoading] = useState(false);
@@ -33,7 +33,7 @@ export default function Signup() {
   const location = useLocation();
 
   const from = location.state?.from || "/profile";
-  console.log(from)
+ 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

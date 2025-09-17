@@ -11,6 +11,7 @@ const config: Config = {
         bricolage: ['Bricolage Grotesque', 'sans-serif'],
         pixel: ['PixelDigivolve', 'sans-serif'],
       },
+      
     },
   },
   darkMode: 'class', // if you use dark mode

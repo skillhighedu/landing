@@ -22,7 +22,17 @@ export default function Layout() {
         <div >
 
           <Navbar />
-         <Banner targetDate="2025-08-08T23:59:59" />
+         <Banner
+  targetDate="2025-08-07T23:59:59"
+  showEvent={true}
+  event={{
+    title: "Full Stack Hackathon – 28th Sept",
+    description: "Join developers worldwide and showcase your skills!",
+    buttonText: "Register Now",
+    formLink: "https://forms.gle/67AUHKzS4yUXdzBT6",
+  }}
+/>
+
         </div>
       </header>
 

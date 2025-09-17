@@ -10,6 +10,7 @@ export interface FormattedPricing {
   id: string;
   name: string;
   price: number;
+  type: string;
   validity: number | null;
   slotBookingPercentage: number | null;
   features: FormattedFeature[];

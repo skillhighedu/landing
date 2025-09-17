@@ -36,31 +36,32 @@ export default function RecognizedBy() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <Header title="We are recognized by" subline="       Recognized. Certified. Trusted." />
-         
+          <Header
+            title="We are recognized by"
+            subline="Recognized. Certified. Trusted."
+          />
         </motion.div>
 
         {/* Logos grid */}
         <div
           ref={ref}
-          className="flex flex-wrap justify-center items-center gap-10"
+          className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 place-items-center"
         >
           {recognizedPartners.map((partner, i) => (
-         <motion.div
-  key={partner.id}
-  className=" bg-[#1a1a1a] rounded-xl p-4 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] relative z-10"
-  custom={i}
-  initial="hidden"
-  animate={controls}
-  variants={logoVariant}
->
-  <img
-    src={partner.logo}
-    alt={partner.alt}
-    className="h-24 sm:h-44 object-contain mx-auto transition duration-300 ease-in-out "
-  />
-</motion.div>
-
+            <motion.div
+              key={partner.id}
+              className="bg-[#1a1a1a] rounded-xl p-4 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] relative z-10 flex items-center justify-center w-40 h-24 sm:w-56 sm:h-32"
+              custom={i}
+              initial="hidden"
+              animate={controls}
+              variants={logoVariant}
+            >
+              <img
+                src={partner.logo}
+                alt={partner.alt}
+                 className="object-contain max-w-[120%] max-h-[120%]"
+              />
+            </motion.div>
           ))}
         </div>
       </div>

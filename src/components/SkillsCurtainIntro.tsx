@@ -77,7 +77,6 @@ export default function SkillsCurtainIntro({ onFinish }: { onFinish: () => void 
                 icon=""
                 onClick={() => {
                   setShow(false);
-                  onFinish();
                 }}
                 className="hover:scale-105 transition-transform duration-300   bg-neutral-900 hover:bg-neutral-900 font-normal"
               />

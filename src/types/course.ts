@@ -28,6 +28,7 @@ export interface SelectedCourse {
   courseName: string;
   courseDescription: string;
   courseThumbnail: string;
+  pricingType:string;
   modules: CourseModule[];
 }
 

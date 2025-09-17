@@ -10,6 +10,7 @@ import { useAuthStore } from "@/store/authStore";
 import type { SelectedCourse } from "@/types/course";
 import { useNavigate,useLocation } from "react-router-dom";
 import { initiateRazorpayPayment } from "@/lib/razorpay";
+import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 
 
 interface PricingProps {
@@ -29,27 +30,12 @@ const Modal = ({
 }) => {
  useEffect(() => {
   if (isOpen) {
-    const scrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
     document.body.style.overflow = 'hidden';
   } else {
-    const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
     document.body.style.overflow = '';
-    window.scrollTo(0, scrollY); // Restore scroll position
   }
 
   return () => {
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
     document.body.style.overflow = '';
   };
 }, [isOpen])
@@ -58,11 +44,11 @@ const Modal = ({
 
    return (
    <div
-  className="fixed inset-0 flex justify-center items-center z-50 "
+  className="fixed inset-0 flex justify-center items-center z-50 bg-black/60 backdrop-blur-sm"
   onClick={onClose}
 >
   <div
-    className="bg-neutral-900 rounded-3xl p-6 max-w-md w-full relative" // <-- relative for absolute positioning
+    className="bg-neutral-900 rounded-3xl p-6 max-w-md w-full relative" 
     onClick={(e) => e.stopPropagation()}
   >
     {/* Close button */}
@@ -88,12 +74,14 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug,autoOpenP
   const { pricings } = usePricingsStore();
   const [loading,setLoading] = useState(false)
   const [registrationAmount, setRegistrationAmount] = useState<number | null>(null);
-  const [selectedCourse, setSelectedCourse] = useState<SelectedCourse | null>(null);
+  const [selectedCourses, setSelectedCourse] = useState<SelectedCourse | null>(null);
   const [isFullPayment, setIsFullPayment] = useState(false);
   const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
-
+  const {selectedCourse} = useSelectedCourseStore()
+  console.log(selectedCourse)
+  console.log(pricings)
   const handleOpenModal = (plan: { id: string; title: string; price: number; per: string }) => {
     setSelectedPlan(plan);
     setIsModalOpen(true);
@@ -182,7 +170,7 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
       from: location.pathname,
       scrollTo: "pricing",
       openPayment: {
-        courseId: selectedCourse?.id!,
+        courseId: selectedCourses?.id!,
         priceId: selectedAmount?.id!,
         isFullPayment,
       },
@@ -196,7 +184,7 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
 
     try {
       await initiateRazorpayPayment({
-        courseId: selectedCourse?.id!,
+        courseId: selectedCourses?.id!,
         priceId: selectedAmount?.id!,
         isFullPayment,
       });
@@ -212,6 +200,7 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
     }
   }
 
+  const filteredPricings = pricings.filter((p)=> p.type === selectedCourse?.pricingType)
   return (
     <section ref={ref} className="w-full py-20 px-4 text-white">
       <div className="max-w-7xl mx-auto">
@@ -222,53 +211,54 @@ async function calRegAmount(planAmount: number, percentage: number | string): Pr
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {pricings.map((option, idx) => (
-            <motion.div
-              key={option.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.2 }}
-              className={`flex flex-col justify-between rounded-3xl p-8 transition-all duration-300
-                ${idx === 1
-                  ? "bg-gradient-to-br from-green-900 via-primary to-green-950 border-green-500"
-                  : "bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950 border-neutral-800 shadow-xl hover:shadow-2xl"
-                }`}
-            >
-              <div className="mb-6">
-                <h3 className="text-2xl font-bold mb-2">{option.name}</h3>
-                <p className="text-4xl font-extrabold text-white mb-4">₹{option.price.toLocaleString()}</p>
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+  {filteredPricings.map((option, idx) => (
+    <motion.div
+      key={option.id}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: idx * 0.2 }}
+      className={`flex flex-col justify-between rounded-3xl p-8 transition-all duration-300
+        ${idx === 1
+          ? "bg-gradient-to-br from-green-900 via-primary to-green-950 border-green-500"
+          : "bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950 border-neutral-800 shadow-xl hover:shadow-2xl"
+        }`}
+    >
+      <div className="mb-6">
+        <h3 className="text-2xl font-bold mb-2">{option.name}</h3>
+        <p className="text-4xl font-extrabold text-white mb-4">₹{option.price.toLocaleString()}</p>
 
-                <ul className="space-y-4">
-                  {option.features.map((feature, i) => (
-                    <li key={i} className="flex gap-3 items-start">
-                      <Verified className=" w-5 h-5 mt-1 flex-shrink-0" />
-                      <div className="text-sm font-bricolage leading-snug">
-                        <h2 className="text-md">{feature.name}</h2>
-                        <p className="text-neutral-300 mt-1">{feature.description}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+        <ul className="space-y-4">
+          {option.features.map((feature, i) => (
+            <li key={i} className="flex gap-3 items-start">
+              <Verified className="w-5 h-5 mt-1 flex-shrink-0" />
+              <div className="text-sm font-bricolage leading-snug">
+                <h2 className="text-md">{feature.name}</h2>
+                <p className="text-neutral-300 mt-1">{feature.description}</p>
               </div>
-
-              <CustomButton
-                title="Get Started"
-                icon=""
-                onClick={() =>
-                  handleOpenModal({
-                    id: option.id,
-                    title: option.name,
-                    price: option.price,
-                    per: option.slotBookingPercentage
-                      ? `${option.slotBookingPercentage}%`
-                      : `${option.slotBookingPercentage}`,
-                  })
-                }
-              />
-            </motion.div>
+            </li>
           ))}
-        </div>
+        </ul>
+      </div>
+
+      <CustomButton
+        title="Get Started"
+        icon=""
+        onClick={() =>
+          handleOpenModal({
+            id: option.id,
+            title: option.name,
+            price: option.price,
+            per: option.slotBookingPercentage
+              ? `${option.slotBookingPercentage}%`
+              : `${option.slotBookingPercentage}`,
+          })
+        }
+      />
+    </motion.div>
+  ))}
+</div>
+
 
         {/* Custom Modal */}
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
