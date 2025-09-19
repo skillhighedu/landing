@@ -5,6 +5,7 @@ import { DotPatternLinearGradient } from './ui/DotBg';
 import { fetchSelectedCourse } from "@/services/course-service";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 import HeaderSection from "./ui/HeaderSection";
+import Balancer from "react-wrap-balancer"; 
 
 interface AboutCourseProps {
   courseSlug: string;
@@ -12,7 +13,7 @@ interface AboutCourseProps {
 }
 
 export default function AboutCourse({ courseSlug, scrollToPricing }: AboutCourseProps) {
-  const { setSelectedCourse, selectedCourse } = useSelectedCourseStore();
+  const { setSelectedCourse, selectedCourse,setSelectedCourseTools } = useSelectedCourseStore();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,6 +21,12 @@ export default function AboutCourse({ courseSlug, scrollToPricing }: AboutCourse
       setIsLoading(true);
       const res = await fetchSelectedCourse(courseSlug ?? "");
       setSelectedCourse(res);
+      setSelectedCourseTools(
+        (res?.tools ?? []).map((tool: any) => ({
+          toolName: tool.toolName,
+          toolImage: tool.toolImage,
+        }))
+      );
       setIsLoading(false);
     };
     fetchCourse();
@@ -80,15 +87,16 @@ export default function AboutCourse({ courseSlug, scrollToPricing }: AboutCourse
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-neutral-900 rounded-3xl p-8 shadow-lg flex flex-col justify-between space-y-6"
+          className="bg-neutral-900 rounded-3xl p-8 shadow-lg flex flex-col justify-between space-y-6 max-w-3xl mx-auto"
         >
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
-            {selectedCourse.courseName}
+            <Balancer>{selectedCourse.courseName}</Balancer>
           </h1>
 
-          <p className="text-gray-300 text-base sm:text-lg leading-relaxed font-bricolage">
-            {selectedCourse.courseDescription}
-          </p>
+         <p className="text-gray-300 text-base sm:text-lg leading-relaxed font-bricolage text-left">
+  <Balancer>{selectedCourse.courseDescription}</Balancer>
+</p>
+
 
           <div>
             <CustomButton

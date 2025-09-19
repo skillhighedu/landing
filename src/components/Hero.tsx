@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import CustomButton from "@/components/Button";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookingModal from "./BookingModal";
+import Balancer from "react-wrap-balancer"; 
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -84,11 +85,13 @@ export default function Hero() {
           initial="hidden"
           animate="show"
         >
-          {words.map((word, i) => (
-            <motion.span key={i} variants={wordAnim} className="inline-block mr-2">
-              {word}&nbsp;
-            </motion.span>
-          ))}
+          <Balancer>
+            {words.map((word, i) => (
+              <motion.span key={i} variants={wordAnim} className="inline-block mr-2">
+                {word}&nbsp;
+              </motion.span>
+            ))}
+          </Balancer>
         </motion.h1>
 
         {/* Subheading */}
@@ -98,7 +101,9 @@ export default function Hero() {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.42, 0, 0.58, 1] }}
         >
-          Skillhigh helps you grow what matters -  real skills. Not theory. Not fluff. Just outcomes.
+          <Balancer>
+            Skillhigh helps you grow what matters – real skills. Not theory. Not fluff. Just outcomes.
+          </Balancer>
         </motion.p>
 
         {/* Buttons */}
@@ -130,7 +135,7 @@ export default function Hero() {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.42, 0, 0.58, 1] }}
         >
-          Join 10,000+ learners leveling up with Skillhigh.
+          <Balancer>Join 10,000+ learners leveling up with Skillhigh.</Balancer>
         </motion.p>
       </div>
 

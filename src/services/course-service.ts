@@ -17,6 +17,7 @@ export const fetchCourses = async (): Promise<Department[]> => {
 export const fetchSelectedCourse = async (courseSlug:string): Promise<SelectedCourse> => {
   try {
     const response = await apiClient.get<ApiResponse<SelectedCourse>>(`/courses/course/${courseSlug}`);
+    console.log(response)
     return response.data.additional!;
   } catch (error) {
     throw handleApiError(error);
@@ -27,6 +28,7 @@ export const fetchSelectedCourse = async (courseSlug:string): Promise<SelectedCo
 export const fetchFormattedCourses = async (): Promise<FormatedCourses[]> => {
   try {
     const response = await apiClient.get<ApiResponse<FormatedCourses[]>>(`/courses/formatted-courses`);
+    console.log(response.data.additional)
     return response.data.additional!;
   } catch (error) {
     throw handleApiError(error);

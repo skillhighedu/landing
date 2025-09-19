@@ -16,7 +16,7 @@ export default function Header({ title, subline, icon }: HeaderProps) {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       {/* Title */}
-      <h2 className="text-[#16C47F] text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
+      <h2 className="text-[#16C47F] text-2xl sm:text-3xl md:text-4xl  leading-tight tracking-tight drop-shadow-lg">
         {title}
       </h2>
 

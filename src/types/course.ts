@@ -4,6 +4,7 @@ export interface Course {
   slug: string;
   courseDescription: string;
   courseThumbnail: string;
+ 
 }
 
 export interface Department {
@@ -30,6 +31,7 @@ export interface SelectedCourse {
   courseThumbnail: string;
   pricingType:string;
   modules: CourseModule[];
+  tools: SelectedCourseTools[];
 }
 
 
@@ -42,3 +44,11 @@ export interface FormatedCourses {
   departmentName: string;
 
 }
+
+
+export interface SelectedCourseTool {
+  toolName: string;
+  toolImage: string;
+}
+
+export type SelectedCourseTools = SelectedCourseTool[];

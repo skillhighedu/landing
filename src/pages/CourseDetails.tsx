@@ -8,12 +8,18 @@ import FAQ from "@/components/FAQ"
 import Pricing from "@/components/Pricing"
 import Form from "@/components/Form"
 import { certificates } from "@/data/certifcates";
-
+import Tools from "@/components/Tools";
+import { useSelectedCourseStore } from "@/store/useSelectedCourse";
+import MentorsCall from "@/components/MentorsCall";
 export default function CourseDetails() {
   const { courseSlug } = useParams<{ courseSlug: string }>();
   const location = useLocation();
   const pricingRef = useRef<HTMLDivElement>(null);
-
+  const { selectedCourseTools } = useSelectedCourseStore();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -31,9 +37,11 @@ export default function CourseDetails() {
         courseSlug={courseSlug ?? ""}
       />
       <CurriculumAccordion />
+      <Tools courseTools={selectedCourseTools ?? []} />
       <Pricing ref={pricingRef} courseSlug={courseSlug ?? ""}  autoOpenPayment={location.state?.openPayment} />
       <Certificates certificates={certificates} />
       <FAQ />
+      <MentorsCall/>
       <Form backgroundImage={Trees} />
     </>
   );

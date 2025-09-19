@@ -14,7 +14,7 @@ export default function BookCallCard({
   title,
   description,
   buttonText,
-  bgColor = "bg-gradient-to-br from-neutral-800 to-neutral-900",
+  bgColor = "bg-gradient-to-br from-neutral-800 to-neutral-900 ",
 }: BookCallCardProps) {
   return (
     <motion.div
@@ -33,7 +33,7 @@ export default function BookCallCard({
           <h2 className="text-2xl sm:text-3xl text-white mb-3 tracking-tight">
             {title}
           </h2>
-          <p className="text-gray-300 text-sm sm:text-base font-sans leading-relaxed max-w-md">
+          <p className="text-gray-300 text-sm sm:text-base font-sans font-bricolage leading-relaxed max-w-md">
             {description}
           </p>
         </div>

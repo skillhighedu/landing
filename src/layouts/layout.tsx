@@ -16,23 +16,23 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col  ">
-      
+
       <header className="w-full ">
         {/* Centered Navbar Container */}
         <div >
 
           <Navbar />
-         <Banner
-targetDate="2025-09-28T23:59:59"
+          <Banner
+            targetDate="2025-09-28T23:59:59"
 
-  showEvent={true}
-  event={{
-    title: "Full Stack Hackathon – 28th Sept",
-    description: "Hurry up! Limited slots available – Join developers worldwide and showcase your skills!",
-    buttonText: "Register Now",
-    formLink: "https://forms.gle/67AUHKzS4yUXdzBT6",
-  }}
-/>
+            showEvent={true}
+            event={{
+              title: "Full Stack Hackathon – 28th Sept",
+              description: "Hurry up! Limited slots available – Join developers worldwide and showcase your skills!",
+              buttonText: "Register Now",
+              formLink: "https://forms.gle/67AUHKzS4yUXdzBT6",
+            }}
+          />
 
         </div>
       </header>

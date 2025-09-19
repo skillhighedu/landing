@@ -45,7 +45,7 @@ export default function RecognizedBy() {
         {/* Logos grid */}
         <div
           ref={ref}
-          className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 place-items-center"
+          className="mt-10 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-8 place-items-center"
         >
           {recognizedPartners.map((partner, i) => (
             <motion.div
@@ -59,7 +59,7 @@ export default function RecognizedBy() {
               <img
                 src={partner.logo}
                 alt={partner.alt}
-                 className="object-contain max-w-[120%] max-h-[120%]"
+                 className="object-contain "
               />
             </motion.div>
           ))}

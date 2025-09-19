@@ -1,15 +1,10 @@
+"use client";
+
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { motion } from "framer-motion";
 import CustomButton from "./Button";
 import MessageIcon from "./icons/Message";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useState } from "react";
 import type { ContactUsDetails } from "@/types";
 import { sendContactDetails } from "@/services/contactus-service";
@@ -20,11 +15,11 @@ type FormProps = {
 };
 
 export default function Form({ backgroundImage }: FormProps) {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
-  const [category, setcategory] =
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [category, setCategory] =
     useState<ContactUsDetails["category"]>("NEWSTUDENT");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,7 +28,7 @@ export default function Form({ backgroundImage }: FormProps) {
     e.preventDefault();
 
     if (!name || !email || !phone || !category) {
-      toast.error("All fields are required")
+      toast.error("All fields are required");
       return;
     }
 
@@ -49,15 +44,16 @@ export default function Form({ backgroundImage }: FormProps) {
       };
 
       const response = await sendContactDetails(payload);
-  
-      toast.success(response)
+
+      toast.success(response);
       setName("");
       setEmail("");
       setPhone("");
       setMessage("");
-      setcategory("NEWSTUDENT");
+      setCategory("NEWSTUDENT");
     } catch (err) {
       console.error("Error submitting form", err);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -65,7 +61,7 @@ export default function Form({ backgroundImage }: FormProps) {
 
   return (
     <div
-      className="relative bg-cover bg-center h-[60vh] sm:h-[70vh] lg:h-[80vh] overflow-x-hidden"
+      className="relative bg-cover bg-center h-[60vh] sm:h-[70vh] lg:h-[80vh] overflow-hidden"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-0" />
@@ -81,10 +77,7 @@ export default function Form({ backgroundImage }: FormProps) {
           Join Now
         </motion.h1>
 
-        <form
-          className="w-full max-w-md space-y-4"
-          onSubmit={handleFormSubmit}
-        >
+        <form className="w-full max-w-md space-y-4" onSubmit={handleFormSubmit}>
           <Input
             placeholder="Name"
             value={name}
@@ -106,20 +99,17 @@ export default function Form({ backgroundImage }: FormProps) {
             className="bg-white/90 text-black placeholder:text-gray-700 py-4"
           />
 
-          <Select
+          {/* Simplified Select */}
+          <select
             value={category}
-            onValueChange={(value) =>
-              setcategory(value as ContactUsDetails["category"])
+            onChange={(e) =>
+              setCategory(e.target.value as ContactUsDetails["category"])
             }
+            className="w-full bg-white/90 text-black placeholder:text-gray-700 py-2 px-3 rounded-md border border-gray-300  focus:outline-none"
           >
-            <SelectTrigger className="bg-white/90 text-black placeholder:text-gray-700 py-4 w-full">
-              <SelectValue placeholder="Select Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="EXISTING">Existing</SelectItem>
-              <SelectItem value="NEWSTUDENT">New Student</SelectItem>
-            </SelectContent>
-          </Select>
+            <option value="NEWSTUDENT">New Student</option>
+            <option value="EXISTING">Existing</option>
+          </select>
 
           <Textarea
             placeholder="Message"

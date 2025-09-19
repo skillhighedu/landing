@@ -5,7 +5,7 @@ import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 
 export default function CurriculumAccordion() {
   const { selectedCourse } = useSelectedCourseStore()
-  console.log(selectedCourse)
+
   return (
     <section className=" bg-pixel-crt mx-auto flex flex-col items-center justify-center p-6 bg-neutral-950  w-full">
       
