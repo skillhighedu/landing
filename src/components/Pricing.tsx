@@ -217,53 +217,82 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug, autoOpen
 
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {filteredPricings && filteredPricings.map((option, idx) => (
-            <motion.div
-              key={option.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.2 }}
-              className={`flex flex-col justify-between rounded-3xl p-8 transition-all duration-300
-        ${idx === 1
-                  ? "bg-gradient-to-br from-green-900 via-primary to-green-950 border-green-500"
-                  : "bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950 border-neutral-800 shadow-xl hover:shadow-2xl"
-                }`}
-            >
-              <div className="mb-6">
-                <h3 className="text-2xl font-bold mb-2">{option.name}</h3>
-                <p className="text-4xl font-extrabold text-white mb-4">₹{option.price.toLocaleString()}</p>
+       <div
+  className={`grid gap-10 ${
+    filteredPricings?.length === 1
+      ? "grid-cols-1 md:grid-cols-1 place-items-center" 
+      : "grid-cols-1 md:grid-cols-3"
+  }`}
+>
+  {filteredPricings &&
+    filteredPricings.map((option, idx) => (
+      <motion.div
+        key={option.id}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: idx * 0.2 }}
+        className={`flex flex-col justify-between rounded-3xl p-8 transition-all duration-300
+          ${
+            idx === 1
+              ? "bg-gradient-to-br from-green-900 via-primary to-green-950 border-green-500"
+              : "bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950 border-neutral-800 shadow-xl hover:shadow-2xl"
+          }`}
+      >
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold mb-2">{option.name}</h3>
+          <p className="text-4xl font-extrabold text-white mb-4 flex items-center gap-3">
+  ₹{option.price.toLocaleString()}
+  
+  {/* GST Badge */}
+<motion.span
+  initial={{ scale: 0, rotate: -10, opacity: 0 }}
+  whileInView={{ scale: 1, rotate: 0, opacity: 1 }}
+  viewport={{ once: true, amount: 0.6 }} // triggers when 60% visible, runs only once
+  transition={{ duration: 0.4, delay: 0.3 }}
+  className="px-3 py-1 text-sm font-bricolage rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-neutral-900 shadow-md"
+>
+  Incl GST
+</motion.span>
 
-                <ul className="space-y-4">
-                  {option.features.map((feature, i) => (
-                    <li key={i} className="flex gap-3 items-start">
-                      <Verified className="w-5 h-5 mt-1 flex-shrink-0" />
-                      <div className="text-sm font-bricolage leading-snug">
-                        <h2 className="text-md">{feature.name}</h2>
-                        <p className="text-neutral-300 mt-1">{feature.description}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+</p>
 
-              <CustomButton
-                title="Get Started"
-                icon=""
-                onClick={() =>
-                  handleOpenModal({
-                    id: option.id,
-                    title: option.name,
-                    price: option.price,
-                    per: option.slotBookingPercentage
-                      ? `${option.slotBookingPercentage}%`
-                      : `${option.slotBookingPercentage}`,
-                  })
-                }
-              />
-            </motion.div>
-          ))}
+
+          <ul className="space-y-4">
+            {option.features.map((feature, i) => (
+              <li key={i} className="flex gap-3 items-start">
+                <Verified className="w-5 h-5 mt-1 flex-shrink-0" />
+                <div className="text-sm font-bricolage leading-snug">
+                  <h2 className="text-md">{feature.name}</h2>
+                  <p className="text-neutral-300 mt-1">{feature.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        <CustomButton
+          title="Get Started"
+          className={` ${
+    filteredPricings?.length === 1
+      ? "sm:w-50" 
+      : "w-full"
+  }`}
+          icon=""
+          onClick={() =>
+            handleOpenModal({
+              id: option.id,
+              title: option.name,
+              price: option.price,
+              per: option.slotBookingPercentage
+                ? `${option.slotBookingPercentage}%`
+                : `${option.slotBookingPercentage}`,
+            })
+          }
+        />
+      </motion.div>
+    ))}
+</div>
+
 
 
         {/* Custom Modal */}

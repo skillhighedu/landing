@@ -64,7 +64,7 @@ export default function Tools({ courseTools }: { courseTools: SelectedCourseTool
                                 src={tool.toolImage}
                                 alt={`${tool.toolName} logo`}
                                 loading="lazy"
-                                className="max-h-20 sm:max-h-24 md:max-h-28 w-auto object-contain"
+                                className="max-h-20 sm:max-h-24 md:max-h-32 w-auto object-contain"
                                 onError={(e) => (e.currentTarget.src = "/fallback-logo.jpg")}
                               />
                             </CardContent>

@@ -59,14 +59,13 @@ export default function AllCourses() {
               className="bg-neutral-800/50 backdrop-blur-md rounded-2xl shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] overflow-hidden transition-transform duration-300 hover:scale-105"
             >
               <div className="relative">
-               <img
-  src={course.courseThumbnail}
-  alt={course.courseName}
-  className="w-full object-contain max-h-[400px] mx-auto"
-  loading="lazy"
-  onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")}
-/>
-
+                <img
+                  src={course.courseThumbnail}
+                  alt={course.courseName}
+                  className="w-full h-64 object-cover"
+                  loading="lazy"
+                  onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
               <div className="p-6 flex flex-col gap-4">

@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import Logo from "@/assets/logo.png";
 
@@ -8,6 +7,79 @@ import CustomButton from "./Button";
 import MenuIcon from "./icons/Menu";
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import { useAuthStore } from "@/store/authStore";
+
+// Sidebar component
+function DepartmentsSidebar({
+  departments,
+  selectedIndex,
+  onSelect,
+}: {
+  departments: { uuid: string; departmentName: string }[];
+  selectedIndex: number;
+  onSelect: (index: number) => void;
+}) {
+  return (
+    <div className="w-40 flex flex-col gap-1">
+      {departments.map((department, index) => (
+        <button
+          key={department.uuid}
+          onClick={() => onSelect(index)}
+          className={`text-left text-sm py-1.5 px-2 rounded transition-colors cursor-pointer ${
+            selectedIndex === index
+              ? "bg-blue-50 text-primary"
+              : "text-white hover:bg-primary/80"
+          }`}
+        >
+          {department.departmentName}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// Courses grid
+function CoursesGrid({
+  courses,
+  deptName,
+  onSelectCourse,
+  selectedDeptIndex,
+}: {
+  courses: {
+    uuid: string;
+    slug: string;
+    courseName: string;
+    courseThumbnail: string;
+  }[];
+  deptName: string;
+  onSelectCourse: (slug: string) => void;
+  selectedDeptIndex: number;
+}) {
+  return (
+    <div className="flex-1" key={selectedDeptIndex}>
+      <h3 className="text-sm text-primary mb-4">{deptName} Courses</h3>
+      <div className="grid grid-cols-2 gap-3">
+        {courses.map((course) => (
+          <button
+            key={course.uuid}
+            onClick={() => onSelectCourse(course.slug)}
+            className="h-30 rounded-lg overflow-hidden transition-colors text-left cursor-pointer"
+            style={{
+              backgroundImage: `url(${course.courseThumbnail})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="h-full bg-black/50 flex items-end p-2">
+              <h4 className="text-white text-sm font-medium">
+                {course.courseName}
+              </h4>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
@@ -77,7 +149,7 @@ export default function Navbar() {
             <img src={Logo} alt="SkillHigh" className="h-12" />
           </Link>
 
-          <nav className="flex items-center gap-6 font-medium">
+          <nav className="flex items-center gap-6 font-medium relative">
             <Link
               to="/"
               className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
@@ -86,73 +158,41 @@ export default function Navbar() {
             </Link>
 
             {/* Courses Dropdown */}
-            <div className="relative">
+            <div className="relative" ref={coursesDropdownRef}>
               <button
                 onClick={() => setCoursesOpen((prev) => !prev)}
                 className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
               >
-               Programs
+                Programs
               </button>
 
-              <AnimatePresence>
-                {isCoursesOpen && (
-                  <motion.div
-                    ref={coursesDropdownRef}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    id="courses-dropdown"
-                    className="absolute left-0 top-full mt-3 bg-neutral-800 border border-neutral-700 shadow-lg rounded-lg w-[630px] p-4"
-                  >
-                    <div className="flex gap-4">
-                      {/* Departments Sidebar */}
-                      <div className="w-40 flex flex-col gap-1">
-                        {departments.map((department, index) => (
-                          <button
-                            key={department.uuid}
-                            onClick={() => setSelectedDeptIndex(index)}
-                            className={`text-left text-sm py-1.5 px-2 rounded transition-colors cursor-pointer ${
-                              selectedDeptIndex === index
-                                ? "bg-blue-50 text-primary"
-                                : "text-white hover:bg-primary"
-                            }`}
-                          >
-                            {department.departmentName}
-                          </button>
-                        ))}
-                      </div>
+              {isCoursesOpen && (
+                <div className="absolute left-0 top-full mt-3 bg-neutral-800 border border-neutral-700 shadow-lg rounded-lg w-[630px] p-4">
+                  <div className="flex gap-4">
+                    <DepartmentsSidebar
+                      departments={departments}
+                      selectedIndex={selectedDeptIndex}
+                      onSelect={setSelectedDeptIndex}
+                    />
 
-                      {/* Courses Grid */}
-                      <div className="flex-1">
-                        <h3 className="text-sm text-primary mb-4">
-                          {departments[selectedDeptIndex]?.departmentName} Courses
-                        </h3>
-                        <div className="grid grid-cols-2 gap-3">
-                          {departments[selectedDeptIndex]?.courses.map((course) => (
-                            <button
-                              key={course.uuid}
-                              onClick={() => handleSelectedCourse(course.slug)}
-                              className="h-30 rounded-lg overflow-hidden transition-colors text-left cursor-pointer"
-                              style={{
-                                backgroundImage: `url(${course.courseThumbnail})`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                              }}
-                            >
-                              <div className="h-full bg-black/50 flex items-end p-2">
-                                <h4 className="text-white text-sm font-medium">
-                                  {course.courseName}
-                                </h4>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <CoursesGrid
+                      selectedDeptIndex={selectedDeptIndex}
+                      deptName={
+                        departments[selectedDeptIndex]?.departmentName ?? ""
+                      }
+                      courses={
+                        (departments[selectedDeptIndex]?.courses ?? []).map(course => ({
+                          uuid: course.uuid ?? "",
+                          slug: course.slug,
+                          courseName: course.courseName,
+                          courseThumbnail: course.courseThumbnail,
+                        }))
+                      }
+                      onSelectCourse={handleSelectedCourse}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </nav>
 
@@ -176,70 +216,57 @@ export default function Navbar() {
             aria-label={isDrawerOpen ? "Close Menu" : "Open Menu"}
             className="text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 p-1 rounded"
           >
-            {isDrawerOpen ? <X size={24} className="text-red-500" /> : <MenuIcon />}
+            {isDrawerOpen ? (
+              <X size={24} className="text-red-500" />
+            ) : (
+              <MenuIcon />
+            )}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      <AnimatePresence>
-        {isDrawerOpen && (
-         <motion.aside
-  initial={{ x: "100%" }}
-  animate={{ x: 0 }}
-  exit={{ x: "100%" }}
-  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-  role="dialog"
-  aria-modal="true"
-  className="fixed inset-0 z-50 flex justify-end px-4 py-6 sm:px-6 sm:py-10 bg-black/50 backdrop-blur-sm"
->
-  <div className="relative h-full w-full max-w-sm sm:max-w-md bg-neutral-800 rounded-2xl shadow-xl px-6 py-10 flex flex-col justify-between">
-    
-    {/* Close button */}
-    <button
-      onClick={() => setDrawerOpen(false)}
-      aria-label="Close menu"
-      className="absolute top-4 right-4 text-white hover:text-red-400 transition-colors"
-    >
-      <X className="w-6 h-6" />
-    </button>
-
-    {/* Navigation */}
-    <nav className="pt-8 flex flex-col items-end gap-6 text-lg leading-relaxed text-white">
-      <Link to="/" onClick={() => setDrawerOpen(false)}>Home</Link>
-      <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>Programs</Link>
-    </nav>
-
-    {/* Conditional Button */}
-    <div>
-      {isAuthenticated ? (
-        <CustomButton
-          title="Profile"
-          icon=""
-          onClick={() => navigate("/profile")}
-          className="w-full"
-        />
-      ) : (
-        <CustomButton
-          title="Start Your Journey"
-   
-          onClick={() => navigate("/signup")}
-          className="w-full"
-        />
-      )}
-    </div>
-  </div>
-</motion.aside>
-
-        )}
-      </AnimatePresence>
-
-      {/* Drawer Overlay */}
       {isDrawerOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/40"
-          onClick={() => setDrawerOpen(false)}
-        />
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm">
+          <div className="relative h-full w-full max-w-sm sm:max-w-md bg-neutral-800 rounded-l-2xl shadow-xl px-6 py-10 flex flex-col justify-between">
+            {/* Close button */}
+            <button
+              onClick={() => setDrawerOpen(false)}
+              aria-label="Close menu"
+              className="absolute top-4 right-4 text-white hover:text-red-400 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Navigation */}
+            <nav className="pt-8 flex flex-col items-end gap-6 text-lg leading-relaxed text-white">
+              <Link to="/" onClick={() => setDrawerOpen(false)}>
+                Home
+              </Link>
+              <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>
+                Programs
+              </Link>
+            </nav>
+
+            {/* Conditional Button */}
+            <div>
+              {isAuthenticated ? (
+                <CustomButton
+                  title="Profile"
+                  icon=""
+                  onClick={() => navigate("/profile")}
+                  className="w-full"
+                />
+              ) : (
+                <CustomButton
+                  title="Start Your Journey"
+                  onClick={() => navigate("/signup")}
+                  className="w-full"
+                />
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
