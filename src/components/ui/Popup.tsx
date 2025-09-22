@@ -6,7 +6,7 @@ import BookingMeet from '../BookingModal';
 import CustomButton from '../Button';
 import { useNavigate } from 'react-router-dom';
 
-const POPUP_INTERVAL_MINUTES = 10; // Show popup every 10 minutes
+const POPUP_INTERVAL_MINUTES = 15; // Show popup every 15 minutes
 const POPUP_LAST_CLOSED_KEY = 'popupLastClosedTime';
 
 const Popup = () => {

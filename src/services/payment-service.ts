@@ -15,6 +15,7 @@ export const createPayment = async ({courseId,priceId,isFullPayment}: CreatePaym
 
     return response.data.additional!
   } catch (error) {
+    console.log("hey error",error)
     throw handleApiError(error);
   }
 };

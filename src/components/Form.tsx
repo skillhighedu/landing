@@ -105,7 +105,7 @@ export default function Form({ backgroundImage }: FormProps) {
             onChange={(e) =>
               setCategory(e.target.value as ContactUsDetails["category"])
             }
-            className="w-full bg-white/90 text-black placeholder:text-gray-700 py-2 px-3 rounded-md border border-gray-300  focus:outline-none"
+            className="w-full font-bricolage bg-white/90 text-black placeholder:text-gray-700 py-2 px-3 rounded-md border border-gray-300  focus:outline-none"
           >
             <option value="NEWSTUDENT">New Student</option>
             <option value="EXISTING">Existing</option>
@@ -116,7 +116,7 @@ export default function Form({ backgroundImage }: FormProps) {
             rows={4}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="bg-white/90 text-black placeholder:text-gray-700 py-4"
+            className="bg-white/90 text-black font-bricolage placeholder:text-gray-700 py-4"
           />
 
           <CustomButton
