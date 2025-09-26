@@ -29,6 +29,7 @@ export interface CourseInfo {
     preRegistrationAmount:number,
     remainingAmount:number,
     isFullPayment:boolean,
+    discountAmount:number,
     createdAt:string
   }
 }

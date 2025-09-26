@@ -204,7 +204,7 @@ export default function Profile() {
                     course.purchaseDetails && (
                       <>
                         <p className="text-sm text-gray-400 mb-2">
-                          Remaining: ₹{course.purchaseDetails.remainingAmount}
+                          Remaining: ₹{course.purchaseDetails.discountAmount ? course.purchaseDetails.discountAmount : course.purchaseDetails.remainingAmount}
                         </p>
                         <CustomButton
                           title="Pay Remaining"
