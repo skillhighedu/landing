@@ -49,7 +49,7 @@ export default function CountdownBanner({
     <div className="w-full mt-18 bg-gradient-to-r from-primary via-primary/40 to-primary/80 text-white shadow-lg py-4 px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
       <div className="relative max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-        
+
         {/* --- Event / Discount Content --- */}
         {showEvent && event ? (
           <>
@@ -99,16 +99,17 @@ export default function CountdownBanner({
                 </div>
               </>
             ) : (
-              <div className="flex items-center justify-between gap-4 w-full max-w-7xl mx-auto">
-  <span className=" text-white">
+             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full max-w-7xl mx-auto px-4">
+  <span className="text-white text-base sm:text-lg text-center sm:text-left w-full sm:w-auto">
     Book a free consultation from our experts
   </span>
   <BookingModal
     title="Book a meet"
     icon=""
-      className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal"
+    className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal"
   />
 </div>
+
 
             )}
           </>
