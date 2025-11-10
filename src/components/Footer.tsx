@@ -114,7 +114,7 @@ export default function Footer() {
           </a>
         </p>
         <p className="max-w-xs text-justify font-bricolage">
-          <span className="font-medium">Address:</span> P.No: 169, First Floor, Woods Enclave, Woods Central Park, Suchitra Sub Post, Pet Basheerabad, Telangana, India.
+          <span className="font-medium">Address:</span> CFJ4+PPQ Cluster_malkajgiri 55 Block-04, Teachers Colony, Greenlands, Begumpet, Hyderabad, Telangana 500016
         </p>
       </div>
 
