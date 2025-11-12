@@ -67,7 +67,7 @@ export default function Form({ backgroundImage }: FormProps) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-0" />
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
-        <motion.h1
+        <motion.h2
           className="text-white text-4xl sm:text-7xl font-bold mb-8 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export default function Form({ backgroundImage }: FormProps) {
           viewport={{ once: true }}
         >
           Join Now
-        </motion.h1>
+        </motion.h2>
 
         <form className="w-full max-w-md space-y-4" onSubmit={handleFormSubmit}>
           <Input

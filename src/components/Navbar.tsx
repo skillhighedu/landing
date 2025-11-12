@@ -149,7 +149,7 @@ export default function Navbar() {
             <img src={Logo} alt="SkillHigh" className="h-12" />
           </Link>
 
-          <nav className="flex items-center gap-6 font-medium relative">
+          <nav className="flex items-center gap-6 justify-center font-medium relative">
             <Link
               to="/"
               className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
@@ -165,6 +165,7 @@ export default function Navbar() {
               >
                 Programs
               </button>
+             
 
               {isCoursesOpen && (
                 <div className="absolute left-0 top-full mt-3 bg-neutral-800 border border-neutral-700 shadow-lg rounded-lg w-[630px] p-4">
@@ -194,6 +195,13 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+
+           <Link
+              to="/blogs"
+              className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
+            >
+              Blogs
+            </Link>
           </nav>
 
           {/* CTA */}

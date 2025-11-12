@@ -19,6 +19,8 @@ const ContactUs = lazy(() => import("./components/Contact"));
 const Profile = lazy(() => import("./components/Profile"));
 const Signup = lazy(() => import("./pages/Signup"));
 import GoogleCallback from "./pages/GoogleCallback";
+import Blog from "./components/blogs/Blog";
+import BlogDetail from "./components/blogs/BlogDetail";
 // Optional: Create a minimal fallback
 const Fallback = () => <Spinner/>
 
@@ -42,6 +44,9 @@ function App() {
             <Route path="/all-courses" element={<AllCourses />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/outsource" element={<OutSource />} />
+            <Route path="/blogs" element={<Blog />} />
+             <Route path="/blogs/:slug" element={<BlogDetail />} />
+
             <Route path="/api/v2/auth/google/callback" element={<GoogleCallback />} />
               
             
