@@ -8,6 +8,7 @@ export interface BlogCardProps {
   readTime: string;
   description: string;
   image?: string;
+  categories?: string[];
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
@@ -17,6 +18,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   readTime,
   description,
   image,
+  categories = [],
 }) => {
   return (
     <Link
@@ -36,6 +38,18 @@ const BlogCard: React.FC<BlogCardProps> = ({
       )}
 
       <div className="p-5 space-y-3">
+        {categories.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {categories.slice(0, 3).map((cat) => (
+              <span
+                key={cat}
+                className="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary"
+              >
+                {cat}
+              </span>
+            ))}
+          </div>
+        )}
         <div className="flex items-center justify-between text-xs text-gray-500">
           <span>{date}</span>
           <span>{readTime}</span>

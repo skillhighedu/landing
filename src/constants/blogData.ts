@@ -6,7 +6,17 @@ export interface BlogPost {
   description: string;
   image?: string;
   content?: string;
+  categories?: string[];
 }
+import commit from '@/assets/images/blogs/commits.png'
+import status from '@/assets/images/blogs/status.png'
+import varible from '@/assets/images/blogs/varible.png'
+import seo from '@/assets/images/blogs/seo.png'
+import profile from '@/assets/images/blogs/profile.png'
+
+
+
+
 
 export const blogPosts: BlogPost[] = [
   {
@@ -16,8 +26,8 @@ export const blogPosts: BlogPost[] = [
     readTime: "6 min read",
     description:
       "Most developers write messy Git commits without realizing how much it hurts teamwork. Let’s see what good and bad commit messages look like — and how to write clean, useful ones.",
-    image:
-      "https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1470&auto=format&fit=crop",
+    image:commit,
+    categories: ["Git", "Collaboration", "Best Practices"],
     content: `
 When you work in a team, your **Git commit messages** become your *communication history*.  
 Good commits make your code easy to understand. Bad ones make it painful.
@@ -125,8 +135,8 @@ Good commits make your project organized, readable, and professional.
     readTime: "5 min read",
     description:
       "Good variable names make your code readable. Bad ones turn it into chaos. Here's how to name variables that explain themselves and make your code easier to maintain.",
-    image:
-      "https://images.unsplash.com/photo-1581090700227-1e37b190418e?q=80&w=1470&auto=format&fit=crop",
+    image:varible,
+    categories: ["Clean Code", "Best Practices", "JavaScript"],
     content: `
 Naming variables looks simple — until you realize it's one of the hardest habits to master in programming.
 
@@ -221,7 +231,8 @@ Write code that speaks for itself.
     description:
       "Every API response has a status code — but most developers only know 200 and 404. Here’s a breakdown of what each code actually means and when to use it.",
     image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1470&auto=format&fit=crop",
+      status,
+    categories: ["APIs", "Backend Basics", "Guides"],
     content: `
 APIs communicate using **status codes** — small numbers that explain what happened during a request.
 
@@ -311,4 +322,367 @@ When debugging APIs:
 Understanding these saves hours of guesswork and makes you a better developer.
 `,
   },
+  {
+  slug: "portfolio-vs-real-projects",
+  title: "Portfolio vs Real Projects , What Recruiters Actually Look At",
+  date: "Nov 13, 2025",
+  readTime: "7 min read",
+  categories: [ "Collaboration", "Best Practices"],
+  description:
+    "You spent weeks designing your portfolio — but does it really matter? Here’s what recruiters actually care about when they evaluate developers.",
+  image:
+    profile,
+  content: `
+Every developer eventually faces this question:
+
+**“Should I spend time polishing my portfolio, or build more real projects?”**
+
+The truth: **Recruiters don’t care how beautiful your portfolio looks.**
+They care whether your work proves you can solve *real problems.*
+
+Let's break that down.
+
+---
+
+## The Illusion of the Perfect Portfolio
+
+Everyone starts with the same plan:
+> “I’ll make a sleek portfolio with animations, dark mode, and a contact form.”
+
+But here’s the problem —
+a portfolio full of fake or tutorial projects tells recruiters nothing about your ability to **build, think, or debug.**
+
+You might impress another student.
+You won’t impress a hiring manager.
+
+---
+
+## What Recruiters Actually Check First
+
+Recruiters spend **less than 60 seconds** looking at your profile.  
+Here’s what they scan for (in order):
+
+1. **LinkedIn or Resume Summary**  
+   → They look for clarity — *what do you actually do?*
+
+2. **GitHub Activity**  
+   → Are your commits real or tutorial clones?
+
+3. **Projects**  
+   → Can they open one and instantly see your thinking?
+
+4. **Code Quality**  
+   → Variable names, folder structure, logic flow.
+
+5. **Tech Stack Consistency**  
+   → Are you mastering one ecosystem or chasing everything?
+
+A fancy portfolio animation doesn’t pass this test — *real projects do.*
+
+---
+
+## What Counts as a “Real Project”
+
+Recruiters define a “real project” as something that:
+
+- **Solves a real-world problem** (not a random CRUD app)
+- **Has users or data** — even if it's small
+- **Shows decision-making** (folder structure, API logic, naming)
+- **Runs in production** (deployed, stable, usable)
+- **Can be explained clearly** in under 30 seconds
+
+Example:
+> A lead management system you built for a small business?  
+✅ Real project.  
+> Another “To-Do App”?  
+❌ Practice project.
+
+---
+
+## How to Turn a Small Project Into a Real One
+
+You don’t need to work at a company. You just need **context**.
+
+Here’s the SkillHigh method to level up a side project:
+
+1. **Pick a real user** — a friend, startup, or local business.
+2. **Solve their actual pain point.**
+3. **Build, deploy, and iterate** based on feedback.
+4. **Write a short README** explaining decisions and challenges.
+5. **Show metrics or outcomes** (e.g., “reduced manual work by 30%”).
+
+Suddenly, your “simple project” becomes a **story of execution** — something recruiters remember.
+
+---
+
+## What a Great Portfolio Actually Looks Like
+
+Your portfolio’s job isn’t to show off — it’s to **guide a recruiter’s curiosity.**
+
+Structure it like this:
+
+1. **Intro Section** — who you are, what you build.  
+   Example: *“I’m a full-stack developer who builds real-world web apps that make workflows faster.”*
+
+2. **Featured Projects** — 2–3 max.  
+   Each with:
+   - Short description (what problem it solves)
+   - Stack used
+   - GitHub + live demo link
+
+3. **Blog or Documentation** — show your thought process.  
+   (Even one post like this one sets you apart.)
+
+4. **Simple, fast design** — recruiters don’t need animations.  
+   They need **clarity.**
+
+---
+
+## The “Fake Busy” Trap
+
+Building endless clones — Amazon, Spotify, Netflix — might *feel* like progress.  
+But you’re not showing initiative, just repetition.
+
+Recruiters can tell when your repo history looks like:
+\`\`\`
+todo-app/
+spotify-clone/
+netflix-clone/
+portfolio-v2/
+\`\`\`
+
+Instead, they look for:
+\`\`\`
+freelance-dashboard/
+client-feedback-api/
+invoice-tracker/
+ai-job-matcher/
+\`\`\`
+
+You don’t need *more* projects.  
+You need *projects that matter.*
+
+---
+
+## The Real Test: Can You Explain It?
+
+Next time you interview, and they ask:  
+> “Tell me about a project you’re proud of.”
+
+If you can explain:
+- What problem it solved
+- Why you made specific decisions
+- What you’d improve if given more time
+
+Then congratulations — you’ve already won 70% of the interview.
+
+---
+
+## TL;DR
+
+| Portfolio | Real Projects |
+|------------|----------------|
+| Focuses on aesthetics | Focuses on impact |
+| Often uses fake data | Built for real use |
+| Shows what you learned | Shows what you solved |
+| Impresses peers | Impresses recruiters |
+
+A portfolio gets attention.  
+Real projects get offers.
+
+If you want recruiters to take you seriously —  
+**build for users, not for Dribbble.**
+
+That’s what SkillHigh stands for.
+`,
+},
+{
+  slug: "ai-powered-seo-machine-learning-search-rankings",
+  title: "AI-Powered SEO: How Machine Learning Is Changing Search Rankings",
+  date: "Nov 13, 2025",
+  readTime: "8 min read",
+  description:
+    "Search engines don’t work the way they used to. Machine learning now decides what ranks, what gets ignored, and why traditional SEO tactics fail. Here's the hard truth about modern SEO.",
+  image: seo,
+  categories: ["SEO", "AI", "Machine Learning"],
+  content: `
+SEO in 2025 is not the SEO you learned from 2015 blog posts.  
+Google isn't ranking pages based on keywords or backlinks alone — **machine learning models** now make most of the decisions.
+
+If you're still doing old-school SEO, you're invisible.
+
+Let’s break down what actually matters now.
+
+---
+
+## The Old SEO Strategy is Dead
+
+People still think SEO works like this:
+
+- Add keywords  
+- Build backlinks  
+- Write long articles  
+- Pray Google likes it  
+
+That formula died the day Google launched **RankBrain**, **BERT**, **MUM**, and dozens of ML-powered ranking systems.
+
+Search engines don’t “match keywords.”  
+They **understand intent** — like a mini AI inside Google judging whether your page actually helps the user.
+
+---
+
+## How Machine Learning Actually Ranks Your Page
+
+### 1. **User Intent Detection**
+Google now predicts what the user *really* wants, not what they typed.
+
+Example:  
+Search: “best phone under 20k”  
+Google expects:
+- Comparisons  
+- Updated data  
+- Real-world tests  
+- Not affiliate garbage  
+- Not keyword-stuffed blogs  
+
+If your content doesn’t satisfy intent, you're done.
+
+---
+
+### 2. **Content Quality Scoring**
+ML models evaluate:
+- Sentence structure  
+- Expertise in writing  
+- Factual accuracy  
+- Depth of explanation  
+- Redundancy vs originality  
+
+If your article is shallow or generic, the AI dumps it.
+
+---
+
+### 3. **User Behavior Signals**
+ML monitors:
+- How fast users bounce  
+- How long they read  
+- Whether they scroll  
+- Whether they return  
+- Whether they choose another result  
+
+If users click back quickly, Google decides your page is trash — instantly.
+
+---
+
+### 4. **Semantic Understanding**
+This is where ML destroys keyword SEO.
+
+Google now understands:
+- Topic relationships  
+- Context  
+- Synonyms  
+- Subtopics within a niche  
+
+You can't “stuff keywords” anymore — Google understands the topic better than most writers.
+
+---
+
+### 5. **E-E-A-T Scoring (Experience, Expertise, Authoritativeness, Trustworthiness)**
+
+Yes, ML models are now checking:
+- Are you credible?
+- Do users trust your site?
+- Does your content show real experience?
+- Does the writer exist or are you a ghost?
+
+Generic AI-generated content collapses instantly.
+
+---
+
+## What Actually Works in 2025 SEO
+
+### 1. **Write like a practitioner, not a blogger.**
+If you're explaining SEO but you’ve never ranked anything?  
+Google knows. Users know. You're not ranking.
+
+### 2. **Build topical authority, not random articles.**
+Your site needs to go deep into a niche — not write about everything.
+
+### 3. **Focus on user satisfaction, not bots.**
+Google watches user behavior more than your meta tags.
+
+### 4. **Publish information with real-world value.**
+ML can detect:
+- Vagueness  
+- Repetition  
+- Lack of depth  
+
+Your content must *teach*, *prove*, or *solve* something.
+
+### 5. **Improve page experience brutally.**
+Slow pages get down-ranked immediately.  
+Ugly layouts? Same result.
+
+---
+
+## The Harsh Truth About AI-Generated SEO Content
+
+Everyone uses AI now.  
+Most of them dump generic garbage online hoping it ranks.
+
+Machine learning models detect:
+- Predictable sentence structures  
+- Repetitive phrasing  
+- Lack of originality  
+- Pattern-generated content  
+
+If you're generating 50 low-effort AI blogs — Google wipes them.
+
+But if you use AI to:
+- Research  
+- Outline  
+- Enhance  
+- Speed up workflow  
+
+And then add **your actual expertise**, you’ll win.
+
+AI + human insight = unstoppable  
+AI-only = trash
+
+---
+
+## Where SEO is Headed (2026 and beyond)
+
+Search engines are moving toward:
+- **Topic graphs**  
+- **Personalized rankings**  
+- **Predictive intent**  
+- **Real-time content quality scoring**  
+
+In short:  
+SEO won’t reward manipulation.  
+Only **useful**, **expert-level**, **original** content survives.
+
+---
+
+## TL;DR
+
+Modern SEO is driven by ML.  
+If you want to rank:
+
+- Forget keyword stuffing  
+- Focus on user satisfaction  
+- Build deep topical authority  
+- Write with real expertise  
+- Stop publishing generic AI content  
+- Optimize for intent, not bots
+
+Search engines are smarter than ever.  
+If your content isn’t truly valuable — the algorithm will bury you.
+
+That's the new reality.
+
+`
+}
+
+
 ];

@@ -254,6 +254,9 @@ export default function Navbar() {
               <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>
                 Programs
               </Link>
+                <Link to="/blogs" onClick={() => setDrawerOpen(false)}>
+                Blogs
+              </Link>
             </nav>
 
             {/* Conditional Button */}

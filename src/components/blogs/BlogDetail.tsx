@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import BackButton from "../ui/BackButton";
 import BlogShare from "./BlogShare";
 import { cn } from "@/lib/utils";
+import { SEO } from "@/components/Seo/SEO";
 
 type MarkdownElementProps<T extends HTMLElement = HTMLElement> = HTMLAttributes<T> & {
   node?: unknown;
@@ -180,6 +181,13 @@ export default function BlogDetail() {
   return (
     <div className="min-h-screen bg-neutral-950 text-gray-200 py-20 px-6 sm:px-10 lg:px-16">
       <article className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
+        <SEO
+          title={`${post.title} | SkillHigh Blog`}
+          description={post.description}
+          image={post.image}
+          url={`${window.location.origin}/blogs/${post.slug}`}
+          meta={[{ property: "og:type", content: "article" }]}
+        />
          {/* Back Button */}
          <BackButton to="/blogs" label="Back to all blogs" />
 
@@ -191,6 +199,18 @@ export default function BlogDetail() {
         {/* Date + Read Time */}
         <div className="flex flex-wrap items-center gap-3 text-gray-500 text-sm">
           <span>{post.date}</span>•<span>{post.readTime}</span>
+          {(post.categories ?? []).length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {(post.categories ?? []).map((cat) => (
+                <span
+                  key={cat}
+                  className="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary"
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Blog Image */}
