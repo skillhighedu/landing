@@ -21,7 +21,7 @@ export default function MyApp({ title, icon, className }: MyAppProps) {
       title={title}
       icon={icon}
       data-cal-namespace="15min"
-      data-cal-link="skillhigh/15min"
+      data-cal-link="sai-charan-pendyala-vvq1b5/15min"
       data-cal-config='{"layout":"month_view"}'
       className={className}
     />

@@ -162,6 +162,8 @@ export default function BlogDetail() {
     window.scrollTo(0, 0);
   }, []);
 
+  
+
   const post = blogPosts.find((b) => b.slug === slug);
 
   if (!post) {
