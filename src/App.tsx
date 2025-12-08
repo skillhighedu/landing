@@ -14,10 +14,13 @@ import Spinner from "@/components/ui/Spinner";
 // Lazy-loaded pages
 const Home = lazy(() => import("@/pages/Home"));
 const AllCourses = lazy(() => import("./components/AllCourses"));
-const CourseDetails = lazy(() => import("./pages/CourseDetails"));
+const CourseDetails = lazy(() => import("./components/course-dashboard/CourseDetails"));
 const ContactUs = lazy(() => import("./components/Contact"));
 const Profile = lazy(() => import("./components/Profile"));
 const Signup = lazy(() => import("./pages/Signup"));
+const CourseDashboard = lazy(() => import("./pages/CourseDashboard"));
+const QuizList = lazy(() => import("./components/course-dashboard/course-essentials/QuizList"));
+const VideoPlayer = lazy(() => import("./pages/VideoPlayer"));
 import GoogleCallback from "./pages/GoogleCallback";
 import Blog from "./components/blogs/Blog";
 import BlogDetail from "./components/blogs/BlogDetail";
@@ -46,6 +49,10 @@ function App() {
             <Route path="/outsource" element={<OutSource />} />
             <Route path="/blogs" element={<Blog />} />
              <Route path="/blogs/:slug" element={<BlogDetail />} />
+             <Route path="/profile" element={<Profile />} />
+             <Route path="/course-dashboard/:courseId" element={<CourseDashboard />} />
+             <Route path="/course-dashboard/:courseId/course-essentials" element={<QuizList />} />
+             <Route path="/course-dashboard/:courseId/video-player" element={<VideoPlayer />} />
 
             <Route path="/api/v2/auth/google/callback" element={<GoogleCallback />} />
               
@@ -64,7 +71,6 @@ function App() {
 
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<Profile />} />
             </Route>
           </Route>
         </Routes>
