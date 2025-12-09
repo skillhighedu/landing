@@ -1,21 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CustomButton from "@/components/Button";
-import { PlayCircle, Brain, Folder, GraduationCap, DollarSign } from "lucide-react";
-import type { CourseDetail } from "@/data/courseDetails";
+import { type CourseHeaderProps } from "@/types/dashboard/Course";
+import { actions } from "@/data/dashboard/Actions";
 
-interface Course {
-  id: string;
-  name: string;
-  description: string;
-  logo: string;
-  alt: string;
-}
-
-interface CourseHeaderProps {
-  course: Course;
-  details: CourseDetail;
-}
 
 export default function CourseHeader({ course, details }: CourseHeaderProps) {
   return (
@@ -39,49 +27,26 @@ export default function CourseHeader({ course, details }: CourseHeaderProps) {
         <p className="text-base text-gray-300">
           {details.totalTopicsCount || 50} Topics • Explore Below
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start flex-wrap">
-          <Link to={`/course-dashboard/${course.id}/video-player`}>
-            <CustomButton 
-              title="Start Learning" 
-              className="text-white rounded-lg cursor-pointer flex items-center gap-2"
-            >
-              <PlayCircle size={18} />
-              Start Learning
-            </CustomButton>
-          </Link>
-          <Link to={`/course-dashboard/${course.id}/course-essentials`}>
-            <CustomButton 
-              title="Take Quiz" 
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer flex items-center gap-2"
-            >
-              <Brain size={18} />
-              Take Quiz
-            </CustomButton>
-          </Link>
-          <Link to="/projects">
-            <CustomButton 
-              title="Start Projects" 
-              className="bg-purple-600 hover:bg-purple-700 text-white rounded-lg cursor-pointer flex items-center gap-2"
-            >
-              <Folder size={18} />
-              Start Projects
-            </CustomButton>
-          </Link>
-          <CustomButton 
-            title="Claim Certificates" 
-            className="bg-green-700 hover:bg-neutral-600 text-white rounded-lg cursor-pointer flex items-center gap-2"
-          >
-            <GraduationCap size={18} />
-            Claim Certificates
-          </CustomButton>
-          <CustomButton 
-            title="Bounties" 
-            className="bg-yellow-700 hover:bg-neutral-600 text-white rounded-lg cursor-pointer flex items-center gap-2"
-          >
-            <DollarSign size={18} />
-            Bounties
-          </CustomButton>
-        </div>
+      <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start flex-wrap">
+  {actions.map(({ label, icon, href, className }, index) => {
+    const Btn = (
+      <CustomButton className={className} icon={icon} title={label}>
+        {icon}
+        {label}
+      </CustomButton>
+    );
+
+    // If there's a link, wrap in <Link>
+    return href ? (
+      <Link to={href} key={index}>
+        {Btn}
+      </Link>
+    ) : (
+      <div key={index}>{Btn}</div>
+    );
+  })}
+</div>
+
       </div>
     </motion.div>
   );

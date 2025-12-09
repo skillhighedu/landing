@@ -1,19 +1,5 @@
 import { motion } from "framer-motion";
-
-interface Content {
-  id: string;
-  contentName: string;
-}
-
-interface Module {
-  id: string;
-  moduleName: string;
-  contents?: Content[];
-}
-
-interface CourseCurriculumProps {
-  modules: Module[];
-}
+import { type CourseCurriculumProps } from "@/types/dashboard/CourseCurriculum";
 
 export default function CourseCurriculum({ modules }: CourseCurriculumProps) {
   return (

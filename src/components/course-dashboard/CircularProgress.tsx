@@ -1,7 +1,4 @@
-interface CircularProgressProps {
-  value: number;
-  color: string;
-}
+import {type  CircularProgressProps } from "@/types/dashboard/Progress";
 
 export default function CircularProgress({ value, color }: CircularProgressProps) {
   const radius = 56;

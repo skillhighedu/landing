@@ -1,11 +1,8 @@
 import { motion } from "framer-motion";
-import type { CourseProgress } from "@/data/courseProgress";
+
 import CircularProgress from "./CircularProgress";
 
-interface ProgressSectionProps {
-  progress: CourseProgress;
-}
-
+import {type ProgressSectionProps} from "@/types/dashboard/Progress"
 export default function ProgressSection({ progress }: ProgressSectionProps) {
   const topicsPercentage = Math.round((progress.topicsCompleted / progress.totalTopics) * 100);
 
