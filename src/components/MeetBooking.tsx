@@ -1,7 +1,7 @@
 import { CalendarDays } from "lucide-react";
 import { easeOut, motion } from "framer-motion";
 
-import BookingModal from "./BookingModal";
+import BookingModel from "@/components/common/BookingModal"
 
 interface BookCallCardProps {
   title: string;
@@ -40,7 +40,7 @@ export default function BookCallCard({
 
         {/* Right Content */}
         <div className="flex justify-center lg:justify-end">
-          <BookingModal
+          <BookingModel
             title={buttonText}
             icon={<CalendarDays />}
             className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal"

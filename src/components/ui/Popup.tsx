@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Trees from "@/assets/images/water.jpg";
 import { Calendar, MessageCircleQuestion } from 'lucide-react';
-import BookingMeet from '../BookingModal';
+import BookingMeet from '@/components/common/BookingModal';
 import CustomButton from '@/components/common/Button';
 import { useNavigate } from 'react-router-dom';
 

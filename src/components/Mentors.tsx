@@ -12,11 +12,13 @@ import {
 } from "@/components/ui/carousel";
 import { type Mentors } from "@/types";
 import { Link } from "react-router-dom";
-import Header from "./Header";
+
 import CustomButton from "@/components/common/Button";;
 import { motion } from "framer-motion";
-import BlockQuote from "./ui/BlockQuote";
+
 import { fetchMentors } from "@/services/mentors-service";
+import Header from "./common/Header";
+import BlockQuote from "./common/BlockQuote";
 
 export function Mentors() {
   const plugin = React.useRef(

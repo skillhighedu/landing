@@ -2,7 +2,8 @@ import { recognizedPartners } from "@/data/recognized";
 import { motion, useAnimation, easeOut } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import Header from "./Header";
+import Header from "@/components/common/Header";
+
 
 export default function RecognizedBy() {
   const controls = useAnimation();

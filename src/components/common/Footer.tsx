@@ -1,7 +1,7 @@
 
 import Logo from "@/assets/logo.png";
-import PP from "../assets/PRIVACY_POLICY.pdf";
-import TC from "../assets/TermsandConditions.pdf";
+import PP from "@/assets/PRIVACY_POLICY.pdf";
+import TC from "@/assets/TermsandConditions.pdf";
 import { Linkedin, Instagram, Youtube } from "lucide-react";
 const socialLinks = [
   {

@@ -1,4 +1,4 @@
-import { GridPatternDashed } from "./ui/DashedStroke"
+import { GridPatternDashed } from "@/components/ui/DashedStroke"
 import { motion } from "framer-motion"
 import React from "react"
 import Autoplay from "embla-carousel-autoplay"
@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/carousel"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import type { SelectedCourseTools } from "@/types/course"
-import Header from "./Header"
-import BlockQuote from "./ui/BlockQuote"
+import BlockQuote from "@/components/common/BlockQuote"
+import Header from "@/components/common/Header"
+
 
 export default function Tools({ courseTools }: { courseTools: SelectedCourseTools }) {
   const plugin = React.useRef(

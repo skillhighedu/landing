@@ -1,4 +1,5 @@
-import Header from "./Header";
+import Header from "./common/Header";
+
 import { DotPatternLinearGradient } from "./ui/DotBg";
 import { motion } from "framer-motion";
 import { useState } from "react";

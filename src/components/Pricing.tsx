@@ -1,4 +1,4 @@
-import Header from "./Header";
+
 import { motion } from "framer-motion";
 import { forwardRef, useEffect, useState } from "react";
 import CustomButton from "@/components/common/Button";;
@@ -12,6 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { initiateRazorpayPayment } from "@/lib/razorpay";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 import { PricingTypes } from "@/constants";
+import Header from "./common/Header";
 
 
 interface PricingProps {

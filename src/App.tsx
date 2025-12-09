@@ -15,7 +15,7 @@ import Spinner from "@/components/ui/Spinner";
 const Home = lazy(() => import("@/pages/landing/Home"));
 const AllCourses = lazy(() => import("@/components/AllCourses"));
 const CourseDetails = lazy(() => import("@/components/course-dashboard/CourseDetails"));
-const ContactUs = lazy(() => import("@/components/Contact"));
+const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
 const Profile = lazy(() => import("@/components/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
 const CourseDashboard = lazy(() => import("@/pages/dashboard/CourseDashboard"));

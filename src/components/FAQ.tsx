@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import Header from './Header';
+import Header from "./common/Header";
+
 import QuestinIcon from './icons/QuestionIcon'; import { QuestinIcon2 } from './icons/QuestionIcon';
 import { useFaqStore } from '@/store/useFaqs';
 import type { FAQ } from '@/types/faq';

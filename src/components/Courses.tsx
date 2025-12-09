@@ -12,10 +12,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Header from "./common/Header";
 
-import Header from "./Header";
 import CustomButton from "@/components/common/Button";;
-import BlockQuote from "./ui/BlockQuote";
+import BlockQuote from "./common/BlockQuote";
 import { Search } from "lucide-react";
 
 export function CoursesCarousel() {

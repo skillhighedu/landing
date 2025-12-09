@@ -1,6 +1,6 @@
-import Banner from "@/components/Banner";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import Banner from "@/components/common/Banner";
+import Footer from "@/components/common/Footer";
+import Navbar from "@/components/common/Navbar";
 import { Outlet } from "react-router-dom";
 import { useFetchDepartments } from "@/hooks/useFetchDepartments";
 import { useFetchFaqs } from "@/hooks/useFetchFaqs";

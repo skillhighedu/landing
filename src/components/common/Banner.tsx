@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BookingModal from "./BookingModal";
+import BookingModal from "@/components/common/BookingModal";
 
 type CountdownProps = {
   targetDate?: string; // Format: '2025-08-07T23:59:59'

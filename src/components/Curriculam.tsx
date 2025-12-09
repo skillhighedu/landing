@@ -1,6 +1,7 @@
 import CurriculumSection from "./CurriculamSection";
 
-import Header from "./Header";
+import Header from "./common/Header";
+
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 
 export default function CurriculumAccordion() {

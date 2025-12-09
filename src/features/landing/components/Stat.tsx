@@ -1,6 +1,6 @@
 
-import { Counter } from "./ui/Counter"
-import { GridPatternDashed } from "./ui/DashedStroke"
+import { Counter } from "@/components/ui/Counter"
+import { GridPatternDashed } from "@/components/ui/DashedStroke"
 
 const stats = [
   { label: 'Learners', value: 5, suffix: 'K+', color: 'text-red-400' },

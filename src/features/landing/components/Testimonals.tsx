@@ -1,11 +1,12 @@
 
 
-import Header from "./Header"
+import Header from "@/components/common/Header"
 
-import { MarqueeDemoVertical } from "./ui/marquee"
+import { MarqueeDemoVertical } from "@/components/ui/marquee"
 import { Link } from "react-router-dom"
 import CustomButton from "@/components/common/Button";
-import BlockQuote from "./ui/BlockQuote"
+import BlockQuote from "@/components/common/BlockQuote";
+
 export default function Testimonials() {
 
 
