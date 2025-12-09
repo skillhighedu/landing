@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/carousel";
 
 import Header from "./Header";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import BlockQuote from "./ui/BlockQuote";
 import { Search } from "lucide-react";
 

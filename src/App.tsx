@@ -8,27 +8,30 @@ import ProtectedRoute from "@/routes/ProtectedRoute";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 import PublicRoute from "@/routes/PublicRoute";
-import OutSource from "./pages/OutSource";
+import OutSource from "@/pages/landing/OutSource";
 import Spinner from "@/components/ui/Spinner";
 
 // Lazy-loaded pages
-const Home = lazy(() => import("@/pages/Home"));
-const AllCourses = lazy(() => import("./components/AllCourses"));
-const CourseDetails = lazy(() => import("./components/course-dashboard/CourseDetails"));
-const ContactUs = lazy(() => import("./components/Contact"));
-const Profile = lazy(() => import("./components/Profile"));
-const Signup = lazy(() => import("./pages/Signup"));
-const CourseDashboard = lazy(() => import("./pages/CourseDashboard"));
-const QuizList = lazy(() => import("./components/course-dashboard/course-essentials/QuizList"));
-const VideoPlayer = lazy(() => import("./pages/VideoPlayer"));
-const Projects = lazy(() => import("./pages/Projects"));
-const Resume = lazy(() => import("./pages/Resume"));
-const BountiesList = lazy(() => import("./components/course-dashboard/course-essentials/BountiesList"));
-const LearnInPublicPage = lazy(() => import("./pages/LearnInPublicPage"));
-import GoogleCallback from "./pages/GoogleCallback";
-import Blog from "./components/blogs/Blog";
-import BlogDetail from "./components/blogs/BlogDetail";
+const Home = lazy(() => import("@/pages/landing/Home"));
+const AllCourses = lazy(() => import("@/components/AllCourses"));
+const CourseDetails = lazy(() => import("@/components/course-dashboard/CourseDetails"));
+const ContactUs = lazy(() => import("@/components/Contact"));
+const Profile = lazy(() => import("@/components/Profile"));
+const Signup = lazy(() => import("@/pages/landing/Signup"));
+const CourseDashboard = lazy(() => import("@/pages/dashboard/CourseDashboard"));
+const QuizList = lazy(() => import("@/components/course-dashboard/course-essentials/QuizList"));
+const VideoPlayer = lazy(() => import("@/pages/dashboard//VideoPlayer"));
+const Projects = lazy(() => import("@/pages/dashboard//Projects"));
+const Resume = lazy(() => import("@/pages/dashboard//Resume"));
+const BountiesList = lazy(() => import("@/components/course-dashboard/course-essentials/BountiesList"));
+const LearnInPublicPage = lazy(() => import("@/pages/dashboard/LearnInPublicPage"));
+import GoogleCallback from "@/pages/landing/GoogleCallback";
+import Blog from "@/pages/blogs/Blog";
+import BlogDetail from "@/pages/blogs/BlogDetail";
 // Optional: Create a minimal fallback
+
+
+
 const Fallback = () => <Spinner/>
 
 function App() {

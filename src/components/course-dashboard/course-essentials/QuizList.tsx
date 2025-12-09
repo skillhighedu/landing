@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import BackButton from "@/components/common/BackButton";;
 import { type Quiz, courseQuizzesData } from "@/data/courseQuizzes";
 

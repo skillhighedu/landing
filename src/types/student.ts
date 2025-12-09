@@ -33,3 +33,10 @@ export interface CourseInfo {
     createdAt:string
   }
 }
+
+
+export interface SignupForm {
+  name: string;
+  email: string;
+  password: string;
+}

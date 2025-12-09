@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import { NotebookPen, Sparkles, Folder, TrendingUp } from "lucide-react";
 
 const learnInPublicBullets = [

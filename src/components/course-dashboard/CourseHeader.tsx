@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import { type CourseHeaderProps } from "@/types/dashboard/Course";
 import { actions } from "@/data/dashboard/Actions";
 

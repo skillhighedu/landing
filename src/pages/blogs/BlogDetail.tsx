@@ -4,9 +4,10 @@ import { useEffect, type HTMLAttributes } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 // import BackButton from "@/components/common/BackButton";
-import BlogShare from "./BlogShare";
+
 import { cn } from "@/lib/utils";
-import { SEO } from "@/components/Seo/SEO";
+import { SEO } from "@/components/common/SEO";
+import BlogShare from "@/features/blog/components/BlogShare";
 
 type MarkdownElementProps<T extends HTMLElement = HTMLElement> = HTMLAttributes<T> & {
   node?: unknown;

@@ -1,22 +1,18 @@
-// Signup.tsx
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence, easeOut } from "framer-motion";
 import { Swords } from "lucide-react";
 import BgImage from "@/assets/images/warrior.jpg";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import GoogleLoginButton from "@/components/ui/GoogleLoginButton";
 import OtpInput from "@/components/OtpBox";
 import { useNavigate, useLocation } from "react-router-dom";
 import { login, createAccount } from "@/services/student-service";
 import { ForgetPassword } from "@/services/auth-service";
 import { toast } from "sonner";
+import type { SignupForm } from "@/types";
 
-interface SignupForm {
-  name: string;
-  email: string;
-  password: string;
-}
 
 export default function Signup() {
   const [isSignup, setIsSignup] = useState(true);

@@ -4,7 +4,7 @@ import Header from "./Header"
 
 import { MarqueeDemoVertical } from "./ui/marquee"
 import { Link } from "react-router-dom"
-import CustomButton from "./Button"
+import CustomButton from "@/components/common/Button";
 import BlockQuote from "./ui/BlockQuote"
 export default function Testimonials() {
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FileText, Upload, ExternalLink } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import BackButton from "@/components/common/BackButton";;
 import { courseProjectsData, type Project } from "@/data/courseProjects";
 

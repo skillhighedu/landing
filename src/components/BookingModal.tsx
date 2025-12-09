@@ -1,6 +1,6 @@
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 
 interface MyAppProps {
   title: string;

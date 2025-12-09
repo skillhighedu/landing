@@ -2,7 +2,7 @@ import Trees from "@/assets/images/warrior.jpg";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import { Swords } from "lucide-react";
 import HeaderSection from "@/components/common/HeaderSection";
 import { motion } from "framer-motion";

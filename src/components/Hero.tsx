@@ -6,7 +6,7 @@ import Trees from "@/assets/images/forest.jpg";
 import Autoplay from "embla-carousel-autoplay";
 import { partners } from "@/data/partners";
 import { Card, CardContent } from "@/components/ui/card";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookingModal from "./BookingModal";
 import Balancer from "react-wrap-balancer"; 

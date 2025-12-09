@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import { enrolledCoursesData } from "@/data/enrolledCourses";
 
 interface EnrolledCoursesProps {

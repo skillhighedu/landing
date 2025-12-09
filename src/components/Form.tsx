@@ -3,7 +3,7 @@
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { motion } from "framer-motion";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import MessageIcon from "./icons/Message";
 import { useState } from "react";
 import type { ContactUsDetails } from "@/types";

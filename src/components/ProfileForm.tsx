@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input } from "./ui/input";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import { motion } from "framer-motion";
 import { updateProfile } from "@/services/student-service";
 import { toast } from "sonner";

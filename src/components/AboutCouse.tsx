@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import { DotPatternLinearGradient } from './ui/DotBg';
 import { fetchSelectedCourse } from "@/services/course-service";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";

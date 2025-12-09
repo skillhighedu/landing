@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 
 interface Student {
   name?: string;

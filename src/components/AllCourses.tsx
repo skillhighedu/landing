@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import { Input } from "./ui/input";
 import BookingModal from "./BookingModal";
 import BlockQuote from "./ui/BlockQuote";

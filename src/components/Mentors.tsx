@@ -13,7 +13,7 @@ import {
 import { type Mentors } from "@/types";
 import { Link } from "react-router-dom";
 import Header from "./Header";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import { motion } from "framer-motion";
 import BlockQuote from "./ui/BlockQuote";
 import { fetchMentors } from "@/services/mentors-service";

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import {  Linkedin, Link as LinkIcon, Share2, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
-import CustomButton from "../Button";
+import CustomButton from "@/components/common/Button";
+
 
 interface BlogShareProps {
   title: string;

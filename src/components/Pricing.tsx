@@ -1,7 +1,7 @@
 import Header from "./Header";
 import { motion } from "framer-motion";
 import { forwardRef, useEffect, useState } from "react";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import { usePricingsStore } from "@/store/usePricingStore";
 import { fetchSelectedCourse } from "@/services/course-service";
 import { toast } from "sonner";

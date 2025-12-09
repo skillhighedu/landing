@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import Logo from "@/assets/logo.png";
 
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import MenuIcon from "./icons/Menu";
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import { useAuthStore } from "@/store/authStore";
