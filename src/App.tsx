@@ -21,6 +21,10 @@ const Signup = lazy(() => import("./pages/Signup"));
 const CourseDashboard = lazy(() => import("./pages/CourseDashboard"));
 const QuizList = lazy(() => import("./components/course-dashboard/course-essentials/QuizList"));
 const VideoPlayer = lazy(() => import("./pages/VideoPlayer"));
+const Projects = lazy(() => import("./pages/Projects"));
+const Resume = lazy(() => import("./pages/Resume"));
+const BountiesList = lazy(() => import("./components/course-dashboard/course-essentials/BountiesList"));
+const LearnInPublicPage = lazy(() => import("./pages/LearnInPublicPage"));
 import GoogleCallback from "./pages/GoogleCallback";
 import Blog from "./components/blogs/Blog";
 import BlogDetail from "./components/blogs/BlogDetail";
@@ -53,6 +57,11 @@ function App() {
              <Route path="/course-dashboard/:courseId" element={<CourseDashboard />} />
              <Route path="/course-dashboard/:courseId/course-essentials" element={<QuizList />} />
              <Route path="/course-dashboard/:courseId/video-player" element={<VideoPlayer />} />
+             <Route path="/course-dashboard/:courseId/projects" element={<Projects />} />
+             <Route path="/course-dashboard/:courseId/bounties" element={<BountiesList />} />
+             <Route path="/learn-in-public" element={<LearnInPublicPage />} />
+             <Route path="/resume" element={<Resume />} />
+              <Route path="/profile" element={<Profile />} />
 
             <Route path="/api/v2/auth/google/callback" element={<GoogleCallback />} />
               
@@ -71,7 +80,6 @@ function App() {
 
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<Profile />} />
             </Route>
           </Route>
         </Routes>

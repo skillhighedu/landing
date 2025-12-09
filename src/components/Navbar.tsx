@@ -202,6 +202,16 @@ export default function Navbar() {
             >
               Blogs
             </Link>
+            
+            <Link
+              to="/resume"
+              className="text-sm text-neutral-300 hover:text-white transition cursor-pointer relative group"
+            >
+              Resume
+              <span className="absolute -top-2 -right-8 text-[10px] bg-green-600 text-white px-1.5 py-0.5 rounded font-normal opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Try Now
+              </span>
+            </Link>
           </nav>
 
           {/* CTA */}
@@ -256,6 +266,12 @@ export default function Navbar() {
               </Link>
                 <Link to="/blogs" onClick={() => setDrawerOpen(false)}>
                 Blogs
+              </Link>
+              <Link to="/resume" onClick={() => setDrawerOpen(false)} className="flex items-center gap-2">
+                Resume
+                <span className="text-[10px] bg-green-600 text-white px-1.5 py-0.5 rounded font-normal">
+                  Try Now
+                </span>
               </Link>
             </nav>
 
