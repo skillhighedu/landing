@@ -3,7 +3,7 @@ import { blogPosts } from "@/constants/blogData";
 import { useEffect, type HTMLAttributes } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
-import BackButton from "../ui/BackButton";
+// import BackButton from "@/components/common/BackButton";
 import BlogShare from "./BlogShare";
 import { cn } from "@/lib/utils";
 import { SEO } from "@/components/Seo/SEO";
@@ -190,8 +190,8 @@ export default function BlogDetail() {
           url={`${window.location.origin}/blogs/${post.slug}`}
           meta={[{ property: "og:type", content: "article" }]}
         />
-         {/* Back Button */}
-         <BackButton to="/blogs" label="Back to all blogs" />
+         {/* Back Button
+         <BackButton  text="Back to all blogs" /> */}
 
         {/* Blog Title */}
         <h1 className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">

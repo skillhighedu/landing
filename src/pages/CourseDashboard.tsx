@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import HeaderSection from "@/components/ui/HeaderSection";
+import HeaderSection from "@/components/common/HeaderSection";
 import { Courses } from "@/data/course";
 import { courseProgressData } from "@/data/courseProgress";
 import { courseDetailsData } from "@/data/courseDetails";

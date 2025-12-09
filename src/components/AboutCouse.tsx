@@ -4,7 +4,7 @@ import CustomButton from "./Button";
 import { DotPatternLinearGradient } from './ui/DotBg';
 import { fetchSelectedCourse } from "@/services/course-service";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
-import HeaderSection from "./ui/HeaderSection";
+import HeaderSection from "@/components/common/HeaderSection";
 import Balancer from "react-wrap-balancer"; 
 
 interface AboutCourseProps {

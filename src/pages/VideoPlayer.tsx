@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/common/BackButton";;
 import VideoPlayerComponent from "@/components/course-dashboard/video/VideoPlayer";
 import TopicsSidebar from "@/components/course-dashboard/video/TopicsSidebar";
 import { courseTopicsData, type Topic } from "@/data/courseTopics";

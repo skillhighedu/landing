@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { CalendarDays, Link2, DollarSign } from "lucide-react";
 import { useParams } from "react-router-dom";
 import CustomButton from "@/components/Button";
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/common/BackButton";;
 import { courseBountiesData, type Bounty } from "@/data/courseBounties";
 
 export default function BountiesList() {

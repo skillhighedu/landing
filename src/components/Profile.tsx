@@ -11,7 +11,7 @@ import {
 } from "@/services/payment-service";
 
 import ProfileForm from "./ProfileForm";
-import HeaderSection from "./ui/HeaderSection";
+import HeaderSection from "@/components/common/HeaderSection";
 import ProfileHero from "./profile/ProfileHero";
 import ProfileCard from "./profile/ProfileCard";
 import YourCourses from "./profile/YourCourses";

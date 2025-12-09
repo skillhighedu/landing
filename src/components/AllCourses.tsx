@@ -7,7 +7,7 @@ import BookingModal from "./BookingModal";
 import BlockQuote from "./ui/BlockQuote";
 import { Calendar, Swords } from "lucide-react";
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
-import HeaderSection from "./ui/HeaderSection";
+import HeaderSection from "@/components/common/HeaderSection";
 
 export default function AllCourses() {
   const { formatedCourses } = usePublicCoursesStore();

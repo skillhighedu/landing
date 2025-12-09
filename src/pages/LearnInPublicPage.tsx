@@ -4,7 +4,7 @@ import React, {
 } from "react";
 import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 import { Linkedin, ArrowUpRight } from "lucide-react";
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/common/BackButton";;
 
 // -------- Custom UI Components -------- //
 
