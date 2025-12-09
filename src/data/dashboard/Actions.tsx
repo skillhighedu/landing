@@ -17,7 +17,7 @@ export const actions = [
   {
     label: "Start Projects",
     icon: <Folder size={18} />,
-    href: "/projects",
+    href: `/course-dashboard/67691eb73f409fe0a9890a04/projects`,
     className:
       "bg-purple-600 hover:bg-purple-700 text-white rounded-lg cursor-pointer flex items-center gap-2",
   },
@@ -31,7 +31,7 @@ export const actions = [
   {
     label: "Bounties",
     icon: <DollarSign size={18} />,
-    href: null,
+    href: `/course-dashboard/67691eb73f409fe0a9890a04/bounties`,
     className:
       "bg-yellow-700 hover:bg-neutral-600 text-white rounded-lg cursor-pointer flex items-center gap-2",
   },

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import VideoPlayer from "@/components/course-dashboard/video/VideoPlayer";
+import BackButton from "@/components/BackButton";
+import VideoPlayerComponent from "@/components/course-dashboard/video/VideoPlayer";
 import TopicsSidebar from "@/components/course-dashboard/video/TopicsSidebar";
 import { courseTopicsData, type Topic } from "@/data/courseTopics";
 import { toast } from "sonner";
@@ -22,11 +23,6 @@ export default function VideoPlayerPage() {
       setCurrentTopic(loadedTopics[0]);
     }
   }, [courseId]);
-
-  // Toggle sidebar function
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   // Navigation handlers
   const handlePrevTopic = () => {
@@ -67,26 +63,13 @@ export default function VideoPlayerPage() {
   const isLastTopic = currentIndex === topics.length - 1;
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-neutral-950 to-neutral-900">
-      {/* Header with sidebar toggle button */}
-      <header className="bg-neutral-800 border-b border-neutral-700 p-4 sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold text-white">Course Dashboard</h1>
-          <button
-            onClick={toggleSidebar}
-            className="lg:hidden p-2 rounded-lg bg-lime-400 text-neutral-900 hover:bg-lime-500 transition-colors"
-          >
-            {isSidebarOpen ? "✕" : "☰"}
-          </button>
-        </div>
-      </header>
-
-      {/* Main Content Container */}
-      <div className="flex-1 flex flex-row overflow-hidden gap-1 p-4 lg:pl-6 lg:pr-24 lg:py-6">
-        {/* Player Section */}
-        <main className="flex-1 overflow-y-auto">
+    <div className="min-h-screen bg-gradient-to-b from-neutral-950 to-neutral-900 py-8 px-4">
+      <BackButton className="mb-6" />
+      <div className="flex gap-1 relative lg:pr-24">
+        {/* Video Player Section */}
+        <div className="flex-1">
           <div className="w-full max-w-4xl mx-auto">
-            <VideoPlayer
+            <VideoPlayerComponent
               currentTopic={currentTopic}
               onPrevious={handlePrevTopic}
               onNext={handleNextTopic}
@@ -94,10 +77,10 @@ export default function VideoPlayerPage() {
               isLastTopic={isLastTopic}
             />
           </div>
-        </main>
+        </div>
 
-        {/* Sidebar Wrapper with padding */}
-        <aside className="hidden lg:block py-4 pr-10">
+        {/* Sidebar - Desktop (Scrollable) */}
+        <aside className="hidden lg:block pr-10">
           <TopicsSidebar
             topics={topics}
             currentTopic={currentTopic}
@@ -106,26 +89,33 @@ export default function VideoPlayerPage() {
             onClose={() => setIsSidebarOpen(false)}
           />
         </aside>
-
-        {/* Mobile Sidebar */}
-        <div className="lg:hidden">
-          <TopicsSidebar
-            topics={topics}
-            currentTopic={currentTopic}
-            onTopicSelect={handleTopicSelect}
-            isSidebarOpen={isSidebarOpen}
-            onClose={() => setIsSidebarOpen(false)}
-          />
-        </div>
-
-        {/* Mobile Overlay */}
-        <div
-          className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-30
-            transition-opacity duration-300 lg:hidden
-            ${isSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-          onClick={toggleSidebar}
-        />
       </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        >
+          <div className="fixed right-0 top-0 bottom-0 w-80 max-w-[90vw] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <TopicsSidebar
+              topics={topics}
+              currentTopic={currentTopic}
+              onTopicSelect={handleTopicSelect}
+              isSidebarOpen={true}
+              onClose={() => setIsSidebarOpen(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Toggle Button */}
+      <button
+        onClick={() => setIsSidebarOpen(true)}
+        className="fixed bottom-6 right-6 lg:hidden p-4 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition-colors z-20"
+      >
+        ☰
+      </button>
     </div>
   );
 }
