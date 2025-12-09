@@ -15,7 +15,7 @@ import HeaderSection from "./ui/HeaderSection";
 import ProfileHero from "./profile/ProfileHero";
 import ProfileCard from "./profile/ProfileCard";
 import YourCourses from "./profile/YourCourses";
-import EnrolledCourses from "./profile/EnrolledCourses";
+// import EnrolledCourses from "./profile/EnrolledCourses";
 
 const Skeleton = ({ className }: { className?: string }) => (
   <div className={`animate-pulse bg-neutral-700/50 ${className}`}></div>
@@ -119,8 +119,8 @@ export default function Profile() {
         onPayment={handlePayment} 
       />
 
-      {/* Enrolled Courses Section */}
-      <EnrolledCourses loading={loading} />
+      {/* Enrolled Courses Section
+      <EnrolledCourses loading={loading} /> */}
     </div>
   );
 }

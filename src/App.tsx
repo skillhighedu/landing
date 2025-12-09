@@ -49,7 +49,7 @@ function App() {
             <Route path="/outsource" element={<OutSource />} />
             <Route path="/blogs" element={<Blog />} />
              <Route path="/blogs/:slug" element={<BlogDetail />} />
-             <Route path="/profile" element={<Profile />} />
+           
              <Route path="/course-dashboard/:courseId" element={<CourseDashboard />} />
              <Route path="/course-dashboard/:courseId/course-essentials" element={<QuizList />} />
              <Route path="/course-dashboard/:courseId/video-player" element={<VideoPlayer />} />
@@ -71,6 +71,7 @@ function App() {
 
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
+              <Route path="/profile" element={<Profile />} />
             </Route>
           </Route>
         </Routes>
