@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircleQuestionIcon, NotebookPen } from "lucide-react";
 import { toast } from "sonner";
@@ -37,11 +37,21 @@ export default function VideoPlayer({
   const [activeTab, setActiveTab] = useState<"content" | "discussions">("content");
   const [isQuestionFormOpen, setIsQuestionFormOpen] = useState(false);
   const [question, setQuestion] = useState("");
-
+ const [markdownContent, setMarkdownContent] = useState("");
+  
   const tabNames: { key: "content" | "discussions"; name: string }[] = [
     { key: "content", name: "Content" },
     { key: "discussions", name: "Discussions" },
   ];
+
+   useEffect(() => {
+   {
+    fetch("https://raw.githubusercontent.com/skillhighedu/skillhigh-notes/main/fullstack/lesson1.md")
+      .then(res => res.text())
+      .then(setMarkdownContent)
+      .catch(() => setMarkdownContent("❌ Failed to load lesson content"));
+  }
+}, []);
 
   const handleQuestionSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,14 +134,9 @@ export default function VideoPlayer({
 
       {/* Content Tab */}
       {activeTab === "content" && (
-        <div className="p-6">
-          <h3 className="text-2xl font-semibold text-white mb-3">
-            {currentTopic?.title || "Lesson Title"}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-            {currentTopic?.description || "No description available."}
-          </p>
-        </div>
+        <div className="p-6 prose dark:prose-invert max-w-none">
+    {markdownContent || "Loading content..."}
+  </div>
       )}
 
       {/* Discussions Tab */}

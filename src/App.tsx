@@ -22,7 +22,7 @@ const CourseDashboard = lazy(() => import("@/pages/dashboard/CourseDashboard"));
 const QuizList = lazy(() => import("@/components/course-dashboard/course-essentials/QuizList"));
 const VideoPlayer = lazy(() => import("@/pages/dashboard//VideoPlayer"));
 const Projects = lazy(() => import("@/pages/dashboard//Projects"));
-const Resume = lazy(() => import("@/pages/dashboard//Resume"));
+const Resume = lazy(() => import("@/features/resume/Resume"));
 const BountiesList = lazy(() => import("@/components/course-dashboard/course-essentials/BountiesList"));
 const LearnInPublicPage = lazy(() => import("@/pages/dashboard/LearnInPublicPage"));
 import GoogleCallback from "@/pages/landing/GoogleCallback";

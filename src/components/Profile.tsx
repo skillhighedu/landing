@@ -15,7 +15,7 @@ import HeaderSection from "@/components/common/HeaderSection";
 import ProfileHero from "./profile/ProfileHero";
 import ProfileCard from "./profile/ProfileCard";
 import YourCourses from "./profile/YourCourses";
-// import EnrolledCourses from "./profile/EnrolledCourses";
+import EnrolledCourses from "./profile/EnrolledCourses";
 
 const Skeleton = ({ className }: { className?: string }) => (
   <div className={`animate-pulse bg-neutral-700/50 ${className}`}></div>
@@ -76,7 +76,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-950 to-neutral-900 px-4 sm:px-8 py-12 text-white">
+    <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 px-4 sm:px-8 py-12 text-white">
       <HeaderSection title="Profile" />
 
       {/* Hero Section */}
@@ -119,8 +119,8 @@ export default function Profile() {
         onPayment={handlePayment} 
       />
 
-      {/* Enrolled Courses Section
-      <EnrolledCourses loading={loading} /> */}
+      
+      <EnrolledCourses loading={loading} />
     </div>
   );
 }

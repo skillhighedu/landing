@@ -9,7 +9,7 @@ import {
   SkillsSection,
   ProjectsSection,
   ExtraCurricularSection,
-} from "@/components/resume/Sections";
+} from "@/features/resume/Sections";
 import { validationSchemaType, type ResumeFormValues } from "@/types";
 import { generatePDF } from "@/utils/pdf";
 
@@ -46,7 +46,7 @@ const Resume: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-950 to-neutral-900 py-12 px-4 font-sans">
+    <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 py-12 px-4 font-sans">
       <div className="mx-auto w-full max-w-4xl">
         <div className="rounded-2xl bg-neutral-800 shadow-xl ring-1 ring-neutral-700">
           <div className="border-b border-neutral-700 px-8 py-6">
