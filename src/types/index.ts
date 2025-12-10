@@ -8,6 +8,7 @@ export * from './testimonals'
 export * from './student'
 export * from './pricings'
 export * from './payment'
+export * from './resume'
 
 
 
