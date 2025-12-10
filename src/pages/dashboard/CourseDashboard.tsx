@@ -23,7 +23,7 @@ export default function CourseDashboard() {
   const curriculum = courseCurriculumData[courseId as keyof typeof courseCurriculumData] || courseCurriculumData["1"];
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 px-4 sm:px-8 py-12 text-white">
+    <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 px-4 sm:px-8 py-12 text-white mt-12">
       <HeaderSection title="Course Dashboard" />
 
       <CourseHeader course={course} details={details} />
