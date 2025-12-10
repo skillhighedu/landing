@@ -1,21 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { PlayIcon, Check } from "lucide-react";
+import type { Topic, TopicsSidebarProps } from "@/types/dashboard/Video";
 
-interface Topic {
-  id: string;
-  title: string;
-  description: string;
-  video: string;
-  completed?: boolean;
-}
 
-interface TopicsSidebarProps {
-  topics: Topic[];
-  currentTopic: Topic | null;
-  onTopicSelect: (topic: Topic) => void;
-  isSidebarOpen?: boolean;
-  onClose?: () => void;
-}
 
 export default function TopicsSidebar({
   topics,
@@ -75,7 +62,7 @@ export default function TopicsSidebar({
           />
           <label
             htmlFor={`topic-${topic.id}`}
-            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center border-2 rounded-md cursor-pointer transition-all ${
+            className={`shrink-0 w-5 h-5 flex items-center justify-center border-2 rounded-md cursor-pointer transition-all ${
               checkedTopics[topic.id]
                 ? "bg-green-600 border-green-600 text-white shadow-sm"
                 : "border-neutral-600 group-hover:border-green-600/50"
@@ -94,7 +81,7 @@ export default function TopicsSidebar({
                 : "bg-neutral-800 group-hover:bg-green-600/20"
             }`}>
               <PlayIcon
-                className={`w-4 h-4 flex-shrink-0 transition-colors ${
+                className={`w-4 h-4 shrink-0 transition-colors ${
                   currentTopic?.id === topic.id
                     ? "text-green-500"
                     : "text-gray-400 group-hover:text-green-500"

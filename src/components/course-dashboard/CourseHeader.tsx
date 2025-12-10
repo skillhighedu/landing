@@ -21,7 +21,7 @@ export default function CourseHeader({ course, details }: CourseHeaderProps) {
         />
       </div>
       <div className="w-full md:w-2/3 space-y-4 text-center md:text-left">
-        <h1 className="text-2xl md:text-3xl font-bold text-lime-400">
+        <h1 className="text-2xl md:text-3xl font-bold ">
           {course.name}
         </h1>
         <p className="text-base text-gray-300">

@@ -3,29 +3,8 @@ import { Button } from "@/components/ui/button";
 import { MessageCircleQuestionIcon, NotebookPen } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import type { VideoPlayerProps } from "@/types/dashboard/Video";
 
-interface Topic {
-  id: string;
-  title: string;
-  description: string;
-  video: string;
-  questions?: TopicQuestion[];
-}
-
-interface TopicQuestion {
-  studentName: string;
-  question: string;
-  answer: string;
-  createdAt: string;
-}
-
-interface VideoPlayerProps {
-  currentTopic: Topic | null;
-  onPrevious: () => void;
-  onNext: () => void;
-  isFirstTopic: boolean;
-  isLastTopic: boolean;
-}
 
 export default function VideoPlayer({
   currentTopic,

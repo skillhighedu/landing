@@ -28,11 +28,11 @@ export default function LearnInPublic() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3, ease: "easeInOut" }}
-      className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900 border border-neutral-700 rounded-2xl shadow-lg p-6 md:p-8"
+      className="bg-neutral-900 border border-neutral-700 rounded-2xl shadow-lg p-6 md:p-8"
     >
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-lime-400/10 text-lime-400 text-xs font-semibold tracking-[0.3em] uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold tracking-[0.3em] uppercase">
             <NotebookPen size={16} /> Learn In Public
           </div>
           <h2 className="text-2xl font-bold text-white">
@@ -96,12 +96,12 @@ export default function LearnInPublic() {
               ))}
             </ul>
           </div>
-          <div className="rounded-xl bg-slate-900 text-white p-4 flex items-center justify-between">
+          <div className="rounded-xl bg-neutral-950 text-white p-4 flex items-center justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.4em] opacity-70">
                 New
               </p>
-              <p className="text-lg font-semibold">For X & LinkedIn</p>
+              <p className="text-lg ">For X & LinkedIn</p>
             </div>
             <Link to="/learn-in-public">
               <CustomButton
