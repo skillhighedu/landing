@@ -65,7 +65,7 @@ const Popup = () => {
                 alt="Career guidance background"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/20 to-transparent flex items-center p-6 sm:p-8">
+              <div className="absolute inset-0 bg-linear-to-r from-neutral-900/20 to-transparent flex items-center p-6 sm:p-8">
                 <div className="text-white max-w-md">
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2">Let's Connect</h2>
                   <p className="text-sm sm:text-base">

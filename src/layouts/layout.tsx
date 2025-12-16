@@ -36,7 +36,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <Footer />
+      {displayBanner && <Footer />}
     </div>
   );
 }

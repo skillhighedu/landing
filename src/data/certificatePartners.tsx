@@ -5,16 +5,16 @@ import Microsoft from "@/assets/images/partners/Microsoft.png"
 
 export const certificatePartners = [
   {
-    id: "startup-india",
-    name: "Startup India",
+    id: "wipro",
+    name: "Wipro",
     logo: Wipro,
-    alt: "Recognized by Startup India",
+    alt: "Wipro",
   },
    {
-    id: "startup-india",
-    name: "Startup India",
+    id: "microsoft",
+    name: "Microsoft",
     logo:Microsoft,
-    alt: "Recognized by Startup India",
+    alt: "Microsoft",
   },
  
 ]

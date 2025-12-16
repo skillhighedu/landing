@@ -5,7 +5,7 @@ import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import Header from "./common/Header";
 
 import QuestinIcon from './icons/QuestionIcon'; import { QuestinIcon2 } from './icons/QuestionIcon';
-import { useFaqStore } from '@/store/useFaqs';
+import { useFaqStore } from '@/store/faq.store';
 import type { FAQ } from '@/types/faq';
 
 export default function FAQ() {

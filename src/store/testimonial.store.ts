@@ -16,3 +16,4 @@ export const useTestimonialStore = create<TestimonialState>()(
     resetTestimonials: () => set({ testimonials: [] }),
   }))
 );
+

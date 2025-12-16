@@ -16,3 +16,4 @@ export const useFaqStore = create<FaqState>()(
     resetFaq: () => set({ faq: [] }),
   }))
 );
+

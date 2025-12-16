@@ -137,14 +137,14 @@ export default function Navbar() {
     <>
       {/* Navbar container */}
       <div
-        className={`fixed top-0 left-0 w-full bg-neutral-900 font-pixel text-white z-50 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 w-full bg-neutral-900 font-pixel   border-b border-white/10 text-white z-50 transition-transform duration-300 ease-in-out ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
         role="navigation"
         aria-label="Main Navigation"
       >
         {/* Desktop Navbar */}
-        <div className="hidden md:flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
+        <div className="hidden md:flex items-center justify-between mx-auto px-6 py-4">
           <Link to="/">
             <img src={Logo} alt="SkillHigh" className="h-12" />
           </Link>

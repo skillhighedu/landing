@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { FileText, Upload, ExternalLink } from "lucide-react";
+import { FileText, Upload } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import CustomButton from "@/components/common/Button";;
-import BackButton from "@/components/common/BackButton";;
+
 import { courseProjectsData, type Project } from "@/data/courseProjects";
+import HeaderSection from "@/components/common/HeaderSection";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 export default function Projects() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -25,17 +27,14 @@ export default function Projects() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-950 to-neutral-900 p-6 md:p-10 text-white font-pixel">
+   <DashboardLayout>
+     <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 p-6 md:p-10  text-white font-pixel">
       {/* Header Section */}
-      <div className="max-w-6xl mx-auto mb-8">
-        <BackButton className="mb-6" />
-        <h1 className="text-3xl md:text-4xl font-bold text-[#16C47F] pixel-shadow text-center">
-          Your Projects
-        </h1>
-        <p className="text-base text-gray-300 font-bricolage text-center mt-3">
-          {projects.length} {projects.length === 1 ? 'Project' : 'Projects'} • Build Your Portfolio
-        </p>
-      </div>
+         {/* Page Header */}
+            <div className="max-w-6xl mx-auto mb-10">
+              <HeaderSection title="Projects" />
+            </div>
+      
 
       {/* Projects Grid */}
       <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -59,12 +58,12 @@ export default function Projects() {
                 <div className="p-6 flex flex-col flex-1">
                   {/* Project Number and Title */}
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-10 h-10 rounded-md bg-[#16C47F]/20 flex items-center justify-center border-2 border-[#16C47F] flex-shrink-0 shadow-[2px_2px_0_#000]">
+                    <div className="w-10 h-10 rounded-md bg-[#16C47F]/20 flex items-center justify-center border-2 border-[#16C47F] shrink-0 shadow-[2px_2px_0_#000]">
                       <span className="text-[#16C47F] font-bold text-sm pixel-shadow">P{index + 1}</span>
                     </div>
                     
                     {/* Title - Fixed Height */}
-                    <h2 className="text-xl font-bold text-[#16C47F] pixel-shadow line-clamp-2 min-h-[3.5rem] flex-1 leading-snug">
+                    <h2 className="text-xl  text-[#16C47F] pixel-shadow line-clamp-2 min-h-14 flex-1 leading-snug">
                       {project.projectName}
                     </h2>
                   </div>
@@ -74,7 +73,7 @@ export default function Projects() {
                     {project.description}
                   </p>
 
-                  {/* View Requirements Link */}
+                  {/* View Requirements Link
                   <a
                     href={project.projectLink}
                     target="_blank"
@@ -84,16 +83,12 @@ export default function Projects() {
                     <FileText className="w-5 h-5" />
                     <span>View Requirements</span>
                     <ExternalLink className="w-4 h-4 opacity-0 group-hover/link:opacity-100 transition-opacity" />
-                  </a>
+                  </a> */}
 
                   {/* Action Button - Always at bottom */}
                   <CustomButton
                     title={project.solutions[0]?.isCompleted ? "View Submission" : "Submit Project"}
-                    className={`w-full flex items-center justify-center gap-2 font-bold text-sm py-3 ${
-                      project.solutions[0]?.isCompleted
-                        ? "bg-blue-600 hover:bg-blue-700"
-                        : "bg-[#16C47F] hover:bg-[#14b371] text-black"
-                    }`}
+                  
                     onClick={() => handleSubmit(project)}
                   >
                     {project.solutions[0]?.isCompleted ? "View Submission" : "Submit Project"}
@@ -114,5 +109,6 @@ export default function Projects() {
           )}
       </div>
     </div>
+   </DashboardLayout>
   );
 }

@@ -15,7 +15,7 @@ export default function Stat() {
   return (
     <section className="w-full relative py-20 bg-neutral-950 text-white">
       <GridPatternDashed/>
-      <div className=" relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" relative mx-auto px-4 sm:px-6 lg:px-8">
        <div className="text-center text-sm sm:text-xl text-neutral-400 mb-8  border border-neutral-800 rounded-xl px-4 py-2 inline-block bg-neutral-900 shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-shadow">
   Join our Skillhigh community
 </div>

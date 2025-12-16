@@ -140,7 +140,7 @@ export default function Hero() {
       </div>
 
       {/* Partner Carousel */}
-      <div className="relative z-20 mx-auto mt-16 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-20 mx-auto mt-16 w-full px-4 sm:px-6 lg:px-8">
         <Carousel plugins={[plugin.current]} className="w-full" opts={{ loop: true, align: "center" }} aria-label="Partner logos carousel">
           <CarouselContent className="gap-4">
             {partners.map((partner, index) => (

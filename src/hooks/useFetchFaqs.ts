@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { useFaqStore } from "@/store/useFaqs";
+import { useFaqStore } from "@/store/faq.store";
 import { fetchFaqs} from "@/services/faq-service";
 
 export const useFetchFaqs = () => {
@@ -8,8 +8,12 @@ export const useFetchFaqs = () => {
 
   useEffect(() => {
     const fetchFaqsAsync = async () => {
-     const faqs = await fetchFaqs();
-     setFaq(faqs);
+      try {
+        const faqs = await fetchFaqs();
+        setFaq(faqs);
+      } catch (error) {
+        console.error("Error fetching FAQs:", error);
+      }
     };
 
     fetchFaqsAsync();

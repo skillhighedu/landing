@@ -22,7 +22,7 @@ export default function BookCallCard({
       whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.1 }} 
       transition={{ duration: 0.4, ease: easeOut }}
-      className={`relative w-full max-w-7xl mx-auto my-8  rounded-2xl shadow-lg border border-neutral-700/30 p-6 sm:p-10 ${bgColor} backdrop-blur-md`}
+      className={`relative w-full mx-auto my-8  rounded-2xl shadow-lg border border-neutral-700/30 p-6 sm:p-10 ${bgColor} backdrop-blur-md`}
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center ">
         {/* Left Content */}

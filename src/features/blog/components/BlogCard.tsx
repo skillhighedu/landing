@@ -27,7 +27,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
       className="group rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 hover:border-neutral-700 hover:bg-neutral-800 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary block"
     >
       {image && (
-        <div className="overflow-hidden aspect-[16/9] bg-neutral-800">
+        <div className="overflow-hidden aspect-video bg-neutral-800">
           <img
             src={image}
             alt={title}

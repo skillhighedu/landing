@@ -99,7 +99,7 @@ export default function CountdownBanner({
                 </div>
               </>
             ) : (
-             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full max-w-7xl mx-auto px-4">
+             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full mx-auto px-4">
   <span className="text-white text-base sm:text-lg text-center sm:text-left w-full sm:w-auto">
     Book a free consultation from our experts
   </span>

@@ -12,10 +12,10 @@ import {
 
 import ProfileForm from "./ProfileForm";
 import HeaderSection from "@/components/common/HeaderSection";
-import ProfileHero from "./profile/ProfileHero";
-import ProfileCard from "./profile/ProfileCard";
-import YourCourses from "./profile/YourCourses";
-import EnrolledCourses from "./profile/EnrolledCourses";
+import ProfileHero from "@/components/profile/ProfileHero";
+import ProfileCard from "@/components/profile/ProfileCard";
+import YourCourses from "@/components/profile/YourCourses";
+
 
 const Skeleton = ({ className }: { className?: string }) => (
   <div className={`animate-pulse bg-neutral-700/50 ${className}`}></div>
@@ -114,13 +114,14 @@ export default function Profile() {
 
       {/* Your Courses Section */}
       <YourCourses 
-        courses={studentProfile[0]?.courses || []} 
+        courses={studentProfile[0]} 
         loading={loading} 
         onPayment={handlePayment} 
       />
 
       
-      <EnrolledCourses loading={loading} />
+ 
     </div>
   );
 }
+

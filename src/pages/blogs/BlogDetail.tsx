@@ -113,7 +113,7 @@ const markdownComponents: Components = {
         {children}
       </code>
     ) : (
-      <pre className="!bg-neutral-900 !rounded-xl !p-5 !text-sm sm:!text-base overflow-x-auto mb-6 border border-neutral-800">
+      <pre className="bg-neutral-900! rounded-xl! p-5! text-sm! sm:text-base! overflow-x-auto mb-6 border border-neutral-800">
         <code className={className} {...props}>{children}</code>
       </pre>
     );

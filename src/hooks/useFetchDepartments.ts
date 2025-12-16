@@ -8,9 +8,12 @@ export const useFetchDepartments = () => {
 
   useEffect(() => {
     const fetchDepartments = async () => {
-     const departments = await fetchCourses();
-     setDepartments(departments);
-   
+      try {
+        const departments = await fetchCourses();
+        setDepartments(departments);
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+      }
     };
 
     fetchDepartments();

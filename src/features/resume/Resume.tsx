@@ -12,6 +12,9 @@ import {
 } from "@/features/resume/Sections";
 import { validationSchemaType, type ResumeFormValues } from "@/types";
 import { generatePDF } from "@/utils/pdf";
+import CustomButton from "@/components/common/Button";
+import HeaderSection from "@/components/common/HeaderSection";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 const initialValues: ResumeFormValues = {
   email: "",
@@ -46,14 +49,17 @@ const Resume: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 py-12 px-4 font-sans">
-      <div className="mx-auto w-full max-w-4xl">
+  <DashboardLayout>
+
+      <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 py-12 px-4 ">
+        <HeaderSection title="SkillHigh Resume Builder"/>
+      <div className="mx-auto w-full mt-3  ">
         <div className="rounded-2xl bg-neutral-800 shadow-xl ring-1 ring-neutral-700">
+          
           <div className="border-b border-neutral-700 px-8 py-6">
-            <h1 className="text-2xl font-normal tracking-tight text-white">
-              SkillHigh Resume Builder
-            </h1>
-            <p className="mt-1 text-sm font-normal text-gray-400">
+          
+           
+            <p className="mt-1 text-sm font-normal text-gray-400 font-pixel">
               Fill in your details and generate a clean PDF resume.
             </p>
           </div>
@@ -74,17 +80,19 @@ const Resume: React.FC = () => {
               >
                 Reset
               </button>
-              <button
+              <CustomButton
                 type="submit"
-                className="cursor-pointer rounded-lg bg-green-600 px-5 py-2.5 text-sm font-normal text-white shadow-sm hover:bg-green-700"
+                title="Genereate"
+                
               >
                 Generate PDF
-              </button>
+              </CustomButton>
             </div>
           </form>
         </div>
       </div>
     </div>
+  </DashboardLayout>
   );
 };
 

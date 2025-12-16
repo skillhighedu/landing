@@ -6,9 +6,14 @@ import { cn } from "@/lib/utils";
 import { SEO } from "@/components/common/SEO";
 import BlogCard from "@/features/blog/components/BlogCard";
 import BlogSearch from "@/features/blog/components/BlogSearch";
+import { useBlogs } from "@/hooks/tanstack/useBlogs";
+
 export default function Blog() {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  
+  useBlogs();
+
 
   const categories = useMemo(() => {
     const set = new Set<string>();

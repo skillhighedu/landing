@@ -36,7 +36,7 @@ export default function AboutCourse({ courseSlug, scrollToPricing }: AboutCourse
   if (isLoading) {
     return (
       <section className="min-h-[60vh] bg-neutral-900 flex items-center justify-center px-4 mt-10 mb-10">
-        <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="animate-pulse bg-neutral-800 rounded-2xl h-[320px] sm:h-[400px] lg:h-[480px]" />
           <div className="space-y-4">
             <div className="animate-pulse bg-neutral-800 h-8 w-3/4 rounded" />

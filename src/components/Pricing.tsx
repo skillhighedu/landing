@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { forwardRef, useEffect, useState } from "react";
 import CustomButton from "@/components/common/Button";;
-import { usePricingsStore } from "@/store/usePricingStore";
+import { usePricingsStore } from "@/store/pricing.store";
 import { fetchSelectedCourse } from "@/services/course-service";
 import { toast } from "sonner";
 import { Verified } from "lucide-react";

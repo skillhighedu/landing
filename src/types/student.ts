@@ -21,6 +21,7 @@ export interface CourseInfo {
   courseName: string;
   courseDescription: string;
   courseThumbnail: string;
+  slug:string;
   expiryDate: string;
   enrolledAt: string; 
   purchaseDetails:{

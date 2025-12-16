@@ -75,7 +75,7 @@ export function Mentors() {
                     />
 
                     {/* Dark gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent z-10" />
 
                     {/* Tag (optional) */}
                     <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full">

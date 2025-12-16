@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import CustomButton from "@/components/common/Button";;
-import { Input } from "./ui/input";
+import CustomButton from "@/components/common/Button";
+import { Input } from "@/components/ui/input";
 import BookingModal from "@/components/common/BookingModal";
 import BlockQuote from "@/components/common/BlockQuote";
 import { Calendar, Swords } from "lucide-react";
@@ -66,7 +66,7 @@ export default function AllCourses() {
                   loading="lazy"
                   onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
               </div>
               <div className="p-6 flex flex-col gap-4">
                 <h3 className="text-xl text-white ">{course.courseName}</h3>
@@ -107,3 +107,4 @@ export default function AllCourses() {
     </section>
   );
 }
+

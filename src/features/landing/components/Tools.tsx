@@ -34,7 +34,7 @@ export default function Tools({ courseTools }: { courseTools: SelectedCourseTool
           subline="Explore the tools that turn your skills into mastery."
         />
 
-        <div className="relative z-20 mt-12 w-full max-w-7xl px-2 sm:px-4 lg:px-8">
+        <div className="relative z-20 mt-12 w-full px-2 sm:px-4 lg:px-8">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
