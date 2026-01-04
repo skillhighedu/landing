@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postbuild": "npm scripts/generate-sitemap.ts"
+    "postbuild": "bun scripts/generate-sitemap.ts"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
