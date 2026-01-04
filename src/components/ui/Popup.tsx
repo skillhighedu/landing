@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Trees from "@/assets/images/water.jpg";
 import { Calendar, MessageCircleQuestion } from 'lucide-react';
-import BookingMeet from '../BookingModal';
-import CustomButton from '../Button';
+import BookingMeet from '@/components/common/BookingModal';
+import CustomButton from '@/components/common/Button';
 import { useNavigate } from 'react-router-dom';
 
 const POPUP_INTERVAL_MINUTES = 15; // Show popup every 15 minutes
@@ -65,7 +65,7 @@ const Popup = () => {
                 alt="Career guidance background"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/20 to-transparent flex items-center p-6 sm:p-8">
+              <div className="absolute inset-0 bg-linear-to-r from-neutral-900/20 to-transparent flex items-center p-6 sm:p-8">
                 <div className="text-white max-w-md">
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2">Let's Connect</h2>
                   <p className="text-sm sm:text-base">

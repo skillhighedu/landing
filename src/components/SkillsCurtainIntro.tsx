@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, easeOut } from "framer-motion";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 
 export default function SkillsCurtainIntro({ onFinish }: { onFinish: () => void }) {
   const [show, setShow] = useState(true);

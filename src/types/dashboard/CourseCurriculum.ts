@@ -1,15 +1,18 @@
 
-interface Content {
+export interface Contents {
   id: string;
   contentName: string;
 }
 
-interface Module {
+
+export interface Module {
   id: string;
   moduleName: string;
-  contents?: Content[];
+  courseId: string;
+  createdAt: string;
+  updatedAt: string;
+  contents: Contents[];
 }
-
 export interface CourseCurriculumProps {
   modules: Module[];
 }

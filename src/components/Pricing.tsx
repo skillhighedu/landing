@@ -1,8 +1,8 @@
-import Header from "./Header";
+
 import { motion } from "framer-motion";
 import { forwardRef, useEffect, useState } from "react";
-import CustomButton from "./Button";
-import { usePricingsStore } from "@/store/usePricingStore";
+import CustomButton from "@/components/common/Button";;
+import { usePricingsStore } from "@/store/pricing.store";
 import { fetchSelectedCourse } from "@/services/course-service";
 import { toast } from "sonner";
 import { Verified } from "lucide-react";
@@ -12,6 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { initiateRazorpayPayment } from "@/lib/razorpay";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 import { PricingTypes } from "@/constants";
+import Header from "./common/Header";
 
 
 interface PricingProps {
@@ -81,8 +82,7 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug, autoOpen
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedCourse } = useSelectedCourseStore()
-  console.log(selectedCourse)
-  console.log(pricings)
+ 
   const handleOpenModal = (plan: { id: string; title: string; price: number; per: string }) => {
     setSelectedPlan(plan);
     setIsModalOpen(true);
@@ -234,8 +234,8 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug, autoOpen
         className={`flex flex-col justify-between rounded-3xl p-8 transition-all duration-300
           ${
             idx === 1
-              ? "bg-gradient-to-br from-green-900 via-primary to-green-950 border-green-500"
-              : "bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950 border-neutral-800 shadow-xl hover:shadow-2xl"
+              ? "bg-linear-to-br from-green-900 via-primary to-green-950 border-green-500"
+              : "bg-linear-to-br from-neutral-900 via-neutral-800 to-neutral-950 border-neutral-800 shadow-xl hover:shadow-2xl"
           }`}
       >
         <div className="mb-6">
@@ -249,7 +249,7 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug, autoOpen
   whileInView={{ scale: 1, rotate: 0, opacity: 1 }}
   viewport={{ once: true, amount: 0.6 }} // triggers when 60% visible, runs only once
   transition={{ duration: 0.4, delay: 0.3 }}
-  className="px-3 py-1 text-sm font-bricolage rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-neutral-900 shadow-md"
+  className="px-3 py-1 text-sm font-bricolage rounded-full bg-linear-to-r from-yellow-400 to-orange-500 text-neutral-900 shadow-md"
 >
   Incl GST
 </motion.span>
@@ -260,7 +260,7 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug, autoOpen
           <ul className="space-y-4">
             {option.features.map((feature, i) => (
               <li key={i} className="flex gap-3 items-start">
-                <Verified className="w-5 h-5 mt-1 flex-shrink-0" />
+                <Verified className="w-5 h-5 mt-1 shrink-0" />
                 <div className="text-sm font-bricolage leading-snug">
                   <h2 className="text-md">{feature.name}</h2>
                   <p className="text-neutral-300 mt-1">{feature.description}</p>

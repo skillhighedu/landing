@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/magicui/marquee";
 import { Linkedin } from "lucide-react";
-import { useTestimonialStore } from "@/store/useTestimonalStore";
+import { useTestimonialStore } from "@/store/testimonial.store";
 
 
 const ReviewCard = ({

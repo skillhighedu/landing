@@ -2,7 +2,8 @@ import { certificatePartners } from "@/data/certificatePartners";
 import { motion, spring, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import Header from "./Header";
+import Header from "./common/Header";
+
 
 export default function CertificatePartners() {
   const controls = useAnimation();

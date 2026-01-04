@@ -8,7 +8,7 @@ import FAQ from "@/components/FAQ"
 import Pricing from "@/components/Pricing"
 import Form from "@/components/Form"
 import { certificates } from "@/data/certifcates";
-import Tools from "@/components/Tools";
+import Tools from "@/features/landing/components/Tools";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 import MentorsCall from "@/components/MentorsCall";
 export default function CourseDetails() {

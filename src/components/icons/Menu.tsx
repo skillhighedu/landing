@@ -6,21 +6,21 @@ const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
  
   <title>interface-essential-list</title>
   <g>
-    <path d="M29.72 23.62h1.52v3.05h-1.52Z"  stroke-width="1"></path>
-    <path d="M29.72 14.47h1.52v3.05h-1.52Z"  stroke-width="1"></path>
-    <path d="M29.72 5.33h1.52v3.05h-1.52Z"  stroke-width="1"></path>
-    <path d="M11.43 26.67h18.29v1.52H11.43Z"  stroke-width="1"></path>
-    <path d="M11.43 17.52h18.29v1.53H11.43Z"  stroke-width="1"></path>
-    <path d="M11.43 8.38h18.29V9.9H11.43Z"  stroke-width="1"></path>
-    <path d="M11.43 22.09h18.29v1.53H11.43Z"  stroke-width="1"></path>
-    <path d="M11.43 12.95h18.29v1.52H11.43Z"  stroke-width="1"></path>
-    <path d="M11.43 3.81h18.29v1.52H11.43Z"  stroke-width="1"></path>
-    <path d="M9.91 23.62h1.52v3.05H9.91Z"  stroke-width="1"></path>
-    <path d="M9.91 14.47h1.52v3.05H9.91Z"  stroke-width="1"></path>
-    <path d="M9.91 5.33h1.52v3.05H9.91Z"  stroke-width="1"></path>
-    <path d="m0.76 26.67 1.53 0 0 1.52 3.05 0 0 -1.52 1.52 0 0 -3.05 -1.52 0 0 -1.53 -3.05 0 0 1.53 -1.53 0 0 3.05z"  stroke-width="1"></path>
-    <path d="m0.76 17.52 1.53 0 0 1.53 3.05 0 0 -1.53 1.52 0 0 -3.05 -1.52 0 0 -1.52 -3.05 0 0 1.52 -1.53 0 0 3.05z"  stroke-width="1"></path>
-    <path d="m2.29 5.33 -1.53 0 0 3.05 1.53 0 0 1.52 3.05 0 0 -1.52 1.52 0 0 -3.05 -1.52 0 0 -1.52 -3.05 0 0 1.52z"  stroke-width="1"></path>
+    <path d="M29.72 23.62h1.52v3.05h-1.52Z"  strokeWidth="1"></path>
+    <path d="M29.72 14.47h1.52v3.05h-1.52Z"  strokeWidth="1"></path>
+    <path d="M29.72 5.33h1.52v3.05h-1.52Z"  strokeWidth="1"></path>
+    <path d="M11.43 26.67h18.29v1.52H11.43Z"  strokeWidth="1"></path>
+    <path d="M11.43 17.52h18.29v1.53H11.43Z"  strokeWidth="1"></path>
+    <path d="M11.43 8.38h18.29V9.9H11.43Z"  strokeWidth="1"></path>
+    <path d="M11.43 22.09h18.29v1.53H11.43Z"  strokeWidth="1"></path>
+    <path d="M11.43 12.95h18.29v1.52H11.43Z"  strokeWidth="1"></path>
+    <path d="M11.43 3.81h18.29v1.52H11.43Z"  strokeWidth="1"></path>
+    <path d="M9.91 23.62h1.52v3.05H9.91Z"  strokeWidth="1"></path>
+    <path d="M9.91 14.47h1.52v3.05H9.91Z"  strokeWidth="1"></path>
+    <path d="M9.91 5.33h1.52v3.05H9.91Z"  strokeWidth="1"></path>
+    <path d="m0.76 26.67 1.53 0 0 1.52 3.05 0 0 -1.52 1.52 0 0 -3.05 -1.52 0 0 -1.53 -3.05 0 0 1.53 -1.53 0 0 3.05z"  strokeWidth="1"></path>
+    <path d="m0.76 17.52 1.53 0 0 1.53 3.05 0 0 -1.53 1.52 0 0 -3.05 -1.52 0 0 -1.52 -3.05 0 0 1.52 -1.53 0 0 3.05z"  strokeWidth="1"></path>
+    <path d="m2.29 5.33 -1.53 0 0 3.05 1.53 0 0 1.52 3.05 0 0 -1.52 1.52 0 0 -3.05 -1.52 0 0 -1.52 -3.05 0 0 1.52z"  strokeWidth="1"></path>
   </g>
 </svg>
 );

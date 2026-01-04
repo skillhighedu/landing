@@ -1,20 +1,10 @@
 import { motion } from "framer-motion";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";import type { StudentProfile } from "@/types";
+;
 
-interface Course {
-  courseId: string;
-  courseName: string;
-  courseThumbnail: string;
-  purchaseDetails?: {
-    isFullPayment: boolean;
-    purchaseId: string;
-    remainingAmount?: number;
-    discountAmount?: number;
-  };
-}
 
 interface YourCoursesProps {
-  courses: Course[];
+  courses: StudentProfile;
   loading: boolean;
   onPayment: (orderId: string) => Promise<void>;
 }
@@ -45,9 +35,9 @@ export default function YourCourses({ courses, loading, onPayment }: YourCourses
             </motion.div>
           ))}
         </div>
-      ) : courses.length > 0 ? (
+      ) : courses.courses.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {courses.map((course) => (
+          {courses.courses.map((course) => (
             <motion.div
               key={course.courseId}
               initial={{ opacity: 0, y: 20 }}
@@ -66,8 +56,9 @@ export default function YourCourses({ courses, loading, onPayment }: YourCourses
               <div className="p-4 flex flex-col flex-1 justify-between">
                 <h4 className="text-lg font-semibold mb-2">{course.courseName}</h4>
                 {course.purchaseDetails?.isFullPayment ? (
-                  <a href="https://app.skillhigh.in" className="inline-block">
+                  <a href={`/course-dashboard/${course.slug}`} className="inline-block">
                     <CustomButton title="Start Lessons" icon="" />
+                  
                   </a>
                 ) : (
                   course.purchaseDetails && (

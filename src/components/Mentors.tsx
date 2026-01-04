@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -12,11 +11,13 @@ import {
 } from "@/components/ui/carousel";
 import { type Mentors } from "@/types";
 import { Link } from "react-router-dom";
-import Header from "./Header";
-import CustomButton from "./Button";
+
+import CustomButton from "@/components/common/Button";
 import { motion } from "framer-motion";
-import BlockQuote from "./ui/BlockQuote";
-import { fetchMentors } from "@/services/mentors-service";
+
+import Header from "./common/Header";
+import BlockQuote from "./common/BlockQuote";
+import { useMentors } from "@/hooks/tanstack/useMentors";
 
 export function Mentors() {
   const plugin = React.useRef(
@@ -27,24 +28,25 @@ export function Mentors() {
     })
   );
 
-   const [mentors,setMentors] = React.useState<Mentors[]>([]);
-    React.useEffect(()=> {
-      async function getMentors() {
-        const res = await fetchMentors()
-        setMentors(res)
-      }
   
-      getMentors()
-    },[])
+  const { data: mentors = [], isLoading  } = useMentors();
 
   return (
     <section className="bg-neutral-900 bg-pixel-crt w-full py-12 px-4">
       <div className="max-w-7xl mx-auto text-center">
         {/* Header */}
         <div className="flex flex-col mb-10 gap-3">
-          <Header title="Learn from Those Who’ve Done It" subline=" Your mentors once started just like you. They’ve built real skills — now they’re here to help you do the same" />
-        
+          <Header
+            title="Learn from Those Who’ve Done It"
+            subline=" Your mentors once started just like you. They’ve built real skills — now they’re here to help you do the same"
+          />
         </div>
+
+        {isLoading && (
+          <div className="text-sm text-muted-foreground">
+            Loading mentors...
+          </div>
+        )}
 
         {/* Carousel */}
         <Carousel
@@ -73,11 +75,11 @@ export function Mentors() {
                     />
 
                     {/* Dark gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent z-10" />
 
                     {/* Tag (optional) */}
                     <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full">
-                      { "Mentor"}
+                      {"Mentor"}
                     </div>
 
                     {/* Content */}
@@ -86,8 +88,6 @@ export function Mentors() {
                       <p className="text-sm text-gray-300 mb-4 line-clamp-2">
                         {course.qualification}
                       </p>
-
-                   
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -95,14 +95,13 @@ export function Mentors() {
             ))}
           </CarouselContent>
 
-  <CarouselPrevious className="text-black hover:bg-white/10 rounded-md pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] hover:text-primary cursor-pointer " />
-           <CarouselNext className="text-black hover:bg-white/10 rounded-md pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]  hover:text-primary cursor-pointer" />
+          <CarouselPrevious className="text-black hover:bg-white/10 rounded-md pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] hover:text-primary cursor-pointer " />
+          <CarouselNext className="text-black hover:bg-white/10 rounded-md pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]  hover:text-primary cursor-pointer" />
         </Carousel>
 
         {/* Footer CTA + Quote */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mt-12 px-2">
-         
-         <BlockQuote quote="Behind every skilled person is someone who showed them the way."/>
+          <BlockQuote quote="Behind every skilled person is someone who showed them the way." />
           <Link to="/contact-us" aria-label="Message Us">
             <CustomButton title="Message Us" icon="" />
           </Link>

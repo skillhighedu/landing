@@ -2,9 +2,9 @@ import Trees from "@/assets/images/warrior.jpg";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 import { Swords } from "lucide-react";
-import HeaderSection from "./ui/HeaderSection";
+import HeaderSection from "@/components/common/HeaderSection";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { sendContactDetails } from "@/services/contactus-service";
@@ -75,7 +75,7 @@ export default function ContactUs() {
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px] z-0" />
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full px-4 sm:px-8 py-24">
         {/* Header */}
         <div className="mb-16 text-center">
           <HeaderSection title="Contact Us" />

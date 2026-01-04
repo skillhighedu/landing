@@ -8,9 +8,12 @@ export const useFetchFormattedCourses = () => {
 
   useEffect(() => {
     const fetchDepartments = async () => {
-     const formatedCourses = await fetchFormattedCourses();
-     setFormatedCourses(formatedCourses);
-
+      try {
+        const formatedCourses = await fetchFormattedCourses();
+        setFormatedCourses(formatedCourses);
+      } catch (error) {
+        console.error("Error fetching formatted courses:", error);
+      }
     };
 
     fetchDepartments();

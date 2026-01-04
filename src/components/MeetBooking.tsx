@@ -1,7 +1,7 @@
 import { CalendarDays } from "lucide-react";
 import { easeOut, motion } from "framer-motion";
 
-import BookingModal from "./BookingModal";
+import BookingModel from "@/components/common/BookingModal"
 
 interface BookCallCardProps {
   title: string;
@@ -22,7 +22,7 @@ export default function BookCallCard({
       whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.1 }} 
       transition={{ duration: 0.4, ease: easeOut }}
-      className={`relative w-full max-w-7xl mx-auto my-8  rounded-2xl shadow-lg border border-neutral-700/30 p-6 sm:p-10 ${bgColor} backdrop-blur-md`}
+      className={`relative w-full mx-auto my-8  rounded-2xl shadow-lg border border-neutral-700/30 p-6 sm:p-10 ${bgColor} backdrop-blur-md`}
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center ">
         {/* Left Content */}
@@ -40,7 +40,7 @@ export default function BookCallCard({
 
         {/* Right Content */}
         <div className="flex justify-center lg:justify-end">
-          <BookingModal
+          <BookingModel
             title={buttonText}
             icon={<CalendarDays />}
             className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal"

@@ -10,8 +10,9 @@ import {
   BadgeCheck,
 } from 'lucide-react'
 
-import Header from './Header'
+
 import { DotPatternLinearGradient } from './ui/DotBg'
+import Header from './common/Header'
 
 const benefits = [
   {

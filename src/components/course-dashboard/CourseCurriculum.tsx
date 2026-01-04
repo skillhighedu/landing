@@ -20,7 +20,7 @@ export default function CourseCurriculum({ modules }: CourseCurriculumProps) {
             transition={{ duration: 0.3, delay: index * 0.1 }}
             className="relative bg-neutral-800 rounded-xl p-5 shadow-md border border-neutral-700 hover:shadow-lg hover:border-lime-400 transition-all duration-300"
           >
-            <span className="absolute top-2 right-2 bg-lime-400 text-neutral-900 text-xs font-medium px-2 py-1 rounded-full">
+            <span className="absolute top-2 right-2 bg-primary text-white text-xs font-medium px-2 py-1 rounded-full">
               {index + 1}
             </span>
             <h4 className="text-lg font-semibold text-white mb-3">
@@ -32,7 +32,7 @@ export default function CourseCurriculum({ modules }: CourseCurriculumProps) {
                   key={content.id}
                   className="flex items-center gap-2 text-sm text-gray-300"
                 >
-                  <span className="w-1.5 h-1.5 bg-lime-400 rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                   {content.contentName}
                 </li>
               ))}

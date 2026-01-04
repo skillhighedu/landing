@@ -21,6 +21,7 @@ export interface CourseInfo {
   courseName: string;
   courseDescription: string;
   courseThumbnail: string;
+  slug:string;
   expiryDate: string;
   enrolledAt: string; 
   purchaseDetails:{
@@ -32,4 +33,11 @@ export interface CourseInfo {
     discountAmount:number,
     createdAt:string
   }
+}
+
+
+export interface SignupForm {
+  name: string;
+  email: string;
+  password: string;
 }

@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { usePricingsStore } from "@/store/usePricingStore";
+import { usePricingsStore } from "@/store/pricing.store";
 import { fetchPricings} from "@/services/pricing-service";
 
 export const useFetchPricings = () => {
@@ -8,8 +8,12 @@ export const useFetchPricings = () => {
 
   useEffect(() => {
     const fetchPricingsAsync = async () => {
-     const pricings = await fetchPricings();
-     setPricings(pricings);
+      try {
+        const pricings = await fetchPricings();
+        setPricings(pricings);
+      } catch (error) {
+        console.error("Error fetching pricings:", error);
+      }
     };
 
     fetchPricingsAsync();

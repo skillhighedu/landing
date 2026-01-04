@@ -3,7 +3,7 @@
 import { easeInOut, motion } from "framer-motion";
 import Balancer from "react-wrap-balancer";
 import { UserPlus } from "lucide-react";
-import CustomButton from "./Button";
+import CustomButton from "@/components/common/Button";;
 
 // Animation Variants for clean reusability
 const containerVariants = {

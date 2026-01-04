@@ -1,8 +1,9 @@
 import * as motion from "motion/react-client"
 import type { Variants } from "motion/react"
-import Header from "./Header"
+
 import QuestinIcon from './icons/QuestionIcon';
 import Target from './icons/Target';
+import Header from "./common/Header";
 
 
 export default function ScrollTriggered() {

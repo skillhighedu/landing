@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { useTestimonialStore } from "@/store/useTestimonalStore";
+import { useTestimonialStore } from "@/store/testimonial.store";
 import { fetchTestimonals} from "@/services/testimonal-service";
 
 
@@ -9,8 +9,12 @@ export const useFetchTestimonals = () => {
 
   useEffect(() => {
     const fetchTestimonalsAsync = async () => {
-     const testimonials = await fetchTestimonals();
-     setTestimonials(testimonials);
+      try {
+        const testimonials = await fetchTestimonals();
+        setTestimonials(testimonials);
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      }
     };
 
     fetchTestimonalsAsync();

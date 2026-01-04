@@ -26,7 +26,7 @@ export default function CoursesNames() {
        
         <Carousel
           plugins={[plugin.current]}
-          className="w-full max-w-7xl mx-auto"
+          className="w-full mx-auto"
           opts={{ loop: true }}
         >
           <CarouselContent>

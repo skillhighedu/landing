@@ -12,10 +12,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Header from "./common/Header";
 
-import Header from "./Header";
-import CustomButton from "./Button";
-import BlockQuote from "./ui/BlockQuote";
+import CustomButton from "@/components/common/Button";;
+import BlockQuote from "./common/BlockQuote";
 import { Search } from "lucide-react";
 
 export function CoursesCarousel() {
@@ -79,7 +79,7 @@ export function CoursesCarousel() {
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/70 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90" />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/70 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90" />
                       {/* Content */}
                       <CardContent className="relative z-20 p-5 flex flex-col justify-end h-full text-white">
                         <h3 className="text-xl mb-1 font-bold">{course.courseName}</h3>

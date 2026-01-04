@@ -7,7 +7,7 @@ import {
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react"; // eye icon
 import BgImage from "@/assets/images/warrior.jpg";
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/common/Button";;
 import { toast } from "sonner";
 import { verifyOtp, verifyForgetOtp,setNewPassword } from "@/services/student-service"; // backend APIs
 
