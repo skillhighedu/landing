@@ -5,8 +5,6 @@ import {
   FolderKanban,
   Trophy,
   FileText,
-  Award,
-  Users,
   Settings,
   BarChart3,
 } from "lucide-react";
@@ -32,11 +30,11 @@ export default function MiniSidebar({ slug }: MiniSidebarProps) {
     {
       label: "Resume",
       icon: FileText,
-      to: `/course-dashboard/${slug}/resume`,
+      to: `/course-dashboard/resume`,
     },
-    { label: "Certificates", icon: Award, to: "/certificates" },
+    // { label: "Certificates", icon: Award, to: "/certificates" },
 
-    { label: "Community", icon: Users, to: "/community" },
+    // { label: "Community", icon: Users, to: "/community" },
     { label: "Settings", icon: Settings, to: "/settings" },
   ];
 

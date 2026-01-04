@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 import PublicRoute from "@/routes/PublicRoute";
 import OutSource from "@/pages/landing/OutSource";
-import Spinner from "@/components/ui/Spinner";
+// import Spinner from "@/components/ui/Spinner";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("@/pages/landing/Home"));
@@ -18,24 +18,27 @@ const CourseDetails = lazy(() => import("@/components/course-dashboard/CourseDet
 const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
 const Profile = lazy(() => import("@/pages/profile/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
-const CourseDashboard = lazy(() => import("@/pages/dashboard/CourseDashboard"));
-const QuizList = lazy(() => import("@/components/course-dashboard/course-essentials/QuizList"));
+// const CourseDashboard = lazy(() => import("@/pages/dashboard/CourseDashboard"));
+// const QuizList = lazy(() => import("@/components/course-dashboard/course-essentials/QuizList"));
 
-const Projects = lazy(() => import("@/components/course-dashboard/course-essentials/Projects"));
-const Resume = lazy(() => import("@/features/resume/Resume"));
-const BountiesList = lazy(() => import("@/components/course-dashboard/course-essentials/BountiesList"));
+// const Projects = lazy(() => import("@/components/course-dashboard/course-essentials/Projects"));
+// const Resume = lazy(() => import("@/features/resume/Resume"));
+// const BountiesList = lazy(() => import("@/components/course-dashboard/course-essentials/BountiesList"));
 const LearnInPublicPage = lazy(() => import("@/pages/dashboard/LearnInPublicPage"));
 import GoogleCallback from "@/pages/landing/GoogleCallback";
 import Blog from "@/pages/blogs/Blog";
 import BlogDetail from "@/pages/blogs/BlogDetail";
 
-import PlayGround from "./pages/dashboard/PlayGround";
+// import PlayGround from "./pages/dashboard/PlayGround";
+// import Quiz from "./features/quiz/components/Quiz";
+// import ProjectList from "./features/projects/components/ProjectList";
+// import BountyList from "./features/bounties/components/BountyList";
 
 // Optional: Create a minimal fallback
 
 
 
-const Fallback = () => <Spinner/>
+// const Fallback = () => <Spinner/>
 
 function App() {
   const { checkAuth, loading, isAuthenticated } = useAuthStore();
@@ -61,13 +64,17 @@ function App() {
             <Route path="/blogs" element={<Blog />} />
              <Route path="/blogs/:slug" element={<BlogDetail />} />
            
-             <Route path="/course-dashboard/:slug" element={<CourseDashboard />} />
-             <Route path="/course-dashboard/:courseId/quiz" element={<QuizList />} />
+             {/* <Route path="/course-dashboard/:slug" element={<CourseDashboard />} /> */}
+             {/* <Route path="/course-dashboard/:courseId/quiz" element={<QuizList />} />
+             <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz />} />
+
              <Route path="/course-dashboard/:slug/lessons" element={<PlayGround />} />
-             <Route path="/course-dashboard/:courseId/projects" element={<Projects />} />
-             <Route path="/course-dashboard/:courseId/bounties" element={<BountiesList />} />
+             <Route path="/course-dashboard/:courseId/projects" element={<ProjectList />} />
+             <Route path="/course-dashboard/projects/:projectId" element={<Projects />} /> */}
+
+             {/* <Route path="/course-dashboard/:courseId/bounties" element={<BountyList />} /> */}
              <Route path="/learn-in-public" element={<LearnInPublicPage />} />
-             <Route path="/course-dashboard/resume" element={<Resume />} />
+             {/* <Route path="/course-dashboard/resume" element={<Resume />} /> */}
 
             <Route path="/api/v2/auth/google/callback" element={<GoogleCallback />} />
               

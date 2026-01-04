@@ -1,11 +1,11 @@
 import apiClient from "@/config/axiosConfig";
 import type { ApiResponse } from "@/types";
 import { handleApiError } from "@/utils/errorHandler";
-import type { ContactUsDetails } from "@/types";
 
-export const fetchBlogs = async (): Promise<FAQ[]> => {
+
+export const fetchBlogs = async (): Promise<any> => {
   try {
-    const response = await apiClient.get<ApiResponse<FAQ[]>>("/blogs/blog");
+    const response = await apiClient.get<ApiResponse<any>>("/blogs/blog");
     console.log(response.data.additional)
     return response.data.additional ?? []
   } catch (error) {

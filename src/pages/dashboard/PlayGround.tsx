@@ -6,7 +6,7 @@ import Sidebar from "@/features/dashboard/LessonsList";
 import Description from "@/features/dashboard/Description";
 import HeaderSection from "@/components/common/HeaderSection";
 import Actions from "@/features/dashboard/Actions";
-import { useLessons } from "@/hooks/tanstack/useCourses";
+import { useLessons, useLessonsCheckboxStatus, useToggleLessonCompletion } from "@/hooks/tanstack/useCourses";
 import type { LessonTopic } from "@/types/course";
 import LessonHeader from "./LessonHeader";
 import LearnInPublic from "@/features/dashboard/LearnInPublic";
@@ -24,7 +24,16 @@ export default function PlayGround() {
   const [activeTab, setActiveTab] =
     useState<"content" | "discussion">("content");
 
+ const { data: completedLessons } = useLessonsCheckboxStatus(slug ?? "");
+
   const { data, isLoading, isError } = useLessons(slug ?? "");
+const toggleCompletion = useToggleLessonCompletion();
+
+ const completedLessonId = completedLessons?.completedLessonIds ?? [];
+const completedSet = Array.from(new Set(completedLessonId));
+
+
+
   const lessons = data?.courseLessons ?? [];
 
   useEffect(() => {
@@ -111,9 +120,22 @@ export default function PlayGround() {
               <Sidebar
                 lessonsList={lessons}
                 activeLessonId={currentLesson?.id}
-                completedLessonIds={completedLessonIds}
+                completedLessonIds={completedSet}
                 onLessonSelect={setCurrentLesson}
-                onToggleComplete={toggleLessonComplete}
+                onToggleComplete={(lessonId) => {
+  const isCompleted = completedLessonIds.includes(lessonId) ?? false;
+
+if(slug)
+{
+    toggleCompletion.mutate({
+    slug,
+    lessonId,
+    completed: !isCompleted,
+  });
+}
+}}
+
+    
               />
             </div>
 

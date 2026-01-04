@@ -1,6 +1,7 @@
 import type { LessonTopic } from "@/types/course";
 import { Play } from "lucide-react";
 import clsx from "clsx";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface SidebarProps {
   lessonsList: LessonTopic[];
@@ -13,7 +14,7 @@ interface SidebarProps {
 export default function Sidebar({
   lessonsList,
   activeLessonId,
-  completedLessonIds = [],
+  completedLessonIds,
   onLessonSelect,
   onToggleComplete,
 }: SidebarProps) {
@@ -30,7 +31,7 @@ export default function Sidebar({
       <ul className="flex flex-col gap-2 px-1">
         {lessonsList.map((item, index) => {
           const isActive = item.id === activeLessonId;
-          const isCompleted = completedLessonIds.includes(item.id);
+          const isCompleted = completedLessonIds?.includes(item.id) ?? false;
 
           return (
             <li key={item.id}>
@@ -44,18 +45,12 @@ export default function Sidebar({
                     : "bg-white/2"
                 )}
               >
-                {/* Checkbox */}
-                <input
-                  type="checkbox"
+                {/* ShadCN Checkbox */}
+                <Checkbox
                   checked={isCompleted}
-                  onChange={() => onToggleComplete?.(item.id)}
+                  onCheckedChange={() => onToggleComplete?.(item.id)}
                   onClick={(e) => e.stopPropagation()}
-                  className="
-                    mt-1 h-4 w-4 rounded
-                    border-white/30 bg-transparent
-                    text-emerald-400
-                    focus:ring-2 focus:ring-emerald-400/40
-                  "
+                  className="mt-1 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
                 />
 
                 {/* Main clickable area */}
@@ -89,7 +84,6 @@ export default function Sidebar({
                     >
                       {item.title}
                     </p>
-                   
                   </div>
                 </button>
               </div>

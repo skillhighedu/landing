@@ -22,8 +22,7 @@ export default function Projects() {
   }, [courseId]);
 
   const handleSubmit = (project: Project) => {
-    // TODO: Implement project submission modal
-    console.log("Submit project:", project);
+   console.log(project)
   };
 
   return (

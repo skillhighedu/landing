@@ -123,3 +123,8 @@ export interface LessonsResponse {
   courseLessons: LessonTopic[];
   meta: LessonsMeta;
 }
+
+
+export interface CompletedLessons {
+  completedLessonIds: string[];
+}

@@ -6,7 +6,8 @@ export default function Lessons() {
       const { slug } = useParams<{ slug: string }>();
 if (slug) {
  const {data} = useLessons(slug)
- console.log("hey",data?.topics)
+ console.log(data)
+ 
 }
   return (
     <div>Lessons</div>

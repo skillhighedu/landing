@@ -62,7 +62,6 @@ export default function Signup() {
         });
       }
     } catch (err: any) {
-      console.error(err);
       toast.error(err.message || "Something went wrong");
     } finally {
       setLoading(false);

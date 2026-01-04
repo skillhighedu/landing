@@ -1,4 +1,4 @@
-import { PlayCircle, Brain, Folder, GraduationCap, DollarSign } from "lucide-react";
+import { PlayCircle, GraduationCap } from "lucide-react";
 
 export const getCourseActions = (slug: string) => [
   {
