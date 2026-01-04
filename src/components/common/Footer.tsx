@@ -73,7 +73,7 @@ export default function Footer() {
                 onClick={() =>
                   openExternal("https://www.facebook.com/share/1AYSxjWiyZ/")
                 }
-                aria-label="Faceboo"
+                aria-label="Facebook"
                 className="text-gray-400 hover:text-white transition"
               >
                 <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -119,7 +119,7 @@ export default function Footer() {
               </li>
               <li>
                 <button onClick={handleTC} className="hover:text-white">
-                  Terms & Conditions
+                  Terms & Condition
                 </button>
               </li>
             </ul>
