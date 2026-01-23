@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { SEO } from "@/components/common/SEO";
 import BlogCard from "@/features/blog/components/BlogCard";
 import BlogSearch from "@/features/blog/components/BlogSearch";
-import { useBlogs } from "@/hooks/tanstack/useBlogs";
+import { useBlogs } from "@/features/blog/hooks/useBlogs";
 
 export default function Blog() {
   const [query, setQuery] = useState("");

@@ -1,4 +1,4 @@
-import { fetchBlogs } from "@/services/blog-service";
+import { fetchBlogs } from "@/features/blog/services/blog-service";
 
 import { useQuery } from "@tanstack/react-query";
 

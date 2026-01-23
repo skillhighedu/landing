@@ -1,15 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import type { BlogCardProps } from "../types/type";
 
-export interface BlogCardProps {
-  slug: string;
-  title: string;
-  date: string;
-  readTime: string;
-  description: string;
-  image?: string;
-  categories?: string[];
-}
 
 const BlogCard: React.FC<BlogCardProps> = ({
   slug,
