@@ -1,13 +1,7 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { blogPosts } from "@/constants/blogData";
 import { useEffect, type HTMLAttributes } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
-import remarkGfm from "remark-gfm";
-// import BackButton from "@/components/common/BackButton";
-
 import { cn } from "@/lib/utils";
-import { SEO } from "@/components/common/SEO";
-import BlogShare from "@/features/blog/components/BlogShare";
+
 
 type MarkdownElementProps<T extends HTMLElement = HTMLElement> = HTMLAttributes<T> & {
   node?: unknown;
@@ -17,7 +11,7 @@ type MarkdownCodeProps = MarkdownElementProps<HTMLElement> & {
   inline?: boolean;
 };
 
-const markdownComponents: Components = {
+export const markdownComponents: Components = {
   h2: ({ className, ...props }: MarkdownElementProps<HTMLHeadingElement>) => (
     <h2
       className={cn(
@@ -154,103 +148,3 @@ const markdownComponents: Components = {
     />
   ),
 };
-
-export default function BlogDetail() {
-  const { slug } = useParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  
-
-  const post = blogPosts.find((b) => b.slug === slug);
-
-  if (!post) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-white">
-         <h2 className="text-2xl font-semibold mb-4">Blog not found</h2>
-         <button
-           onClick={() => navigate("/blogs")}
-          className="text-primary hover:text-white transition-colors"
-        >
-          Back to Blog
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-neutral-950 text-gray-200 py-20 px-6 sm:px-10 lg:px-16">
-      <article className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
-        <SEO
-          title={`${post.title} | SkillHigh Blog`}
-          description={post.description}
-          image={post.image}
-          url={`${window.location.origin}/blogs/${post.slug}`}
-          meta={[{ property: "og:type", content: "article" }]}
-        />
-         {/* Back Button
-         <BackButton  text="Back to all blogs" /> */}
-
-        {/* Blog Title */}
-        <h1 className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">
-          {post.title}
-        </h1>
-
-        {/* Date + Read Time */}
-        <div className="flex flex-wrap items-center gap-3 text-gray-500 text-sm">
-          <span>{post.date}</span>•<span>{post.readTime}</span>
-          {(post.categories ?? []).length > 0 && (
-            <div className="flex flex-wrap items-center gap-2">
-              {(post.categories ?? []).map((cat) => (
-                <span
-                  key={cat}
-                  className="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary"
-                >
-                  {cat}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Blog Image */}
-        {post.image && (
-          <div className="w-full rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900">
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-auto object-cover"
-            />
-          </div>
-        )}
-
-        <BlogShare title={post.title} slug={post.slug} className="mt-6" />
-
-        {/* Blog Content (Markdown-rendered) */}
-        <div className="prose prose-invert font-serif max-w-none text-gray-300 leading-relaxed lg:prose-lg
-                        prose-headings:scroll-mt-20 prose-headings:text-white prose-headings:mt-10 prose-headings:mb-4
-                        prose-p:text-gray-300 prose-p:my-5
-                        prose-ul:my-5 prose-ol:my-5 prose-li:my-2
-                        prose-a:text-primary hover:prose-a:text-white
-                        prose-strong:text-white
-                        prose-img:rounded-lg prose-img:my-6
-                        prose-blockquote:border-l-primary/40 prose-blockquote:text-gray-300 prose-blockquote:my-6
-                        prose-code:text-primary
-                        prose-pre:bg-neutral-900 prose-pre:text-gray-200 prose-pre:my-6
-                        prose-hr:border-neutral-800 prose-hr:my-10">
-           <ReactMarkdown
-             remarkPlugins={[remarkGfm]}
-             components={markdownComponents}
-           >
-             {post.content || ""}
-           </ReactMarkdown>
-        </div>
-
-        <BlogShare title={post.title} slug={post.slug} className="mt-10" />
-      </article>
-    </div>
-  );
-}

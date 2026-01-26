@@ -2,13 +2,9 @@ import { useEffect, useState } from "react";
 import {  Linkedin, Link as LinkIcon, Share2, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CustomButton from "@/components/common/Button";
+import type { BlogShareProps } from "../types/types";
 
 
-interface BlogShareProps {
-  title: string;
-  slug: string;
-  className?: string;
-}
 
 const shareLinks = [
   {
@@ -27,7 +23,8 @@ const shareLinks = [
   },
 ];
 
-export default function BlogShare({ title, slug, className }: BlogShareProps) {
+export default function BlogShare({ title, slug, className }: BlogShareProps
+) {
   const [shareUrl, setShareUrl] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -82,7 +79,7 @@ export default function BlogShare({ title, slug, className }: BlogShareProps) {
           isBack
           type="button"
           onClick={handleNativeShare}
-          className="!bg-primary/15 !text-primary !border !border-primary/60 !px-3 !py-2 !text-xs sm:!text-sm !shadow-none hover:!bg-primary/25 transition-colors"
+          className="bg-primary/15! text-primary! border! border-primary/60! px-3! py-2! text-xs! sm:text-sm! shadow-none! hover:bg-primary/25! transition-colors"
         />
 
         <button
