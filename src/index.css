@@ -87,6 +87,10 @@ h1, h2, h3, p, img, button,div {
 }
 
 
+.pixel-icon {
+  shape-rendering: crispEdges;
+}
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

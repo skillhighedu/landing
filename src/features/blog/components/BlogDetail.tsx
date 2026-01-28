@@ -11,14 +11,22 @@ import { BlogDetailSkeleton } from "../skeleton/BlogDetailSkeleton";
 import BackButton from "@/components/common/BackButton";
 
 export default function BlogDetail() {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
   const { data: post, isLoading } = useSpecifyBlog(slug!);
 
+  /* ---------------- Scroll to top ---------------- */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  /* ---------------- Markdown Fix (MUST be above returns) ---------------- */
+  const markdownContent = useMemo(() => {
+    if (!post?.content) return "";
+    // Remove accidental wrapping backticks from backend
+    return post.content.replace(/^`+|`+$/g, "").trim();
+  }, [post?.content]);
 
   /* ---------------- Loading ---------------- */
   if (isLoading) {
@@ -40,32 +48,28 @@ export default function BlogDetail() {
     );
   }
 
-  /* ---------------- Markdown Fix ---------------- */
-  const markdownContent = useMemo(() => {
-    if (!post.content) return "";
-    // remove accidental wrapping backticks from backend
-    return post.content.replace(/^`+|`+$/g, "").trim();
-  }, [post.content]);
+  /* ---------------- Absolute URL for SEO ---------------- */
+  const absoluteUrl = `${window.location.origin}/blogs/${post.slug}`;
 
   return (
     <div className="min-h-screen bg-neutral-950 text-gray-200 py-20 px-6 sm:px-10 lg:px-16">
-      <BackButton/>
+      <BackButton />
+
       <article className="max-w-5xl mx-auto space-y-6 mt-10 sm:space-y-8">
-        {/* SEO */}
+
         <SEO
           title={`${post.title} | SkillHigh Blog`}
           description={post.excerpt}
           image={post.thumbnail}
-          url={`/blogs/${post.slug}`}
+          url={absoluteUrl}
           meta={[{ property: "og:type", content: "article" }]}
         />
 
-        {/* Title */}
+        {/* ---------------- Title ---------------- */}
         <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
           {post.title}
         </h1>
 
-        {/* Meta */}
         <div className="flex flex-wrap items-center gap-3 text-gray-500 text-sm">
           <span>
             {new Date(post.publishedAt).toLocaleDateString("en-IN", {
@@ -74,10 +78,10 @@ export default function BlogDetail() {
               year: "numeric",
             })}
           </span>
-          •
-          <span>{post.readingTime} min read</span>
 
-          {/* Category + Tags */}
+          • <span>{post.readingTime} min read</span>
+
+     
           <div className="flex flex-wrap items-center gap-2">
             {post.category?.name && (
               <span className="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">
@@ -85,7 +89,7 @@ export default function BlogDetail() {
               </span>
             )}
 
-            {(post.tags ?? []).map((tag:string) => (
+            {(post.tags ?? []).map((tag: string) => (
               <span
                 key={tag}
                 className="inline-flex items-center rounded-full border border-neutral-700 px-2.5 py-0.5 text-[11px] text-gray-400"
@@ -96,7 +100,7 @@ export default function BlogDetail() {
           </div>
         </div>
 
-        {/* Thumbnail */}
+        {/* ---------------- Thumbnail ---------------- */}
         {post.thumbnail && (
           <div className="w-full rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900">
             <img
@@ -107,10 +111,10 @@ export default function BlogDetail() {
           </div>
         )}
 
-        {/* Share */}
+        {/* ---------------- Share ---------------- */}
         <BlogShare title={post.title} slug={post.slug} className="mt-6" />
 
-        {/* Markdown Content */}
+        {/* ---------------- Markdown Content ---------------- */}
         <div
           className="
             prose prose-invert max-w-none
@@ -137,7 +141,7 @@ export default function BlogDetail() {
           </ReactMarkdown>
         </div>
 
-        {/* Share again */}
+
         <BlogShare title={post.title} slug={post.slug} className="mt-10" />
       </article>
     </div>

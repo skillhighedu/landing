@@ -4,15 +4,17 @@ import Hero from '@/components/Hero'
 import RecognizedBy from '@/features/landing/components/RecognizedBy'
 import Timeline from '@/components/Timeline'
 import { CoursesCarousel } from '@/components/Courses'
-import FAQ from '@/components/FAQ'
+
 import SkillsCurtainIntro from '@/components/SkillsCurtainIntro'
 import Testimonials from '@/features/landing/components/Testimonals'
 import { Mentors } from '@/components/Mentors'
 import Benefits from '@/components/Benifits'
-import Stat from '@/features/landing/components/Stat'
+
 import CertificatePartners from '@/components/CertificatePartners'
-import BookCallButton from '@/components/MeetBooking'
+
 import Form from '@/components/Form'
+import { Landing } from '@/features/landing';
+
 
 
 const INTRO_EXPIRY_MINUTES = 15
@@ -54,20 +56,19 @@ export default function Home() {
       {!showMain && <SkillsCurtainIntro onFinish={handleIntroFinish} />}
       {showMain && (
         <>
-          <Hero />
-          <CertificatePartners />
-          <RecognizedBy />
+          {/* <Hero /> */}
+          {/* <CertificatePartners />
+          <RecognizedBy /> */}
 
-          <Benefits />
-          <CoursesCarousel />
-          <Timeline />
-          <Testimonials />
-          <Stat />
+          {/* <Benefits /> */}
+          {/* <CoursesCarousel /> */}
+          {/* <Timeline /> */}
+          {/* <Testimonials /> */}
+          <Landing />
 
-          <Mentors />
-          <FAQ />
-          <BookCallButton title="Launch Your Future Today" description="In just 15 minutes, discover how to elevate your skills, accelerate your career, and achieve your goals with a personalized roadmap." buttonText="Book my call" />
+     
 
+         
           <Form backgroundImage={Trees} />
         </>
       )}

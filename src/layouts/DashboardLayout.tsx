@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import MiniSidebar from "@/features/dashboard/Sidebar";
+import MiniSidebar from "@/features/dashboard/components/Sidebar";
 import { useParams } from "react-router-dom";
 
 interface DashboardLayoutProps {

@@ -30,6 +30,7 @@ import Quiz from "./features/quiz/components/Quiz";
 import PlayGround from "./pages/dashboard/PlayGround";
 import ProjectList from "./features/projects/components/ProjectList";
 import BountyList from "./features/bounties/components/BountyList";
+import Courses from "./features/landing/pages/Courses";
 
 function App() {
   const { checkAuth, loading, isAuthenticated } = useAuthStore();
@@ -53,7 +54,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/course/:courseSlug" element={<CourseDetails />} />
-            <Route path="/all-courses" element={<AllCourses />} />
+            <Route path="/all-courses" element={<Courses/>} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/outsource" element={<OutSource />} />
             <Route path="/blogs" element={<Blog />} />

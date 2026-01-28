@@ -46,7 +46,7 @@ export default function CountdownBanner({
   }, []);
 
   return (
-    <div className="w-full mt-18 bg-gradient-to-r from-primary via-primary/40 to-primary/80 text-white shadow-lg py-4 px-6 relative overflow-hidden">
+    <div className="w-full mt-18 bg-linear-to-r from-primary via-primary/40 to-primary/80 text-white shadow-lg py-4 px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
       <div className="relative max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
 

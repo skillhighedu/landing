@@ -9,7 +9,11 @@ import { useFetchFormattedCourses } from "@/hooks/useFetchFormattedCourses";
 import { useFetchPricings } from "@/hooks/useFetchPricings";
 import {useLocation} from "react-router-dom"
 import { useEffect, useState } from "react";
+import { usePageScroll } from "@/hooks/usePageScroll";
+
 export default function Layout() {
+
+  usePageScroll()
   const [displayBanner, setDisplayBanner] = useState(true);
 
   useFetchDepartments();

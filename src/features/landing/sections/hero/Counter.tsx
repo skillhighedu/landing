@@ -2,14 +2,8 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, useMotionValue, useSpring, useAnimationFrame, useInView } from 'framer-motion'
+import type { CounterProps } from './types'
 
-interface CounterProps {
-  from?: number
-  to: number
-  duration?: number
-  suffix?: string,
-  color:string
-}
 
 export function Counter({ from = 0, to, duration = 1, suffix = '',color="" }: CounterProps) {
   const ref = useRef(null)
