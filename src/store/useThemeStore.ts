@@ -5,6 +5,7 @@ import {create} from "zustand"
 export const useThemeStore = create<ThemeState>((set) => ({
     theme: "light",
 
+    
     initTheme: () => {
         const saved = (localStorage.getItem("theme") as Theme | null) ?? "light";
         const root = document.documentElement;
