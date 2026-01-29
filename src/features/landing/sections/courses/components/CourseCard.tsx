@@ -13,13 +13,11 @@ export default function CourseCard({ course }: Props) {
   return (
     <Card
       className="
-        group relative h-[420px]
-        overflow-hidden rounded-2xl
-        border border-neutral-800
-        bg-neutral-900
-        pixel-border
-        shadow-[4px_4px_0_#000]
-        hover:shadow-[6px_6px_0_#000]
+        group relative h-[420px] overflow-hidden rounded-2xl
+        border border-border
+        bg-card
+        shadow-[4px_4px_0_#000] dark:shadow-[4px_4px_0_rgba(255,255,255,0.18)]
+        hover:shadow-[6px_6px_0_#000] dark:hover:shadow-[6px_6px_0_rgba(255,255,255,0.22)]
         transition-shadow
       "
     >
@@ -40,7 +38,7 @@ export default function CourseCard({ course }: Props) {
         "
       />
 
-      {/* Overlay */}
+      {/* Overlay (keep this, it guarantees readability) */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/70 to-transparent" />
 
       {/* Content */}
@@ -49,7 +47,7 @@ export default function CourseCard({ course }: Props) {
           {course.courseName}
         </h3>
 
-        <p className="text-sm text-neutral-300 font-bricolage line-clamp-2 mb-4">
+        <p className="text-sm text-white/80 font-bricolage line-clamp-2 mb-4">
           {course.courseDescription}
         </p>
 
@@ -57,9 +55,9 @@ export default function CourseCard({ course }: Props) {
           onClick={() => navigate(`/course/${course.slug}`)}
           className="
             w-fit rounded-md
-            bg-white px-4 py-2
+            bg-white/90 px-4 py-2
             text-sm font-medium text-black
-            hover:bg-neutral-200
+            hover:bg-white
             transition-colors
           "
         >

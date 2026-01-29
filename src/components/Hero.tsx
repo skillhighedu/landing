@@ -24,16 +24,9 @@ export default function Hero() {
   const heading = "Skills Build Futures. We Help You Build Them.";
   const words = heading.split(" ");
 
-  // Text animation
   const container: Variants = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.4,
-      },
-    },
+    show: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.4 } },
   };
 
   const wordAnim: Variants = {
@@ -55,7 +48,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center bg-black font-pixel text-center overflow-hidden py-16 sm:py-20">
+    <section className="relative min-h-screen flex flex-col justify-center bg-background text-foreground font-pixel text-center overflow-hidden py-16 sm:py-20">
       {/* Background Layer */}
       <motion.div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
@@ -96,7 +89,7 @@ export default function Hero() {
 
         {/* Subheading */}
         <motion.p
-          className="text-base sm:text-lg md:text-xl text-neutral-900 leading-relaxed font-bricolage max-w-md sm:max-w-lg md:max-w-4xl mx-auto"
+          className="text-base sm:text-lg md:text-xl text-foreground/80 leading-relaxed font-bricolage max-w-md sm:max-w-lg md:max-w-4xl mx-auto"
           initial={{ y: 40, opacity: 0, scale: 0.98 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.42, 0, 0.58, 1] }}
@@ -116,7 +109,7 @@ export default function Hero() {
           <BookingModal
             title={"Schedule Your Call"}
             icon={<Calendar />}
-            className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal"
+            className="w-full sm:w-auto bg-primary text-primary-foreground hover:opacity-90 font-normal"
           />
 
           <Link to="/all-courses" className="w-full sm:w-auto">
@@ -130,7 +123,7 @@ export default function Hero() {
 
         {/* Footnote */}
         <motion.p
-          className="text-sm sm:text-base md:text-lg leading-relaxed max-w-md sm:max-w-lg md:max-w-2xl mx-auto mt-4 sm:mt-6"
+          className="text-sm sm:text-base md:text-lg leading-relaxed max-w-md sm:max-w-lg md:max-w-2xl mx-auto mt-4 sm:mt-6 text-foreground/80"
           initial={{ y: 40, opacity: 0, scale: 0.98 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.42, 0, 0.58, 1] }}
@@ -152,7 +145,7 @@ export default function Hero() {
                   viewport={{ once: true }}
                   className="p-2"
                 >
-                  <Card className="border border-gray-300/20 bg-white/5 shadow-sm transition-all duration-300 hover:shadow-md rounded-2xl flex items-center justify-center">
+                  <Card className="border border-border bg-card/60 backdrop-blur shadow-sm transition-all duration-300 hover:shadow-md rounded-2xl flex items-center justify-center">
                     <CardContent className="flex h-28 items-center justify-center p-4">
                       <img
                         src={partner.logo}

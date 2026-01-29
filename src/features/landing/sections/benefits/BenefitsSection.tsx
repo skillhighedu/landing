@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { motion } from "framer-motion";
 import Header from "@/components/common/Header";
@@ -10,7 +10,7 @@ import { containerVariants } from "./animations";
 
 export default function BenefitsSection() {
   return (
-    <section className="relative bg-neutral-950 py-20 overflow-hidden">
+    <section className="relative bg-background text-foreground py-20 overflow-hidden">
       <DotPatternLinearGradient />
 
       <Container size="full">

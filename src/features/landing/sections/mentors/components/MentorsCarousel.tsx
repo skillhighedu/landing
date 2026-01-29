@@ -25,7 +25,7 @@ export default function MentorsCarousel({ mentors }: MentorsCarouselProps) {
       delay: 3500,
       stopOnInteraction: false,
       stopOnMouseEnter: true,
-    })
+    }),
   );
 
   const handleSelect = React.useCallback((embla: EmblaCarouselType) => {
@@ -53,10 +53,25 @@ export default function MentorsCarousel({ mentors }: MentorsCarouselProps) {
           </CarouselItem>
         ))}
       </CarouselContent>
-
       {/* Controls */}
-      <CarouselPrevious className="left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white backdrop-blur-md border-none hover:bg-black/60" />
-      <CarouselNext className="right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white backdrop-blur-md border-none hover:bg-black/60" />
+      <CarouselPrevious
+        className="
+    left-2 top-1/2 -translate-y-1/2
+    bg-card text-card-foreground
+    border border-border
+    backdrop-blur-md
+    hover:bg-muted
+  "
+      />
+      <CarouselNext
+        className="
+    right-2 top-1/2 -translate-y-1/2
+    bg-card text-card-foreground
+    border border-border
+    backdrop-blur-md
+    hover:bg-muted
+  "
+      />{" "}
     </Carousel>
   );
 }
