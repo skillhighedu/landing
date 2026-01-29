@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Header from "@/components/common/Header";
 import FAQDecorations from "./components/FAQDecorations";
@@ -12,7 +12,7 @@ export default function FAQSection() {
   const { activeIndex, toggle } = useFAQAccordion();
 
   return (
-    <section className="relative bg-background text-foreground py-20 overflow-hidden">
+    <section className="relative bg-neutral-950 py-20 overflow-hidden">
       {/* Full-width decorations */}
       <FAQDecorations />
 
@@ -23,7 +23,11 @@ export default function FAQSection() {
           subline="Answers to common questions about SkillHigh programs."
         />
 
-        <FAQList items={faq} activeIndex={activeIndex} toggle={toggle} />
+        <FAQList
+          items={faq}
+          activeIndex={activeIndex}
+          toggle={toggle}
+        />
       </Container>
     </section>
   );

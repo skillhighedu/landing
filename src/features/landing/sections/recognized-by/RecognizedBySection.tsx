@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
@@ -20,7 +20,7 @@ export default function RecognizedBySection() {
   }, [controls, inView]);
 
   return (
-    <section className="bg-background text-foreground py-20 overflow-hidden">
+    <section className="bg-neutral-950 py-20 overflow-hidden">
       <Container size="xl">
         {/* Header */}
         <motion.div
@@ -38,13 +38,20 @@ export default function RecognizedBySection() {
         {/* Logos */}
         <motion.div
           ref={ref}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 place-items-center"
+          className="
+            grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4
+            gap-8 place-items-center
+          "
           variants={containerVariants}
           initial="hidden"
           animate={controls}
         >
           {recognizedPartners.map((partner) => (
-            <RecognizedLogo key={partner.id} logo={partner.logo} alt={partner.alt} />
+            <RecognizedLogo
+              key={partner.id}
+              logo={partner.logo}
+              alt={partner.alt}
+            />
           ))}
         </motion.div>
       </Container>

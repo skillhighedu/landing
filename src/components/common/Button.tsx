@@ -23,19 +23,18 @@ export default function CustomButton({
 }: CustomButtonProps) {
   const base =
     "text-base sm:text-md px-4 py-5 flex items-center gap-2 cursor-pointer " +
-    "border border-border rounded-md transition-all duration-300 transform hover:-translate-y-1 " +
-    "shadow-[4px_4px_0_#000] dark:shadow-[4px_4px_0_rgba(255,255,255,0.18)] " +
-    "hover:shadow-[6px_6px_0_#000] dark:hover:shadow-[6px_6px_0_rgba(255,255,255,0.22)]";
+    "pixel-border transition-all duration-300 transform hover:-translate-y-1 " +
+    "shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]";
 
   const variants: Record<Variant, string> = {
     primary:
-      "bg-primary text-primary-foreground hover:opacity-90",
+      "bg-primary text-white hover:bg-primary/90",
     secondary:
-      "bg-secondary text-secondary-foreground hover:opacity-90",
+      "bg-white/10 text-white hover:bg-white/20",
     success:
-      "bg-emerald-600 text-white hover:opacity-90",
+      "bg-emerald-600 text-white hover:bg-emerald-600/90",
     outline:
-      "bg-transparent text-foreground hover:bg-muted",
+      "border border-white/20 text-white bg-transparent hover:bg-white/10",
   };
 
   return (

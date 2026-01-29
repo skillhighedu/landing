@@ -8,12 +8,11 @@ export default function TestimonialCard({ name, link, review }: Props) {
     <figure
       className="
         relative w-full max-w-xl
-        rounded-xl
-        border border-border
-        bg-card/80 backdrop-blur
+        rounded-xl border border-neutral-800
+        bg-neutral-900/80
         px-5 py-4
         transition-all
-        hover:bg-card
+        hover:border-neutral-600
       "
     >
       {/* Header */}
@@ -27,14 +26,14 @@ export default function TestimonialCard({ name, link, review }: Props) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${name} on LinkedIn`}
-          className="text-foreground/60 hover:text-primary transition-colors"
+          className="text-neutral-400 hover:text-blue-400 transition-colors"
         >
           <Linkedin size={16} />
         </a>
       </div>
 
       {/* Review */}
-      <blockquote className="text-sm text-card-foreground/75 leading-relaxed font-bricolage">
+      <blockquote className="text-sm text-neutral-300 leading-relaxed font-bricolage">
         “{review}”
       </blockquote>
     </figure>

@@ -17,11 +17,12 @@ export default function BenefitCard({ benefit }: Props) {
       transition={{ type: "spring", stiffness: 260, damping: 18 }}
       className="
         relative rounded-2xl
-        border border-border
-        bg-card text-card-foreground
+        border border-neutral-800
+        bg-neutral-900
         p-6
-        shadow-[4px_4px_0_#000] dark:shadow-[4px_4px_0_rgba(255,255,255,0.18)]
-        hover:shadow-[6px_6px_0_#000] dark:hover:shadow-[6px_6px_0_rgba(255,255,255,0.22)]
+        pixel-border
+        shadow-[4px_4px_0_#000]
+        hover:shadow-[6px_6px_0_#000]
         transition-all
         cursor-default
       "
@@ -32,11 +33,11 @@ export default function BenefitCard({ benefit }: Props) {
       </div>
 
       {/* Content */}
-      <h3 className="text-lg mb-2 tracking-normal text-card-foreground">
+      <h3 className="text-lg  text-white mb-2 tracking-normal">
         {benefit.title}
       </h3>
 
-      <p className="text-sm text-card-foreground/70 leading-relaxed font-bricolage">
+      <p className="text-sm text-neutral-400 leading-relaxed font-bricolage">
         {benefit.description}
       </p>
     </motion.div>

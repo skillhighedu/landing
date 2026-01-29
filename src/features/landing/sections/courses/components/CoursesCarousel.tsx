@@ -19,9 +19,6 @@ export default function CoursesCarousel({ courses }: Props) {
     Autoplay({ delay: 4500, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
-  const arrowClass =
-    "border border-border bg-card text-card-foreground shadow-[4px_4px_0_hsl(var(--border))] hover:bg-muted";
-
   return (
     <Carousel plugins={[plugin.current]} opts={{ loop: true }}>
       <CarouselContent>
@@ -35,8 +32,8 @@ export default function CoursesCarousel({ courses }: Props) {
         ))}
       </CarouselContent>
 
-      <CarouselPrevious className={arrowClass} />
-      <CarouselNext className={arrowClass} />
+      <CarouselPrevious className="pixel-border shadow-[4px_4px_0_#000]" />
+      <CarouselNext className="pixel-border shadow-[4px_4px_0_#000]" />
     </Carousel>
   );
 }

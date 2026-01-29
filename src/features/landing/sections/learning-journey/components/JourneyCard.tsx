@@ -20,43 +20,22 @@ export default function JourneyCard({ step, index }: Props) {
       whileInView="onscreen"
       viewport={{ amount: 0.8 }}
     >
-      {/* Splash */}
       <div
-        style={{
-          ...splashStyle,
-          background:
-            "linear-gradient(306deg, rgba(0,0,0,0.08), rgba(0,0,0,0.02))",
-        }}
-        className="dark:opacity-50"
+        style={{ ...splashStyle, background: "linear-gradient(306deg, #000, #0a0a0a)" }}
       />
 
       <motion.div
         style={cardStyle}
         variants={cardVariants}
-        className="
-          bg-card text-card-foreground
-          border border-border
-          shadow-[4px_4px_0_#000] dark:shadow-[4px_4px_0_rgba(255,255,255,0.18)]
-          hover:shadow-[6px_6px_0_#000] dark:hover:shadow-[6px_6px_0_rgba(255,255,255,0.22)]
-          transition-shadow
-        "
+        className="bg-neutral-900 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]"
       >
-        {/* Step number */}
-        <div
-          className="
-            w-10 h-10 rounded-sm mb-8
-            flex items-center justify-center
-            bg-primary text-primary-foreground
-            border border-border
-            font-semibold
-          "
-        >
+        <div className="bg-green-800 w-10 h-10 rounded-sm text-white mb-8 flex items-center justify-center pixel-border">
           {index + 1}
         </div>
 
         <div className="text-4xl mb-4 text-primary">{step.emoji}</div>
 
-        <p className="text-card-foreground/80 leading-relaxed text-center font-bricolage">
+        <p className="text-neutral-100 leading-relaxed text-center font-bricolage">
           {step.description}
         </p>
       </motion.div>

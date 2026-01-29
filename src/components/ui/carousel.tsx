@@ -171,7 +171,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
 
 function CarouselPrevious({
   className,
-  variant = "ghost",
+  variant = "outline",
   size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -184,18 +184,16 @@ function CarouselPrevious({
       size={size}
       className={cn(
         "absolute size-8 rounded-full",
-        "bg-background text-foreground border border-border shadow-sm hover:bg-muted",
-        "disabled:opacity-40 disabled:pointer-events-none",
         orientation === "horizontal"
-          ? "top-1/2 -left-12 -translate-y-1/2"   // ✅ LEFT
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90", // ✅ TOP for vertical
+          ? "top-1/2 -left-12 -translate-y-1/2"
+          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft className="h-4 w-4" />
+      <ArrowLeft />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -203,7 +201,7 @@ function CarouselPrevious({
 
 function CarouselNext({
   className,
-  variant = "ghost",
+  variant = "outline",
   size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -216,23 +214,20 @@ function CarouselNext({
       size={size}
       className={cn(
         "absolute size-8 rounded-full",
-        "bg-background text-foreground border border-border shadow-sm hover:bg-muted",
-        "disabled:opacity-40 disabled:pointer-events-none",
         orientation === "horizontal"
-          ? "top-1/2 -right-12 -translate-y-1/2"  // ✅ RIGHT
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90", // ✅ BOTTOM for vertical
+          ? "top-1/2 -right-12 -translate-y-1/2"
+          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight className="h-4 w-4" />
+      <ArrowRight />
       <span className="sr-only">Next slide</span>
     </Button>
   )
 }
-
 
 export {
   type CarouselApi,

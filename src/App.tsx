@@ -31,15 +31,9 @@ import PlayGround from "./pages/dashboard/PlayGround";
 import ProjectList from "./features/projects/components/ProjectList";
 import BountyList from "./features/bounties/components/BountyList";
 import Courses from "./features/landing/pages/Courses";
-import { useThemeStore } from "./store/useThemeStore";
 
 function App() {
   const { checkAuth, loading, isAuthenticated } = useAuthStore();
-  const initTheme = useThemeStore((s) => s.initTheme);
-
-  useEffect(() => {
-    initTheme();
-  }, [initTheme])
 
   useEffect(() => {
     checkAuth();

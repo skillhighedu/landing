@@ -11,7 +11,7 @@ export default function CoursesSection() {
   const { formatedCourses = [] } = usePublicCoursesStore();
 
   return (
-    <section className="bg-background text-foreground py-20 overflow-hidden">
+    <section className="bg-neutral-950 py-20 overflow-hidden">
       <Container size="xl">
         <div className="text-center mb-14">
           <Header
@@ -23,7 +23,7 @@ export default function CoursesSection() {
         {formatedCourses.length > 0 ? (
           <CoursesCarousel courses={formatedCourses} />
         ) : (
-          <p className="text-center text-foreground/70">
+          <p className="text-center text-neutral-400">
             No courses available at the moment.
           </p>
         )}

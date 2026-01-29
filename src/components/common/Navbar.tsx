@@ -11,7 +11,6 @@ import CustomButton from "@/components/common/Button";
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import { useAuthStore } from "@/store/authStore";
 import { useTheme } from "@/providers/ThemeProvider";
-import { useThemeStore } from "@/store/useThemeStore";
 
 /* -------------------- Types -------------------- */
 type Department = {
@@ -47,7 +46,7 @@ function DepartmentsSidebar({
             ${
               selectedIndex === index
                 ? "bg-primary/10 text-primary"
-                : "text-foreground/80 hover:bg-muted"
+                : "text-neutral-300 hover:bg-neutral-800"
             }
           `}
         >
@@ -98,14 +97,10 @@ function CoursesGrid({
 /* -------------------- Navbar -------------------- */
 export default function Navbar() {
   const navigate = useNavigate();
-  //   const { theme, toggleTheme } = useTheme();
-  const theme = useThemeStore((s) => s.theme);
-  const toggleTheme = useThemeStore((s) => s.toggleTheme);
+  const { theme, toggleTheme } = useTheme();
 
   const { isAuthenticated, checkAuth } = useAuthStore();
-  const departments = usePublicCoursesStore(
-    (s) => s.departments,
-  ) as Department[];
+  const departments = usePublicCoursesStore((s) => s.departments) as Department[];
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -136,10 +131,7 @@ export default function Navbar() {
   /* ---------------- Outside click ---------------- */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setCoursesOpen(false);
       }
     };
@@ -159,10 +151,10 @@ export default function Navbar() {
       <header
         className={`
           fixed top-0 left-0 w-full z-50
-    bg-background
-    border-b border-border
-    transition-transform duration-300
-    ${isVisible ? "translate-y-0" : "-translate-y-full"}
+          bg-white dark:bg-neutral-900
+          border-b border-neutral-200 dark:border-white/10
+          transition-transform duration-300
+          ${isVisible ? "translate-y-0" : "-translate-y-full"}
         `}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -173,9 +165,7 @@ export default function Navbar() {
 
           {/* Nav */}
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link className="nav-link" to="/">
-              Home
-            </Link>
+            <Link className="nav-link" to="/">Home</Link>
 
             {/* Programs */}
             <div className="relative" ref={dropdownRef}>
@@ -187,15 +177,15 @@ export default function Navbar() {
               </button>
 
               {coursesOpen && (
-                <div
-                  className="
+                <div className="
                   absolute left-0 top-full mt-4
-  w-[680px]
-  bg-card text-card-foreground
-  border border-border
-  rounded-xl shadow-xl p-4
-                "
-                >
+                  w-[680px]
+                  bg-neutral-900
+                  border border-neutral-800
+                  rounded-xl
+                  shadow-xl
+                  p-4
+                ">
                   <div className="flex gap-4">
                     <DepartmentsSidebar
                       departments={departments}
@@ -213,9 +203,7 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link className="nav-link" to="/blogs">
-              Blogs
-            </Link>
+            <Link className="nav-link" to="/blogs">Blogs</Link>
           </nav>
 
           {/* Right actions */}
@@ -223,27 +211,28 @@ export default function Navbar() {
             {/* Theme toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-md bg-muted text-foreground"
+              className="p-2 rounded-md bg-neutral-100 dark:bg-neutral-800"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === "dark" ? (
+                <Sun size={16} className="text-yellow-400" />
+              ) : (
+                <Moon size={16} />
+              )}
             </button>
 
             {isAuthenticated ? (
-              <CustomButton
-                title="Profile"
-                onClick={() => navigate("/profile")}
-              />
+              <CustomButton title="Profile" onClick={() => navigate("/profile")} />
             ) : (
-              <CustomButton
-                title="Start Your Journey"
-                onClick={() => navigate("/signup")}
-              />
+              <CustomButton title="Start Your Journey" onClick={() => navigate("/signup")} />
             )}
           </div>
 
           {/* Mobile menu button */}
-          <button className="md:hidden" onClick={() => setDrawerOpen(true)}>
+          <button
+            className="md:hidden"
+            onClick={() => setDrawerOpen(true)}
+          >
             <MenuIcon />
           </button>
         </div>
@@ -252,44 +241,33 @@ export default function Navbar() {
       {/* ================= MOBILE DRAWER ================= */}
       {drawerOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-end">
-          <div className="w-full max-w-sm bg-background text-foreground h-full p-6 flex flex-col justify-between">
-            <button className="self-end" onClick={() => setDrawerOpen(false)}>
+          <div className="w-full max-w-sm bg-neutral-900 h-full p-6 flex flex-col justify-between">
+            <button
+              className="self-end"
+              onClick={() => setDrawerOpen(false)}
+            >
               <X />
             </button>
 
             <nav className="flex flex-col gap-6 text-lg">
-              <Link to="/" onClick={() => setDrawerOpen(false)}>
-                Home
-              </Link>
-              <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>
-                Programs
-              </Link>
-              <Link to="/blogs" onClick={() => setDrawerOpen(false)}>
-                Blogs
-              </Link>
+              <Link to="/" onClick={() => setDrawerOpen(false)}>Home</Link>
+              <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>Programs</Link>
+              <Link to="/blogs" onClick={() => setDrawerOpen(false)}>Blogs</Link>
             </nav>
 
             <div className="space-y-3">
               <button
                 onClick={toggleTheme}
-                className="w-full p-3 rounded-md bg-muted text-foreground flex items-center justify-center gap-2"
+                className="w-full p-3 rounded-md bg-neutral-800 flex items-center justify-center gap-2"
               >
                 {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
                 Toggle Theme
               </button>
 
               {isAuthenticated ? (
-                <CustomButton
-                  title="Profile"
-                  onClick={() => navigate("/profile")}
-                  className="w-full"
-                />
+                <CustomButton title="Profile" onClick={() => navigate("/profile")} className="w-full" />
               ) : (
-                <CustomButton
-                  title="Start Your Journey"
-                  onClick={() => navigate("/signup")}
-                  className="w-full"
-                />
+                <CustomButton title="Start Your Journey" onClick={() => navigate("/signup")} className="w-full" />
               )}
             </div>
           </div>

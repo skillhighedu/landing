@@ -271,8 +271,3 @@ body {
   scroll-behavior: auto;
 }
 
-@layer components {
-  .nav-link {
-    @apply text-foreground/80 hover:text-foreground transition-colors;
-  }
-}

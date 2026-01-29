@@ -12,7 +12,7 @@ export default function FAQDecorations() {
         <Icon
           icon={HelpCircle}
           size={56}
-          className="opacity-70 text-foreground/40"
+          className="opacity-70 text-neutral-400"
         />
       </motion.div>
 
@@ -24,7 +24,7 @@ export default function FAQDecorations() {
         <Icon
           icon={HelpCircle}
           size={56}
-          className="opacity-70 text-foreground/40"
+          className="opacity-70 text-neutral-400"
         />
       </motion.div>
     </>

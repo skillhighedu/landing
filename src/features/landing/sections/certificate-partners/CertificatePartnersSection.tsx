@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
@@ -20,7 +20,7 @@ export default function CertificatePartnersSection() {
   }, [controls, inView]);
 
   return (
-    <section className="bg-background text-foreground py-20 overflow-hidden">
+    <section className="bg-neutral-950 py-20 overflow-hidden">
       <Container size="xl">
         {/* Header */}
         <motion.div
@@ -38,7 +38,11 @@ export default function CertificatePartnersSection() {
         {/* Logos */}
         <motion.div
           ref={ref}
-          className="flex flex-wrap items-center justify-center gap-8 sm:gap-10"
+          className="
+            flex flex-wrap
+            items-center justify-center
+            gap-8 sm:gap-10
+          "
           variants={containerVariants}
           initial="hidden"
           animate={controls}

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import type { ComparisonItem } from "../types";
 import { Check, X } from "lucide-react";
-import Logo from "@/assets/logo.png";
+import Logo from "@/assets/logo.png"
 
 type Props = {
   items: ComparisonItem[];
@@ -20,13 +20,13 @@ export default function ComparisonTable({ items }: Props) {
       return value ? (
         <div className="flex items-center justify-center">
           <div className="bg-green-500/20 border-2 border-green-500 rounded p-1.5">
-            <Check className="w-4 h-4 text-green-500" />
+            <Check className="w-4 h-4 text-green-400" />
           </div>
         </div>
       ) : (
         <div className="flex items-center justify-center">
           <div className="bg-red-500/20 border-2 border-red-500 rounded p-1.5">
-            <X className="w-4 h-4 text-red-500" />
+            <X className="w-4 h-4 text-red-400" />
           </div>
         </div>
       );
@@ -36,26 +36,21 @@ export default function ComparisonTable({ items }: Props) {
 
   return (
     <div className="relative w-full overflow-x-auto font-sans">
+   
       <Table className="min-w-[720px] border-separate border-spacing-y-3">
-        {/* ================= HEADER ================= */}
-        <TableHeader>
-          {/* Title row */}
+
+        <TableHeader className="hover:bg-neutral-900">
           <TableRow className="border-none">
             <TableHead
               colSpan={3}
-              className="
-                py-6 px-6
-                bg-card text-card-foreground
-                border border-border
-                rounded-xl
-              "
+              className="pixel-border-header py-6 px-6 rounded-none"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-card-foreground mb-1">
+                  <h2 className="text-lg font-bold text-white mb-1">
                     Feature Comparison
                   </h2>
-                  <p className="text-xs text-card-foreground/70">
+                  <p className="text-xs text-neutral-400">
                     See how SkillHigh compares to typical EdTech platforms
                   </p>
                 </div>
@@ -68,38 +63,16 @@ export default function ComparisonTable({ items }: Props) {
             </TableHead>
           </TableRow>
 
-          {/* Column headers */}
           <TableRow className="border-none h-16">
-            <TableHead
-              className="
-                py-4 px-6 text-center
-                text-xs font-bold uppercase tracking-widest
-                bg-muted text-foreground/80
-                border border-border rounded-xl
-              "
-            >
+            <TableHead className="pixel-border py-4 px-6 bg-gradient-to-br from-neutral-800 to-neutral-900 text-xs font-bold uppercase tracking-widest text-neutral-300 text-center">
               Feature
             </TableHead>
 
-            <TableHead
-              className="
-                py-4 px-6 text-center
-                text-xs font-bold uppercase tracking-widest
-                bg-muted text-foreground/70
-                border border-border rounded-xl
-              "
-            >
+            <TableHead className="pixel-border py-4 px-6 bg-gradient-to-br from-neutral-800 to-neutral-900 text-xs font-bold uppercase tracking-widest text-neutral-400 text-center">
               Typical EdTech
             </TableHead>
 
-            <TableHead
-              className="
-                py-4 px-6 text-center
-                text-xs font-bold uppercase tracking-widest
-                bg-primary/15 text-primary
-                border border-primary/40 rounded-xl
-              "
-            >
+            <TableHead className="pixel-border py-4 px-6 bg-gradient-to-br from-primary/30 to-primary/10 text-xs font-bold uppercase tracking-widest text-primary text-center border-2 border-primary/50">
               SkillHigh
             </TableHead>
           </TableRow>
@@ -107,70 +80,39 @@ export default function ComparisonTable({ items }: Props) {
 
         {/* ================= BODY ================= */}
         <TableBody>
-          {items.map((item, idx) => {
-            const zebra = idx % 2 === 0 ? "bg-card" : "bg-muted/40";
+          {items.map((item, idx) => (
+            <TableRow
+              key={item.feature}
+              className="border-none group"
+            >
+              {/* Feature */}
+              <TableCell className={`pixel-border py-6 px-6 font-semibold text-white group-hover:bg-neutral-800/50 transition-all duration-300 ${idx % 2 === 0 ? 'bg-neutral-950/40' : 'bg-neutral-900/20'}`}>
+                <div className="text-sm">{item.feature}</div>
+              </TableCell>
 
-            return (
-              <TableRow key={item.feature} className="border-none group">
-                {/* Feature */}
-                <TableCell
-                  className={`
-                    py-6 px-6 font-semibold
-                    border border-border rounded-xl
-                    ${zebra}
-                    group-hover:bg-muted/70 transition-all duration-300
-                  `}
-                >
-                  <div className="text-sm text-foreground">{item.feature}</div>
-                </TableCell>
+              {/* Typical EdTech */}
+              <TableCell className={`pixel-border py-6 px-6 text-neutral-400 text-center group-hover:bg-neutral-800/50 transition-all duration-300 ${idx % 2 === 0 ? 'bg-neutral-950/40' : 'bg-neutral-900/20'}`}>
+                <div className="text-sm font-medium">
+                  {renderValue(item.others)}
+                </div>
+              </TableCell>
 
-                {/* Typical EdTech */}
-                <TableCell
-                  className={`
-                    py-6 px-6 text-center
-                    border border-border rounded-xl
-                    ${zebra}
-                    group-hover:bg-muted/70 transition-all duration-300
-                  `}
-                >
-                  <div className="text-sm font-medium text-foreground/70">
-                    {renderValue(item.others)}
-                  </div>
-                </TableCell>
-
-                {/* SkillHigh */}
-                <TableCell
-                  className={cnSkillCell(item.highlight, zebra)}
-                >
-                  <div className="text-sm">
-                    {renderValue(item.skillhigh)}
-                  </div>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+              {/* SkillHigh */}
+              <TableCell
+                className={`pixel-border py-6 px-6 text-center font-bold transition-all duration-300 ${
+                  item.highlight
+                    ? 'bg-primary/20 text-primary border-2 border-primary/60 group-hover:bg-primary/30 group-hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]'
+                    : `${idx % 2 === 0 ? 'bg-neutral-950/40' : 'bg-neutral-900/20'} text-neutral-100 group-hover:bg-neutral-800/50`
+                }`}
+              >
+                <div className="text-sm">
+                  {renderValue(item.skillhigh)}
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
   );
-}
-
-function cnSkillCell(highlight: boolean | undefined, zebra: string) {
-  if (highlight) {
-    return `
-      py-6 px-6 text-center font-bold
-      border border-primary/50 rounded-xl
-      bg-primary/20 text-primary
-      group-hover:bg-primary/25 transition-all duration-300
-      shadow-sm
-    `;
-  }
-
-  return `
-    py-6 px-6 text-center font-bold
-    border border-border rounded-xl
-    ${zebra}
-    text-foreground/90
-    group-hover:bg-muted/70 transition-all duration-300
-  `;
 }
