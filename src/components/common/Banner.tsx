@@ -1,132 +1,115 @@
 import { useEffect, useState } from "react";
 import BookingModal from "@/components/common/BookingModal";
+import Container from "@/layouts/Container";
 
 type CountdownProps = {
-  targetDate?: string; // Format: '2025-08-07T23:59:59'
-  showEvent?: boolean;
-  event?: {
-    title: string;
-    description: string;
-    buttonText: string;
-    formLink: string;
-  };
+  targetDate?: string;
 };
 
-export default function CountdownBanner({
-  targetDate,
-  showEvent = false,
-  event,
-}: CountdownProps) {
+export default function CountdownBanner({ targetDate }: CountdownProps) {
   const calculateTimeLeft = () => {
-    const difference =
-      targetDate ? +new Date(targetDate) - +new Date() : 0;
-    let timeLeft = { days: "00", hours: "00", minutes: "00", seconds: "00" };
+    const diff = targetDate
+      ? +new Date(targetDate) - +new Date()
+      : 0;
 
-    if (difference > 0) {
-      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const h = Math.floor((difference / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((difference / 1000 / 60) % 60);
-      const s = Math.floor((difference / 1000) % 60);
+    if (diff <= 0) return null;
 
-      timeLeft = {
-        days: String(d).padStart(2, "0"),
-        hours: String(h).padStart(2, "0"),
-        minutes: String(m).padStart(2, "0"),
-        seconds: String(s).padStart(2, "0"),
-      };
-    }
-    return timeLeft;
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / 1000 / 60) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+    };
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
+    const timer = setInterval(
+      () => setTimeLeft(calculateTimeLeft()),
+      1000
+    );
     return () => clearInterval(timer);
   }, []);
 
+  const expired = !timeLeft;
+
   return (
-    <div className="w-full mt-18 bg-linear-to-r from-primary via-primary/40 to-primary/80 text-white shadow-lg py-4 px-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
-      <div className="relative max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+    <div className="relative w-full mt-18 overflow-hidden bg-gradient-to-r from-primary to-primary/50 text-white">
+      
+      {/* FLASH SWIPE */}
+      <span
+        className="
+          pointer-events-none
+          absolute inset-0
+          bg-gradient-to-r
+          from-transparent via-white/30 to-transparent
+          skew-x-[-20deg]
+          animate-[banner-shine_4s_ease-in-out_infinite]
+        "
+      />
 
-        {/* --- Event / Discount Content --- */}
-        {showEvent && event ? (
-          <>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-lg sm:text-xl tracking-tight">
-                🚀 {event.title}
-              </h3>
-              <p className="text-sm sm:text-sm font-bricolage text-white/90">
-                {event.description}
+     <Container size="full">
+       <div className="relative max-w-7xl mx-auto px-3 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+
+        {/* LEFT */}
+        <div className="text-center sm:text-left">
+          {!expired ? (
+            <>
+              <p className="text-sm sm:text-base font-medium">
+                🎯 Limited-time offer
               </p>
-            </div>
+              <p className="text-xs sm:text-sm text-white/80">
+                Use code <span className="font-semibold">LEVELUP</span> before time runs out
+              </p>
+            </>
+          ) : (
+            <p className="text-base sm:text-lg font-medium">
+              Book a free consultation with our experts
+            </p>
+          )}
+        </div>
 
-            {/* Timer for Event */}
-            <div className="flex items-center gap-3 text-xs sm:text-sm font-bricolage text-white tracking-wide bg-black/30 backdrop-blur-md rounded-lg px-4 py-2 shadow-md">
-              <TimeBox label="Days" value={timeLeft.days} />
-              <TimeBox label="Hours" value={timeLeft.hours} />
-              <TimeBox label="Minutes" value={timeLeft.minutes} />
-              <TimeBox label="Seconds" value={timeLeft.seconds} />
-            </div>
-
-            <a
-              href={event.formLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-white text-black font-semibold px-5 py-2 rounded-lg shadow-md hover:scale-105 transition-transform animate-pulse"
-            >
-              {event.buttonText}
-            </a>
-          </>
-        ) : (
-          /* --- Discount Countdown --- */
-          <>
-            {timeLeft.days !== "00" ? (
-              <>
-                <p className="text-sm sm:text-base font-medium tracking-tight">
-                  🎉 Use code{" "}
-                  <span className="bg-black/30 px-2 py-0.5 rounded font-bold animate-pulse">
-                    LEVELUP
-                  </span>{" "}
-                  and save big – Offer ends soon!
-                </p>
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-bricolage text-white tracking-wide bg-black/30 backdrop-blur-md rounded-lg px-4 py-2 shadow-md">
-                  <TimeBox label="Days" value={timeLeft.days} />
-                  <TimeBox label="Hours" value={timeLeft.hours} />
-                  <TimeBox label="Minutes" value={timeLeft.minutes} />
-                  <TimeBox label="Seconds" value={timeLeft.seconds} />
-                </div>
-              </>
-            ) : (
-             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full mx-auto px-4">
-  <span className="text-white text-base sm:text-lg text-center sm:text-left w-full sm:w-auto">
-    Book a free consultation from our experts
-  </span>
-  <BookingModal
-    title="Book a meet"
-    icon=""
-    className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal"
-  />
-</div>
-
-
-            )}
-          </>
+        {/* TIMER */}
+        {!expired && (
+          <div className="flex items-center gap-2 sm:gap-3 bg-black/20 rounded-lg px-4 py-2 text-sm">
+            <TimeBox value={timeLeft.days} label="D" />
+            <Colon />
+            <TimeBox value={timeLeft.hours} label="H" />
+            <Colon />
+            <TimeBox value={timeLeft.minutes} label="M" />
+            <Colon />
+            <TimeBox value={timeLeft.seconds} label="S" />
+          </div>
         )}
+
+        {/* CTA */}
+        <BookingModal
+          title={expired ? "Book a meet" : "Claim offer"}
+          icon=""
+          className="
+            bg-white text-black
+            hover:bg-neutral-100
+            font-medium
+          "
+        />
       </div>
+     </Container>
     </div>
   );
 }
 
-
-function TimeBox({ label, value }: { label: string; value: string }) {
+function TimeBox({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center min-w-[55px]">
-      <span className="text-lg font-extrabold">{value}</span>
-      <span className="text-[10px] uppercase text-white/70 tracking-wider">
-        {label}
+    <div className="flex flex-col items-center min-w-[36px]">
+      <span className="font-semibold tabular-nums">
+        {String(value).padStart(2, "0")}
       </span>
+      <span className="text-[10px] text-white/70">{label}</span>
     </div>
   );
+}
+
+function Colon() {
+  return <span className="opacity-60">:</span>;
 }

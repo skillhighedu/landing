@@ -42,6 +42,7 @@ export interface FormatedCourses {
   courseDescription: string;
   courseThumbnail: string;
   departmentName: string;
+  isTopSelling:Boolean;
 
 }
 

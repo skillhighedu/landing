@@ -4,7 +4,7 @@ import "./styles/fonts.css";
 
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { SmoothScrollProvider } from "./layouts/SmoothScrollProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 
@@ -30,17 +30,19 @@ createRoot(document.getElementById("root")!).render(
 
     <BrowserRouter>
       <ThemeProvider>
-        <SmoothScrollProvider>
-          <Toaster
-            position="bottom-right"
-            richColors
-            closeButton
-            duration={3000}
-            className="font-bricolage"
-          />
+        <TooltipProvider delayDuration={150}>
+          <SmoothScrollProvider>
+            <Toaster
+              position="bottom-right"
+              richColors
+              closeButton
+              duration={3000}
+              className="font-bricolage"
+            />
 
-          <App />
-        </SmoothScrollProvider>
+            <App />
+          </SmoothScrollProvider>
+        </TooltipProvider>
       </ThemeProvider>
     </BrowserRouter>
   </QueryClientProvider>

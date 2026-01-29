@@ -31,6 +31,18 @@ h1, h2, h3, p, img, button,div {
 }
 
 
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  40% {
+    transform: translateX(120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(120%) skewX(-20deg);
+  }
+}
+
 
 /* styles/globals.css */
 @keyframes scroll-up {
@@ -162,6 +174,43 @@ h1, h2, h3, p, img, button,div {
     transform: translateY(calc(-100% - var(--gap)));
     }
   }
+}
+
+@keyframes banner-shine {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(120%) skewX(-20deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+
+/* Progressive blur ONLY at bottom */
+.progressive-blur {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 45%,
+    black 75%,
+    black 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 45%,
+    black 75%,
+    black 100%
+  );
 }
 
 :root {

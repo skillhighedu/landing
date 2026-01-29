@@ -3,7 +3,7 @@ import { useMemo } from "react";
 
 export function useFilteredCourses(query: string) {
   const { formatedCourses } = usePublicCoursesStore();
-  console.log(formatedCourses)
+
 
   return useMemo(() => {
     if (!query) return formatedCourses;

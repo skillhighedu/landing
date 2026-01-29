@@ -4,4 +4,5 @@ export type Course = {
   courseDescription: string;
   courseThumbnail: string;
   slug: string;
+  isTopSelling:boolean
 };

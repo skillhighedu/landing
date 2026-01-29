@@ -25,7 +25,12 @@ export default function Layout() {
   const location = useLocation();
 
   useEffect(() => {
-    const shouldHideBanner = location.pathname.startsWith("/course-dashboard");
+   const HIDE_BANNER_PATHS = ["/course-dashboard", "/course"];
+
+const shouldHideBanner = HIDE_BANNER_PATHS.some((path) =>
+  location.pathname.startsWith(path)
+);
+
     setDisplayBanner(!shouldHideBanner);
   }, [location.pathname]);
 

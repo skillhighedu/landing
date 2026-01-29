@@ -15,7 +15,7 @@ const Home = lazy(() => import("@/pages/landing/Home"));
 const AllCourses = lazy(() => import("@/pages/courses/AllCourses"));
 const CourseDetails = lazy(() => import("@/components/course-dashboard/CourseDetails"));
 const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
-const Profile = lazy(() => import("@/pages/profile/Profile"));
+const Profile = lazy(() => import("@/features/landing/pages/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
 const CourseDashboard = lazy(() => import("@/pages/dashboard/CourseDashboard"));
 const QuizList = lazy(() => import("@/components/course-dashboard/course-essentials/QuizList"));
