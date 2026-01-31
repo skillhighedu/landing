@@ -4,6 +4,7 @@ import { SEO } from "@/components/common/SEO";
 import BlogCard from "../components/BlogCard";
 import BlogSearch from "../components/BlogSearch";
 import { useBlogs } from "../hooks/useBlogs";
+import Container from "@/layouts/Container";
 
 export default function Blog() {
   const [query, setQuery] = useState("");
@@ -63,7 +64,8 @@ export default function Blog() {
   }
 
   return (
-    <section className="min-h-screen bg-neutral-950 text-gray-200 py-20 px-6 sm:px-10 lg:px-16">
+   <Container size="full">
+     <section className="min-h-screen  text-gray-200 py-20 px-6 sm:px-10 lg:px-16">
       <div className="max-w-7xl mx-auto">
         <header className="mb-12 space-y-6">
           <SEO
@@ -73,10 +75,10 @@ export default function Blog() {
           />
 
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white">
+            <h1 className="text-3xl sm:text-4xl leading-normal text-white">
               Latest from the SkillHigh Blogs
             </h1>
-            <p className="mt-3 text-sm sm:text-base text-gray-400 max-w-2xl">
+            <p className="mt-3 text-sm sm:text-base font-serif text-gray-400 max-w-2xl">
               Insights, tips, and stories to help you learn faster and grow your career.
             </p>
           </div>
@@ -132,5 +134,6 @@ export default function Blog() {
         )}
       </div>
     </section>
+   </Container>
   );
 }

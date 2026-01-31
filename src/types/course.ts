@@ -36,6 +36,7 @@ export interface SelectedCourse {
 
 
 export interface FormatedCourses {
+  ribbon: any;
   id: string ;
   courseName: string;
   slug:string;

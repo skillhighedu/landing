@@ -43,6 +43,15 @@ h1, h2, h3, p, img, button,div {
   }
 }
 
+@keyframes ribbon-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
 
 /* styles/globals.css */
 @keyframes scroll-up {
@@ -175,6 +184,26 @@ h1, h2, h3, p, img, button,div {
     }
   }
 }
+
+@keyframes ribbon-shine {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+
+@keyframes skeleton-shine {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+
+
 
 @keyframes banner-shine {
   0% {
