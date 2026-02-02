@@ -13,7 +13,7 @@ import Spinner from "@/components/ui/Spinner";
 // Lazy pages
 const Home = lazy(() => import("@/pages/landing/Home"));
 const AllCourses = lazy(() => import("@/pages/courses/AllCourses"));
-const CourseDetails = lazy(() => import("@/components/course-dashboard/CourseDetails"));
+const CourseDetails = lazy(() => import("@/features/landing/pages/AboutCourse"));
 const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
 const Profile = lazy(() => import("@/features/landing/pages/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
