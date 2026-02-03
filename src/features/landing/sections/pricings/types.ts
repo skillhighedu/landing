@@ -21,3 +21,13 @@ export interface SelectedAmount {
   title: string;
   price: number;
 }
+
+
+
+export interface PricingModalProps {
+  open: boolean;
+  registrationAmount: number;
+  fullAmount: number;
+  onClose: () => void;
+  onPay: (isFullPayment: boolean) => void;
+}

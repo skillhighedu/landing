@@ -1,28 +1,18 @@
-import AboutCourse from '../components/AboutCourse';
-import { useEffect, useRef } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import AboutCourse from "../components/AboutCourse";
 
-export default function CoursePage() {
-    const { courseSlug } = useParams<{ courseSlug: string }>();
-  const location = useLocation();
-  const pricingRef = useRef<HTMLDivElement>(null);
+interface CoursePageProps {
+  courseSlug: string;
+  scrollToPricing: () => void;
+}
 
-  
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (location.state?.scrollTo === "pricing") {
-      pricingRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [location.state]);
-
-
+export default function CoursePage({
+  courseSlug,
+  scrollToPricing,
+}: CoursePageProps) {
   return (
-   <AboutCourse
-           scrollToPricing={() =>
-             pricingRef.current?.scrollIntoView({ behavior: "smooth" })
-           }
-           courseSlug={courseSlug ?? ""}
-         />
+    <AboutCourse
+      courseSlug={courseSlug}
+      scrollToPricing={scrollToPricing}
+    />
   );
 }

@@ -12,8 +12,7 @@ export default function PricingView({
   onSelectPlan: (plan: any) => void;
 }) {
   const highlightIndex =
-    pricings.length >= 2 ? 1 : 0; // middle plan highlighted
-
+    pricings.length >= 2 ? 1 : 0; 
   return (
     <>
       <div className="text-center mb-16">

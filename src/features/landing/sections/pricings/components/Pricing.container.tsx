@@ -34,8 +34,8 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(
 
         <PricingModal
           open={!!selectedPlan}
-          registrationAmount={registrationAmount}
-          fullAmount={selectedPlan?.price}
+          registrationAmount={registrationAmount!}
+          fullAmount={selectedPlan?.price!}
           onClose={() => setSelectedPlan(null)}
           onPay={(full: boolean) =>
             pay({
