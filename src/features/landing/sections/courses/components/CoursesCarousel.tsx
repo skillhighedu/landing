@@ -32,8 +32,8 @@ export default function CoursesCarousel({ courses }: Props) {
         ))}
       </CarouselContent>
 
-      <CarouselPrevious className="pixel-border shadow-[4px_4px_0_#000]" />
-      <CarouselNext className="pixel-border shadow-[4px_4px_0_#000]" />
+      <CarouselPrevious className="pixel-border bg-neutral-900 shadow-[4px_4px_0_#000]" />
+      <CarouselNext className="pixel-border bg-neutral-900 shadow-[4px_4px_0_#000]" />
     </Carousel>
   );
 }

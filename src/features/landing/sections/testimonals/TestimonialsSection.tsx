@@ -5,7 +5,17 @@ import Container from "@/layouts/Container";
 
 export default function TestimonialsSection() {
   return (
-    <section className="bg-neutral-950 py-20 overflow-hidden">
+    <section
+      className="
+        relative py-20 overflow-hidden
+
+        /* Light mode */
+        bg-neutral-50 text-neutral-900
+
+        /* Dark mode */
+        dark:bg-neutral-950 dark:text-white
+      "
+    >
       <Container size="full">
         <Header
           title="Loved by Many"

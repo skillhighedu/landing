@@ -5,16 +5,21 @@ import Container from "@/layouts/Container";
 
 export default function TestimonialsFooter() {
   return (
-   
-     <Container size="full">
-         <div className="mt-16 flex flex-col sm:flex-row items-center justify-between gap-6">
-         <BlockQuote quote="Right skills. Real results." />
+    <Container size="full">
+      <div
+        className="
+          mt-16 flex flex-col sm:flex-row
+          items-center justify-between gap-6
+          text-neutral-900
+          dark:text-white
+        "
+      >
+        <BlockQuote quote="Right skills. Real results." />
 
-      <Link to="/contact-us" aria-label="Talk to our team">
-        <CustomButton title="Contact us" />
-      </Link>
-          </div>
-     </Container>
-
+        <Link to="/contact-us" aria-label="Talk to our team">
+          <CustomButton title="Contact us" />
+        </Link>
+      </div>
+    </Container>
   );
 }

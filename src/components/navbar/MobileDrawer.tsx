@@ -30,21 +30,41 @@ export default function MobileDrawer({
           <Link to="/blogs" onClick={onClose}>Blogs</Link>
         </nav>
 
-        <div className="space-y-3">
-          <button
-            onClick={toggleTheme}
-            className="w-full p-3 rounded-xl bg-neutral-800 flex items-center justify-center gap-2"
-          >
-            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            Toggle Theme
-          </button>
+     <div className="space-y-3">
+  {/* Theme Toggle */}
+  <button
+    onClick={toggleTheme}
+    className="
+      w-full p-3 rounded-xl
+      flex items-center justify-center gap-2
+      transition-colors
+      bg-neutral-100 text-neutral-900 hover:bg-neutral-200
+      dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700
+    "
+    aria-label="Toggle theme"
+  >
+    {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+    <span className="text-sm font-medium">
+      {theme === "dark" ? "Light mode" : "Dark mode"}
+    </span>
+  </button>
 
-          {isAuthenticated ? (
-            <CustomButton title="Profile" onClick={() => navigate("/profile")} className="w-full" />
-          ) : (
-            <CustomButton title="Start Learning" onClick={() => navigate("/signup")} className="w-full" />
-          )}
-        </div>
+  {/* Auth CTA */}
+  {isAuthenticated ? (
+    <CustomButton
+      title="Profile"
+      onClick={() => navigate("/profile")}
+      className="w-full"
+    />
+  ) : (
+    <CustomButton
+      title="Start Learning"
+      onClick={() => navigate("/signup")}
+      className="w-full"
+    />
+  )}
+</div>
+
       </div>
     </div>
   );

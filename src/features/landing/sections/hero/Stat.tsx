@@ -5,7 +5,17 @@ import Container from "@/layouts/Container";
 
 export default function StatsSection() {
   return (
-    <section className="relative w-full py-20 bg-neutral-950 text-white overflow-hidden">
+    <section
+      className="
+        relative w-full py-20 overflow-hidden
+
+        /* Light mode */
+        bg-neutral-50 text-neutral-900
+
+        /* Dark mode */
+        dark:bg-neutral-950 dark:text-white
+      "
+    >
       {/* Background pattern – full bleed */}
       <GridPatternDashed />
 
@@ -13,7 +23,24 @@ export default function StatsSection() {
       <Container size="xl">
         {/* Badge */}
         <div className="text-center mb-8">
-          <div className="inline-block text-sm sm:text-xl text-neutral-400 border border-neutral-800 rounded-xl px-4 py-2 bg-neutral-900 shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] transition-shadow">
+          <div
+            className="
+              inline-block px-4 py-2 rounded-xl text-sm sm:text-lg
+              font-medium transition-shadow
+
+              /* Light mode */
+              bg-white text-neutral-700
+              border border-neutral-200
+              shadow-[4px_4px_0_rgba(0,0,0,0.15)]
+              hover:shadow-[6px_6px_0_rgba(0,0,0,0.2)]
+
+              /* Dark mode */
+              dark:bg-neutral-900 dark:text-neutral-300
+              dark:border-neutral-800
+              dark:shadow-[4px_4px_0_#000]
+              dark:hover:shadow-[6px_6px_0_#000]
+            "
+          >
             Join our Skillhigh community
           </div>
         </div>
@@ -23,14 +50,29 @@ export default function StatsSection() {
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              className="bg-neutral-900 rounded-2xl py-6 px-4 border border-neutral-800 pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000]"
+              className="
+                rounded-2xl py-6 px-4 transition-shadow
+
+                /* Light mode */
+                bg-white text-neutral-900
+                border border-neutral-200
+                shadow-[4px_4px_0_rgba(0,0,0,0.15)]
+                hover:shadow-[6px_6px_0_rgba(0,0,0,0.2)]
+
+                /* Dark mode */
+                dark:bg-neutral-900 dark:text-white
+                dark:border-neutral-800
+                dark:shadow-[4px_4px_0_#000]
+                dark:hover:shadow-[6px_6px_0_#000]
+              "
             >
               <Counter
                 to={stat.value}
                 suffix={stat.suffix}
                 color={stat.color}
               />
-              <div className="text-sm text-neutral-400 mt-1 font-bricolage">
+
+              <div className="mt-1 text-sm font-bricolage text-neutral-600 dark:text-neutral-400">
                 {stat.label}
               </div>
             </div>

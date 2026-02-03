@@ -9,7 +9,6 @@ export default function BookCallCard({
   title,
   description,
   buttonText,
-  bgColor = "bg-gradient-to-br from-neutral-800 to-neutral-900",
 }: Props) {
   return (
     <motion.div
@@ -17,20 +16,41 @@ export default function BookCallCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.4, ease: easeOut }}
-      className={`relative w-full mx-auto my-8 rounded-2xl border border-neutral-700/30 p-6 sm:p-10 shadow-lg backdrop-blur-md ${bgColor}`}
+      className="
+        relative w-full mx-auto my-8 rounded-2xl p-6 sm:p-10
+        backdrop-blur-md transition-all
+
+        /* Light mode */
+        bg-gradient-to-br from-white to-neutral-100
+        text-neutral-900
+        border border-neutral-200
+        shadow-lg
+
+        /* Dark mode */
+        dark:bg-gradient-to-br dark:from-neutral-800 dark:to-neutral-900
+        dark:text-white
+        dark:border-neutral-700/40
+        dark:shadow-xl
+      "
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
         {/* Left */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-          <div className="mb-4 p-3 rounded-full bg-primary-500/10 ring-1 ring-primary-500/50">
-            <Icon icon={CalendarDays} className="w-6 h-6 text-primary-400" />
+          <div
+            className="
+              mb-4 p-3 rounded-full
+              bg-primary/10 ring-1 ring-primary/40
+            "
+          >
+            <Icon icon={CalendarDays} className="w-6 h-6 text-primary" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl text-white mb-3 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-semibold mb-3 tracking-tight">
             {title}
           </h2>
 
-          <p className="text-gray-300 text-sm sm:text-base font-bricolage leading-relaxed max-w-md">
+          <p className="text-sm sm:text-base leading-relaxed max-w-md
+                        text-neutral-600 dark:text-neutral-300 font-bricolage">
             {description}
           </p>
         </div>
@@ -40,7 +60,12 @@ export default function BookCallCard({
           <BookingModal
             title={buttonText}
             icon={<Icon icon={CalendarDays} />}
-            className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-900 font-normal"
+            className="
+              w-full sm:w-auto font-normal
+
+              bg-neutral-900 text-white hover:bg-neutral-800
+              dark:bg-neutral-900 dark:hover:bg-neutral-800
+            "
           />
         </div>
       </div>

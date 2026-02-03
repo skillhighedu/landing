@@ -5,7 +5,17 @@ import { comparisonData } from "./data";
 
 export default function ComparisonSection() {
   return (
-    <section className="bg-neutral-950 py-24">
+    <section
+      className="
+        py-24
+
+        /* Light */
+        bg-neutral-50 text-neutral-900
+
+        /* Dark */
+        dark:bg-neutral-950 dark:text-white
+      "
+    >
       <Container size="xl">
         <div className="text-center mb-14 max-w-2xl mx-auto">
           <Header

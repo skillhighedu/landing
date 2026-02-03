@@ -55,8 +55,26 @@ export default function MentorsCarousel({ mentors }: MentorsCarouselProps) {
       </CarouselContent>
 
       {/* Controls */}
-      <CarouselPrevious className="left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white backdrop-blur-md border-none hover:bg-black/60" />
-      <CarouselNext className="right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white backdrop-blur-md border-none hover:bg-black/60" />
+     <CarouselPrevious
+  className="
+    left-2 top-1/2 -translate-y-1/2
+    backdrop-blur-md border-none
+
+    bg-white/80 text-neutral-900 hover:bg-white
+    dark:bg-black/40 dark:text-white dark:hover:bg-black/60
+  "
+/>
+
+<CarouselNext
+  className="
+    right-2 top-1/2 -translate-y-1/2
+    backdrop-blur-md border-none
+
+    bg-white/80 text-neutral-900 hover:bg-white
+    dark:bg-black/40 dark:text-white dark:hover:bg-black/60
+  "
+/>
+
     </Carousel>
   );
 }

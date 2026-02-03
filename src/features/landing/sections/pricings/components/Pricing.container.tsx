@@ -22,6 +22,8 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(
       registrationAmount,
     } = usePricing(courseSlug);
 
+    console.log(registrationAmount)
+
     const { pay } = usePricingPayment();
 
     return (

@@ -18,6 +18,8 @@ export default function PricingModal({
   fullAmount,
   onPay,
 }: PricingModalProps) {
+
+  console.log(registrationAmount)
   const [isFullPayment, setIsFullPayment] = useState(false);
   const [loading, setLoading] = useState(false);
 

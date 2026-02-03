@@ -10,7 +10,13 @@ import { containerVariants } from "./animations";
 
 export default function BenefitsSection() {
   return (
-    <section className="relative bg-neutral-950 py-20 overflow-hidden">
+    <section
+      className="
+        relative py-20 overflow-hidden
+        bg-neutral-50 text-neutral-900
+        dark:bg-neutral-950 dark:text-white
+      "
+    >
       <DotPatternLinearGradient />
 
       <Container size="full">

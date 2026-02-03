@@ -16,28 +16,40 @@ export default function BenefitCard({ benefit }: Props) {
       whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 260, damping: 18 }}
       className="
-        relative rounded-2xl
-        border border-neutral-800
-        bg-neutral-900
-        p-6
-        pixel-border
-        shadow-[4px_4px_0_#000]
-        hover:shadow-[6px_6px_0_#000]
-        transition-all
-        cursor-default
+        relative rounded-2xl p-6 cursor-default transition-all
+
+        /* Surface */
+        bg-white text-neutral-900
+        dark:bg-neutral-900 dark:text-white
+
+        /* Border */
+        border border-neutral-200
+        dark:border-neutral-800
+
+        /* Neo / pixel shadow */
+        shadow-[4px_4px_0_rgba(0,0,0,0.15)]
+        hover:shadow-[6px_6px_0_rgba(0,0,0,0.2)]
+        dark:shadow-[4px_4px_0_#000]
+        dark:hover:shadow-[6px_6px_0_#000]
       "
     >
       {/* Icon */}
-      <div className="mb-5 inline-flex items-center justify-center rounded-md bg-primary/10 p-3 border border-primary/20">
+      <div
+        className="
+          mb-5 inline-flex items-center justify-center rounded-md p-3
+          bg-primary/10 border border-primary/20
+        "
+      >
         <Icon icon={IconComponent} className="w-7 h-7 text-primary" />
       </div>
 
-      {/* Content */}
-      <h3 className="text-lg  text-white mb-2 tracking-normal">
+      {/* Title */}
+      <h3 className="text-lg font-medium mb-2 tracking-normal">
         {benefit.title}
       </h3>
 
-      <p className="text-sm text-neutral-400 leading-relaxed font-bricolage">
+      {/* Description */}
+      <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
         {benefit.description}
       </p>
     </motion.div>

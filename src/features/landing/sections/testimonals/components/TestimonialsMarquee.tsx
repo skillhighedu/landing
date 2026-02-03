@@ -7,7 +7,7 @@ export default function TestimonialsMarquee() {
 
   if (!testimonials.length) {
     return (
-      <p className="text-center text-neutral-500 mt-12">
+      <p className="text-center mt-12 text-neutral-500 dark:text-neutral-400">
         Loading testimonials…
       </p>
     );
