@@ -1,12 +1,12 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
-import { toolItemAnimation } from '../animations';
+import { toolItemAnimation } from "../animations";
 
 interface Props {
   toolName: string;
@@ -18,21 +18,24 @@ export default function ToolCard({ toolName, toolImage, index }: Props) {
   return (
     <motion.div
       {...toolItemAnimation}
-      transition={{ duration: 0.6, delay: index * 0.06 }}
+      transition={{ duration: 0.5, delay: index * 0.05 }}
       className="group relative"
     >
       <TooltipProvider>
-        <Tooltip delayDuration={200}>
+        <Tooltip delayDuration={150}>
           <TooltipTrigger asChild>
             <div
               className="
                 flex items-center justify-center
+                h-32 sm:h-36 md:h-40
                 rounded-2xl
-                bg-white/5 backdrop-blur
-                h-36 sm:h-40 md:h-44
+                border
+                border-neutral-200 dark:border-neutral-800
+                bg-white dark:bg-neutral-900
+                shadow-sm
                 transition-all duration-300
-                hover:bg-white/10
                 hover:-translate-y-1
+                hover:shadow-md
               "
             >
               <img
@@ -40,21 +43,24 @@ export default function ToolCard({ toolName, toolImage, index }: Props) {
                 alt={`${toolName} logo`}
                 loading="lazy"
                 onError={(e) =>
-                  (e.currentTarget.src = '/fallback-logo.jpg')
+                  (e.currentTarget.src = "/fallback-logo.jpg")
                 }
                 className="
-                  max-h-24 sm:max-h-28 md:max-h-32
+                  max-h-20 sm:max-h-24 md:max-h-28
                   w-auto object-contain
                   opacity-80
-                  transition-all duration-300
+                  transition-opacity duration-300
                   group-hover:opacity-100
                 "
               />
             </div>
           </TooltipTrigger>
 
-          <TooltipContent side="top">
-            <p className="text-sm font-medium">{toolName}</p>
+          <TooltipContent
+            side="top"
+            className="text-sm font-medium"
+          >
+            {toolName}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

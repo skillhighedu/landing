@@ -50,7 +50,7 @@ export default function CourseCard({ course, index }: Props) {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t dark:from-black/80  dark:via-black/40 to-transparent" />
 
       {/* Content */}
       <div className="absolute bottom-0 z-10 w-full p-5">

@@ -23,51 +23,56 @@ export default function HeaderSection({
   };
 
   return (
-   <Container size="full">
-     <header className="w-full px-4 ">
-      <div className="relative flex items-center justify-center">
+    <Container size="full">
+      <header className="w-full px-4">
+        <div className="relative flex items-center justify-center min-h-[44px]">
 
-        {/* Back Button with Tooltip */}
-        {showBack && (
-          <AppTooltip label="Go back">
-            <Button
-              onClick={handleBack}
-              aria-label="Go back"
+          {/* Back Button */}
+          {showBack && (
+            <AppTooltip label="Go back">
+              <Button
+                onClick={handleBack}
+                aria-label="Go back"
+                className="
+                  absolute left-0
+                  inline-flex items-center justify-center
+                  h-9 w-9 sm:h-10 sm:w-10
+                  rounded-full
+                  border
+                  transition active:scale-95
+
+                  bg-black/5 text-neutral-700 border-black/10
+                  hover:bg-black/10 hover:text-black
+
+                  dark:bg-white/5 dark:text-white/70 dark:border-white/10
+                  dark:hover:bg-white/10 dark:hover:text-white
+                "
+              >
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              </Button>
+            </AppTooltip>
+          )}
+
+          {/* Title */}
+          {title && (
+            <motion.h1
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               className="
-                absolute left-0
-                inline-flex items-center justify-center
-                h-9 w-9 sm:h-10 sm:w-10
-                rounded-full
-                bg-white/5 border border-white/10
-                text-white/70
-                hover:bg-white/10 hover:text-white
-                active:scale-95 cursor-pointer
-                transition
+                text-base sm:text-xl md:text-3xl
+                font-medium
+                truncate text-center
+                max-w-[70%]
+
+                text-neutral-900 dark:text-white
               "
             >
-              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-            </Button>
-          </AppTooltip>
-        )}
-
-        {/* Title */}
-        {title && (
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="
-              text-base sm:text-xl md:text-3xl
-              text-white
-              truncate text-center
-              max-w-[70%]
-            "
-          >
-            {title}
-          </motion.h1>
-        )}
-      </div>
-    </header>
-   </Container>
+              {title}
+            </motion.h1>
+          )}
+        </div>
+      </header>
+    </Container>
   );
 }

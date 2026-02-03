@@ -12,7 +12,7 @@ export default function FAQSection() {
   const { activeIndex, toggle } = useFAQAccordion();
 
   return (
-    <section className="relative bg-neutral-950 py-20 overflow-hidden">
+    <section className="relative bg-white dark:bg-neutral-950 py-20 overflow-hidden">
       {/* Full-width decorations */}
       <FAQDecorations />
 

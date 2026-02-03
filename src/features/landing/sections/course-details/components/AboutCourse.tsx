@@ -62,7 +62,7 @@ export default function AboutCourse({
   ============================== */
   if (!selectedCourse) {
     return (
-      <section className="min-h-[60vh] bg-neutral-950 flex items-center justify-center">
+      <section className="min-h-[60vh] bg-neutral-950 flex items-center justify-center ">
         <div className="text-center space-y-2">
           <p className="text-neutral-400 text-lg">Course not found</p>
           <p className="text-sm text-neutral-500">
@@ -77,77 +77,109 @@ export default function AboutCourse({
      HERO
   ============================== */
   return (
-    <section
-      className="relative min-h-[90vh] bg-neutral-950 overflow-hidden"
-      aria-label="Course hero section"
+   <section
+  className="relative min-h-[90vh] overflow-hidden bg-white dark:bg-neutral-950"
+  aria-label="Course hero section"
+>
+  {/* Header */}
+  <div className="relative z-20 mb-12">
+    <HeaderSection />
+  </div>
+
+  {/* ===== Background Image ===== */}
+  <div className="absolute inset-0 z-0">
+    <img
+      src={selectedCourse.courseThumbnail || '/fallback-course.jpg'}
+      alt={selectedCourse.courseName}
+      className="h-full w-full object-cover"
+      loading="eager"
+    />
+
+    {/* Horizontal overlay */}
+    <div
+      className="
+        absolute inset-0
+        bg-gradient-to-r
+        from-white/95 via-white/70 to-white/40
+        dark:from-neutral-950 dark:via-neutral-950/60 dark:to-neutral-950/30
+      "
+    />
+
+    {/* Vertical fade */}
+    <div
+      className="
+        absolute inset-0
+        bg-gradient-to-t
+        from-white/95 via-white/50 to-transparent
+        dark:from-neutral-950/95 dark:via-neutral-950/40 dark:to-transparent
+      "
+    />
+  </div>
+
+  {/* ===== Content ===== */}
+  <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 pt-28 pb-20">
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="max-w-3xl space-y-8"
     >
-      <HeaderSection />
+      {/* Title */}
+      <motion.h1
+        variants={itemVariants}
+        className="
+          text-4xl sm:text-5xl lg:text-6xl
+          font-semibold leading-tight
+          text-neutral-900 dark:text-white
+        "
+      >
+        <Balancer>{selectedCourse.courseName}</Balancer>
+      </motion.h1>
 
-      {/* Background */}
-      <div className="absolute inset-0">
-        <img
-          src={selectedCourse.courseThumbnail || '/fallback-course.jpg'}
-          alt=""
-          className="h-full w-full object-cover"
-          loading="eager"
+      {/* Description */}
+      <motion.p
+        variants={itemVariants}
+        className="
+          text-base sm:text-lg leading-relaxed max-w-2xl
+          text-neutral-700 dark:text-neutral-300 font-sans
+        "
+      >
+        <Balancer>{selectedCourse.courseDescription}</Balancer>
+      </motion.p>
+
+      {/* Stats */}
+      <motion.div
+        variants={itemVariants}
+        className="flex flex-wrap gap-x-6 gap-y-3"
+      >
+        {COURSE_STATS.map(({ label, icon: Icon }) => (
+          <div
+            key={label}
+            className="
+              flex items-center gap-2 text-sm
+              text-neutral-600 dark:text-neutral-400
+            "
+          >
+            <Icon className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />
+            <span>{label}</span>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* CTA */}
+      <motion.div
+        variants={itemVariants}
+        className="flex flex-col sm:flex-row gap-4 pt-4"
+      >
+        <CustomButton
+          title="Enroll now"
+          onClick={scrollToPricing}
+          aria-label="Enroll in this course"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/60 to-neutral-950/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/30 to-transparent" />
-      </div>
+      </motion.div>
+    </motion.div>
+  </div>
+</section>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 pt-28 pb-20">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="max-w-3xl space-y-8"
-        >
-          {/* Title */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-4xl sm:text-5xl lg:text-6xl text-white leading-tight"
-          >
-            <Balancer>{selectedCourse.courseName}</Balancer>
-          </motion.h1>
-
-          {/* Description */}
-          <motion.p
-            variants={itemVariants}
-            className="text-base sm:text-lg font-sans text-neutral-300 leading-relaxed max-w-2xl"
-          >
-            <Balancer>{selectedCourse.courseDescription}</Balancer>
-          </motion.p>
-
-          {/* Stats (Lucide icons) */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-wrap gap-x-6 gap-y-3"
-          >
-            {COURSE_STATS.map(({ label, icon: Icon }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-sm text-neutral-400 whitespace-nowrap"
-              >
-                <Icon className="w-4 h-4 text-neutral-300" />
-                <span>{label}</span>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 pt-4"
-          >
-            <CustomButton
-              title="Enroll now"
-              onClick={scrollToPricing}
-              aria-label="Enroll in this course"
-            />
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
   );
 }

@@ -1,6 +1,6 @@
 import Banner from "@/components/common/Banner";
 import Footer from "@/components/common/Footer";
-import Navbar from "@/components/common/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { useFetchDepartments } from "@/hooks/useFetchDepartments";
 import { useFetchFaqs } from "@/hooks/useFetchFaqs";
@@ -38,7 +38,7 @@ const shouldHideBanner = HIDE_BANNER_PATHS.some((path) =>
     <div className="min-h-screen flex flex-col">
       <header className="w-full">
         <Navbar />
-        {displayBanner && <Banner />}
+        {/* {displayBanner && <Banner />} */}
       </header>
 
       <main className="flex-1">

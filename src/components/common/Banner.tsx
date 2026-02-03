@@ -8,10 +8,9 @@ type CountdownProps = {
 
 export default function CountdownBanner({ targetDate }: CountdownProps) {
   const calculateTimeLeft = () => {
-    const diff = targetDate
-      ? +new Date(targetDate) - +new Date()
-      : 0;
+    if (!targetDate) return null;
 
+    const diff = +new Date(targetDate) - +new Date();
     if (diff <= 0) return null;
 
     return {
@@ -25,83 +24,88 @@ export default function CountdownBanner({ targetDate }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    const timer = setInterval(
-      () => setTimeLeft(calculateTimeLeft()),
-      1000
-    );
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [targetDate]);
 
   const expired = !timeLeft;
 
   return (
-    <div className="relative w-full mt-18 overflow-hidden bg-gradient-to-r from-primary to-primary/50 text-white">
-      
-      {/* FLASH SWIPE */}
-      <span
-        className="
-          pointer-events-none
-          absolute inset-0
-          bg-gradient-to-r
-          from-transparent via-white/30 to-transparent
-          skew-x-[-20deg]
-          animate-[banner-shine_4s_ease-in-out_infinite]
-        "
-      />
+    <div className="fixed top-[72px] left-0 w-full z-40 pointer-events-none ">
+      <Container size="full">
+        <div className="pointer-events-auto max-w-7xl mx-auto px-4 ">
+          <div
+            className="
+              relative
+              flex flex-col sm:flex-row
+              items-center justify-between
+              gap-4
+              rounded-xl
+              backdrop-blur-xl
+              bg-primary/80
+              text-white
+              px-6 py-4
+              shadow-lg
+              border border-white/20 
+            "
+          >
+            {/* LEFT */}
+            <div className="text-center sm:text-left">
+              {!expired ? (
+                <>
+                  <p className="text-sm font-medium tracking-wide">
+                    Limited-time offer
+                  </p>
+                  <p className="text-xs text-white/80">
+                    Use code <span className="font-semibold">LEVELUP</span> before it ends
+                  </p>
+                </>
+              ) : (
+                <p className="text-sm font-medium">
+                  Book a free consultation with our experts
+                </p>
+              )}
+            </div>
 
-     <Container size="full">
-       <div className="relative max-w-7xl mx-auto px-3 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* TIMER */}
+            {!expired && timeLeft && (
+              <div className="flex items-center gap-2 bg-black/20 rounded-lg px-4 py-2 text-sm">
+                <TimeBox value={timeLeft.days} label="D" />
+                <Colon />
+                <TimeBox value={timeLeft.hours} label="H" />
+                <Colon />
+                <TimeBox value={timeLeft.minutes} label="M" />
+                <Colon />
+                <TimeBox value={timeLeft.seconds} label="S" />
+              </div>
+            )}
 
-        {/* LEFT */}
-        <div className="text-center sm:text-left">
-          {!expired ? (
-            <>
-              <p className="text-sm sm:text-base font-medium">
-                🎯 Limited-time offer
-              </p>
-              <p className="text-xs sm:text-sm text-white/80">
-                Use code <span className="font-semibold">LEVELUP</span> before time runs out
-              </p>
-            </>
-          ) : (
-            <p className="text-base sm:text-lg font-medium">
-              Book a free consultation with our experts
-            </p>
-          )}
-        </div>
-
-        {/* TIMER */}
-        {!expired && (
-          <div className="flex items-center gap-2 sm:gap-3 bg-black/20 rounded-lg px-4 py-2 text-sm">
-            <TimeBox value={timeLeft.days} label="D" />
-            <Colon />
-            <TimeBox value={timeLeft.hours} label="H" />
-            <Colon />
-            <TimeBox value={timeLeft.minutes} label="M" />
-            <Colon />
-            <TimeBox value={timeLeft.seconds} label="S" />
+            {/* CTA */}
+            <BookingModal
+              title={expired ? "Book a meet" : "Claim offer"}
+              icon=""
+              className="
+                bg-white text-neutral-900
+                hover:bg-neutral-100
+                font-medium
+                px-5 py-2
+              "
+            />
           </div>
-        )}
-
-        {/* CTA */}
-        <BookingModal
-          title={expired ? "Book a meet" : "Claim offer"}
-          icon=""
-          className="
-            bg-white text-black
-            hover:bg-neutral-100
-            font-medium
-          "
-        />
-      </div>
-     </Container>
+        </div>
+      </Container>
     </div>
   );
 }
 
+/* ------------------ Helpers ------------------ */
+
 function TimeBox({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center min-w-[36px]">
+    <div className="flex flex-col items-center min-w-[32px]">
       <span className="font-semibold tabular-nums">
         {String(value).padStart(2, "0")}
       </span>
@@ -111,5 +115,5 @@ function TimeBox({ value, label }: { value: number; label: string }) {
 }
 
 function Colon() {
-  return <span className="opacity-60">:</span>;
+  return <span className="opacity-50">:</span>;
 }

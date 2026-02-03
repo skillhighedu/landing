@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   return (
-    <div className="text-white bg-neutral-900 min-h-screen">
+    <div className="text-white bg-white dark:bg-neutral-900 min-h-screen">
       <Popup />
 
       <Suspense

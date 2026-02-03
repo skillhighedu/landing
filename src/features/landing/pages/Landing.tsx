@@ -8,15 +8,16 @@ import CoursesSection from '../sections/courses/CoursesSection'
 import ComparisonSection from '../sections/comparison/ComparisonSection'
 import CertificatePartnersSection from '../sections/certificate-partners'
 import RecognizedBySection from '../sections/recognized-by/RecognizedBySection'
-import Hero from '@/components/Hero'
+
 import { MentorsSection } from '../sections/mentors'
+import HeroSection from '../sections/hero-section/HeroSection'
 
 
 
 export default function Landing() {
   return (
     <>
-    <Hero/>
+    <HeroSection/>
     <CertificatePartnersSection/>
     <RecognizedBySection/>
     <CoursesSection/>

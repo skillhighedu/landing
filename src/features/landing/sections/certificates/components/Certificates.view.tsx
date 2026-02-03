@@ -20,7 +20,7 @@ export default function CertificatesView({
   return (
     <Container size="full">
 
-      <section className="relative w-full bg-neutral-900 text-white py-24 px-6 md:px-12">
+      <section className="relative w-full bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white py-24 px-6 md:px-12">
       <DotPatternLinearGradient />
 
       {/* Header */}
@@ -40,16 +40,16 @@ export default function CertificatesView({
             transition={{ duration: 0.45, delay: idx * 0.08 }}
             className="
               group rounded-2xl
-              bg-white/5 backdrop-blur
+              bg-white dark:bg-white/5 backdrop-blur
               shadow-sm hover:shadow-xl
               transition-all duration-300
               hover:-translate-y-1
             "
           >
             {/* Image container – BIGGER */}
-            <div className="relative rounded-2xl overflow-hidden bg-neutral-800">
+            <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-neutral-800">
               {!loadedImages[cert.id] && (
-                <div className="absolute inset-0 bg-neutral-800 animate-pulse" />
+                <div className="absolute inset-0 dark:bg-neutral-800 animate-pulse" />
               )}
 
               <img
@@ -70,7 +70,7 @@ export default function CertificatesView({
 
             {/* Label (kept minimal) */}
             <div className="px-4 py-4 text-center">
-              <h3 className="text-sm font-medium text-neutral-100">
+              <h3 className="text-sm font-medium text-primary dark:text-neutral-100">
                 {cert.name}
               </h3>
             </div>

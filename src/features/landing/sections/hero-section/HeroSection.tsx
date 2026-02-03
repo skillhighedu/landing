@@ -1,17 +1,25 @@
-'use client';
 
-import { motion, useReducedMotion } from "framer-motion";
-import Trees from "@/assets/images/forest.jpg";
+import { motion, useReducedMotion } from 'framer-motion';
+import Trees from '@/assets/images/forest.jpg';
 
-import HeroHeadline from "./components/HeroHeadline";
-import HeroActions from "./components/HeroActions";
-import HeroPartners from "./components/HeroPartners";
+import HeroHeadline from './components/HeroHeadline';
+import HeroActions from './components/HeroActions';
+import HeroPartners from './components/HeroPartners';
 
 export default function HeroSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative min-h-screen bg-black overflow-hidden flex items-center">
+    <section
+      className="
+        relative
+        min-h-screen
+        bg-black
+        overflow-hidden
+        flex items-center
+        pt-[100px]   
+      "
+    >
       {/* Background */}
       <motion.div
         className="absolute inset-0 bg-cover bg-center opacity-60"
@@ -21,8 +29,8 @@ export default function HeroSection() {
         transition={{
           duration: 12,
           repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut",
+          repeatType: 'reverse',
+          ease: 'easeInOut',
         }}
       />
 

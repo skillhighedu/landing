@@ -15,7 +15,7 @@ export default function CoursesSection() {
 
 
   return (
-    <section className="bg-neutral-950 py-20 overflow-hidden">
+    <section className="bg-white dark:bg-neutral-950 py-20 overflow-hidden">
       <Container size="xl">
         <div className="mb-14 text-center">
           <Header

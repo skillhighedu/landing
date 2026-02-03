@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
-import { answerVariants } from "../animations";
 import type { FAQ } from "../types";
-import { Button } from "@/pages/dashboard/LearnInPublicPage";
-import { Icon, Plus } from "@/components/icons";
+import { Plus } from "lucide-react";
 
 type Props = {
   item: FAQ;
@@ -21,49 +19,52 @@ export default function FAQItem({
 
   return (
     <div
-      className={`
-        relative rounded-xl border border-neutral-700
-        bg-neutral-900 transition-colors
-        ${isOpen ? "bg-neutral-800" : "hover:bg-neutral-800/70"}
-        pixel-border shadow-[4px_4px_0_#000]
-      `}
+      className="
+        rounded-xl
+        border border-neutral-200 dark:border-neutral-800
+        bg-white dark:bg-neutral-900
+        transition-colors
+      "
     >
       {/* Question */}
-      <Button
+      <button
         onClick={() => onToggle(index)}
         aria-expanded={isOpen}
         className="
-          bg-neutral-950
-          cursor-pointer
           w-full flex items-center justify-between gap-4
-          px-6 py-5 text-left
-          hover:bg-neutral-900
-          focus:outline-none focus-visible:ring-2
-          focus-visible:ring-primary/60
+          px-5 sm:px-6 py-4
+          text-left
+          hover:bg-neutral-50 dark:hover:bg-neutral-800/60
+          transition
         "
       >
-        <span className="text-base md:text-lg font-medium text-white">
+        <span className="text-base sm:text-lg font-medium text-neutral-900 dark:text-white">
           {item.question}
         </span>
 
         {/* Icon */}
         <motion.span
-          className="flex items-center justify-center w-8 h-8 rounded-md border border-neutral-700 text-white"
           animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className="
+            flex h-8 w-8 items-center justify-center
+            rounded-md
+            border border-neutral-300 dark:border-neutral-700
+            text-neutral-700 dark:text-neutral-300
+          "
         >
-            <Icon icon={Plus} className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
         </motion.span>
-      </Button>
+      </button>
 
       {/* Answer */}
       <motion.div
-        variants={answerVariants}
-        initial="hidden"
-        animate={isOpen ? "visible" : "hidden"}
+        initial={false}
+        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
         className="overflow-hidden"
       >
-        <div className="px-6 pb-5 text-sm md:text-base text-neutral-300 leading-relaxed font-sans">
+        <div className="px-5 sm:px-6 pb-4 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
           {item.answer}
         </div>
       </motion.div>

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import FAQItem from "./FAQItem";
-import { containerVariants, faqItemVariants } from "../animations";
 import type { FAQ } from "../types";
 
 type Props = {
@@ -13,20 +12,19 @@ export default function FAQList({ items, activeIndex, toggle }: Props) {
   return (
     <motion.div
       className="space-y-4"
-      initial="hidden"
-      whileInView="visible"
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      variants={containerVariants}
+      transition={{ duration: 0.4, ease: "easeOut" }}
     >
       {items.map((item, index) => (
-        <motion.div key={index} custom={index} variants={faqItemVariants}>
-          <FAQItem
-            item={item}
-            index={index}
-            activeIndex={activeIndex}
-            onToggle={toggle}
-          />
-        </motion.div>
+        <FAQItem
+          key={index}
+          item={item}
+          index={index}
+          activeIndex={activeIndex}
+          onToggle={toggle}
+        />
       ))}
     </motion.div>
   );

@@ -7,6 +7,8 @@ import ProfileHeader from "./components/ProfileHeader";
 import ProfileSidebar from "./components/ProfileSidebar";
 import ProfileForm from "./components/ProfileForm";
 import YourCourses from "./components/YourCourses";
+import HeaderSection from "@/components/common/HeaderSection";
+import Container from "@/layouts/Container";
 
 export default function ProfilePage() {
   const { studentProfile, setStudentProfile } = useStudentProfileStore();
@@ -28,8 +30,15 @@ export default function ProfilePage() {
   const student = studentProfile[0];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
+   <Container size="full">
+
+     <div className="min-h-screen bg-white dark:bg-neutral-900 text-white mt-20">
       <div className="max-w-7xl mx-auto px-4 py-10">
+
+                <div className="mb-12">
+                  <HeaderSection title="Profile" />
+                </div>
+        
 
         {/* Header */}
         <ProfileHeader name={student?.name} loading={loading} />
@@ -51,12 +60,13 @@ export default function ProfilePage() {
             <YourCourses
               courses={student}
               loading={loading}
-              onPayment={() => {}}
+           
             />
           </div>
 
         </div>
       </div>
     </div>
+   </Container>
   );
 }

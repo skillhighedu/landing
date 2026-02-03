@@ -16,7 +16,7 @@ export default function Header({ title, subline, icon }: HeaderProps) {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       {/* Title */}
-      <h2 className="text-[#16C47F] text-2xl sm:text-3xl md:text-4xl  leading-tight tracking-tight drop-shadow-lg">
+      <h2 className="text-primary text-2xl sm:text-3xl md:text-4xl  leading-tight tracking-tight drop-shadow-lg">
         {title}
       </h2>
 
@@ -33,7 +33,7 @@ export default function Header({ title, subline, icon }: HeaderProps) {
 
       {/* Subtitle */}
       <motion.p
-        className="text-neutral-400 max-w-2xl mx-auto text-sm sm:text-base"
+        className="text-neutral-400 max-w-2xl mx-auto text-sm sm:text-base font-sans"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}

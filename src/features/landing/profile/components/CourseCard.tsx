@@ -1,5 +1,6 @@
 import CustomButton from "@/components/common/Button";
 import type { Course } from "../types";
+import { Link } from "react-router-dom";
 
 interface Props {
   course: Course;
@@ -10,10 +11,13 @@ export default function CourseCard({ course }: Props) {
     <div
       className="
         group
-        bg-neutral-900 border border-neutral-800
         rounded-xl overflow-hidden
-        transition
-        hover:border-neutral-700
+        transition-all duration-300
+        border
+        bg-white dark:bg-neutral-900
+        border-neutral-200 dark:border-neutral-800
+        hover:shadow-lg hover:-translate-y-0.5
+        hover:border-neutral-300 dark:hover:border-neutral-700
       "
     >
       {/* Thumbnail */}
@@ -23,13 +27,21 @@ export default function CourseCard({ course }: Props) {
           alt={course.courseName}
           className="
             h-full w-full object-cover
-            transition-transform duration-300
-            group-hover:scale-[1.03]
+            transition-transform duration-500
+            group-hover:scale-[1.05]
           "
+          loading="lazy"
         />
 
-        {/* subtle overlay for depth */}
-        <div className="absolute inset-0 bg-black/10" />
+        {/* Overlay for depth */}
+        <div
+          className="
+            absolute inset-0
+            bg-gradient-to-t
+            from-black/30 via-black/10 to-transparent
+            opacity-70
+          "
+        />
       </div>
 
       {/* Content */}
@@ -37,26 +49,27 @@ export default function CourseCard({ course }: Props) {
         <h4
           className="
             text-sm sm:text-base
-            font-medium text-white
+            font-medium
             leading-snug
             line-clamp-2
+            text-neutral-900 dark:text-white
           "
         >
           {course.courseName}
         </h4>
 
         {/* Action */}
-        <div className="pt-2">
+        <Link to={`/course-dashboard/${course.slug}`} className="pt-2">
           <CustomButton
             title="Continue learning"
             className="
               w-full
-              bg-neutral-800
-              hover:bg-neutral-700
               text-sm
+              bg-neutral-900 hover:bg-neutral-800
+              dark:bg-neutral-800 dark:hover:bg-neutral-700
             "
           />
-        </div>
+        </Link>
       </div>
     </div>
   );

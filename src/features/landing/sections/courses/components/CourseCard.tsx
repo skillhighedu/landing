@@ -21,7 +21,7 @@ export default function CourseCard({ course }: Props) {
         group relative h-[420px]
         overflow-hidden rounded-2xl
         border border-neutral-800
-        bg-neutral-900
+        bg-white  dark:bg-neutral-900
         pixel-border
         shadow-[4px_4px_0_#000]
         hover:shadow-[6px_6px_0_#000]
@@ -57,7 +57,7 @@ export default function CourseCard({ course }: Props) {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t dark:from-black/85 dark:via-black/60 to-transparent" />
 
       {/* Content */}
       <CardContent className="relative z-10 flex h-full flex-col justify-end p-5 text-white">

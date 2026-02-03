@@ -1,15 +1,15 @@
-import { GridPatternDashed } from '@/components/ui/DashedStroke';
-import Header from '@/components/common/Header';
-import BlockQuote from '@/components/common/BlockQuote';
+import { GridPatternDashed } from "@/components/ui/DashedStroke";
+import Header from "@/components/common/Header";
+import BlockQuote from "@/components/common/BlockQuote";
 
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from '@/components/ui/carousel';
+} from "@/components/ui/carousel";
 
-import ToolCard from './ToolCard';
-import type { SelectedCourseTools } from '@/types/course';
+import ToolCard from "./ToolCard";
+import type { SelectedCourseTools } from "@/types/course";
 
 interface Props {
   courseTools: SelectedCourseTools;
@@ -21,8 +21,16 @@ export default function ToolsView({
   autoplayPlugin,
 }: Props) {
   return (
-    <section className="relative w-full bg-neutral-900 py-24 px-4 overflow-hidden">
-      <GridPatternDashed />
+    <section
+      className="
+        relative w-full
+        bg-neutral-50 dark:bg-neutral-950
+        py-24 px-4
+        overflow-hidden
+      "
+    >
+      {/* Background pattern */}
+      <GridPatternDashed  />
 
       <div className="relative z-10 max-w-6xl mx-auto text-center">
         <Header
@@ -36,7 +44,7 @@ export default function ToolsView({
             plugins={[autoplayPlugin]}
             opts={{
               loop: true,
-              align: 'center',
+              align: "center",
               dragFree: true,
             }}
             aria-label="Course tools carousel"
@@ -45,7 +53,12 @@ export default function ToolsView({
               {courseTools.map((tool, index) => (
                 <CarouselItem
                   key={tool.toolName}
-                  className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"
+                  className="
+                    basis-1/2
+                    sm:basis-1/3
+                    md:basis-1/4
+                    lg:basis-1/6
+                  "
                 >
                   <ToolCard
                     toolName={tool.toolName}
@@ -58,8 +71,8 @@ export default function ToolsView({
           </Carousel>
 
           {/* Edge fades */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-neutral-900 to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-neutral-900 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-neutral-50 dark:from-neutral-950 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-neutral-50 dark:from-neutral-950 to-transparent" />
         </div>
 
         {/* Quote */}
