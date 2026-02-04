@@ -2,6 +2,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+
  content: [
     './src/**/*.{js,ts,jsx,tsx,html}', // adjust based on project
   ],
@@ -10,6 +11,8 @@ const config: Config = {
       fontFamily: {
         bricolage: ['Bricolage Grotesque', 'sans-serif'],
         pixel: ['PixelDigivolve', 'sans-serif'],
+        serif: ['"Instrument Serif"', "serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui"],
       },
       
     },

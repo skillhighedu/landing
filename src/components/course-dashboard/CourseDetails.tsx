@@ -7,7 +7,7 @@ import CurriculumAccordion from "@/components/Curriculam"
 import FAQ from "@/components/FAQ"
 import Pricing from "@/components/Pricing"
 import Form from "@/components/Form"
-import { certificates } from "@/data/certifcates";
+// import { certificates } from "@/data/certifcates";
 import Tools from "@/features/landing/components/Tools";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 import MentorsCall from "@/components/MentorsCall";
@@ -39,7 +39,7 @@ export default function CourseDetails() {
       <CurriculumAccordion />
       <Tools courseTools={selectedCourseTools ?? []} />
       <Pricing ref={pricingRef} courseSlug={courseSlug ?? ""}  autoOpenPayment={location.state?.openPayment} />
-      <Certificates certificates={certificates} />
+      {/* <Certificates certificates={certificates} /> */}
       <FAQ />
       <MentorsCall/>
       <Form backgroundImage={Trees} />

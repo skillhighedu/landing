@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, easeOut } from "framer-motion";
-import CustomButton from "@/components/common/Button";;
+import CustomButton from "@/components/common/Button";
 
-export default function SkillsCurtainIntro({ onFinish }: { onFinish: () => void }) {
+export default function SkillsCurtainIntro({
+  onFinish,
+}: {
+  onFinish: () => void;
+}) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(false);
       onFinish();
-    }, 5000);
+    }, 2200); // faster, compact feel
+
     return () => clearTimeout(timer);
   }, [onFinish]);
 
-  const staggerContainer = {
-    hidden: { opacity: 1 },
+  const fadeUp = {
+    hidden: { opacity: 0, y: 8 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.3 },
+      y: 0,
+      transition: { duration: 0.3, ease: easeOut },
     },
-  };
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 40, scale: 0.95 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: easeOut } },
   };
 
   return (
@@ -31,67 +32,41 @@ export default function SkillsCurtainIntro({ onFinish }: { onFinish: () => void 
       {show && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.05, filter: "blur(5px)", transition: { duration: 0.8 } }}
-          className="fixed inset-0 z-50 flex flex-col justify-center items-center text-center px-6 bg-gradient-to-tr from-neutral-900 via-neutral-950 to-black overflow-hidden"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/90"
         >
-          {/* Optional: animated background elements */}
+          {/* Compact card */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary/20 to-green-800-600/20 animate-[pulse_10s_linear_infinite]"
-          />
-
-          <motion.div
-            variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="relative z-10"
+            variants={fadeUp}
+            className="
+              w-full max-w-sm
+              rounded-xl
+              bg-neutral-900
+              border border-white/10
+              px-6 py-5
+              text-center
+              shadow-xl
+            "
           >
-            <motion.h1
-              variants={fadeUp}
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg"
-            >
-              Swords won wars.
-            </motion.h1>
+            <h1 className="text-lg sm:text-xl font-semibold text-white mb-1">
+              Skills that matter
+            </h1>
 
-            <motion.h2
-              variants={fadeUp}
-              className="text-2xl sm:text-3xl md:text-4xl text-pretty mb-6  drop-shadow-md"
-            >
-              Skills win jobs.
-            </motion.h2>
+            <p className="text-sm text-neutral-400 mb-4">
+              Learn by doing. Build what the industry uses.
+            </p>
 
-            <motion.p
-              variants={fadeUp}
-              className="max-w-xl text-lg sm:text-xl text-neutral-400 mb-8 leading-relaxed"
-            >
-              In the past, people fought with weapons. <br />
-              Today, we build with skills. <br />
-              And we’ll help you get them.
-            </motion.p>
-
-            <motion.div
-              variants={fadeUp}
-              className="flex justify-center"
-            >
-              <CustomButton
-                title="Start Now"
-                icon=""
-                onClick={() => {
-                  setShow(false);
-                  onFinish();
-                }}
-                className="hover:scale-105 transition-transform duration-300   bg-neutral-900 hover:bg-neutral-900 font-normal"
-              />
-            </motion.div>
-          </motion.div>
-
-          {/* Extra visual flair: moving light streaks */}
-          <motion.div
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.1 }}
-            transition={{ duration: 2 }}
-          >
-            <div className="w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.05),transparent)] animate-[pulse_15s_linear_infinite]" />
+            <CustomButton
+              title="Start learning"
+              onClick={() => {
+                setShow(false);
+                onFinish();
+              }}
+              className="w-full bg-neutral-800 hover:bg-neutral-700"
+            />
           </motion.div>
         </motion.div>
       )}

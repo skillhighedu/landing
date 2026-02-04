@@ -17,7 +17,7 @@ export default function ProfileHero({ name, loading }: ProfileHeroProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-gradient-to-r from-neutral-900 via-zinc-800 to-neutral-900 p-8 mt-6 rounded-2xl shadow-xl mb-12 text-center mx-auto border border-neutral-700"
+      className="bg-linear-to-r from-neutral-900 via-zinc-800 to-neutral-900 p-8 mt-6 rounded-2xl shadow-xl mb-12 text-center mx-auto border border-neutral-700"
     >
       {loading ? (
         <Skeleton className="h-12 w-60 mx-auto mb-3 rounded-md" />

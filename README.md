@@ -5,3 +5,4 @@
 # cookies
 # diff the payments from webiste and manuel
 # more optimixzed backend
+<!-- light mode finalized -->

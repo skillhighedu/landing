@@ -1,22 +1,29 @@
+
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Trees from "@/assets/images/water.jpg";
-import { Calendar, MessageCircleQuestion } from 'lucide-react';
-import BookingMeet from '@/components/common/BookingModal';
-import CustomButton from '@/components/common/Button';
-import { useNavigate } from 'react-router-dom';
+import {
+  Calendar,
+  MessageSquare,
+  X,
+  Sparkles,
+  ArrowRight,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-const POPUP_INTERVAL_MINUTES = 15; // Show popup every 15 minutes
+const POPUP_INTERVAL_MINUTES = 30;
 const POPUP_LAST_CLOSED_KEY = 'popupLastClosedTime';
 
-const Popup = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const navigate = useNavigate()
+export default function Popup() {
+  const [open, setOpen] = useState(false);
 
   const checkPopup = () => {
     const lastClosed = localStorage.getItem(POPUP_LAST_CLOSED_KEY);
     const now = Date.now();
-    if (!lastClosed || now - parseInt(lastClosed) > POPUP_INTERVAL_MINUTES * 60 * 1000) {
+
+    if (
+      !lastClosed ||
+      now - Number(lastClosed) > POPUP_INTERVAL_MINUTES * 60 * 1000
+    ) {
       setOpen(true);
     }
   };
@@ -27,85 +34,147 @@ const Popup = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (open) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = '';
-  }, [open]);
-
-  const handleClose = () => {
+  const closePopup = () => {
     setOpen(false);
-    localStorage.setItem(POPUP_LAST_CLOSED_KEY, Date.now().toString());
+    localStorage.setItem(
+      POPUP_LAST_CLOSED_KEY,
+      Date.now().toString()
+    );
   };
-
-  const handleContactUs = () => {
-    handleClose()
-    navigate("/contact-us")
-  }
 
   return (
     <AnimatePresence>
       {open && (
         <motion.div
+          className="
+            fixed inset-0 z-50
+            flex items-center justify-center p-4
+            bg-black/60 dark:bg-black/70
+            backdrop-blur-sm
+          "
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/60 flex items-center justify-center p-2 sm:p-4 z-50 mt-16 sm:mt-0"
+          onClick={closePopup}
         >
           <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="rounded-2xl shadow-xl w-full max-w-[1200px] h-[70vh] md:h-[70vh] overflow-hidden flex flex-col md:flex-row bg-neutral-900"
+            initial={{ scale: 0.96, opacity: 0, y: 24 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.96, opacity: 0, y: 24 }}
+            transition={{ type: 'spring', damping: 24, stiffness: 260 }}
+            onClick={(e) => e.stopPropagation()}
+            className="
+              relative w-full max-w-md
+              rounded-2xl p-7
+              bg-white dark:bg-neutral-900
+              border border-neutral-200 dark:border-neutral-800
+              shadow-xl
+            "
           >
-            {/* Left Section - Image (hidden on xs) */}
-            <div className="relative w-full md:w-1/2 block h-64 sm:h-full">
-              <img
-                src={Trees}
-                alt="Career guidance background"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-linear-to-r from-neutral-900/20 to-transparent flex items-center p-6 sm:p-8">
-                <div className="text-white max-w-md">
-                  <h2 className="text-2xl sm:text-3xl font-bold mb-2">Let's Connect</h2>
-                  <p className="text-sm sm:text-base">
-                    Book a free meeting and clear your doubts about your career!
+            {/* Accent Badge */}
+            <div
+              className="
+                mb-6 inline-flex items-center gap-2
+                rounded-full px-3 py-1
+                bg-primary/10 text-primary
+                border border-primary/30
+              "
+            >
+              <Sparkles size={14} />
+              <span className="text-xs font-medium">
+                Free guidance session
+              </span>
+            </div>
+
+            {/* Close */}
+            <button
+              onClick={closePopup}
+              aria-label="Close"
+              className="
+                absolute right-3 top-3 p-2 rounded-md
+                text-neutral-400
+                hover:text-neutral-900 dark:hover:text-white
+                hover:bg-neutral-100 dark:hover:bg-neutral-800
+                transition
+              "
+            >
+              <X size={18} />
+            </button>
+
+            {/* Title */}
+            <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white mb-3">
+              Need career clarity?
+            </h2>
+
+            {/* Description */}
+            <p className="text-sm leading-relaxed mb-7 text-neutral-600 dark:text-neutral-400">
+              Talk to a mentor, ask your questions, and get honest guidance —
+              no pressure, no sales pitch.
+            </p>
+
+            {/* Value points */}
+            <div className="space-y-4 mb-7">
+              <div className="flex items-start gap-3">
+                <Calendar size={18} className="text-primary mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-neutral-900 dark:text-white">
+                    30-minute call
+                  </p>
+                  <p className="text-xs text-neutral-500">
+                    Book at a time that works for you
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <MessageSquare size={18} className="text-primary mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-neutral-900 dark:text-white">
+                    1-on-1 guidance
+                  </p>
+                  <p className="text-xs text-neutral-500">
+                    Real advice from experienced mentors
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Right Section - CTA */}
-           {/* Right Section - CTA */}
-<div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-center items-center text-center relative overflow-y-auto">
-  <button
-    onClick={handleClose}
-    className="absolute top-3 right-3 text-white hover:text-gray-400 text-xl sm:text-2xl transition cursor-pointer"
-    aria-label="Close popup"
-  >
-    ✕
-  </button>
+            {/* Actions */}
+            <div className="space-y-3">
+              <Button
+                onClick={closePopup}
+                className="
+                  w-full h-11
+                  bg-primary text-primary-foreground
+                  hover:bg-primary/90
+                  rounded-md
+                  flex items-center justify-center gap-2
+                "
+              >
+                Book free session
+                <ArrowRight size={16} />
+              </Button>
 
-  <h3 className="text-2xl sm:text-3xl text-primary mb-4 font-bold">
-    Book a Free Career Session
-  </h3>
-  <p className="text-white mb-6 text-base sm:text-lg max-w-md">
-    Have questions about your career? Let’s clear them together!
-  </p>
+              <button
+                onClick={closePopup}
+                className="
+                  w-full text-sm font-medium
+                  text-neutral-500
+                  hover:text-neutral-900 dark:hover:text-white
+                  transition
+                "
+              >
+                Maybe later
+              </button>
+            </div>
 
-  {/* Buttons */}
-  <div className="flex flex-col sm:flex-col gap-4">
-    <BookingMeet title="Book Now" icon={<Calendar />} />
-    or
-  <CustomButton title='Contact Us' onClick={()=>handleContactUs()} icon={<MessageCircleQuestion></MessageCircleQuestion>}/>
-  </div>
-</div>
-
+            {/* Footer note */}
+            <p className="mt-6 text-center text-xs text-neutral-500">
+              Trusted by 500+ learners and professionals
+            </p>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
   );
-};
-
-export default Popup;
+}

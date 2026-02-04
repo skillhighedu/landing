@@ -1,25 +1,40 @@
 import type { ReactNode } from "react";
-import MiniSidebar from "@/features/dashboard/Sidebar";
 import { useParams } from "react-router-dom";
+import MiniSidebar from "@/features/dashboard/components/Sidebar";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-    const { slug } = useParams<{ slug: string }>();
+  const { slug } = useParams<{ slug: string }>();
 
   return (
-    <div className="min-h-screen flex text-white">
-      {/* ===== Global Icon Sidebar ===== */}
+    <div
+      className="
+        min-h-screen flex
+
+        /* Light */
+        bg-neutral-50 text-neutral-900
+
+        /* Dark */
+        dark:bg-neutral-900 dark:text-white
+      "
+    >
+      {/* ===== Sidebar / Bottom Nav ===== */}
       <MiniSidebar slug={slug!} />
 
-      {/* ===== Main Content (responds to sidebar hover) ===== */}
+      {/* ===== Main Content ===== */}
       <main
         className="
           flex-1
-          pl-4 lg:pl-16 lg:peer-hover:pl-56
-          transition-all duration-300 ease-in-out mt-16
+          transition-all duration-300 ease-in-out
+
+          /* Desktop sidebar spacing */
+          lg:pl-16 lg:peer-hover:pl-56
+
+          /* Mobile spacing (for bottom nav) */
+          pb-16 lg:pb-0
         "
       >
         {children}

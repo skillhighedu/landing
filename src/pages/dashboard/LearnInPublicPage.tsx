@@ -219,14 +219,14 @@ export default function LearnInPublicPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-950 to-neutral-900 font-sans">
+    <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 font-sans">
       <div className="w-full max-w-6xl mx-auto py-12 px-4 space-y-10 text-white">
         {/* Back Button */}
         <BackButton />
         
         {/* Header */}
         <Card className="p-10 relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.08),_transparent_50%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,197,94,0.08),transparent_50%)] pointer-events-none" />
           <div className="relative space-y-5 text-center">
             <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-green-600 text-white text-xs tracking-[0.2em] uppercase font-normal">
               Learn In Public
@@ -302,7 +302,7 @@ export default function LearnInPublicPage() {
             onChange={(e) => setText(e.target.value)}
             placeholder="Write what you learned today…"
             maxLength={charLimit}
-            className="min-h-[160px]"
+            className="min-h-40"
           />
           <div className="flex flex-wrap gap-2">
             {quickPrompts.map((prompt) => (

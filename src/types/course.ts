@@ -36,12 +36,14 @@ export interface SelectedCourse {
 
 
 export interface FormatedCourses {
+  ribbon: any;
   id: string ;
   courseName: string;
   slug:string;
   courseDescription: string;
   courseThumbnail: string;
   departmentName: string;
+  isTopSelling:Boolean;
 
 }
 

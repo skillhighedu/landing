@@ -1,25 +1,39 @@
+'use client';
+
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import CustomButton from "@/components/common/Button";;
-import { DotPatternLinearGradient } from './ui/DotBg';
+import { easeOut, motion } from "framer-motion";
+// import { Skeleton } from "@/components/";
+import CustomButton from "@/components/common/Button";
 import { fetchSelectedCourse } from "@/services/course-service";
 import { useSelectedCourseStore } from "@/store/useSelectedCourse";
 import HeaderSection from "@/components/common/HeaderSection";
-import Balancer from "react-wrap-balancer"; 
+import Balancer from "react-wrap-balancer";
 
 interface AboutCourseProps {
   courseSlug: string;
   scrollToPricing: () => void;
 }
 
-export default function AboutCourse({ courseSlug, scrollToPricing }: AboutCourseProps) {
-  const { setSelectedCourse, selectedCourse,setSelectedCourseTools } = useSelectedCourseStore();
-  const [isLoading, setIsLoading] = useState(true);
+interface CourseStat {
+  label: string;
+  icon: string;
+}
+
+const fakeStats = ["1k+ learners trained", "Used across 20+ colleges", "Designed for real-world roles"];
+
+export default function AboutCourse({
+  courseSlug,
+  scrollToPricing,
+}: AboutCourseProps) {
+  const { selectedCourse, setSelectedCourse, setSelectedCourseTools } =
+    useSelectedCourseStore();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      setIsLoading(true);
-      const res = await fetchSelectedCourse(courseSlug ?? "");
+    async function load() {
+      setLoading(true);
+      const res = await fetchSelectedCourse(courseSlug);
+
       setSelectedCourse(res);
       setSelectedCourseTools(
         (res?.tools ?? []).map((tool: any) => ({
@@ -27,84 +41,171 @@ export default function AboutCourse({ courseSlug, scrollToPricing }: AboutCourse
           toolImage: tool.toolImage,
         }))
       );
-      setIsLoading(false);
-    };
-    fetchCourse();
-  }, [courseSlug, setSelectedCourse]);
 
-  // --- Skeleton Loader ---
-  if (isLoading) {
+      setLoading(false);
+    }
+    load();
+  }, [courseSlug]);
+
+  /* =============================
+     LOADING
+  ============================== */
+  if (loading) {
     return (
-      <section className="min-h-[60vh] bg-neutral-900 flex items-center justify-center px-4 mt-10 mb-10">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="animate-pulse bg-neutral-800 rounded-2xl h-[320px] sm:h-[400px] lg:h-[480px]" />
-          <div className="space-y-4">
-            <div className="animate-pulse bg-neutral-800 h-8 w-3/4 rounded" />
-            <div className="animate-pulse bg-neutral-800 h-6 w-full rounded" />
-            <div className="animate-pulse bg-neutral-800 h-6 w-5/6 rounded" />
-            <div className="animate-pulse bg-neutral-800 h-12 w-40 rounded mt-4" />
-          </div>
-        </div>
-      </section>
+      // <section 
+      //   className="min-h-[90vh] bg-neutral-950 flex items-center justify-center"
+      //   aria-label="Loading course content"
+      // >
+      //   <div className="w-full max-w-6xl space-y-8 px-4 sm:px-8 pt-28 pb-20">
+      //     <div className="max-w-3xl space-y-8">
+      //       {/* Title skeleton */}
+      //       <Skeleton className="h-16 w-3/4 rounded-lg" />
+            
+      //       {/* Description skeleton */}
+      //       <div className="space-y-3">
+      //         <Skeleton className="h-6 w-full rounded-lg" />
+      //         <Skeleton className="h-6 w-5/6 rounded-lg" />
+      //         <Skeleton className="h-6 w-4/5 rounded-lg" />
+      //       </div>
+            
+      //       {/* Stats skeleton */}
+      //       <div className="flex flex-wrap gap-6">
+      //         <Skeleton className="h-5 w-32 rounded-lg" />
+      //         <Skeleton className="h-5 w-40 rounded-lg" />
+      //         <Skeleton className="h-5 w-36 rounded-lg" />
+      //       </div>
+            
+      //       {/* CTA skeleton */}
+      //       <Skeleton className="h-12 w-40 rounded-lg" />
+      //     </div>
+      //   </div>
+      // </section>
+      <h1>loading</h1>
     );
   }
 
+  /* =============================
+     NOT FOUND
+  ============================== */
   if (!selectedCourse) {
     return (
-      <section className="min-h-[60vh] bg-neutral-900 flex items-center justify-center">
-        <div className="text-red-400 text-xl font-medium">
-          Course not found
+      <section className="min-h-[60vh] bg-neutral-950 flex items-center justify-center">
+        <div className="text-center space-y-2">
+          <p className="text-neutral-400 text-lg">Course not found</p>
+          <p className="text-sm text-neutral-500">Please check the course URL and try again.</p>
         </div>
       </section>
     );
   }
 
+  /* =============================
+     COURSE STATS WITH ICONS
+  ============================== */
+  const courseStats: CourseStat[] = [
+    { label: "1k+ learners trained", icon: "👥" },
+    { label: "Used across 20+ colleges", icon: "🎓" },
+    { label: "Designed for real-world roles", icon: "💼" },
+  ];
+
+  /* =============================
+     ANIMATION VARIANTS
+  ============================== */
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: easeOut },
+    },
+  };
+
+  /* =============================
+     HERO
+  ============================== */
   return (
-    <section className="relative bg-neutral-950 py-16 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16 overflow-hidden">
-      <DotPatternLinearGradient />
+    <section 
+      className="relative min-h-[90vh] bg-neutral-950 overflow-hidden mt-19"
+      aria-label="Course hero section"
+    >
       <HeaderSection />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Course Image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative group rounded-2xl overflow-hidden shadow-xl"
-        >
-          <img
-            src={selectedCourse.courseThumbnail}
-            alt={selectedCourse.courseName}
-            className="w-full h-[320px] sm:h-[400px] lg:h-[480px] object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-            onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
-        </motion.div>
+      {/* ===== Background with optimized image ===== */}
+      <div className="absolute inset-0">
+        <img
+          src={selectedCourse.courseThumbnail || "/fallback-course.jpg"}
+          alt=""
+          className="h-full w-full object-cover"
+          loading="eager"
+        />
+        {/* Multi-layer gradient for better overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/60 to-neutral-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/30 to-transparent" />
+      </div>
 
-        {/* Course Info Card */}
+      {/* ===== Content ===== */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 pt-28 pb-20">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-neutral-900 rounded-3xl p-8 shadow-lg flex flex-col justify-between space-y-6 max-w-3xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-3xl space-y-8"
         >
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+          {/* Title */}
+          <motion.h1 
+            variants={itemVariants}
+            className="text-4xl sm:text-5xl lg:text-6xl  text-white leading-tight"
+          >
             <Balancer>{selectedCourse.courseName}</Balancer>
-          </h1>
+          </motion.h1>
 
-         <p className="text-gray-300 text-base sm:text-lg leading-relaxed font-bricolage text-left">
-  <Balancer>{selectedCourse.courseDescription}</Balancer>
-</p>
+          {/* Description */}
+          <motion.p 
+            variants={itemVariants}
+            className="text-base sm:text-lg font-sans text-neutral-300 leading-relaxed max-w-2xl"
+          >
+            <Balancer>{selectedCourse.courseDescription}</Balancer>
+          </motion.p>
 
+          {/* ===== SOCIAL PROOF WITH ICONS ===== */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-wrap gap-x-6 gap-y-3"
+          >
+            {courseStats.map((stat) => (
+              <div 
+                key={stat.label}
+                className="flex items-center font-sans gap-2 text-sm text-neutral-400 whitespace-nowrap"
+              >
+                <span className="text-lg">{stat.icon}</span>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </motion.div>
 
-          <div>
+          {/* ===== CTA ===== */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-4 pt-4"
+          >
             <CustomButton
               title="Enroll now"
-              icon=""
               onClick={scrollToPricing}
+              aria-label="Enroll in this course"
             />
-          </div>
+
+         
+          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -1,50 +1,80 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+
 import HeaderSection from "@/components/common/HeaderSection";
 import CourseHeader from "@/components/course-dashboard/CourseHeader";
 import ProgressSection from "@/components/course-dashboard/ProgressSection";
 import LearnInPublic from "@/components/course-dashboard/LearnInPublic";
 import CourseCurriculum from "@/components/course-dashboard/CourseCurriculum";
-
-
-import { useCourse } from "@/hooks/tanstack/useCourses"; 
 import CourseDashboardSkeleton from "@/components/course-dashboard/CourseDashboardSkeleton";
+
+import { useCourse } from "@/hooks/tanstack/useCourses";
 import DashboardLayout from "@/layouts/DashboardLayout";
 
 export default function CourseDashboard() {
   const { slug } = useParams<{ slug: string }>();
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // 🚀 Fetch the course data using ID
   const { data, isLoading, isError } = useCourse(slug!);
 
-
   if (isLoading) {
-    return <CourseDashboardSkeleton/>
+    return <CourseDashboardSkeleton />;
   }
 
   if (isError || !data) {
-    return <div className="text-red-500 p-10">Failed to load course.</div>;
+    return (
+      <DashboardLayout>
+        <div className="flex min-h-[60vh] items-center justify-center px-6">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            Failed to load course. Please try again.
+          </p>
+        </div>
+      </DashboardLayout>
+    );
   }
 
-
   return (
-   <DashboardLayout>
-     <div className="min-h-screen bg-linear-to-b from-neutral-950 to-neutral-900 px-4 sm:px-8 py-12 text-white ">
-      <HeaderSection title="Course Dashboard" />
+    <DashboardLayout>
+      <main
+        className="
+          min-h-screen
+          px-4 sm:px-8 py-10
 
-      <CourseHeader courseName={data.courseData.courseName} courseThumbnail={data.courseData.courseThumbnail} totalTopicsCount={0} modules={[]} slug={slug} />
+          /* Light */
+          bg-neutral-50 text-neutral-900
 
-      <div className="max-w-7xl mx-auto space-y-8">
-        <ProgressSection topicProgress={data.topicProgress} quizProgress={data.quizProgress} projectProgress={data.projectProgress} />
-        <LearnInPublic />
-        <CourseCurriculum modules={data && data.courseData.modules} />
-      </div>
-    </div>
-   </DashboardLayout>
+          /* Dark */
+          dark:bg-neutral-900/50 dark:text-white mt-20
+        "
+      >
+        {/* Page header */}
+        <HeaderSection title="Course Dashboard" />
+
+        {/* Course hero */}
+        <CourseHeader
+          courseName={data.courseData.courseName}
+          courseThumbnail={data.courseData.courseThumbnail}
+          totalTopicsCount={0}
+          modules={[]}
+          slug={slug}
+        />
+
+        {/* Content */}
+        <div className="mx-auto mt-8 max-w-7xl space-y-10">
+          <ProgressSection
+            topicProgress={data.topicProgress}
+            quizProgress={data.quizProgress}
+            projectProgress={data.projectProgress}
+          />
+
+          <LearnInPublic />
+
+          <CourseCurriculum modules={data.courseData.modules} />
+        </div>
+      </main>
+    </DashboardLayout>
   );
 }

@@ -1,45 +1,80 @@
 import { motion } from "framer-motion";
-import { type CourseCurriculumProps } from "@/types/dashboard/CourseCurriculum";
+import type { CourseCurriculumProps } from "@/types/dashboard/CourseCurriculum";
 
 export default function CourseCurriculum({ modules }: CourseCurriculumProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.section
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4, ease: "easeInOut" }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="space-y-6"
     >
-      <h3 className="text-xl md:text-2xl font-semibold text-white mb-6">
-        Course Curriculum
+      <h3 className="text-lg sm:text-xl font-semibold">
+        Course curriculum
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div className="space-y-4">
         {modules.map((module, index) => (
           <motion.div
             key={module.id}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-            className="relative bg-neutral-800 rounded-xl p-5 shadow-md border border-neutral-700 hover:shadow-lg hover:border-lime-400 transition-all duration-300"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.05 }}
+            className="
+              rounded-xl p-5
+
+              /* Light */
+              bg-white
+
+              /* Dark */
+              dark:bg-neutral-900
+            "
           >
-            <span className="absolute top-2 right-2 bg-primary text-white text-xs font-medium px-2 py-1 rounded-full">
-              {index + 1}
-            </span>
-            <h4 className="text-lg font-semibold text-white mb-3">
-              {module.moduleName}
-            </h4>
-            <ul className="space-y-2">
-              {module.contents?.map((content) => (
-                <li
-                  key={content.id}
-                  className="flex items-center gap-2 text-sm text-gray-300"
-                >
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                  {content.contentName}
-                </li>
-              ))}
-            </ul>
+            {/* Module header */}
+            <div className="flex items-start gap-4">
+              <div
+                className="
+                  flex h-8 w-8 items-center justify-center
+                  rounded-full text-sm font-medium
+
+                  bg-primary/10 text-primary
+                "
+              >
+                {index + 1}
+              </div>
+
+              <div className="flex-1">
+                <h4 className="font-medium">
+                  {module.moduleName}
+                </h4>
+
+                <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                  {module.contents?.length ?? 0} lessons
+                </p>
+              </div>
+            </div>
+
+            {/* Lessons */}
+            {module.contents?.length > 0 && (
+              <ul className="mt-4 space-y-2 pl-12 font-sans">
+                {module.contents.map((content) => (
+                  <li
+                    key={content.id}
+                    className="
+                      text-sm
+                      text-neutral-600 dark:text-neutral-400
+                      flex items-start gap-2
+                    "
+                  >
+                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+                    <span>{content.contentName}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </motion.div>
         ))}
       </div>
-    </motion.div>
+    </motion.section>
   );
 }

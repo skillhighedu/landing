@@ -55,7 +55,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center bg-black font-pixel text-center overflow-hidden py-16 sm:py-20">
+    <section className="relative min-h-screen flex flex-col justify-center bg-black font-pixel text-center overflow-hidden py-16 sm:py-20 ">
       {/* Background Layer */}
       <motion.div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"

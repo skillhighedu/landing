@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Player from "@/features/dashboard/Player";
-import Sidebar from "@/features/dashboard/LessonsList";
-import Description from "@/features/dashboard/Description";
+import Player from "@/features/dashboard/components/Player";
+import Sidebar from "@/features/dashboard/components/LessonsList";
+import Description from "@/features/dashboard/components/Description";
 import HeaderSection from "@/components/common/HeaderSection";
-import Actions from "@/features/dashboard/Actions";
+import Actions from "@/features/dashboard/components/Actions";
 import { useLessons, useLessonsCheckboxStatus, useToggleLessonCompletion } from "@/hooks/tanstack/useCourses";
 import type { LessonTopic } from "@/types/course";
 import LessonHeader from "./LessonHeader";
-import LearnInPublic from "@/features/dashboard/LearnInPublic";
+import LearnInPublic from "@/features/dashboard/components/LearnInPublic";
 
 import DashboardLayout from "@/layouts/DashboardLayout";
 

@@ -1,79 +1,92 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import { X } from "lucide-react";
-import Logo from "@/assets/logo.png";
+"use client";
 
-import CustomButton from "@/components/common/Button";;
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { X, Sun, Moon, ChevronDown } from "lucide-react";
+
+import Logo from "@/assets/logo.png";
 import MenuIcon from "@/components/icons/Menu";
+import CustomButton from "@/components/common/Button";
+
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import { useAuthStore } from "@/store/authStore";
+import { useTheme } from "@/providers/ThemeProvider";
 
-// Sidebar component
+/* ================= TYPES ================= */
+type Department = {
+  uuid: string;
+  departmentName: string;
+  courses: {
+    slug: string;
+    courseName: string;
+    courseThumbnail: string;
+  }[];
+};
+
+/* ================= SIDEBAR ================= */
 function DepartmentsSidebar({
   departments,
   selectedIndex,
   onSelect,
 }: {
-  departments: { uuid: string; departmentName: string }[];
+  departments: Department[];
   selectedIndex: number;
   onSelect: (index: number) => void;
 }) {
   return (
-    <div className="w-40 flex flex-col gap-1">
-      {departments.map((department, index) => (
+    <div className="w-48 flex flex-col gap-1">
+      {departments.map((dept, index) => (
         <button
-          key={department.uuid}
+          key={dept.uuid}
           onClick={() => onSelect(index)}
-          className={`text-left text-sm py-1.5 px-2 rounded transition-colors cursor-pointer ${
-            selectedIndex === index
-              ? "bg-blue-50 text-primary"
-              : "text-white hover:bg-primary/80"
-          }`}
+          className={`
+            text-left px-3 py-2 rounded-lg text-sm transition
+            ${
+              selectedIndex === index
+                ? "bg-white/10 text-white"
+                : "text-neutral-400 hover:bg-white/5"
+            }
+          `}
         >
-          {department.departmentName}
+          {dept.departmentName}
         </button>
       ))}
     </div>
   );
 }
 
-// Courses grid
+/* ================= COURSES GRID ================= */
 function CoursesGrid({
   courses,
   deptName,
   onSelectCourse,
-  selectedDeptIndex,
 }: {
-  courses: {
-    uuid: string;
-    slug: string;
-    courseName: string;
-    courseThumbnail: string;
-  }[];
+  courses: Department["courses"];
   deptName: string;
   onSelectCourse: (slug: string) => void;
-  selectedDeptIndex: number;
 }) {
   return (
-    <div className="flex-1" key={selectedDeptIndex}>
-      <h3 className="text-sm text-primary mb-4">{deptName} Courses</h3>
-      <div className="grid grid-cols-2 gap-3">
+    <div className="flex-1">
+      <h3 className="text-xs uppercase tracking-wider text-neutral-400 mb-4">
+        {deptName}
+      </h3>
+
+      <div className="grid grid-cols-2 gap-4">
         {courses.map((course) => (
           <button
-            key={course.uuid}
+            key={course.slug}
             onClick={() => onSelectCourse(course.slug)}
-            className="h-30 rounded-lg overflow-hidden transition-colors text-left cursor-pointer"
+            className="relative h-28 rounded-xl overflow-hidden group"
             style={{
               backgroundImage: `url(${course.courseThumbnail})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <div className="h-full bg-black/50 flex items-end p-2">
-              <h4 className="text-white text-sm font-medium">
-                {course.courseName}
-              </h4>
-            </div>
+            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/70 transition" />
+            <span className="absolute bottom-3 left-3 right-3 text-xs text-white font-medium line-clamp-2">
+              {course.courseName}
+            </span>
           </button>
         ))}
       </div>
@@ -81,215 +94,201 @@ function CoursesGrid({
   );
 }
 
+/* ================= NAVBAR ================= */
 export default function Navbar() {
+  const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
+
+  const { isAuthenticated, checkAuth } = useAuthStore();
+  const departments = usePublicCoursesStore(
+    (s) => s.departments
+  ) as Department[];
+
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [selectedDeptIndex, setSelectedDeptIndex] = useState(0);
-  const [isCoursesOpen, setCoursesOpen] = useState(false);
 
-  const coursesDropdownRef = useRef<HTMLDivElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [coursesOpen, setCoursesOpen] = useState(false);
+  const [selectedDept, setSelectedDept] = useState(0);
 
-  const departments = usePublicCoursesStore((state) => state.departments);
-  const { isAuthenticated, checkAuth } = useAuthStore();
-  const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Check authentication on mount
+  /* Auth check */
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  // Scroll hide/show
+  /* Scroll hide/show */
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setIsVisible(y < lastScrollY || y < 100);
+      setLastScrollY(y);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, [lastScrollY]);
 
-  // Close dropdown if click outside
+  /* Outside click */
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        coursesDropdownRef.current &&
-        !coursesDropdownRef.current.contains(event.target as Node)
-      ) {
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setCoursesOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handleSelectedCourse = (courseSlug: string) => {
-    navigate(`/course/${courseSlug}`);
-    setCoursesOpen(false); // close dropdown when selecting course
+  const handleCourseSelect = (slug: string) => {
+    navigate(`/course/${slug}`);
+    setCoursesOpen(false);
   };
 
+  /* ================= RENDER ================= */
   return (
     <>
-      {/* Navbar container */}
-      <div
-        className={`fixed top-0 left-0 w-full bg-neutral-900 font-pixel   border-b border-white/10 text-white z-50 transition-transform duration-300 ease-in-out ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
-        role="navigation"
-        aria-label="Main Navigation"
+      {/* ================= DESKTOP ================= */}
+      <header
+        className={`
+          fixed top-0 left-0 w-full z-50
+          transition-all duration-300
+          ${
+            isVisible
+              ? "translate-y-0"
+              : "-translate-y-full"
+          }
+        `}
       >
-        {/* Desktop Navbar */}
-        <div className="hidden md:flex items-center justify-between mx-auto px-6 py-4">
-          <Link to="/">
-            <img src={Logo} alt="SkillHigh" className="h-12" />
+        <div className="
+          mx-auto max-w-7xl
+          px-6 py-4
+          flex items-center justify-between
+          rounded-b-2xl
+          backdrop-blur-xl
+          bg-white/70 dark:bg-neutral-900/70
+          border-b border-black/5 dark:border-white/10
+        ">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <img src={Logo} alt="SkillHigh" className="h-9" />
           </Link>
 
-          <nav className="flex items-center gap-6 justify-center font-medium relative">
-            <Link
-              to="/"
-              className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
-            >
+          {/* Nav */}
+          <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-700 dark:text-neutral-300">
+            <Link className="hover:text-black dark:hover:text-white transition" to="/">
               Home
             </Link>
 
-            {/* Courses Dropdown */}
-            <div className="relative" ref={coursesDropdownRef}>
+            {/* Programs */}
+            <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => setCoursesOpen((prev) => !prev)}
-                className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
+                onClick={() => setCoursesOpen((v) => !v)}
+                className="flex items-center gap-1 hover:text-black dark:hover:text-white transition"
               >
                 Programs
+                <ChevronDown size={14} />
               </button>
-             
 
-              {isCoursesOpen && (
-                <div className="absolute left-0 top-full mt-3 bg-neutral-800 border border-neutral-700 shadow-lg rounded-lg w-[630px] p-4">
-                  <div className="flex gap-4">
+              {coursesOpen && (
+                <div className="
+                  absolute left-0 top-full mt-4
+                  w-[720px]
+                  rounded-2xl
+                  bg-neutral-900/95
+                  backdrop-blur-xl
+                  border border-white/10
+                  shadow-2xl
+                  p-6
+                ">
+                  <div className="flex gap-6">
                     <DepartmentsSidebar
                       departments={departments}
-                      selectedIndex={selectedDeptIndex}
-                      onSelect={setSelectedDeptIndex}
+                      selectedIndex={selectedDept}
+                      onSelect={setSelectedDept}
                     />
 
                     <CoursesGrid
-                      selectedDeptIndex={selectedDeptIndex}
-                      deptName={
-                        departments[selectedDeptIndex]?.departmentName ?? ""
-                      }
-                      courses={
-                        (departments[selectedDeptIndex]?.courses ?? []).map(course => ({
-                          uuid: course.uuid ?? "",
-                          slug: course.slug,
-                          courseName: course.courseName,
-                          courseThumbnail: course.courseThumbnail,
-                        }))
-                      }
-                      onSelectCourse={handleSelectedCourse}
+                      deptName={departments[selectedDept]?.departmentName ?? ""}
+                      courses={departments[selectedDept]?.courses ?? []}
+                      onSelectCourse={handleCourseSelect}
                     />
                   </div>
                 </div>
               )}
             </div>
 
-           <Link
+            <Link
+              className="hover:text-black dark:hover:text-white transition"
               to="/blogs"
-              className="text-sm text-neutral-300 hover:text-white transition cursor-pointer"
             >
               Blogs
             </Link>
-            
-            {/* <Link
-              to="/resume"
-              className="text-sm text-neutral-300 hover:text-white transition cursor-pointer relative group"
-            >
-              Resume
-              <span className="absolute -top-2 -right-8 text-[10px] bg-green-600 text-white px-1.5 py-0.5 rounded font-normal opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                Try Now
-              </span>
-            </Link> */}
           </nav>
 
-          {/* CTA */}
-          {isAuthenticated ? (
-            <Link to="/profile">
-              <CustomButton title="View Profile" icon="" />
-            </Link>
-          ) : (
-            <Link to="/signup">
-              <CustomButton title="Start Your Journey" icon="" />
-            </Link>
-          )}
-        </div>
-
-        {/* Mobile Navbar */}
-        <div className="md:hidden h-18 flex items-center justify-between px-4 py-3 shadow-sm">
-          <img src={Logo} className="h-10" alt="SkillHigh" />
-          <button
-            onClick={() => setDrawerOpen(!isDrawerOpen)}
-            aria-label={isDrawerOpen ? "Close Menu" : "Open Menu"}
-            className="text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 p-1 rounded"
-          >
-            {isDrawerOpen ? (
-              <X size={24} className="text-red-500" />
-            ) : (
-              <MenuIcon />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
-      {isDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm">
-          <div className="relative h-full w-full max-w-sm sm:max-w-md bg-neutral-800 rounded-l-2xl shadow-xl px-6 py-10 flex flex-col justify-between">
-            {/* Close button */}
+          {/* Actions */}
+          <div className="hidden md:flex items-center gap-3">
             <button
-              onClick={() => setDrawerOpen(false)}
-              aria-label="Close menu"
-              className="absolute top-4 right-4 text-white hover:text-red-400 transition-colors"
+              onClick={toggleTheme}
+              className="p-2 rounded-lg bg-black/5 dark:bg-white/10"
             >
-              <X className="w-6 h-6" />
+              {theme === "dark" ? (
+                <Sun size={16} className="text-yellow-400" />
+              ) : (
+                <Moon size={16} />
+              )}
             </button>
 
-            {/* Navigation */}
-            <nav className="pt-8 flex flex-col items-end gap-6 text-lg leading-relaxed text-white">
-              <Link to="/" onClick={() => setDrawerOpen(false)}>
-                Home
-              </Link>
-              <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>
-                Programs
-              </Link>
-                <Link to="/blogs" onClick={() => setDrawerOpen(false)}>
-                Blogs
-              </Link>
-              {/* <Link to="/resume" onClick={() => setDrawerOpen(false)} className="flex items-center gap-2">
-                Resume
-                <span className="text-[10px] bg-green-600 text-white px-1.5 py-0.5 rounded font-normal">
-                  Try Now
-                </span>
-              </Link> */}
+            {isAuthenticated ? (
+              <CustomButton
+                title="Profile"
+                onClick={() => navigate("/profile")}
+              />
+            ) : (
+              <CustomButton
+                title="Start Learning"
+                onClick={() => navigate("/signup")}
+              />
+            )}
+          </div>
+
+          {/* Mobile menu */}
+          <button className="md:hidden" onClick={() => setDrawerOpen(true)}>
+            <MenuIcon />
+          </button>
+        </div>
+      </header>
+
+      {/* ================= MOBILE DRAWER ================= */}
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-end">
+          <div className="w-full max-w-sm bg-neutral-900 h-full p-6 flex flex-col justify-between">
+            <button
+              className="self-end"
+              onClick={() => setDrawerOpen(false)}
+            >
+              <X />
+            </button>
+
+            <nav className="flex flex-col gap-6 text-lg">
+              <Link to="/" onClick={() => setDrawerOpen(false)}>Home</Link>
+              <Link to="/all-courses" onClick={() => setDrawerOpen(false)}>Programs</Link>
+              <Link to="/blogs" onClick={() => setDrawerOpen(false)}>Blogs</Link>
             </nav>
 
-            {/* Conditional Button */}
-            <div>
+            <div className="space-y-3">
+              <button
+                onClick={toggleTheme}
+                className="w-full p-3 rounded-xl bg-neutral-800 flex items-center justify-center gap-2"
+              >
+                {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                Toggle Theme
+              </button>
+
               {isAuthenticated ? (
-                <CustomButton
-                  title="Profile"
-                  icon=""
-                  onClick={() => navigate("/profile")}
-                  className="w-full"
-                />
+                <CustomButton title="Profile" onClick={() => navigate("/profile")} className="w-full" />
               ) : (
-                <CustomButton
-                  title="Start Your Journey"
-                  onClick={() => navigate("/signup")}
-                  className="w-full"
-                />
+                <CustomButton title="Start Learning" onClick={() => navigate("/signup")} className="w-full" />
               )}
             </div>
           </div>
