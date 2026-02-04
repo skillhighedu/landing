@@ -15,8 +15,8 @@ export default function PartnerLogo({ logo, alt }: Props) {
       className="
         relative
         rounded-xl
-        bg-neutral-900
-        border border-neutral-800
+        bg-neutral-50 dark:bg-neutral-900
+        border dark:border-neutral-800
         px-6 py-5
         pixel-border
         shadow-[4px_4px_0_#000]

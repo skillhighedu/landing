@@ -8,6 +8,7 @@ import MentorCall from "../sections/mentors-call/MentorCall";
 import Footer from "@/components/common/Footer";
 import Pricings from "../sections/pricings";
 import { useParams } from "react-router-dom";
+import DemoDashboardSection from "../sections/demodashboard/DemoDashboard";
 
 export default function AboutCourse() {
   // ✅ CREATE REF HERE (PARENT)
@@ -22,12 +23,22 @@ export default function AboutCourse() {
     });
   };
 
+  const demoRef = useRef<HTMLDivElement>(null);
+
+const scrollToDemo = () => {
+  demoRef.current?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+};
+
   return (
     <>
       {/* 👇 pass scroll function */}
-      <CoursePage courseSlug={courseSlug!} scrollToPricing={scrollToPricing} />
+      <CoursePage courseSlug={courseSlug!} scrollToPricing={scrollToPricing} scrollToDemo={scrollToDemo} />
 
       <Curriculum />
+      <DemoDashboardSection ref={demoRef} courseSlug={courseSlug!}/>
       <Tools />
 
       {/* 👇 pass ref to Pricing */}

@@ -19,8 +19,9 @@ interface MentorsCarouselProps {
 
 export default function MentorsCarousel({ mentors }: MentorsCarouselProps) {
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const [api, setApi] = React.useState<EmblaCarouselType | undefined>(undefined);
 
-  const plugin = React.useRef(
+  const autoplay = React.useRef(
     Autoplay({
       delay: 3500,
       stopOnInteraction: false,
@@ -28,16 +29,29 @@ export default function MentorsCarousel({ mentors }: MentorsCarouselProps) {
     })
   );
 
-  const handleSelect = React.useCallback((embla: EmblaCarouselType) => {
-    setActiveIndex(embla.selectedScrollSnap());
-  }, []);
+  React.useEffect(() => {
+    if (!api) return;
+
+    const update = () => {
+      setActiveIndex(api.selectedScrollSnap());
+    };
+
+    update();
+    api.on("select", update);
+    api.on("reInit", update);
+
+    return () => {
+      api.off("select", update);
+      api.off("reInit", update);
+    };
+  }, [api]);
 
   return (
     <Carousel
+      setApi={setApi}
+      plugins={[autoplay.current]}
       opts={{ loop: true, align: "center" }}
-      plugins={[plugin.current]}
       className="relative w-full"
-      onSelect={handleSelect as any}
     >
       <CarouselContent className="-ml-4">
         {mentors.map((mentor, index) => (
@@ -54,27 +68,23 @@ export default function MentorsCarousel({ mentors }: MentorsCarouselProps) {
         ))}
       </CarouselContent>
 
-      {/* Controls */}
-     <CarouselPrevious
-  className="
-    left-2 top-1/2 -translate-y-1/2
-    backdrop-blur-md border-none
+      <CarouselPrevious
+        className="
+          left-2 top-1/2 -translate-y-1/2
+          backdrop-blur-md border-none
+          bg-white/80 text-neutral-900 hover:bg-white
+          dark:bg-black/40 dark:text-white dark:hover:bg-black/60
+        "
+      />
 
-    bg-white/80 text-neutral-900 hover:bg-white
-    dark:bg-black/40 dark:text-white dark:hover:bg-black/60
-  "
-/>
-
-<CarouselNext
-  className="
-    right-2 top-1/2 -translate-y-1/2
-    backdrop-blur-md border-none
-
-    bg-white/80 text-neutral-900 hover:bg-white
-    dark:bg-black/40 dark:text-white dark:hover:bg-black/60
-  "
-/>
-
+      <CarouselNext
+        className="
+          right-2 top-1/2 -translate-y-1/2
+          backdrop-blur-md border-none
+          bg-white/80 text-neutral-900 hover:bg-white
+          dark:bg-black/40 dark:text-white dark:hover:bg-black/60
+        "
+      />
     </Carousel>
   );
 }

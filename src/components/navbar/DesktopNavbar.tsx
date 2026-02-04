@@ -6,6 +6,7 @@ import ProgramsDropdown from "./ProgramsDropdown";
 import  type { Department } from "./types";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useAuthStore } from "@/store/authStore";
+import { useLocation } from "react-router-dom";
 
 export default function DesktopNavbar({
   departments,

@@ -1,46 +1,96 @@
 import { motion } from "framer-motion";
-
 import CircularProgress from "./CircularProgress";
 
-
-export default function ProgressSection({topicProgress,projectProgress,quizProgress  }: {topicProgress: number;
+type Props = {
+  topicProgress: number;
+  quizProgress: number;
   projectProgress: number;
-  quizProgress: number}) {
+};
 
-
+export default function ProgressSection({
+  topicProgress,
+  quizProgress,
+  projectProgress,
+}: Props) {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6 }}
-      className="space-y-6"
+    <motion.section
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="
+        rounded-2xl p-6 sm:p-8
+
+        /* Light */
+        bg-white text-neutral-900
+
+        /* Dark */
+        dark:bg-neutral-900 dark:text-white
+      "
     >
-      <div className="bg-neutral-900 p-6 rounded-2xl shadow-xl border border-neutral-700">
-        <h2 className="text-2xl   mb-6 ">Your Progress</h2>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* Topics Progress */}
-          <div className="bg-neutral-800 p-6 rounded-xl border border-neutral-700 text-center">
-            <CircularProgress value={topicProgress} color="lime" />
-            <h3 className="text-sm text-gray-400 mb-1">Topics Completed</h3>
-            <p className="text-lg ">{topicProgress === 100 ? "Completed" : "In Progress"}</p>
-          </div>
+      <h2 className="mb-6 text-lg font-semibold">
+        Your progress
+      </h2>
 
-          {/* Quiz Progress */}
-          <div className="bg-neutral-800 p-6 rounded-xl border border-neutral-700 text-center">
-            <CircularProgress value={quizProgress} color="blue" />
-            <h3 className="text-sm text-gray-400 mb-1">Quiz Progress</h3>
-            <p className="text-lg ">Completed</p>
-          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <ProgressCard
+          title="Topics"
+          value={topicProgress}
+          status={topicProgress === 100 ? "Completed" : "In progress"}
+          color="lime"
+        />
 
-          {/* Project Progress */}
-          <div className="bg-neutral-800 p-6 rounded-xl border border-neutral-700 text-center">
-            <CircularProgress value={projectProgress} color="purple" />
-            <h3 className="text-sm text-gray-400 mb-1">Project Progress</h3>
-            <p className="text-lg ">{projectProgress === 100 ? "Completed" : "In Progress"}</p>
-          </div>
-        </div>
+        <ProgressCard
+          title="Quizzes"
+          value={quizProgress}
+          status={quizProgress === 100 ? "Completed" : "In progress"}
+          color="blue"
+        />
+
+        <ProgressCard
+          title="Projects"
+          value={projectProgress}
+          status={projectProgress === 100 ? "Completed" : "In progress"}
+          color="purple"
+        />
       </div>
-    </motion.div>
+    </motion.section>
+  );
+}
+
+function ProgressCard({
+  title,
+  value,
+  status,
+  color,
+}: {
+  title: string;
+  value: number;
+  status: string;
+  color: "lime" | "blue" | "purple";
+}) {
+  return (
+    <div
+      className="
+        flex flex-col items-center gap-3
+        rounded-xl p-4
+
+        /* Light */
+        bg-neutral-50 text-neutral-900
+
+        /* Dark */
+        dark:bg-neutral-800 dark:text-white
+      "
+    >
+      <CircularProgress value={value} color={color} />
+
+      <div className="text-center">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          {title}
+        </p>
+        <p className="text-sm font-medium">
+          {status}
+        </p>
+      </div>
+    </div>
   );
 }

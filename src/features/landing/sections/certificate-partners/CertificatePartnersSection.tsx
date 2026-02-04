@@ -20,7 +20,7 @@ export default function CertificatePartnersSection() {
   }, [controls, inView]);
 
   return (
-    <section className="bg-neutral-950 py-20 overflow-hidden">
+    <section className="bg-white dark:bg-neutral-950 py-20 overflow-hidden">
       <Container size="xl">
         {/* Header */}
         <motion.div

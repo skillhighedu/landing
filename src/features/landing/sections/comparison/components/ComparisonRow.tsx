@@ -1,4 +1,5 @@
 import type { ComparisonItem } from "../types";
+import Logo from "@/assets/logo.png";
 
 type Props = {
   item: ComparisonItem;
@@ -9,21 +10,21 @@ export default function ComparisonRow({ item }: Props) {
     <div
       className={`
         grid grid-cols-1 md:grid-cols-3 gap-4
-        rounded-xl p-5 transition-all
+        rounded-2xl p-5 transition-all
 
-        /* Light mode */
-        bg-white text-neutral-900
-        border border-neutral-200
+        /* Light */
+        bg-neutral-50 text-neutral-900
+        hover:bg-neutral-100
 
-        /* Dark mode */
-        dark:bg-neutral-900/80 dark:text-white
-        dark:border-neutral-800
+        /* Dark */
+        dark:bg-neutral-900/60 dark:text-white
+        dark:hover:bg-neutral-900
 
-        ${item.highlight ? "ring-1 ring-primary/40" : ""}
+        ${item.highlight ? "shadow-sm" : ""}
       `}
     >
       {/* Feature */}
-      <div className="font-medium">
+      <div className="font-medium text-sm">
         {item.feature}
       </div>
 
@@ -33,8 +34,21 @@ export default function ComparisonRow({ item }: Props) {
       </div>
 
       {/* SkillHigh */}
-      <div className="text-sm font-medium text-primary">
-        {item.skillhigh}
+      <div
+        className={`
+          flex items-center gap-2
+          text-sm font-semibold text-primary
+          rounded-xl px-3 py-2
+
+          bg-primary/10
+        `}
+      >
+        <img
+          src={Logo}
+          alt="SkillHigh"
+          className="h-4 w-auto"
+        />
+        <span>{item.skillhigh}</span>
       </div>
     </div>
   );

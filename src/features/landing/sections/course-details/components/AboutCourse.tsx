@@ -13,10 +13,14 @@ import { useSelectedCourseStore } from '@/store/useSelectedCourse';
 import type { AboutCourseProps } from '../types';
 import { containerVariants, itemVariants } from '../animations';
 import { COURSE_STATS } from '../constants/courseStats';
+import { ArrowRight, LayoutDashboard } from 'lucide-react';
+import AboutCourseSkeleton from '../skeletons/AboutCourseSkeleton';
 
 export default function AboutCourse({
   courseSlug,
   scrollToPricing,
+  scrollToDemo
+  
 }: AboutCourseProps) {
   const {
     selectedCourse,
@@ -49,13 +53,9 @@ export default function AboutCourse({
   /* =============================
      LOADING
   ============================== */
-  if (loading) {
-    return (
-      <section className="min-h-[70vh] bg-neutral-950 flex items-center justify-center">
-        <p className="text-neutral-400">Loading course…</p>
-      </section>
-    );
-  }
+if (loading) {
+  return <AboutCourseSkeleton />;
+}
 
   /* =============================
      NOT FOUND
@@ -82,7 +82,7 @@ export default function AboutCourse({
   aria-label="Course hero section"
 >
   {/* Header */}
-  <div className="relative z-20 mb-12">
+  <div className="relative z-20 mt-24 lg:ml-24">
     <HeaderSection />
   </div>
 
@@ -117,7 +117,7 @@ export default function AboutCourse({
   </div>
 
   {/* ===== Content ===== */}
-  <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 pt-28 pb-20">
+  <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 pt-4 lg:pt-24  pb-20">
     <motion.div
       variants={containerVariants}
       initial="hidden"
@@ -130,7 +130,7 @@ export default function AboutCourse({
         className="
           text-4xl sm:text-5xl lg:text-6xl
           font-semibold leading-tight
-          text-neutral-900 dark:text-white
+          text-primary dark:text-white
         "
       >
         <Balancer>{selectedCourse.courseName}</Balancer>
@@ -157,7 +157,7 @@ export default function AboutCourse({
             key={label}
             className="
               flex items-center gap-2 text-sm
-              text-neutral-600 dark:text-neutral-400
+              text-neutral-600 font-sans dark:text-neutral-400
             "
           >
             <Icon className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />
@@ -167,16 +167,31 @@ export default function AboutCourse({
       </motion.div>
 
       {/* CTA */}
-      <motion.div
-        variants={itemVariants}
-        className="flex flex-col sm:flex-row gap-4 pt-4"
-      >
-        <CustomButton
-          title="Enroll now"
-          onClick={scrollToPricing}
-          aria-label="Enroll in this course"
-        />
-      </motion.div>
+<motion.div
+  variants={itemVariants}
+  className="flex flex-col sm:flex-row gap-4 pt-6"
+>
+  {/* Primary CTA */}
+  <CustomButton
+    title="View demo dashboard"
+    onClick={scrollToDemo}
+    icon={<LayoutDashboard size={18} />}
+    className="
+      bg-neutral-900 text-white hover:bg-neutral-900
+      dark:bg-white dark:text-neutral-900
+    "
+    aria-label="View demo dashboard"
+  />
+
+  {/* Secondary CTA */}
+  <CustomButton
+    title="Enroll now"
+    onClick={scrollToPricing}
+    icon={<ArrowRight size={18} />}
+    aria-label="Enroll in this course"
+  />
+</motion.div>
+
     </motion.div>
   </div>
 </section>

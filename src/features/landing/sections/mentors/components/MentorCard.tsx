@@ -15,10 +15,11 @@ export default function MentorCard({
   return (
     <motion.div
       animate={{
-        scale: isActive ? 1 : 0.94,
-        opacity: isActive ? 1 : 0.6,
+        y: isActive ? -6 : 0,
+        scale: isActive ? 1 : 0.96,
+        opacity: isActive ? 1 : 0.55,
       }}
-      transition={{ type: "spring", stiffness: 120, damping: 20 }}
+      transition={{ type: "spring", stiffness: 140, damping: 22 }}
       className="h-full"
     >
       <Card
@@ -26,43 +27,68 @@ export default function MentorCard({
           relative h-[420px] overflow-hidden rounded-2xl
 
           /* Light */
-          bg-white text-neutral-900
-          border border-neutral-200
+          bg-neutral-50 text-neutral-900
+          shadow-sm
 
           /* Dark */
           dark:bg-neutral-900 dark:text-white
-          dark:border-neutral-800
+          dark:ring-1 dark:ring-neutral-800
+
+          transition-shadow
         "
       >
+        {/* Image */}
         <img
           src={mentor.photo}
           alt={mentor.name}
-          className={`
-            absolute inset-0 h-full w-full object-cover
-            transition-transform duration-700
-            ${isActive ? "scale-105" : "scale-100"}
-          `}
-        />
-
-        {/* Gradient overlay */}
-        <div
           className="
-            absolute inset-0
-            bg-gradient-to-t
-            from-white/90 via-white/40 to-transparent
-            dark:from-black/90 dark:via-black/40 dark:to-transparent
+            absolute inset-0 h-full w-full object-cover
+            grayscale-[30%]
+            opacity-80
+            transition-transform duration-700
+            group-hover:scale-105
           "
         />
 
-        {/* Content */}
-        <CardContent className="relative z-10 flex h-full flex-col justify-end p-6">
-          <h3 className="text-lg font-semibold">
+        {/* Soft overlay */}
+        <div
+          className="
+            absolute inset-0
+           
+          "
+        />
+
+        {/* Content panel */}
+        <CardContent
+          className="
+            relative z-10 mt-auto
+            p-6
+
+            backdrop-blur-md
+            bg-primary/70
+
+            dark:bg-primary/40
+          "
+        >
+          <h3 className="text-lg ">
             {mentor.name}
           </h3>
-          <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">
+
+          <p className="mt-1 font-sans text-sm text-white dark:text-white line-clamp-2">
             {mentor.qualification}
           </p>
         </CardContent>
+
+        {/* Active highlight */}
+        {isActive && (
+          <div
+            className="
+              pointer-events-none absolute inset-0
+              ring-2 ring-primary/40
+              rounded-2xl
+            "
+          />
+        )}
       </Card>
     </motion.div>
   );
