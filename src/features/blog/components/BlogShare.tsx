@@ -1,30 +1,29 @@
 import { useEffect, useState } from "react";
-import {  Linkedin, Link as LinkIcon, Share2, Twitter } from "lucide-react";
+import { Linkedin, Link as LinkIcon, Share2, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CustomButton from "@/components/common/Button";
 import type { BlogShareProps } from "../types/types";
-
-
 
 const shareLinks = [
   {
     name: "Twitter / X",
     icon: Twitter,
     buildUrl: (url: string, title: string) =>
-      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(
+        title
+      )}`,
   },
   {
     name: "LinkedIn",
     icon: Linkedin,
     buildUrl: (url: string, title: string) =>
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(
-        title,
-      )}`,
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+        url
+      )}&title=${encodeURIComponent(title)}`,
   },
 ];
 
-export default function BlogShare({ title, slug, className }: BlogShareProps
-) {
+export default function BlogShare({ title, slug, className }: BlogShareProps) {
   const [shareUrl, setShareUrl] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -63,11 +62,17 @@ export default function BlogShare({ title, slug, className }: BlogShareProps
   return (
     <div
       className={cn(
-        "rounded-2xl border border-neutral-800 bg-neutral-900/80 px-4 py-3 sm:px-6 sm:py-4 flex flex-wrap items-center gap-3 sm:gap-4",
-        className,
+        `
+        rounded-2xl border px-4 py-3 sm:px-6 sm:py-4
+        flex flex-wrap items-center gap-3 sm:gap-4
+
+        bg-white border-black/10 text-black
+        dark:bg-neutral-900/80 dark:border-neutral-800 dark:text-gray-200
+        `,
+        className
       )}
     >
-      <div className="inline-flex items-center gap-2 text-sm font-medium text-gray-400">
+      <div className="inline-flex items-center gap-2 text-sm font-medium text-black/70 dark:text-gray-400">
         <Share2 className="h-4 w-4 text-primary" />
         Share this article
       </div>
@@ -79,13 +84,23 @@ export default function BlogShare({ title, slug, className }: BlogShareProps
           isBack
           type="button"
           onClick={handleNativeShare}
-          className="bg-primary/15! text-primary! border! border-primary/60! px-3! py-2! text-xs! sm:text-sm! shadow-none! hover:bg-primary/25! transition-colors"
+          className="
+            bg-primary/15! text-primary! border! border-primary/60!
+            px-3! py-2! text-xs! sm:text-sm!
+            shadow-none! hover:bg-primary/25! transition-colors
+          "
         />
 
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-3 py-1.5 text-xs sm:text-sm font-medium text-gray-300 hover:border-primary/60 hover:text-white transition-colors"
+          className="
+            inline-flex items-center gap-2 rounded-full border px-3 py-1.5
+            text-xs sm:text-sm font-medium transition-colors
+
+            border-black/15 text-black/80 hover:border-primary/60 hover:text-black
+            dark:border-neutral-700 dark:text-gray-300 dark:hover:border-primary/60 dark:hover:text-white
+          "
         >
           <LinkIcon className="h-4 w-4" />
           {copied ? "Link copied!" : "Copy link"}
@@ -100,7 +115,12 @@ export default function BlogShare({ title, slug, className }: BlogShareProps
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Share on ${name}`}
-            className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-700 text-gray-300 hover:border-primary/60 hover:text-white transition-colors"
+            className="
+              group inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors
+
+              border-black/15 text-black/70 hover:border-primary/60 hover:text-black
+              dark:border-neutral-700 dark:text-gray-300 dark:hover:border-primary/60 dark:hover:text-white
+            "
           >
             <Icon className="h-4 w-4" />
           </a>
@@ -109,4 +129,3 @@ export default function BlogShare({ title, slug, className }: BlogShareProps
     </div>
   );
 }
-
