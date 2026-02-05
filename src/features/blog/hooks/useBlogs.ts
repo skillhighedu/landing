@@ -11,7 +11,8 @@ export const blogKeys = {
 export const useBlogs = () => {
   return useQuery({
     queryKey: blogKeys.all,
-    queryFn: fetchBlogs
+    queryFn: fetchBlogs,
+    
   });
 };
 

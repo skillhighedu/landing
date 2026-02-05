@@ -7,6 +7,7 @@ import type { BlogCardProps, BlogPost } from "../types/types";
 export const fetchBlogs = async (): Promise<any> => {
   try {
     const response = await apiClient.get<ApiResponse<BlogCardProps>>("/blogs/blog");
+    console.log("RESPONSE: ",response)
     return response.data.additional ?? []
   } catch (error) {
     throw handleApiError(error);
