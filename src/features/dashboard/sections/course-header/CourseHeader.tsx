@@ -1,16 +1,13 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import CustomButton from "@/components/common/Button";
-import { getCourseActions } from "@/data/dashboard/Actions";
+import CourseHeaderActions from "./CourseHeaderActions";
+import type { CourseHeaderProps } from "./types";
 
 export default function CourseHeader({
   courseName,
   courseThumbnail,
   slug,
-  mode
-}: any) {
-  const actions = getCourseActions(slug,mode);
-
+  mode,
+}: CourseHeaderProps) {
   return (
     <motion.section
       initial={{ opacity: 0, y: 16 }}
@@ -29,10 +26,7 @@ export default function CourseHeader({
         <img
           src={courseThumbnail}
           alt={courseName}
-          className="
-            absolute inset-0 h-full w-full object-cover
-            scale-105
-          "
+          className="absolute inset-0 h-full w-full object-cover scale-105"
         />
 
         {/* Overlay */}
@@ -59,38 +53,7 @@ export default function CourseHeader({
           </div>
 
           {/* Actions */}
-          <div
-            className="
-              mt-4 sm:mt-6
-              flex flex-wrap gap-2 sm:gap-3
-              bg-white/10 backdrop-blur-md
-              rounded-xl p-3 sm:p-4
-              w-full sm:w-fit
-            "
-          >
-            {actions.map(({ label, icon, href, className }, i) => {
-              const Btn = (
-                <CustomButton
-                  className={`text-xs sm:text-sm ${className}`}
-                  icon={icon}
-                  title={label}
-                >
-                  {icon}
-                  {label}
-                </CustomButton>
-              );
-
-              return href ? (
-                <Link to={href} key={i} className="w-full sm:w-auto">
-                  {Btn}
-                </Link>
-              ) : (
-                <div key={i} className="w-full sm:w-auto">
-                  {Btn}
-                </div>
-              );
-            })}
-          </div>
+          <CourseHeaderActions slug={slug} mode={mode} />
         </div>
       </div>
     </motion.section>

@@ -13,27 +13,24 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     <div
       className="
         min-h-screen flex
-
-        /* Light */
         bg-neutral-50 text-neutral-900
-
-        /* Dark */
         dark:bg-neutral-900 dark:text-white
       "
     >
-      {/* ===== Sidebar / Bottom Nav ===== */}
+      {/* Sidebar */}
       <MiniSidebar slug={slug!} />
 
-      {/* ===== Main Content ===== */}
+      {/* Main */}
       <main
         className="
           flex-1
-          transition-all duration-300 ease-in-out
+          transition-[padding] duration-300 ease-in-out
 
-          /* Desktop sidebar spacing */
-          lg:pl-16 lg:peer-hover:pl-56
+          /* Sidebar spacing */
+          pl-0 lg:pl-16
+          lg:peer-hover:pl-56
 
-          /* Mobile spacing (for bottom nav) */
+          /* Mobile bottom nav spacing */
           pb-16 lg:pb-0
         "
       >

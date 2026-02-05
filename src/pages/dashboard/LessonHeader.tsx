@@ -5,7 +5,7 @@ interface LessonHeaderProps {
 export default function LessonHeader({ title }: LessonHeaderProps) {
   return (
     <div className="w-full">
-      <h1 className="text-xl sm:text-2xl font-semibold text-white">
+      <h1 className="text-xl sm:text-2xl font-semibold text-primary dark:text-white">
         {title}
       </h1>
     </div>

@@ -1,6 +1,6 @@
 export function BlogDetailSkeleton() {
   return (
-    <div className="min-h-screen bg-neutral-950 py-20 px-6 sm:px-10 lg:px-16 animate-pulse">
+    <div className="min-h-screen bg-white dark:bg-neutral-950 py-20 px-6 sm:px-10 lg:px-16 animate-pulse">
       <article className="max-w-3xl mx-auto space-y-8">
         {/* Title */}
         <div className="h-10 w-3/4 bg-neutral-800 rounded" />

@@ -17,7 +17,7 @@ const CourseDetails = lazy(() => import("@/features/landing/pages/AboutCourse"))
 const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
 const Profile = lazy(() => import("@/features/landing/pages/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
-const CourseDashboard = lazy(() => import("@/pages/dashboard/CourseDashboard"));
+const DemoDashboardPage  = lazy(() => import("@/features/dashboard/pages/DemoDashboardPage"));
 const QuizList = lazy(() => import("@/components/course-dashboard/course-essentials/QuizList"));
 const Projects = lazy(() => import("@/components/course-dashboard/course-essentials/Projects"));
 const Resume = lazy(() => import("@/features/resume/Resume"));
@@ -27,10 +27,11 @@ import GoogleCallback from "@/pages/landing/GoogleCallback";
 import Blog from "@/pages/blogs/Blogs";
 import BlogDetail from "@/features/blog/components/BlogDetail";
 import Quiz from "./features/quiz/components/Quiz";
-import PlayGround from "./pages/dashboard/PlayGround";
+import PlayGround from "./features/playground/PlayGround";
 import ProjectList from "./features/projects/components/ProjectList";
 import BountyList from "./features/bounties/components/BountyList";
 import Courses from "./features/landing/pages/Courses";
+import RealDashboardPage from "./features/dashboard/pages/RealDashboardPage";
 
 function App() {
   const { checkAuth, loading, isAuthenticated } = useAuthStore();
@@ -41,7 +42,7 @@ function App() {
 
   return (
     <div className="text-white bg-white dark:bg-neutral-900 min-h-screen">
-      <Popup />
+      <Popup mode={ isAuthenticated ? "real":"demo"} />
 
       <Suspense
         fallback={
@@ -60,10 +61,10 @@ function App() {
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetail />} />
 
-            <Route path="/course-dashboard/:slug" element={<CourseDashboard />} />
+            <Route  path="/course/:slug/demo" element={<DemoDashboardPage  />} />
             <Route path="/course-dashboard/:courseId/quiz" element={<QuizList />} />
             <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz />} />
-            <Route path="/course-dashboard/:slug/lessons" element={<PlayGround />} />
+           <Route path="/courses/:slug/demo/play" element={<PlayGround mode="demo" />}/>
             <Route path="/course-dashboard/:courseId/projects" element={<ProjectList />} />
             <Route path="/course-dashboard/projects/:projectId" element={<Projects />} />
             <Route path="/course-dashboard/:courseId/bounties" element={<BountyList />} />
@@ -83,6 +84,17 @@ function App() {
 
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
+              <Route
+  path="/course-dashboard/:slug"
+  element={
+   
+      <RealDashboardPage />
+ 
+  }
+/>
+
+           <Route path="/course-dashboard/:slug/lessons" element={<PlayGround mode="real" />}/>
+
             </Route>
           </Route>
         </Routes>

@@ -5,7 +5,7 @@ import { quiz } from "./quiz.data";
 // import QuizHeader from "./QuizHeader";
 import QuestionCard from "./QuestionCard";
 import HeaderSection from "@/components/common/HeaderSection";
-import DashboardLayout from "@/layouts/DashboardLayout";
+import DashboardLayout from "../../dashboard/layout/DashboardLayout";
 import CustomButton from "@/components/common/Button";
 
 export default function Quiz() {

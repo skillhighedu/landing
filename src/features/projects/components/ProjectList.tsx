@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "@/layouts/DashboardLayout";
+import DashboardLayout from "../../dashboard/layout/DashboardLayout";
 import HeaderSection from "@/components/common/HeaderSection";
 import ProjectCard from "./ProjectCard";
 import { projects } from "./project.data";

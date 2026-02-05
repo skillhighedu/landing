@@ -1,19 +1,22 @@
-
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar,
   MessageSquare,
   X,
   Sparkles,
   ArrowRight,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { PlayGroundProps } from "@/types/dashboard/demo";
 
 const POPUP_INTERVAL_MINUTES = 30;
-const POPUP_LAST_CLOSED_KEY = 'popupLastClosedTime';
+const POPUP_LAST_CLOSED_KEY = "popupLastClosedTime";
 
-export default function Popup() {
+export default function Popup({ mode }: PlayGroundProps) {
+
+  if (mode !== "demo") return null;
+
   const [open, setOpen] = useState(false);
 
   const checkPopup = () => {
@@ -22,7 +25,8 @@ export default function Popup() {
 
     if (
       !lastClosed ||
-      now - Number(lastClosed) > POPUP_INTERVAL_MINUTES * 60 * 1000
+      now - Number(lastClosed) >
+        POPUP_INTERVAL_MINUTES * 60 * 1000
     ) {
       setOpen(true);
     }
@@ -61,7 +65,7 @@ export default function Popup() {
             initial={{ scale: 0.96, opacity: 0, y: 24 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.96, opacity: 0, y: 24 }}
-            transition={{ type: 'spring', damping: 24, stiffness: 260 }}
+            transition={{ type: "spring", damping: 24, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
             className="
               relative w-full max-w-md
@@ -108,8 +112,8 @@ export default function Popup() {
 
             {/* Description */}
             <p className="text-sm leading-relaxed mb-7 text-neutral-600 dark:text-neutral-400">
-              Talk to a mentor, ask your questions, and get honest guidance —
-              no pressure, no sales pitch.
+              Talk to a mentor, ask your questions, and get honest
+              guidance — no pressure, no sales pitch.
             </p>
 
             {/* Value points */}

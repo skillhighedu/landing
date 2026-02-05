@@ -5,16 +5,11 @@ import {
   MessageCircle,
 
 } from "lucide-react";
-import type { LessonTopic } from "@/types/course";
+
 
 import CustomButton from "@/components/common/Button";
+import type { ActionsProps } from "./types";
 
-interface ActionsProps {
-  lessons: LessonTopic[];
-  currentLesson: LessonTopic | null;
-  onChangeLesson: (lesson: LessonTopic) => void;
-  onOpenDiscussion?: () => void;
-}
 
 export default function Actions({
   lessons,

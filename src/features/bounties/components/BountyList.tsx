@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "@/layouts/DashboardLayout";
+import DashboardLayout from "../../dashboard/layout/DashboardLayout";
 import HeaderSection from "@/components/common/HeaderSection";
 import BountyCard from "./BountyCard";
 import { bounties } from "./bounty.data";

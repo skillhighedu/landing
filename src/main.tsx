@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Toaster } from "sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import OfflineAlert from "@/components/common/OfflineAlert";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,6 +33,9 @@ createRoot(document.getElementById("root")!).render(
       <ThemeProvider>
         <TooltipProvider delayDuration={150}>
           <SmoothScrollProvider>
+            {/* 🌐 GLOBAL OFFLINE ALERT */}
+            <OfflineAlert />
+
             <Toaster
               position="bottom-right"
               richColors

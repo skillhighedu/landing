@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import type { LessonTopic } from "@/types/course";
 import { Loader2 } from "lucide-react";
+import type { PlayerProps } from "./types";
 
-interface PlayerProps {
-  currentLesson: LessonTopic | null;
-}
+
 
 export default function Player({ currentLesson }: PlayerProps) {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
@@ -33,7 +31,7 @@ export default function Player({ currentLesson }: PlayerProps) {
         className="
           relative w-full aspect-video
           rounded-2xl overflow-hidden
-          bg-neutral-900
+          dark:bg-neutral-900
           border border-white/10
           shadow-xl
         "

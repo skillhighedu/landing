@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Player from "@/features/dashboard/components/Player";
 import Sidebar from "@/features/dashboard/components/LessonsList";
 import Description from "@/features/dashboard/components/Description";
 import HeaderSection from "@/components/common/HeaderSection";
-import Actions from "@/features/dashboard/components/Actions";
-import { useLessons, useLessonsCheckboxStatus, useToggleLessonCompletion } from "@/hooks/tanstack/useCourses";
+
+import { useCourse, useLessons, useLessonsCheckboxStatus, useToggleLessonCompletion } from "@/hooks/tanstack/useCourses";
 import type { LessonTopic } from "@/types/course";
 import LessonHeader from "./LessonHeader";
 import LearnInPublic from "@/features/dashboard/components/LearnInPublic";
 
 import DashboardLayout from "@/layouts/DashboardLayout";
+import { useDemoCourse, useDemoLessons } from "@/features/dashboard/hooks/useDemoCourse";
+import type { PlayGroundProps } from "@/types/dashboard/demo";
+import Player from "@/features/dashboard/components/player/Player";
+import Actions from "@/features/dashboard/components/actions/Actions";
 
 /* ===================================================== */
 
-export default function PlayGround() {
+export default function PlayGround({mode}:PlayGroundProps) {
   const { slug } = useParams<{ slug: string }>();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -24,10 +27,26 @@ export default function PlayGround() {
   const [activeTab, setActiveTab] =
     useState<"content" | "discussion">("content");
 
- const { data: completedLessons } = useLessonsCheckboxStatus(slug ?? "");
+     
+const isDemo = mode === "demo";
 
-  const { data, isLoading, isError } = useLessons(slug ?? "");
-const toggleCompletion = useToggleLessonCompletion();
+const lessonQuery = isDemo
+  ? useDemoLessons(slug ?? "")
+  : useLessons(slug ?? "");
+
+
+
+const { data, isLoading, isError } = lessonQuery;
+
+
+const { data: completedLessons } = !isDemo
+  ? useLessonsCheckboxStatus(slug ?? "")
+  : { data: undefined };
+
+const toggleCompletion = !isDemo
+  ? useToggleLessonCompletion()
+  : null;
+
 
  const completedLessonId = completedLessons?.completedLessonIds ?? [];
 const completedSet = Array.from(new Set(completedLessonId));
@@ -66,7 +85,7 @@ const completedSet = Array.from(new Set(completedLessonId));
         "
       >
         {/* ================= Header ================= */}
-        <header className=" mb-4">
+        <header className=" mt-14 p-6">
           <HeaderSection title={data?.courseDetails?.name || "Course"} />
 
           <button
@@ -80,7 +99,7 @@ const completedSet = Array.from(new Set(completedLessonId));
         {/* ================= Layout ================= */}
         <div className="flex gap-6 items-start">
           <main className="flex-1 space-y-6 min-w-0">
-            <section className="rounded-2xl border border-white/10 bg-neutral-900/80 p-4 sm:p-6 lg:p-8">
+            <section className="rounded-2xl border border-white/10 text-primary dark:text-white bg-white dark:bg-neutral-900/80 p-4 sm:p-6 lg:p-8">
               {isLoading && <Skeleton />}
               {isError && <ErrorBox />}
 
@@ -116,7 +135,7 @@ const completedSet = Array.from(new Set(completedLessonId));
           </main>
 
           <aside className="hidden lg:flex w-80 shrink-0 flex-col gap-6">
-            <div className="sticky top-20 max-h-[calc(100vh-2rem)] rounded-2xl border border-white/10 bg-neutral-900/70 p-3 overflow-hidden">
+            <div className="sticky top-20 max-h-[calc(100vh-2rem)] rounded-2xl border border-white/10 bg-white dark:bg-neutral-900/70 p-3 overflow-hidden">
               <Sidebar
                 lessonsList={lessons}
                 activeLessonId={currentLesson?.id}

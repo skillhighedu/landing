@@ -59,7 +59,7 @@ After completing this lesson, you should be comfortable with:
 `;
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-neutral-900/80 shadow-lg p-4 sm:p-6 lg:p-8 font-mono">
+    <div className="rounded-2xl border border-white/10 text-neutral-900 dark:text-white bg-white dark:bg-neutral-900/80 shadow-lg p-4 sm:p-6 lg:p-8 font-mono">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={lessonMarkdownComponents}
