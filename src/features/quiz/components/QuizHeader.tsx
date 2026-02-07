@@ -1,9 +1,7 @@
-interface Props {
-  current: number;
-  total: number;
-}
+import type { HeaderProps } from "../types";
 
-export default function QuizHeader({ current, total }: Props) {
+
+export default function QuizHeader({ current, total }: HeaderProps) {
   const progress = ((current + 1) / total) * 100;
 
   return (

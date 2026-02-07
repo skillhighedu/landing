@@ -90,36 +90,38 @@ export default function BlogDetail() {
 
         {/* Title + Right button */}
         {/* Header row: Back + Title + Share */}
-<div className="flex items-start justify-between gap-3">
-  {/* Left: Back button */}
-  <AppTooltip label="Go back">
-    <Button
-      onClick={() => navigate(-1)}
-      aria-label="Go back"
-      className="
-        inline-flex items-center justify-center
-        h-9 w-9 sm:h-10 sm:w-10
-        rounded-full border
-        transition active:scale-95 mr-6
+{/* ✅ Responsive header: mobile stacks, desktop aligns */}
+<div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+  {/* Left group: Back + Title */}
+  <div className="flex items-start gap-3 min-w-0 flex-1">
+    <AppTooltip label="Go back">
+      <Button
+        onClick={() => navigate(-1)}
+        aria-label="Go back"
+        className="
+          inline-flex items-center justify-center
+          h-9 w-9 sm:h-10 sm:w-10
+          rounded-full border shrink-0
+          transition active:scale-95
 
-        bg-black/5 text-neutral-700 border-black/10
-        hover:bg-black/10 hover:text-black
+          bg-black/5 text-neutral-700 border-black/10
+          hover:bg-black/10 hover:text-black
 
-        dark:bg-white/5 dark:text-white/70 dark:border-white/10
-        dark:hover:bg-white/10 dark:hover:text-white
-      "
-    >
-      <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-    </Button>
-  </AppTooltip>
+          dark:bg-white/5 dark:text-white/70 dark:border-white/10
+          dark:hover:bg-white/10 dark:hover:text-white
+        "
+      >
+        <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+      </Button>
+    </AppTooltip>
 
-  {/* Middle: Title */}
-  <h1 className="flex-1 text-3xl sm:text-4xl tracking-tight text-black dark:text-white">
-    {post.title}
-  </h1>
+    <h1 className="min-w-0 flex-1 text-3xl sm:text-4xl tracking-tight text-black dark:text-white break-words">
+      {post.title}
+    </h1>
+  </div>
 
-  {/* Right: Share button */}
-  <div className="shrink-0">
+  {/* Right: Share button (stays right on desktop, drops below on mobile) */}
+  <div className="shrink-0 sm:pt-1">
     <CustomButton
       title="Share"
       icon={<Share2 className="h-4 w-4" />}
@@ -130,10 +132,12 @@ export default function BlogDetail() {
         bg-primary/15! text-primary! border! border-primary/60!
         px-3! py-2! text-xs! sm:text-sm!
         shadow-none! hover:bg-primary/25! transition-colors
+        w-full sm:w-auto
       "
     />
   </div>
 </div>
+
 
 
         {/* Meta */}

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import HeaderSection from "@/components/common/HeaderSection";
-import DashboardLayout from "@/layouts/DashboardLayout";
+import DashboardLayout from "../dashboard/layout/DashboardLayout";
 import QuizCard from "@/features/quiz/components/QuizCard";
 
 const quizzes = [
@@ -34,7 +34,7 @@ export default function QuizList() {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-neutral-950 text-white py-12 px-4">
+      <div className="min-h-screen datk:bg-neutral-950 text-white py-12 px-4">
         <div className="max-w-6xl mx-auto mb-10">
           <HeaderSection title="Quizzes" />
         </div>

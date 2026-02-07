@@ -2,8 +2,8 @@ import OptionButton from "./OptionButton";
 
 export default function QuestionCard({ question, selected, onSelect }: any) {
   return (
-    <div>
-      <h2 className="text-xl mb-5">
+    <div className="text-foreground">
+      <h2 className="text-lg sm:text-xl font-sans mb-5">
         {question.question}
       </h2>
 
