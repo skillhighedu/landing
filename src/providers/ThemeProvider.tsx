@@ -11,7 +11,8 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  // ✅ start light to avoid dark flash
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     const initial = getInitialTheme();
@@ -21,7 +22,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = () => {
     setTheme((prev) => {
-      const next = prev === "dark" ? "light" : "dark";
+      const next: Theme = prev === "dark" ? "light" : "dark";
       applyTheme(next);
       return next;
     });
@@ -33,6 +34,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     </ThemeContext.Provider>
   );
 }
+
 
 export function useTheme() {
   const ctx = useContext(ThemeContext);

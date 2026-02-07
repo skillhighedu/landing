@@ -18,7 +18,7 @@ const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
 const Profile = lazy(() => import("@/features/landing/pages/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
 const DemoDashboardPage  = lazy(() => import("@/features/dashboard/pages/DemoDashboardPage"));
-const QuizList = lazy(() => import("@/components/course-dashboard/course-essentials/QuizList"));
+const QuizList = lazy(() => import("@/features/quiz/QuizList"));
 const Projects = lazy(() => import("@/components/course-dashboard/course-essentials/Projects"));
 const Resume = lazy(() => import("@/features/resume/Resume"));
 const LearnInPublicPage = lazy(() => import("@/pages/dashboard/LearnInPublicPage"));

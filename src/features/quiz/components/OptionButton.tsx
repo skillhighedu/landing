@@ -2,12 +2,14 @@ export default function OptionButton({ text, active, onClick }: any) {
   return (
     <button
       onClick={onClick}
+      type="button"
       className={`
-        w-full p-4 rounded-lg border text-left transition
+        w-full rounded-lg border px-4 py-3 text-left text-sm sm:text-base
+        transition-colors font-sans
         ${
           active
-            ? "bg-green-800 "
-            : "bg-zinc-800 border-zinc-700 hover:bg-zinc-700"
+            ? "bg-primary/10 border-primary text-foreground"
+            : "bg-background border-border text-foreground hover:bg-muted"
         }
       `}
     >
