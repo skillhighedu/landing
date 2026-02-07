@@ -35,7 +35,7 @@ export default function ProgressSection({ mode, realData }: Props) {
 
       {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <ProgressCard title="Topics" value={data.topics} color="lime" />
+        <ProgressCard title="Topics" value={data.topics} color="lime" locked={isDemo} />
         <ProgressCard
           title="Quizzes"
           value={data.quizzes}

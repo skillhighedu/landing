@@ -23,7 +23,7 @@ export default function HeaderSection({
 
   return (
     <header className="w-full ">
-      <div className="relative flex items-center  justify-center min-h-[44px] mt-10">
+      <div className="relative flex items-center  justify-center min-h-[44px] ">
         {/* Back Button */}
         {showBack && (
           <AppTooltip label="Go back">

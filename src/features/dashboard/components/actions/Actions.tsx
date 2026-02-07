@@ -69,8 +69,8 @@ export default function Actions({
       <div className="flex items-center gap-3">
         <CustomButton
           title="Previous"
+          isBack
           icon={<ChevronLeft className="h-4 w-4" />}
-          variant="secondary"
           disabled={isFirst}
           onClick={goPrev}
         />

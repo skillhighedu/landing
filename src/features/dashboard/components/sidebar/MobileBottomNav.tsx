@@ -1,19 +1,27 @@
 import { NavLink } from "react-router-dom";
-import type { NavItem } from "./types";
+import type { MobileSidebarProps } from "./types";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 
-interface Props {
-  slug: string;
-  items: NavItem[];
-}
 
-export default function MobileBottomNav({ slug, items }: Props) {
-  const buildPath = (path: string) =>
-    `/course-dashboard/${slug}${path ? `/${path}` : ""}`;
+
+export default function MobileBottomNav({ items }: MobileSidebarProps) {
+  const { slug, mode } = useDashboardRouteStore();
+
+  const buildPath = (path?: string) => {
+    const base =
+      mode === "demo"
+        ? `/course/${slug}/demo`
+        : `/course-dashboard/${slug}`;
+
+    return `${base}${path ? `/${path}` : ""}`;
+  };
+
+  if (!slug) return null;
 
   return (
     <nav

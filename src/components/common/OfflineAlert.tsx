@@ -1,4 +1,3 @@
-
 import { motion, AnimatePresence } from "framer-motion";
 import { WifiOff } from "lucide-react";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
@@ -10,20 +9,28 @@ export default function OfflineAlert() {
     <AnimatePresence>
       {!isOnline && (
         <motion.div
-          initial={{ y: -40, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -40, opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, y: -20, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -20, scale: 0.96 }}
+          transition={{ duration: 0.25 }}
           className="
-            fixed top-0 inset-x-0 z-50
-            flex items-center justify-center
-            bg-red-600 text-white
-            px-4 py-2
+            fixed top-20 left-1/2 -translate-x-1/2
+            z-[100]
           "
         >
-          <div className="flex items-center gap-2 text-sm font-medium">
+          <div
+            className="
+              flex items-center gap-2
+              rounded-full
+              bg-red-600 text-white
+              px-4 py-2
+              text-sm font-medium
+              shadow-lg
+              backdrop-blur
+            "
+          >
             <WifiOff size={16} />
-            No internet connection. Please check your network.
+            No internet connection
           </div>
         </motion.div>
       )}

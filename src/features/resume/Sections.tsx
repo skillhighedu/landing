@@ -9,7 +9,7 @@ type ResumeFormik = FormikProps<ResumeFormValues>;
 export const PersonalInfoSection: React.FC<{ formik: ResumeFormik }> = ({
   formik,
 }) => (
-  <Section title="Personal Information">
+  <Section title="Personal Information" >
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <TextField
         name="firstname"

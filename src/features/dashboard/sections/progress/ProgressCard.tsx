@@ -20,7 +20,7 @@ export default function ProgressCard({
         relative rounded-2xl p-6 text-center
         bg-neutral-50 dark:bg-neutral-800
         transition-all duration-300
-        ${locked ? "opacity-70" : "hover:-translate-y-1 hover:shadow-lg"}
+        ${locked ? "opacity-90" : "hover:-translate-y-1 hover:shadow-lg"}
       `}
     >
       <CircularProgress value={value} color={color} />

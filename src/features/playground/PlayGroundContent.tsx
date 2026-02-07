@@ -3,7 +3,7 @@ import Player from "@/features/dashboard/components/player/Player";
 import Actions from "@/features/dashboard/components/actions/Actions";
 import Description from "@/features/dashboard/components/Description";
 
-import HeaderSection from "@/components/common/HeaderSection";
+
 
 export default function PlayGroundContent({
   lessons,
@@ -16,7 +16,7 @@ export default function PlayGroundContent({
 
   return (
     <>
- <HeaderSection title={currentLesson?.courseDetails?.name || "Course"} />
+
 
       <Player currentLesson={currentLesson} />
       <Actions

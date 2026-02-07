@@ -12,6 +12,7 @@ import CustomButton from "@/components/common/Button";
 import { ArrowLeft, Share2,  } from "lucide-react";
 import AppTooltip from "@/components/common/AppTooltip";
 import { Button } from "@/components/ui/button";
+import Container from "@/layouts/Container";
 
 
 export default function BlogDetail() {
@@ -78,8 +79,9 @@ export default function BlogDetail() {
   const absoluteUrl = `${window.location.origin}/blogs/${post.slug}`;
 
   return (
-    <div className="min-h-screen bg-white text-black dark:bg-neutral-950 dark:text-gray-200 py-18 px-6 sm:px-10 lg:px-16">
-      <article className="max-w-5xl mx-auto space-y-6 mt-10 sm:space-y-8">
+   <Container size="xl">
+     <div className="min-h-screen bg-white text-black dark:bg-neutral-950 dark:text-gray-200 py-18 px-6 sm:px-10 lg:px-16">
+      <article className=" mx-auto space-y-6 mt-10 sm:space-y-8">
         <SEO
           title={`${post.title} | SkillHigh Blog`}
           description={post.excerpt}
@@ -115,7 +117,7 @@ export default function BlogDetail() {
       </Button>
     </AppTooltip>
 
-    <h1 className="min-w-0 flex-1 text-3xl sm:text-4xl tracking-tight text-black dark:text-white break-words">
+    <h1 className="min-w-0 flex-1 text-3xl sm:text-4xl tracking-tight text-black dark:text-white wrap-break-word">
       {post.title}
     </h1>
   </div>
@@ -256,5 +258,6 @@ export default function BlogDetail() {
         </div>
       </article>
     </div>
+   </Container>
   );
 }

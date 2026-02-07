@@ -1,32 +1,61 @@
 import apiClient from "@/config/axiosConfig";
 import type { ApiResponse } from "@/types";
 import { handleApiError } from "@/utils/errorHandler";
-import type { QuizByQuizIdResponse, QuizzesByCourseIdResponse } from "../types";
+import type {
+  QuizByQuizIdResponse,
+  QuizzesByCourseIdResponse,
+} from "../types";
 
-export const fetchQuizzesByQuizId = async (
-  id: string,
-): Promise<QuizByQuizIdResponse> => {
+export interface QuizItem {
+  id: string;
+  title: string;
+  questionsCount: number;
+  locked: boolean;
+}
+
+export const fetchQuizzes = async (
+  slug: string,
+  mode: "demo" | "real"
+): Promise<QuizItem[]> => {
   try {
-    const response = await apiClient.get<ApiResponse<QuizByQuizIdResponse>>(
-      `/quizzes/quizzes/${id}`,
-    );
-    console.log("RESPONSE: ", response);
-    return response.data.additional!;
+    const url =
+      mode === "demo"
+        ? `/demodashboard/course/${slug}/demo/quiz`
+        : `/course-quiz/course/${slug}/quiz`;
+
+    const res = await apiClient.get<
+      ApiResponse<QuizzesByCourseIdResponse>
+    >(url);
+
+   console.log(res)
+
+    return res.data.additional?.quizzes ?? [];
   } catch (error) {
-    throw handleApiError(error);
+    handleApiError(error);
+    throw error;
   }
 };
 
-export const fetchQuizzesByCourseId = async (
-  id: string,
-): Promise<QuizzesByCourseIdResponse[]> => {
+
+export const fetchQuizQuestions = async (
+  slug: string,
+  quizId: string,
+  mode: "demo" | "real"
+): Promise<QuizByQuizIdResponse> => {
   try {
-    const response = await apiClient.get<
-      ApiResponse<QuizzesByCourseIdResponse[]>
-    >(`/quizzes/quizzes/${id}`);
-    console.log("RESPONSE: ", response);
-    return response.data.additional ?? [];
+    const url =
+      mode === "demo"
+        ? `/demodashboard/course/${slug}/demo/quiz/${quizId}`
+        : `/course-quiz/course/${slug}/quiz/${quizId}`;
+
+        console.log(slug)
+    const res = await apiClient.get<
+      ApiResponse<QuizByQuizIdResponse>
+    >(url);
+
+    return res.data.additional!;
   } catch (error) {
-    throw handleApiError(error);
+    handleApiError(error);
+    throw error;
   }
 };

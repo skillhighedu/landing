@@ -1,70 +1,81 @@
+import { FileText, Upload } from "lucide-react";
 import CustomButton from "@/components/common/Button";
-import { motion } from "framer-motion";
 
-interface ProjectCardProps {
-  index: number;
-  title: string;
-  description: string;
-  difficulty: string;
-  time: string;
-  onOpen: () => void;
+export type Project = {
+  id: string;
+  projectName: string;
+  projectLink: string;
+  solutions: {
+    reviewState: string;
+    isCompleted: boolean;
+  }[];
+};
+
+interface Props {
+  project: Project;
+  locked?: boolean;
+  onOpen: (project: Project) => void;
 }
 
-export default function ProjectCard({
-  index,
-  title,
-  description,
-  difficulty,
-  time,
-  onOpen,
-}: ProjectCardProps) {
+export default function ProjectCard({ project, locked, onOpen }: Props) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.05 }}
+    <div
       className="
-        rounded-xl bg-neutral-900 border border-neutral-800
-        hover:border-neutral-700 hover:shadow-md
-        transition p-5 flex flex-col
+        rounded-3xl border border-border
+        bg-card
+        p-7
+        min-h-[240px]
+        flex flex-col justify-between
+        transition-all duration-300
+        hover:shadow-xl hover:-translate-y-1
       "
     >
       {/* Top */}
-      <div className="flex items-center justify-between text-xs text-neutral-500">
-        <span>Project {index + 1}</span>
-        <span>{time}</span>
+      <div>
+        <h2 className="text-2xl leading-snug">{project.projectName && project.projectName}</h2>
+
+        <a
+          href={!locked ? project.projectLink : undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`
+            mt-3 inline-flex items-center gap-2
+            text-sm text-primary font-sans
+            hover:underline
+            ${locked ? "opacity-50 pointer-events-none" : ""}
+          `}
+        >
+          <FileText className="w-4 h-4" />
+          View Project Details
+        </a>
       </div>
 
-      {/* Title */}
-      <h3 className="mt-3 text-base font-semibold text-white leading-snug">
-        {title}
-      </h3>
-
-      {/* Description */}
-      <p className="mt-2 text-sm text-neutral-400 line-clamp-3">
-        {description}
-      </p>
-
-      {/* Footer */}
-      <div className="mt-4 pt-4 flex items-center justify-between border-t border-neutral-800">
+      {/* Bottom */}
+      <div className="flex items-center justify-between mt-8">
         <span
-          className={`text-xs font-medium ${
-            difficulty === "Easy"
-              ? "text-green-400"
-              : difficulty === "Medium"
-              ? "text-yellow-400"
-              : "text-red-400"
-          }`}
+          className="
+            px-4 py-1.5
+            bg-muted font-sans
+            rounded-full
+            text-xs font-medium
+          "
         >
-          {difficulty}
+          {project.solutions[0]?.reviewState}
         </span>
 
         <CustomButton
-          title="Open"
-          onClick={onOpen}
-          className="px-4 py-2 text-xs"
+          title={
+            project.solutions[0]?.isCompleted
+              ? "Check Solution"
+              : "Submit"
+          }
+          icon={<Upload className="ml-2" />}
+          disabled={locked}
+          onClick={() => {
+            if (!locked) onOpen(project);
+          }}
         />
       </div>
-    </motion.div>
+    </div>
   );
 }

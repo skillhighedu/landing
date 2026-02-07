@@ -5,7 +5,7 @@ import HeaderSection from "@/components/common/HeaderSection";
 
 import LearnInPublic from "../sections/learn-in-public";
 
-import CourseDashboardSkeleton from "@/components/course-dashboard/CourseDashboardSkeleton";
+import CourseDashboardSkeleton from "../skeltons/CourseDashboardSkeleton";
 
 import { useCourse } from "@/hooks/tanstack/useCourses";
 import DashboardLayout from "../layout/DashboardLayout";
@@ -13,6 +13,7 @@ import ProgressSection from "@/features/dashboard/sections/progress/ProgressSect
 import { useDemoCourse } from "../hooks/useDemoCourse";
 import CourseHeader from "../sections/course-header/CourseHeader";
 import CourseCurriculum from "../sections/course-curriculum";
+import DemoNotice from "../components/common/DemoNotice";
 
 type DashboardMode = "demo" | "real";
 
@@ -53,18 +54,20 @@ const { data, isLoading, isError } = query;
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Course Dashboard">
+
+      
+              {mode === "demo" && <DemoNotice />}
       <main
         className="
           min-h-screen
           px-4 sm:px-8 py-10
-          bg-neutral-50 text-neutral-900
-          dark:bg-neutral-900/50 dark:text-white
-          mt-20
+          bg-neutral-50 text-neutral-900 rounded-2xl
+          dark:bg-neutral-900 dark:text-white
+          
         "
       >
-        {/* Page header */}
-        <HeaderSection title="Course Dashboard" />
+    
 
         {/* Course hero */}
         <CourseHeader
@@ -72,7 +75,7 @@ const { data, isLoading, isError } = query;
           courseThumbnail={data.courseData.courseThumbnail}
           totalTopicsCount={0}
           modules={[]}
-          slug={slug}
+          slug={slug!}
           mode={mode}
         />
 

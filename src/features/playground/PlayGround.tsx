@@ -9,13 +9,17 @@ import PlayGroundMobileSidebar from "./PlayGroundMobileSidebar";
 import { usePlayGroundData } from "./PlayGround.logic";
 import type { LessonTopic } from "@/types/course";
 import type { PlayGroundProps } from "@/types/dashboard/demo";
+import DemoNotice from "../dashboard/components/common/DemoNotice";
 
 export default function PlayGround({ mode }: PlayGroundProps) {
   const { slug = "" } = useParams();
+
   const [currentLesson, setCurrentLesson] =
     useState<LessonTopic | null>(null);
+
   const [activeTab, setActiveTab] =
     useState<"content" | "discussion">("content");
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const {
@@ -33,10 +37,11 @@ export default function PlayGround({ mode }: PlayGroundProps) {
   }, [lessons]);
 
   return (
-    <DashboardLayout>
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <HeaderSection title="Course" />
+    <DashboardLayout title={currentLesson?.title}>
+      <div className="max-w-7xl mx-auto px-4 ">
 
+              {mode === "demo" && <DemoNotice />}
+       
         <div className="flex gap-6">
           <main className="flex-1 space-y-6">
             <PlayGroundContent
@@ -53,6 +58,12 @@ export default function PlayGround({ mode }: PlayGroundProps) {
             currentLesson={currentLesson}
             completedLessonIds={completedLessonIds}
             onSelectLesson={setCurrentLesson}
+
+            /* IMPORTANT — locked click */
+            onLockedLessonClick={(lesson) => {
+              setCurrentLesson(lesson);
+            }}
+
             onToggleComplete={(lessonId: string) => {
               if (!toggleMutation || !slug) return;
               toggleMutation.mutate({
@@ -64,7 +75,8 @@ export default function PlayGround({ mode }: PlayGroundProps) {
           />
         </div>
 
-        <LearnInPublic />
+     
+
         <PlayGroundMobileSidebar
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}

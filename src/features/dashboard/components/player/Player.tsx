@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import type { PlayerProps } from "./types";
-
-
+import BuyOverlay from "../BuyOverlay";
 
 export default function Player({ currentLesson }: PlayerProps) {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  // 🔑 RESET state whenever lesson changes
   useEffect(() => {
     if (currentLesson) {
       setIsVideoLoading(true);
@@ -26,7 +24,7 @@ export default function Player({ currentLesson }: PlayerProps) {
   };
 
   return (
-    <div className="w-full space-y-5">
+    <div className="w-full ">
       <div
         className="
           relative w-full aspect-video
@@ -36,24 +34,22 @@ export default function Player({ currentLesson }: PlayerProps) {
           shadow-xl
         "
       >
-        {/* ---------- Loading Overlay ---------- */}
-        {currentLesson && isVideoLoading && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-neutral-900/90">
+        {/* ---------- Loading ---------- */}
+        {currentLesson && isVideoLoading &&   (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-neutral-900/90">
             <Loader2 className="h-6 w-6 animate-spin text-white/70" />
-            <p className="text-sm text-white/50">
-              Loading video…
-            </p>
+            <p className="text-sm text-white/50">Loading video…</p>
           </div>
         )}
 
-        {/* ---------- Error State ---------- */}
+        {/* ---------- Error ---------- */}
         {currentLesson && hasError && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 bg-neutral-900">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 bg-neutral-900">
             <p className="text-lg font-semibold text-red-400">
               Failed to load video
             </p>
             <p className="text-sm text-white/50 mt-2">
-              Please check your connection or try again later.
+              Please try again later.
             </p>
           </div>
         )}
@@ -61,7 +57,7 @@ export default function Player({ currentLesson }: PlayerProps) {
         {/* ---------- Video ---------- */}
         {currentLesson ? (
           <iframe
-            key={currentLesson.id} // forces iframe reload
+            key={currentLesson.id}
             src={currentLesson.video}
             className="absolute inset-0 w-full h-full"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
@@ -75,9 +71,14 @@ export default function Player({ currentLesson }: PlayerProps) {
               Select a lesson
             </p>
             <p className="text-sm text-white/50 mt-2">
-              Choose a lesson from the sidebar to start watching
+              Choose a lesson from the sidebar
             </p>
           </div>
+        )}
+
+        {/* ---------- LOCKED OVERLAY ---------- */}
+        {currentLesson?.locked && (
+         <BuyOverlay />
         )}
       </div>
 

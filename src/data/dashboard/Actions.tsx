@@ -11,7 +11,7 @@ export const getCourseActions = (
       {
         label: "View Demo Dashboard",
         icon: <PlayCircle size={18} />,
-        href: `/courses/${slug}/demo/play`,
+        href: `/course/${slug}/demo/play`,
         className:
           "bg-primary text-white rounded-lg cursor-pointer flex items-center gap-2",
       },

@@ -53,7 +53,7 @@ export default function Form({ backgroundImage }: FormProps) {
       setCategory("NEWSTUDENT");
     } catch (err) {
       console.error("Error submitting form", err);
-      toast.error("Something went wrong. Please try again.");
+    
     } finally {
       setIsSubmitting(false);
     }

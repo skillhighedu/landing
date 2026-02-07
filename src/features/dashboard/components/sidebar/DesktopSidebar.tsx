@@ -1,15 +1,26 @@
 import { NavLink } from "react-router-dom";
 import type { NavItem } from "./types";
+import { useAuthStore } from "@/store/authStore";
 
 interface Props {
   slug: string;
+  mode: "demo" | "real";
   items: NavItem[];
 }
 
-export default function DesktopSidebar({ slug, items }: Props) {
-  const buildPath = (path?: string) =>
-    `/course-dashboard/${slug}${path ? `/${path}` : ""}`;
+export default function DesktopSidebar({ slug, mode, items }: Props) {
+  const buildPath = (path?: string) => {
+    const base =
+      mode === "demo"
+        ? `/course/${slug}/demo`
+        : `/course-dashboard/${slug}`;
 
+    return `${base}${path ? `/${path}` : ""}`;
+  };
+
+  const navItems = items.filter((i) => i.action !== "logout");
+  const logoutItem = items.find((i) => i.action === "logout");
+  const { logout } = useAuthStore();
   return (
     <aside
       className="
@@ -23,8 +34,9 @@ export default function DesktopSidebar({ slug, items }: Props) {
         transition-[width] duration-300 ease-in-out
       "
     >
+      {/* TOP NAV */}
       <nav className="flex flex-col gap-1 pt-20 px-2">
-        {items.map(({ label, icon: Icon, path }) => (
+        {navItems.map(({ label, icon: Icon, path }) => (
           <NavLink
             key={label}
             to={buildPath(path)}
@@ -43,10 +55,8 @@ export default function DesktopSidebar({ slug, items }: Props) {
             `
             }
           >
-            {/* Icon */}
             <Icon size={20} className="shrink-0" />
 
-            {/* Label */}
             <span
               className="
                 whitespace-nowrap
@@ -60,6 +70,35 @@ export default function DesktopSidebar({ slug, items }: Props) {
           </NavLink>
         ))}
       </nav>
+
+      {/* LOGOUT BOTTOM */}
+      {logoutItem && (
+        <div className="mt-auto px-2 pb-4 border-t border-neutral-200 dark:border-neutral-800">
+          <button
+           onClick={logout}
+            className="
+              mt-3 w-full
+              flex items-center gap-4
+              px-3 py-2 rounded-md
+              text-sm font-medium
+              text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20
+            "
+          >
+            <logoutItem.icon size={20} className="shrink-0" />
+
+            <span
+              className="
+                whitespace-nowrap
+                opacity-0 translate-x-2
+                group-hover:opacity-100 group-hover:translate-x-0
+                transition-all duration-300
+              "
+            >
+              {logoutItem.label}
+            </span>
+          </button>
+        </div>
+      )}
     </aside>
   );
 }

@@ -13,9 +13,7 @@ export default function Blog() {
 
   const { data: blogPosts = [], isError, isLoading } = useBlogs();
 
-  useEffect(() => {
-    console.log("blogPosts:", blogPosts);
-  }, [blogPosts]);
+
 
   const categories = useMemo(() => {
     const set = new Set<string>();

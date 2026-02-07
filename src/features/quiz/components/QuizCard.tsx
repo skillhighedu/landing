@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import CustomButton from "@/components/common/Button";
 import type { QuizCardProps } from "../types";
-
-
+import { Lock } from "lucide-react";
 
 export default function QuizCard({
   index,
@@ -10,7 +9,8 @@ export default function QuizCard({
   description,
   questions,
   onStart,
-}: QuizCardProps) {
+  locked = false,
+}: QuizCardProps & { locked?: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -38,8 +38,7 @@ export default function QuizCard({
         </div>
 
         <div className="min-w-0">
-          {/* <p className="text-xs text-muted-foreground">Quiz {index + 1}</p> */}
-          <h3 className="text-base sm:text-lg  text-foreground leading-snug">
+          <h3 className="text-base sm:text-lg text-foreground leading-snug">
             {title}
           </h3>
         </div>
@@ -57,8 +56,10 @@ export default function QuizCard({
         </span>
 
         <CustomButton
-          title="Start"
-          onClick={onStart}
+          title={locked ? "Locked" : "Start"}
+          onClick={!locked ? onStart : undefined}
+          disabled={locked}
+          icon={locked ? <Lock size={14} /> : undefined}
           className="px-4 py-2 text-sm"
         />
       </div>
