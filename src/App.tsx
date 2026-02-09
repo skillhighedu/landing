@@ -71,7 +71,7 @@ function App() {
             <Route path="/course/:slug/demo/quiz/:quizId" element={<Quiz mode="demo" />} />
            <Route path="/course/:slug/demo/play" element={<PlayGround mode="demo" />}/>
             <Route path="/course/:slug/demo/resume" element={<Resume mode="demo" />} />
-            <Route path="/course/:slug/demo/projects" element={<Projects mode="demo" />} />
+            <Route path="/course/:slug/demo/projects" element={<Projects  />} />
             <Route path="/course/:slug/demo/bounties" element={<Bounties mode="demo" />} />
 
 
@@ -79,7 +79,7 @@ function App() {
 
 
             <Route path="/course-dashboard/:courseId/projects" element={<ProjectList />} />
-            <Route path="/course-dashboard/projects/:projectId" element={<Projects mode="demo" />} />
+            <Route path="/course-dashboard/projects/:projectId" element={<Projects  />} />
 
             <Route path="/course-dashboard/:slug/resume" element={<Resume mode="demo" />} />
 
@@ -110,7 +110,7 @@ function App() {
             <Route path="/learn-in-public" element={<LearnInPublicPage />} />
             <Route path="/course-dashboard/:slug/quiz" element={<QuizList mode = "real" />}/>
             <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz mode = "real" />}/>
-            <Route path="/course-dashboard/:slug/projects" element={<Projects mode="real" />} />
+            <Route path="/course-dashboard/:slug/projects" element={<Projects  />} />
             <Route path="/course-dashboard/:slug/download-certificates" element={<Certificate  />} />
     
             

@@ -6,13 +6,28 @@ import type { ProjectsResponse } from "../types";
 
 export const fetchDemoProjects = async (
   slug: string,
-  mode: "demo" | "real"
 ): Promise<ProjectsResponse> => {
   try {
     const url =
-    mode === "demo"
-      ? `/demodashboard/course/${slug}/demo/projects`
-      : `/course-projects/course/${slug}/projects`;
+      `/demodashboard/course/${slug}/demo/projects`
+     
+
+  const res = await apiClient.get<ApiResponse<ProjectsResponse>>(url);
+  console.log(res)
+  return res.data.additional!;
+  } catch (error) {
+    handleApiError(error)
+    throw error
+  }
+};
+
+export const fetchProjects = async (
+  slug: string,
+): Promise<ProjectsResponse> => {
+  try {
+    const url =
+      `/course-projects/course/${slug}/demo/projects`
+     
 
   const res = await apiClient.get<ApiResponse<ProjectsResponse>>(url);
   console.log(res)

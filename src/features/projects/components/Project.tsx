@@ -4,18 +4,25 @@ import SubmitModal from "../components/Model";
 import ProjectCard from "../components/ProjectCard";
 import type { PlayGroundProps } from "@/types/dashboard/demo";
 import DemoNotice from "@/features/dashboard/components/common/DemoNotice";
-import { useDemoProjects } from "../hooks/useDemoProjects";
+import { useDemoProjects} from "../hooks/useDemoProjects";
+import { useProjects} from "../hooks/useProjects";
+
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import type { ProjectItem } from "../types";
 import ProjectCardSkeleton from "./ProjectCardSkeleton";
 
-export default function Projects({ mode }: PlayGroundProps) {
-  const { slug } = useDashboardRouteStore();
-  const { data: projects, isLoading } = useDemoProjects(slug, mode);
+export default function Projects() {
+  const { slug ,mode } = useDashboardRouteStore();
 
+  
+  const demoQuery = useDemoProjects(mode === "demo" ? slug : undefined); // its wokring in dmeo but check once
+const realQuery = useProjects(mode === "real" ? slug : undefined);  // not going reqs if im logined and with mod ereal
+
+const { data: projects, isLoading } =
+  mode === "demo" ? demoQuery : realQuery;
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(mode)
   const locked = mode === "demo";
 
   return (

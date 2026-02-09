@@ -24,7 +24,7 @@ export default function ProjectCard({ project, locked, onOpen }: Props) {
       {/* TOP */}
       <div>
         <h2 className="text-lg sm:text-xl lg:text-2xl leading-snug">
-          {project.title}
+          {project.title && project.title}
         </h2>
 
         <a
