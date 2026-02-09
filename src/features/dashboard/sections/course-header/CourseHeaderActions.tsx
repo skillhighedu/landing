@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "@/components/common/Button";
 import { getCourseActions } from "@/data/dashboard/Actions";
+import { useGenerateCertificate } from "@/features/certificate/hooks/useCertificate";
 
 interface Props {
   slug: string;
@@ -8,7 +9,15 @@ interface Props {
 }
 
 export default function CourseHeaderActions({ slug, mode }: Props) {
-  const actions = getCourseActions(slug, mode);
+  const navigate = useNavigate();
+  const generateMutation = useGenerateCertificate();
+
+  const actions = getCourseActions(slug, mode, () =>
+    generateMutation.mutate({
+      slug,
+      navigate,
+    })
+  );
 
   return (
     <div
@@ -20,12 +29,13 @@ export default function CourseHeaderActions({ slug, mode }: Props) {
         w-full sm:w-fit
       "
     >
-      {actions.map(({ label, icon, href, className }, i) => {
+      {actions.map(({ label, icon, href, onClick, className }, i) => {
         const button = (
           <CustomButton
             className={`text-xs sm:text-sm ${className}`}
             icon={icon}
             title={label}
+            onClick={onClick}
           />
         );
 

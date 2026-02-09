@@ -5,7 +5,7 @@ export default function ProjectCardSkeleton() {
         rounded-3xl border border-border
         bg-card
         p-7
-        min-h-[240px]
+        min-h-60
         flex flex-col justify-between
         animate-pulse
       "

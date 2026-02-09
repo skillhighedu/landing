@@ -34,6 +34,8 @@ import Courses from "./features/landing/pages/Courses";
 import RealDashboardPage from "./features/dashboard/pages/RealDashboardPage";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Bounties from "./features/bounties/Bounties";
+import Certificate from "./features/certificate/Certificate";
+
 
 function App() {
   const { checkAuth, loading, isAuthenticated } = useAuthStore();
@@ -109,7 +111,9 @@ function App() {
             <Route path="/course-dashboard/:slug/quiz" element={<QuizList mode = "real" />}/>
             <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz mode = "real" />}/>
             <Route path="/course-dashboard/:slug/projects" element={<Projects mode="real" />} />
-            <Route path="/course-dashboard/:courseId/bounties" element={<Bounties mode="real" />} />
+            <Route path="/course-dashboard/:slug/download-certificates" element={<Certificate  />} />
+    
+            
 
 
 

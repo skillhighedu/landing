@@ -5,6 +5,7 @@ import { Menu } from "lucide-react";
 
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import { useAuthStore } from "@/store/authStore";
+import { useSidebarStore } from "../../features/dashboard/store/sidebar.store";
 
 import DesktopNavbar from "./DesktopNavbar";
 import MobileDrawer from "./MobileDrawer";
@@ -16,6 +17,7 @@ export default function Navbar() {
   ) as Department[];
 
   const { checkAuth } = useAuthStore();
+  const open = useSidebarStore((s) => s.open);   // ← sidebar state
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -41,7 +43,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [lastScrollY]);
 
-  // Close courses dropdown on outside click
+  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (
@@ -61,8 +63,9 @@ export default function Navbar() {
       <header
         className={`
           fixed top-0 left-0 w-full z-50
-          transition-transform duration-300
+          transition-all duration-300
           ${isVisible ? "translate-y-0" : "-translate-y-full"}
+          ${open ? "lg:pl-56" : "lg:pl-16"}
         `}
       >
         <div
@@ -70,10 +73,8 @@ export default function Navbar() {
             mx-auto max-w-7xl
             px-4 sm:px-6 py-3
             flex items-center justify-between
-
             rounded-b-2xl
             backdrop-blur-xl
-
             bg-white/70 dark:bg-neutral-900/70
             border-b border-black/5 dark:border-white/10
           "
@@ -97,7 +98,6 @@ export default function Navbar() {
               inline-flex items-center justify-center
               rounded-xl
               p-2.5
-
               text-neutral-700 dark:text-neutral-200
               hover:bg-neutral-200/60 dark:hover:bg-neutral-800/60
               active:scale-95
@@ -109,7 +109,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile dropdown / drawer */}
+      {/* Mobile drawer */}
       <MobileDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}

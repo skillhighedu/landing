@@ -1,20 +1,11 @@
-import { FileText, Upload } from "lucide-react";
+import { FileText, Lock, Upload } from "lucide-react";
+import type { ProjectItem } from "../types";
 import CustomButton from "@/components/common/Button";
 
-export type Project = {
-  id: string;
-  projectName: string;
-  projectLink: string;
-  solutions: {
-    reviewState: string;
-    isCompleted: boolean;
-  }[];
-};
-
 interface Props {
-  project: Project;
+  project: ProjectItem;
   locked?: boolean;
-  onOpen: (project: Project) => void;
+  onOpen: (project: ProjectItem) => void;
 }
 
 export default function ProjectCard({ project, locked, onOpen }: Props) {
@@ -23,24 +14,26 @@ export default function ProjectCard({ project, locked, onOpen }: Props) {
       className="
         rounded-3xl border border-border
         bg-card
-        p-7
-        min-h-[240px]
+        p-5 sm:p-6 lg:p-7
+        min-h-[220px] sm:min-h-60
         flex flex-col justify-between
         transition-all duration-300
         hover:shadow-xl hover:-translate-y-1
       "
     >
-      {/* Top */}
+      {/* TOP */}
       <div>
-        <h2 className="text-2xl leading-snug">{project.projectName && project.projectName}</h2>
+        <h2 className="text-lg sm:text-xl lg:text-2xl leading-snug">
+          {project.title}
+        </h2>
 
         <a
-          href={!locked ? project.projectLink : undefined}
+          href={!locked ? project.projectLink ?? undefined : undefined}
           target="_blank"
           rel="noopener noreferrer"
           className={`
             mt-3 inline-flex items-center gap-2
-            text-sm text-primary font-sans
+            text-xs sm:text-sm text-primary font-sans
             hover:underline
             ${locked ? "opacity-50 pointer-events-none" : ""}
           `}
@@ -50,30 +43,26 @@ export default function ProjectCard({ project, locked, onOpen }: Props) {
         </a>
       </div>
 
-      {/* Bottom */}
-      <div className="flex items-center justify-between mt-8">
-        <span
-          className="
-            px-4 py-1.5
-            bg-muted font-sans
-            rounded-full
-            text-xs font-medium
-          "
-        >
-          {project.solutions[0]?.reviewState}
-        </span>
-
+      {/* BUTTON */}
+      <div className="mt-6">
         <CustomButton
-          title={
-            project.solutions[0]?.isCompleted
-              ? "Check Solution"
-              : "Submit"
+          title={locked ? "Locked" : "Submit Project"}
+          icon={
+            locked ? (
+              <Lock className="ml-2 w-4 h-4" />
+            ) : (
+              <Upload className="ml-2 w-4 h-4" />
+            )
           }
-          icon={<Upload className="ml-2" />}
           disabled={locked}
           onClick={() => {
             if (!locked) onOpen(project);
           }}
+          className={`
+            w-full
+            text-sm sm:text-base
+            ${locked ? "opacity-60 cursor-not-allowed" : ""}
+          `}
         />
       </div>
     </div>

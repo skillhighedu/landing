@@ -3,15 +3,20 @@ import { useLocation, useParams } from "react-router-dom";
 import MiniSidebar from "@/features/dashboard/components/Sidebar";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import HeaderSection from "@/components/common/HeaderSection";
+import { useSidebarStore } from "../store/sidebar.store";
 
 interface DashboardLayoutProps {
   children: ReactNode;
   title?: string;
 }
 
-export default function DashboardLayout({ children, title }: DashboardLayoutProps) {
+export default function DashboardLayout({
+  children,
+  title,
+}: DashboardLayoutProps) {
   const { slug } = useParams<{ slug: string }>();
   const location = useLocation();
+  const open = useSidebarStore((s) => s.open);
 
   const setRoute = useDashboardRouteStore((s) => s.setRoute);
 
@@ -25,30 +30,23 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
 
   return (
     <div className="min-h-screen flex bg-background text-foreground">
-      {/* Sidebar */}
       <MiniSidebar />
 
-      {/* Main */}
       <main
-        className="
+        className={`
           flex-1
           transition-[padding] duration-300 ease-in-out
-          pl-0 lg:pl-16
-          lg:peer-hover:pl-56
+          ${open ? "lg:pl-56" : "lg:pl-16"}
           pb-16 lg:pb-0
-        "
+        `}
       >
-        {/* Dynamic header (centralized) */}
         {title && (
-          <div className="px-4 sm:px-8 lg:px-12 pt-20">
+          <div className="px-4 sm:px-8 lg:px-10 pt-24">
             <HeaderSection title={title} />
           </div>
         )}
 
-        {/* Page content */}
-        <div className="px-4 sm:px-8 lg:px-12 py-6">
-          {children}
-        </div>
+        <div className="px-4 sm:px-8 lg:px-10 py-6">{children}</div>
       </main>
     </div>
   );

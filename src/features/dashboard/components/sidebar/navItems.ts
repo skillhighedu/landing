@@ -4,7 +4,6 @@ import {
   FolderKanban,
   Trophy,
   FileText,
-  Settings,
   LogOut,
 } from "lucide-react";
 

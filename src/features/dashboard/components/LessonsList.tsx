@@ -29,7 +29,7 @@ export default function Sidebar({
   }
 
   return (
-    <div className="h-full overflow-y-auto pr-2">
+    <div className="h-[calc(100vh-280px)] overflow-y-auto pr-2">
       <ul className="flex flex-col gap-2 px-2 py-1">
         {lessonsList.map((item, index) => {
           const isActive = item.id === activeLessonId;
