@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CoursesHeader from "../components/CoursesHeader";
 import CoursesSearch from "../components/CoursesSearch";
 import CoursesGrid from "../components/CoursesGrid";
@@ -5,18 +6,26 @@ import CoursesCTA from "../components/CoursesCTA";
 import Container from "@/layouts/Container";
 
 export default function AllCoursesPage() {
+  const [search, setSearch] = useState("");
+
   return (
-   <Container size="full">
+    <Container size="full">
+      <section className="bg-white dark:bg-neutral-900 py-10 px-4 sm:px-6 lg:px-12 mt-20">
+        <div className="max-w-7xl mx-auto flex flex-col gap-8">
+          <CoursesHeader />
 
-     <section className="bg-white dark:bg-neutral-900 py-10 px-4 sm:px-6 lg:px-12 mt-20">
-      <div className="max-w-7xl mx-auto flex flex-col gap-8">
-        <CoursesHeader />
-        <CoursesSearch />
-        <CoursesGrid />
-      </div>
+          {/* pass search state */}
+          <CoursesSearch
+            search={search}
+            setSearch={setSearch}
+          />
 
-      <CoursesCTA />
-    </section>
-   </Container>
+          {/* pass search to grid */}
+          <CoursesGrid search={search}  />
+        </div>
+
+        <CoursesCTA />
+      </section>
+    </Container>
   );
 }

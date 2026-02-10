@@ -1,18 +1,19 @@
 import CourseCard from "./CourseCard";
 import { useFilteredCourses } from "../hooks/useFilteredCourses";
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sortCoursesByRibbon } from "@/utils/sortCoursesByRibbon";
 import CourseCardSkeleton from "../components/CourseCardSkeleton";
 
 const SKELETON_COUNT = 6;
 
-export default function CoursesGrid() {
-  const [query] = useState("");
-  const filteredCourses = useFilteredCourses(query);
+interface Props {
+  search: string;
+}
 
-  // ⏳ Loading state
-  const isLoading = !filteredCourses || filteredCourses.length === 0;
+export default function CoursesGrid({ search }: Props) {
+  const filteredCourses = useFilteredCourses(search);
+
+  const isLoading = filteredCourses === undefined;
 
   const sortedCourses = !isLoading
     ? sortCoursesByRibbon(filteredCourses)

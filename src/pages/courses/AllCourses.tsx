@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "@/components/common/Button";
@@ -10,7 +10,7 @@ import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import HeaderSection from "@/components/common/HeaderSection";
 
 export default function AllCourses() {
-  const { formatedCourses } = usePublicCoursesStore();
+  const { formatedCourses = [] } = usePublicCoursesStore();
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,12 +19,18 @@ export default function AllCourses() {
     navigate(`/course/${courseSlug}`);
   };
 
-  // Filter courses based on search query
-  const filteredCourses = formatedCourses.filter(
-    (course) =>
-      course.courseName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.courseDescription.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  /* SAFE SEARCH */
+  const filteredCourses = useMemo(() => {
+    if (!searchQuery.trim()) return formatedCourses;
+
+    const q = searchQuery.toLowerCase();
+
+    return formatedCourses.filter((course) =>
+      `${course.courseName} ${course.courseDescription}`
+        .toLowerCase()
+        .includes(q)
+    );
+  }, [searchQuery, formatedCourses]);
 
   return (
     <section className="bg-neutral-900 py-10 px-4 sm:px-6 lg:px-12">
@@ -34,28 +40,32 @@ export default function AllCourses() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-7xl mx-auto flex flex-col gap-6"
       >
-        {/* Header */}
         <HeaderSection title="Our Courses" />
 
-        {/* Search + Quote */}
+        {/* Search */}
         <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <BlockQuote quote="One skill. A thousand doors." />
+
           <Input
-            placeholder="Search..."
+            placeholder="Search courses..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="md:w-[400px] text-white border-0 bg-neutral-800 py-4 px-4 rounded-lg focus:ring-2 focus:ring-lime-400"
           />
         </div>
 
-        {/* Courses Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {filteredCourses.map((course, index) => (
             <motion.div
               key={course.id}
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, delay: index * 0.08, ease: "easeOut" }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.05,
+                ease: "easeOut",
+              }}
               className="bg-neutral-800/50 backdrop-blur-md rounded-2xl shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] overflow-hidden transition-transform duration-300 hover:scale-105"
             >
               <div className="relative">
@@ -64,15 +74,20 @@ export default function AllCourses() {
                   alt={course.courseName}
                   className="w-full h-64 object-cover"
                   loading="lazy"
-                  onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")}
+                  onError={(e) =>
+                    (e.currentTarget.src = "/fallback-image.jpg")
+                  }
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
+
               <div className="p-6 flex flex-col gap-4">
-                <h3 className="text-xl text-white ">{course.courseName}</h3>
+                <h3 className="text-xl text-white">{course.courseName}</h3>
+
                 <p className="text-gray-300 text-md leading-relaxed font-bricolage line-clamp-3">
                   {course.courseDescription}
                 </p>
+
                 <CustomButton
                   title="Enroll now"
                   icon={<Swords />}
@@ -85,7 +100,7 @@ export default function AllCourses() {
         </div>
       </motion.div>
 
-      {/* CTA Section */}
+      {/* CTA */}
       <motion.div
         className="mt-20 bg-neutral-800/60 rounded-2xl shadow-inner py-16 px-6 sm:px-12 text-center max-w-4xl mx-auto flex flex-col items-center gap-6"
         initial={{ opacity: 0, y: 40, scale: 0.98 }}
@@ -95,9 +110,12 @@ export default function AllCourses() {
         <h3 className="text-2xl sm:text-3xl text-white font-semibold">
           Not sure which skill is right for you?
         </h3>
+
         <p className="text-gray-300 font-bricolage mb-4 text-sm sm:text-base">
-          Book a quick 15-minute call — our team will personally help you choose the right path based on your goals.
+          Book a quick 15-minute call — our team will personally help you
+          choose the right path based on your goals.
         </p>
+
         <BookingModal
           title="Get Clarity in 15 Minutes"
           icon={<Calendar />}
@@ -107,4 +125,3 @@ export default function AllCourses() {
     </section>
   );
 }
-

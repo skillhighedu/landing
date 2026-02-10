@@ -28,10 +28,10 @@ export default function DemoNotice() {
         </div>
 
         <div>
-          <p className="text-sm sm:text-base font-semibold">
+          <p className="text-sm sm:text-base ">
             You are viewing the demo dashboard
           </p>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1 font-mono">
             Some features are locked. Purchase the course to unlock full access.
           </p>
         </div>

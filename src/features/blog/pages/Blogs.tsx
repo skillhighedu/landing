@@ -65,7 +65,9 @@ export default function Blog() {
   }
 
   return (
-    <section className="min-h-screen bg-background text-foreground py-20">
+
+          <Container size="full" >
+    <section className="min-h-screen  py-20">
       <SEO
         title="SkillHigh Blog - Learn Faster, Grow Your Career"
         description="Read the latest insights, tips, and stories from SkillHigh to accelerate your learning and career growth."
@@ -73,7 +75,7 @@ export default function Blog() {
       />
 
       {/* ✅ ONE consistent container for whole page */}
-      <Container size="xl" className="px-6 sm:px-10 lg:px-16 ">
+
         {/* ✅ back button now aligns with content */}
         <HeaderSection title="Blogs" />
 
@@ -139,7 +141,8 @@ export default function Blog() {
             ))}
           </div>
         )}
-      </Container>
+ 
     </section>
+         </Container>
   );
 }

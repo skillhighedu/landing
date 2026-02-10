@@ -28,7 +28,7 @@ export default function PlayGroundContent({
 
       {activeTab === "content" && <Description />}
       {activeTab === "discussion" && (
-        <div className="rounded-2xl border border-white/10 bg-neutral-900/80 p-6">
+        <div className="rounded-2xl border border-white/10 bg-neutral-900/80 ">
           <h3 className="text-lg font-semibold mb-2">
             Discussion
           </h3>

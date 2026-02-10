@@ -9,6 +9,7 @@ import { usePlayGroundData } from "./PlayGround.logic";
 import type { LessonTopic } from "@/types/course";
 import type { PlayGroundProps } from "@/types/dashboard/demo";
 import DemoNotice from "../dashboard/components/common/DemoNotice";
+import Container from "@/layouts/Container";
 
 export default function PlayGround({ mode }: PlayGroundProps) {
   const { slug = "" } = useParams();
@@ -37,9 +38,8 @@ export default function PlayGround({ mode }: PlayGroundProps) {
 
   return (
     <DashboardLayout title={currentLesson?.title}>
-      <div className="max-w-7xl mx-auto px-4 ">
-
-              {mode === "demo" && <DemoNotice />}
+     <Container size="full">
+         {mode === "demo" && <DemoNotice />}
        
         <div className="flex gap-6">
           <main className="flex-1 space-y-6">
@@ -87,7 +87,7 @@ export default function PlayGround({ mode }: PlayGroundProps) {
             setMobileOpen(false);
           }}
         />
-      </div>
+     </Container>
     </DashboardLayout>
   );
 }

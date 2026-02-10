@@ -10,6 +10,7 @@ import { useSidebarStore } from "../../features/dashboard/store/sidebar.store";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileDrawer from "./MobileDrawer";
 import type { Department } from "./types";
+import Container from "@/layouts/Container";
 
 export default function Navbar() {
   const departments = usePublicCoursesStore(
@@ -68,9 +69,10 @@ export default function Navbar() {
           ${open ? "lg:pl-56" : "lg:pl-16"}
         `}
       >
-        <div
+      <Container size="full">
+          <div
           className="
-            mx-auto max-w-7xl
+            mx-auto 
             px-4 sm:px-6 py-3
             flex items-center justify-between
             rounded-b-2xl
@@ -107,6 +109,7 @@ export default function Navbar() {
             <Menu size={22} />
           </button>
         </div>
+      </Container>
       </header>
 
       {/* Mobile drawer */}
