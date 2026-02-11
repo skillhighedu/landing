@@ -14,7 +14,7 @@ export default function ProjectDetails() {
     <DashboardLayout>
       <div className="min-h-screen bg-neutral-950 text-white py-10 px-4">
         <div className="max-w-5xl mx-auto mb-6">
-          <HeaderSection title={project.title} />
+          <HeaderSection title={project.projectName} />
         </div>
 
         <div className="max-w-3xl mx-auto bg-neutral-900 border border-neutral-800 rounded-2xl p-8">

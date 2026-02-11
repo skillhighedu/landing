@@ -28,3 +28,13 @@ export interface BountiesResponseData {
   bounties: Bounty[];
   meta: BountyMeta;
 }
+
+export type DemoBounty = {
+  id: string;
+  title: string;
+  description: string;
+  reward: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  locked?: boolean;
+};
+
