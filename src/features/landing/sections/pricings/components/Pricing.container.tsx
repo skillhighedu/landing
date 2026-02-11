@@ -10,6 +10,7 @@ import { usePricingPayment } from '../hooks/usePricingPayment';
 import PricingView from './Pricing.view';
 import PricingModal from './PricingModal';
 import Container from '@/layouts/Container';
+import { PricingTypes } from '@/constants';
 
 const Pricing = forwardRef<HTMLDivElement, PricingProps>(
   ({ courseSlug }, ref) => {
@@ -32,6 +33,7 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(
         <section ref={ref} className="py-20">
         <PricingView
           pricings={pricings}
+          pricingType={PricingTypes.global}
           onSelectPlan={setSelectedPlan}
         />
 

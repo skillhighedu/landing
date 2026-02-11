@@ -16,9 +16,9 @@ export default function ProgramsDropdown({
   selectedDept: number;
   setSelectedDept: (i: number) => void;
   coursesOpen: boolean;
-  setCoursesOpen: (v: boolean) => void;
+  setCoursesOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onSelectCourse: (slug: string) => void;
-  dropdownRef: React.RefObject<HTMLDivElement>;
+  dropdownRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <div className="relative" ref={dropdownRef}>

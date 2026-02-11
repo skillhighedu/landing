@@ -100,17 +100,12 @@ export interface SelectedCourse {
 }
 
 
-export interface LessonTopic {
+export interface CourseLessons {
   id: string;
   title: string;
   description: string;
-  pptLink: string;
   video: string;
-  courseId: string;
-  createdAt: string;
-  updatedAt: string;
 }
-
 export interface CourseDetails {
   id: string;
   name: string;
@@ -122,7 +117,7 @@ export interface LessonsMeta {
 }
 export interface LessonsResponse {
   courseDetails: CourseDetails;
-  courseLessons: LessonTopic[];
+  courseLessons: CourseLessons[];
   meta: LessonsMeta;
 }
 

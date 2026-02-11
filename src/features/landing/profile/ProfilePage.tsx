@@ -32,7 +32,7 @@ export default function ProfilePage() {
   return (
    <Container size="full">
 
-     <div className="min-h-screen bg-white dark:bg-neutral-900 text-white mt-20">
+     <div className="min-h-screen bg-white dark:bg-neutral-900 text-white mt-20 rounded-2xl">
       <div className="max-w-7xl mx-auto px-4 py-10">
 
                 <div className="mb-12">

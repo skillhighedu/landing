@@ -1,8 +1,9 @@
-import type { LessonTopic } from "@/types/course";
+
+import type { CourseLesson } from "../../types";
 
 export interface ActionsProps {
-  lessons: LessonTopic[];
-  currentLesson: LessonTopic | null;
-  onChangeLesson: (lesson: LessonTopic) => void;
+  lessons: CourseLesson[];
+  currentLesson: CourseLesson | null;
+  onChangeLesson: (lesson: CourseLesson) => void;
   onOpenDiscussion?: () => void;
 }

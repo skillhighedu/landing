@@ -1,8 +1,7 @@
-import Trees from "@/assets/images/warrior.jpg";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import CustomButton from "@/components/common/Button";;
+import CustomButton from "@/components/common/Button";
 import { Swords } from "lucide-react";
 import HeaderSection from "@/components/common/HeaderSection";
 import { motion } from "framer-motion";
@@ -16,17 +15,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Container from "@/layouts/Container";
+
 export default function ContactUs() {
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Form state
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
   const [category, setCategory] =
     useState<ContactUsDetails["category"]>("NEWSTUDENT");
 
@@ -59,8 +58,7 @@ export default function ContactUs() {
       setPhone("");
       setMessage("");
       setCategory("NEWSTUDENT");
-    } catch (err) {
-      console.error("Error submitting form", err);
+    } catch {
       toast.error("Failed to submit. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -68,107 +66,92 @@ export default function ContactUs() {
   }
 
   return (
-    <div
-      className="relative min-h-screen w-full bg-cover bg-center flex flex-col"
-      style={{ backgroundImage: `url(${Trees})` }}
-    >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px] z-0" />
-
-      <div className="relative z-10 mx-auto w-full px-4 sm:px-8 py-24">
-        {/* Header */}
-        <div className="mb-16 text-center">
+    <Container size="xl">
+      <section className="py-20">
+        <div className="text-center mb-16">
           <HeaderSection title="Contact Us" />
-        
+       
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          
-          {/* Left: Hero Text + Info */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* LEFT INFO */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7 }}
-            className="text-white space-y-6"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="space-y-6 font-sans"
           >
-            <h1 className="text-4xl sm:text-5xl  leading-tight drop-shadow-lg">
-              Ready to Take Your Skills to the Next Level?
-            </h1>
-            <p className="text-lg sm:text-xl font-bricolage font-light max-w-lg">
-              To fight in the modern world, a sword isn’t enough. Reach out and let us equip you with knowledge, mentorship, and real-world projects.
-            </p>
+            <h2 className="text-3xl font-semibold">
+              Let’s talk about your learning journey
+            </h2>
 
-            {/* Optional Info Panel */}
-            <div className="bg-neutral-900/70 p-6 rounded-xl shadow-lg space-y-3 border border-neutral-700 font-bricolage">
-              <p className="text-neutral-400">📧 <strong>Email:</strong> admin@skillhigh.in</p>
-              <p className="text-neutral-400">📞 <strong>Phone:</strong> +919182661204</p> 
-              
+            <div className="space-y-3 text-neutral-600 dark:text-neutral-400">
+              <p>📧 admin@skillhigh.in</p>
+              <p>📞 +91 91826 61204</p>
             </div>
           </motion.div>
 
-          {/* Right: Form Card */}
+          {/* FORM */}
           <motion.form
             onSubmit={handleFormSubmit}
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="bg-neutral-900/90 backdrop-blur-md p-10 rounded-3xl shadow-2xl border border-neutral-700 space-y-5"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="bg-white dark:bg-neutral-900 border border-border rounded-3xl p-8 space-y-5 shadow-lg"
           >
             <Input
               placeholder="Your Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-neutral-800 border border-neutral-700 py-4 text-white placeholder:text-neutral-400"
             />
+
             <Input
               placeholder="Email Address"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-neutral-800 border border-neutral-700 py-4 text-white"
             />
+
             <Input
               placeholder="Phone Number"
-              type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="bg-neutral-800 border border-neutral-700 py-4 text-white "
             />
-          
-          <Select
-            value={category}
-            onValueChange={(value) =>
-              setCategory(value as ContactUsDetails["category"])
-            }
-          >
-            <SelectTrigger className="bg-white/90 text-black placeholder:text-gray-700 py-4 w-full">
-              <SelectValue placeholder="Select Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="EXISTING">Existing</SelectItem>
-              <SelectItem value="NEWSTUDENT">New Student</SelectItem>
-            </SelectContent>
-          </Select>
+
+            <Select
+              value={category}
+              onValueChange={(v) =>
+                setCategory(v as ContactUsDetails["category"])
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="EXISTING">Existing Student</SelectItem>
+                <SelectItem value="NEWSTUDENT">New Student</SelectItem>
+              </SelectContent>
+            </Select>
+
             <Textarea
               placeholder="Your Message"
-              rows={10}
+              rows={6}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="bg-neutral-800 border border-neutral-700 py-4 text-white placeholder:text-neutral-400"
             />
+
             <CustomButton
-              title={isSubmitting ? "Submitting..." : "Begin My Training"}
+              title={isSubmitting ? "Submitting..." : "Send Message"}
               icon={<Swords className="w-5 h-5" />}
-              className="w-full hover:scale-105 transition-transform duration-200"
               type="submit"
+              className="w-full"
               disabled={isSubmitting}
             />
           </motion.form>
         </div>
-      </div>
-    </div>
+      </section>
+    </Container>
   );
 }

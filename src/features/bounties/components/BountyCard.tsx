@@ -1,4 +1,10 @@
-import { CalendarDays, ClipboardList, Link2, Clock, Lock } from "lucide-react";
+import {
+  CalendarDays,
+  ClipboardList,
+  Link2,
+  Clock,
+  Lock,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import type { Bounty } from "../types";
@@ -7,6 +13,8 @@ import CustomButton from "@/components/common/Button";
 interface Props {
   bounty: Bounty;
   locked?: boolean;
+  index: number;
+  onOpen?: () => void;
 }
 
 const getRemainingTime = (expiry: string) => {
@@ -21,7 +29,12 @@ const getRemainingTime = (expiry: string) => {
   return `${d}d ${h}h ${m}m`;
 };
 
-export default function BountyCard({ bounty, locked }: Props) {
+export default function BountyCard({
+  bounty,
+  locked,
+  index,
+  onOpen,
+}: Props) {
   const [timeLeft, setTimeLeft] = useState(
     getRemainingTime(bounty.expiryDate)
   );
@@ -34,7 +47,6 @@ export default function BountyCard({ bounty, locked }: Props) {
     return () => clearInterval(t);
   }, [bounty.expiryDate]);
 
-  /* STATUS LOGIC */
   const isExpired = new Date(bounty.expiryDate).getTime() < Date.now();
   const isClosed = bounty.slots === 0 || !bounty.isSlotsAvailable;
 
@@ -43,7 +55,10 @@ export default function BountyCard({ bounty, locked }: Props) {
   else if (isClosed) displayStatus = "CLOSED";
 
   return (
-    <Card className="p-6 flex flex-col justify-between rounded-2xl border hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <Card
+      onClick={onOpen}
+      className="cursor-pointer p-6 flex flex-col justify-between rounded-2xl border hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+    >
       <div className="space-y-4">
         <div className="flex justify-between items-start gap-3">
           <h3 className="text-lg leading-snug">{bounty.name}</h3>

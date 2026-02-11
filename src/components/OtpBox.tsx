@@ -113,7 +113,7 @@ export default function OtpInput({
       className="min-h-screen w-full bg-cover bg-center relative flex items-center justify-center px-4"
       style={{ backgroundImage: `url(${BgImage})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/90 z-0" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/60 to-black/90 z-0" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

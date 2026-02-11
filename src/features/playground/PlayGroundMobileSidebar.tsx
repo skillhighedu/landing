@@ -1,13 +1,13 @@
 import Sidebar from "@/features/dashboard/components/LessonsList";
-import type { LessonTopic } from "@/types/course";
+import type { CourseLesson } from "../dashboard/types";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  lessons: LessonTopic[];
+  lessons: CourseLesson[];
   activeLessonId?: string;
   completedLessonIds: string[];
-  onSelect: (lesson: LessonTopic) => void;
+  onSelect: (lesson: CourseLesson) => void;
   onToggleComplete: (lessonId: string) => void;
 }
 

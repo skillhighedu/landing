@@ -7,7 +7,6 @@ export default function Actions({
   lessons,
   currentLesson,
   onChangeLesson,
-  onOpenDiscussion,
 }: ActionsProps) {
   if (!currentLesson || lessons.length === 0) return null;
 

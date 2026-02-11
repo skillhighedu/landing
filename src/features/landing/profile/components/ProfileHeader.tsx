@@ -4,7 +4,7 @@ interface Props {
 }
 
 export default function ProfileHeader({ name, loading }: Props) {
-  const firstName = name?.split(" ")[0] ?? "Student";
+ 
 
   return (
     <div className="mb-10">

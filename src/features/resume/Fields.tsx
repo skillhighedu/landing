@@ -21,13 +21,19 @@ export const Section: React.FC<{
   helperText?: React.ReactNode;
   children: React.ReactNode;
 }> = ({ title, helperText, children }) => (
-  <section className="mb-8">
-    <div className="mb-4 flex items-center justify-between">
-      <h2 className="text-lg font-normal text-neutral-900 dark:text-white">{title}</h2>
+  <section className="mb-10">
+    <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+      <h2 className="text-base sm:text-lg font-medium text-neutral-900 dark:text-white">
+        {title}
+      </h2>
+
       {helperText && (
-        <p className="text-xs font-normal text-gray-400">{helperText}</p>
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          {helperText}
+        </p>
       )}
     </div>
+
     {children}
   </section>
 );
@@ -46,10 +52,11 @@ export const TextField: React.FC<TextFieldProps> = ({
   const value = ((formik.values[name] as string) ?? "") as string;
 
   return (
-    <div>
-      <label className="mb-1 block text-sm font-normal text-neutral-900 dark:text-gray-300">
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-neutral-800 dark:text-neutral-300">
         {label}
       </label>
+
       <input
         type={type}
         name={name}
@@ -57,12 +64,28 @@ export const TextField: React.FC<TextFieldProps> = ({
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-green-500 font-normal"
+        className={`
+          w-full rounded-lg border px-3 py-2 text-sm
+          bg-white dark:bg-neutral-900
+          text-neutral-900 dark:text-white
+          placeholder:text-neutral-400
+          focus:outline-none focus:ring-2 focus:ring-primary
+          transition
+          ${error ? "border-red-500 focus:ring-red-500" : "border-neutral-300 dark:border-neutral-700"}
+        `}
       />
+
       {helperText && !error && (
-        <p className="mt-1 text-xs text-gray-400">{helperText}</p>
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          {helperText}
+        </p>
       )}
-      {error && <p className="mt-1 text-xs text-rose-600">{error}</p>}
+
+      {error && (
+        <p className="text-xs text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
@@ -85,10 +108,11 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
   const value = ((formik.values[name] as string) ?? "") as string;
 
   return (
-    <div>
-      <label className="mb-1 block text-sm font-normal text-neutral-900 dark:text-gray-300">
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-neutral-800 dark:text-neutral-300">
         {label}
       </label>
+
       <textarea
         name={name}
         value={value}
@@ -96,12 +120,28 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
         onBlur={formik.handleBlur}
         placeholder={placeholder}
         rows={rows}
-        className="w-full rounded-lg border border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-green-500 font-normal"
+        className={`
+          w-full rounded-lg border px-3 py-2 text-sm
+          bg-white dark:bg-neutral-900
+          text-neutral-900 dark:text-white
+          placeholder:text-neutral-400
+          focus:outline-none focus:ring-2 focus:ring-primary
+          transition resize-none
+          ${error ? "border-red-500 focus:ring-red-500" : "border-neutral-300 dark:border-neutral-700"}
+        `}
       />
+
       {helperText && !error && (
-        <p className="mt-1 text-xs text-gray-400">{helperText}</p>
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          {helperText}
+        </p>
       )}
-      {error && <p className="mt-1 text-xs text-rose-600">{error}</p>}
+
+      {error && (
+        <p className="text-xs text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 };

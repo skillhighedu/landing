@@ -3,14 +3,13 @@ import type { FormikProps } from "formik";
 import type { ResumeFormValues } from "@/types/resume";
 import { Section, TextAreaField, TextField } from "./Fields";
 
-
 type ResumeFormik = FormikProps<ResumeFormValues>;
 
 export const PersonalInfoSection: React.FC<{ formik: ResumeFormik }> = ({
   formik,
 }) => (
-  <Section title="Personal Information" >
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+  <Section title="Personal Information">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
       <TextField
         name="firstname"
         label="First name"
@@ -60,13 +59,15 @@ export const ObjectiveSection: React.FC<{ formik: ResumeFormik }> = ({
   formik,
 }) => (
   <Section title="Objective (optional)">
-    <TextAreaField
-      name="obj"
-      label=""
-      placeholder="A concise statement summarizing your goals and strengths..."
-      rows={4}
-      formik={formik}
-    />
+    <div className="max-w-3xl">
+      <TextAreaField
+        name="obj"
+        label=""
+        placeholder="A concise statement summarizing your goals and strengths..."
+        rows={4}
+        formik={formik}
+      />
+    </div>
   </Section>
 );
 
@@ -83,35 +84,33 @@ export const ExperienceSection: React.FC<{ formik: ResumeFormik }> = ({
       </>
     }
   >
-    <TextAreaField
-      name="experience"
-      label=""
-      rows={6}
-      placeholder={`Acme Corp – Software Engineer | Jan 2023 – Present
+    <div className="max-w-4xl">
+      <TextAreaField
+        name="experience"
+        label=""
+        rows={6}
+        placeholder={`Acme Corp – Software Engineer | Jan 2023 – Present
 - Built and scaled RAG chatbot; reduced ticket time by 38%.
-- Cut P95 latency from 780ms to 210ms via caching and DB tuning.
-
-Beta Labs – Intern | May 2022 – Aug 2022
-- Prototyped analytics dashboards; increased adoption by 12%.`}
-      formik={formik}
-    />
+- Cut P95 latency from 780ms to 210ms via caching and DB tuning.`}
+        formik={formik}
+      />
+    </div>
   </Section>
 );
 
 export const SkillsSection: React.FC<{ formik: ResumeFormik }> = ({
   formik,
 }) => (
-  <Section
-    title="Skills"
-    helperText="Tip: Separate with commas or new lines"
-  >
-    <TextAreaField
-      name="skills"
-      label=""
-      rows={3}
-      placeholder="AWS Bedrock, RAG, TypeScript, Prisma, Docker, Kubernetes"
-      formik={formik}
-    />
+  <Section title="Skills" helperText="Tip: Separate with commas or new lines">
+    <div className="max-w-3xl">
+      <TextAreaField
+        name="skills"
+        label=""
+        rows={3}
+        placeholder="AWS Bedrock, RAG, TypeScript, Prisma, Docker, Kubernetes"
+        formik={formik}
+      />
+    </div>
   </Section>
 );
 
@@ -126,14 +125,15 @@ export const ProjectsSection: React.FC<{ formik: ResumeFormik }> = ({
       </>
     }
   >
-    <TextAreaField
-      name="projects"
-      label=""
-      rows={4}
-      placeholder={`Smart RAG Assistant - Built a Bedrock-powered RAG chatbot that cut ticket resolution time by 40%.
-E-commerce Analytics - Designed ELT + dashboards to reduce churn by 12%.`}
-      formik={formik}
-    />
+    <div className="max-w-4xl">
+      <TextAreaField
+        name="projects"
+        label=""
+        rows={4}
+        placeholder={`Smart RAG Assistant - Built a Bedrock-powered RAG chatbot that cut ticket resolution time by 40%.`}
+        formik={formik}
+      />
+    </div>
   </Section>
 );
 
@@ -144,13 +144,14 @@ export const ExtraCurricularSection: React.FC<{ formik: ResumeFormik }> = ({
     title="Extra-Curricular Activities (optional)"
     helperText="One bullet per line"
   >
-    <TextAreaField
-      name="extracurricular"
-      label=""
-      rows={3}
-      placeholder={`Organized monthly tech meetups with 150+ attendees.
-Published 10+ blog posts on GenAI.`}
-      formik={formik}
-    />
+    <div className="max-w-3xl">
+      <TextAreaField
+        name="extracurricular"
+        label=""
+        rows={3}
+        placeholder={`Organized monthly tech meetups with 150+ attendees.`}
+        formik={formik}
+      />
+    </div>
   </Section>
 );

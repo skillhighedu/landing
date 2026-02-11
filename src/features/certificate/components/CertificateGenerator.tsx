@@ -8,7 +8,7 @@ import certificateBg from "@/assets/images/certificate/certificate.jpg";
 import { saveAs } from "file-saver";
 import { useCertificateStore } from "@/store/certificate.store";
 import { formatDate } from "@/utils/date";
-import { DownloadIcon, EyeIcon } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 
 import { alexBrushFont, CormorantGramond } from "@/assets/fonts";
 import CustomButton from "@/components/common/Button";

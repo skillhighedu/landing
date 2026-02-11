@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
-import DashboardLayout from "@/layouts/DashboardLayout";
+
 import HeaderSection from "@/components/common/HeaderSection";
 import { bounties } from "./bounty.data";
+import DashboardLayout from "@/features/dashboard/layout/DashboardLayout";
 
 export default function BountyDetails() {
   const { id } = useParams();

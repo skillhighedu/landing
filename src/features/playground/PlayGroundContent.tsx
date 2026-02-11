@@ -27,7 +27,7 @@ export default function PlayGroundContent({
       {/* Content */}
       {activeTab === "content" && (
         
-          <Description />
+          <Description description={currentLesson.description}  />
   
       )}
 

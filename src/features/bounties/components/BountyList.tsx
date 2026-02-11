@@ -19,10 +19,7 @@ export default function BountyList() {
             <BountyCard
               key={bounty.id}
               index={index}
-              title={bounty.title}
-              description={bounty.description}
-              reward={bounty.reward}
-              difficulty={bounty.difficulty as any}
+              bounty={bounty}
               onOpen={() => navigate(`/bounties/${bounty.id}`)}
             />
           ))}

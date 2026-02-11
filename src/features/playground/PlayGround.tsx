@@ -8,16 +8,17 @@ import PlayGroundMobileSidebar from "./PlayGroundMobileSidebar";
 import PlayGroundSkeleton from "./PlayGroundSkeleton";
 
 import { usePlayGroundData } from "./PlayGround.logic";
-import type { LessonTopic } from "@/types/course";
+
 import type { PlayGroundProps } from "@/types/dashboard/demo";
 import DemoNotice from "../dashboard/components/common/DemoNotice";
 import Container from "@/layouts/Container";
+import type { CourseLesson } from "../dashboard/types";
 
 export default function PlayGround({ mode }: PlayGroundProps) {
   const { slug = "" } = useParams();
 
   const [currentLesson, setCurrentLesson] =
-    useState<LessonTopic | null>(null);
+    useState<CourseLesson | null>(null);
 
   const [activeTab, setActiveTab] =
     useState<"content" | "discussion">("content");
@@ -30,10 +31,13 @@ export default function PlayGround({ mode }: PlayGroundProps) {
     toggleMutation,
   } = usePlayGroundData(slug, mode);
 
-  const lessons = lessonQuery.data?.courseLessons ?? [];
+  console.log(lessonQuery,completedLessonIds,toggleMutation)
+
+ const lessons = lessonQuery.data?.courseLessons ?? [];
+
 
   useEffect(() => {
-    if (!currentLesson && lessons.length) {
+    if (!currentLesson) {
       setCurrentLesson(lessons[0]);
     }
   }, [lessons]);
@@ -94,7 +98,15 @@ export default function PlayGround({ mode }: PlayGroundProps) {
               lessons={lessons}
               activeLessonId={currentLesson?.id}
               completedLessonIds={completedLessonIds}
-              onSelect={(lesson: LessonTopic) => {
+              onToggleComplete={(lessonId: string) => {
+    if (!toggleMutation || !slug) return;
+    toggleMutation.mutate({
+      slug,
+      lessonId,
+      completed: !completedLessonIds.includes(lessonId),
+    });
+  }}
+              onSelect={(lesson: CourseLesson) => {
                 setCurrentLesson(lesson);
                 setMobileOpen(false);
               }}

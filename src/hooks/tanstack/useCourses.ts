@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchDashboardCourse, fetchCourseLessons,lessonsStatus, clickLessonToggle } from "@/services/course-service";
-import type { SelectedCourse, LessonsResponse } from "@/types/course";
+import type {  LessonsResponse } from "@/types/course";
+import type { CourseDashboardResponse } from "@/features/dashboard/types";
 
 export const coursesKeys = {
   all: ["courses"] as const,
@@ -11,7 +12,7 @@ export const coursesKeys = {
 };
 
 export const useCourse = (slug: string) =>
-  useQuery<SelectedCourse>({
+  useQuery<CourseDashboardResponse>({
     queryKey: coursesKeys.byCourseSlug(slug),
     queryFn: () => fetchDashboardCourse(slug),
     enabled: !!slug,

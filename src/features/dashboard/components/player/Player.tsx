@@ -55,7 +55,7 @@ export default function Player({ currentLesson }: PlayerProps) {
         {currentLesson ? (
           <iframe
             key={currentLesson.id}
-            src={currentLesson.video}
+            src={currentLesson.video!}
             className="absolute inset-0 w-full h-full"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
             allowFullScreen

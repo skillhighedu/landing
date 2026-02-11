@@ -6,11 +6,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
-
-
+import { useAuthStore } from "@/store/authStore";
+import LogoutConfirmDialog from "./LogoutConfirmDialog";
 
 export default function MobileBottomNav({ items }: MobileSidebarProps) {
   const { slug, mode } = useDashboardRouteStore();
+  const { logout } = useAuthStore();
 
   const buildPath = (path?: string) => {
     const base =
@@ -23,6 +24,9 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
 
   if (!slug) return null;
 
+  const navItems = items.filter((i) => i.action !== "logout");
+  const logoutItem = items.find((i) => i.action === "logout");
+
   return (
     <nav
       className="
@@ -33,33 +37,47 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
         border-t border-neutral-200 dark:border-neutral-800
       "
     >
-      {items.map(({ label, icon: Icon, path }) => (
+      {navItems.map(({ label, icon: Icon, path }) => (
         <Tooltip key={label}>
           <TooltipTrigger asChild>
             <NavLink
               to={buildPath(path)}
               end={path === ""}
               className={({ isActive }) =>
-                `
-                flex items-center justify-center
-                w-full h-full transition-colors
+                `flex items-center justify-center w-full h-full
                 ${
                   isActive
                     ? "text-primary"
                     : "text-neutral-500 dark:text-neutral-400"
-                }
-              `
+                }`
               }
             >
               <Icon size={22} />
             </NavLink>
           </TooltipTrigger>
-
           <TooltipContent side="top" className="text-xs">
             {label}
           </TooltipContent>
         </Tooltip>
       ))}
+
+      {logoutItem && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <LogoutConfirmDialog onConfirm={logout}>
+              <button
+                disabled={mode === "demo"}
+                className="flex items-center justify-center w-full h-full text-red-500 disabled:opacity-40"
+              >
+                <logoutItem.icon size={22} />
+              </button>
+            </LogoutConfirmDialog>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="text-xs">
+            {logoutItem.label}
+          </TooltipContent>
+        </Tooltip>
+      )}
     </nav>
   );
 }

@@ -16,9 +16,9 @@ export default function DesktopNavbar({
   setSelectedDept,
 }: {
   departments: Department[];
-  dropdownRef: React.RefObject<HTMLDivElement>;
+  dropdownRef: React.RefObject<HTMLDivElement | null>;
   coursesOpen: boolean;
-  setCoursesOpen: (v: boolean) => void;
+  setCoursesOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedDept: number;
   setSelectedDept: (i: number) => void;
 }) {

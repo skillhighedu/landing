@@ -1,6 +1,6 @@
 import apiClient from "@/config/axiosConfig";
 import type { ApiResponse } from "@/types";
-import type { LessonsResponse } from "../types";
+import type { CourseDashboardResponse, LessonsResponse } from "../types";
 import { handleApiError } from "@/utils/errorHandler";
 
 export const 
@@ -22,9 +22,9 @@ fetchDemoCourseLessons = async (
 export const 
 fetchDemoCourse = async (
   slug: string
-): Promise<LessonsResponse> => {
+): Promise<CourseDashboardResponse> => {
   try {
-    const response = await apiClient.get<ApiResponse<LessonsResponse>>(
+    const response = await apiClient.get<ApiResponse<CourseDashboardResponse>>(
       `/demodashboard/course/${slug}/demo/course-details`
     );
 

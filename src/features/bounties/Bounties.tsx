@@ -2,8 +2,9 @@ import { useState } from "react";
 import DashboardLayout from "@/features/dashboard/layout/DashboardLayout";
 import DemoNotice from "@/features/dashboard/components/common/DemoNotice";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
-import { useDemoBounties } from "./hooks/useBounties";
-import { useBounties, useAppliedBounties } from "./hooks/useBounties";
+
+import { useDemoBounties, useBounties, useAppliedBounties } from "./hooks/useBounties";
+
 import BountyCard from "./components/BountyCard";
 import AppliedBountyCard from "./components/AppliedBountyCard";
 import EmptyBountyState from "./components/EmptyBountyState";
@@ -19,24 +20,24 @@ export default function Bounties() {
   const realAvailable = useBounties(mode === "real" ? slug : undefined);
 
   /* APPLIED */
-  // const demoApplied = useDemoAppliedBounties(mode === "demo" ? slug : undefined);
   const realApplied = useAppliedBounties(mode === "real" ? slug : undefined);
 
   const availableQuery = mode === "demo" ? demoAvailable : realAvailable;
-  const appliedQuery = mode === "demo" ? "" : realApplied;
+  const appliedQuery = realApplied;
 
   const locked = mode === "demo";
 
   return (
     <DashboardLayout title="Bounties">
-      <div className=" space-y-8">
+      <div className="space-y-8">
+
         {locked && <DemoNotice />}
 
         {/* TAB SWITCH */}
         <div className="flex gap-3 border-b border-border pb-6">
           <button
             onClick={() => setTab("available")}
-            className={`px-4 py-2 rounded-lg text-sm font-sans  ${
+            className={`px-4 py-2 rounded-lg text-sm font-sans ${
               tab === "available"
                 ? "bg-primary text-white"
                 : "hover:bg-muted"
@@ -45,16 +46,19 @@ export default function Bounties() {
             Available Bounties
           </button>
 
-          <button
-            onClick={() => setTab("applied")}
-            className={`px-4 py-2 rounded-lg text-sm font-sans${
-              tab === "applied"
-                ? "bg-primary text-white"
-                : "hover:bg-muted"
-            }`}
-          >
-            Applied Bounties
-          </button>
+          {/* Hide in demo */}
+          {mode !== "demo" && (
+            <button
+              onClick={() => setTab("applied")}
+              className={`px-4 py-2 rounded-lg text-sm font-sans ${
+                tab === "applied"
+                  ? "bg-primary text-white"
+                  : "hover:bg-muted"
+              }`}
+            >
+              Applied Bounties
+            </button>
+          )}
         </div>
 
         {/* AVAILABLE TAB */}
@@ -78,8 +82,8 @@ export default function Bounties() {
           </>
         )}
 
-        {/* APPLIED TAB */}
-        {tab === "applied" && (
+        {/* APPLIED TAB (only real mode) */}
+        {mode !== "demo" && tab === "applied" && (
           <>
             {appliedQuery.isLoading ? (
               <div>Loading...</div>
@@ -98,6 +102,7 @@ export default function Bounties() {
             )}
           </>
         )}
+
       </div>
     </DashboardLayout>
   );

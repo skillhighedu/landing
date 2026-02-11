@@ -1,13 +1,14 @@
-import type { LessonTopic } from "@/types/course";
+
 import Sidebar from "@/features/dashboard/components/LessonsList";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
+import type { CourseLesson } from "../dashboard/types";
 
 interface Props {
-  lessons: LessonTopic[];
-  currentLesson: LessonTopic | null;
+  lessons: CourseLesson[];
+  currentLesson: CourseLesson | null;
   completedLessonIds: string[];
-  onSelectLesson: (lesson: LessonTopic) => void;
-  onLockedLessonClick?: (lesson: LessonTopic) => void;
+  onSelectLesson: (lesson: CourseLesson) => void;
+  onLockedLessonClick?: (lesson: CourseLesson) => void;
   onToggleComplete: (lessonId: string) => void;
 }
 

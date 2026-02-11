@@ -102,7 +102,7 @@ export default function Signup() {
         });
       }
     } catch (err: any) {
-      toast.error(err.message || "Something went wrong");
+      toast.error(err?.message);
     } finally {
       setLoading(false);
     }
@@ -181,7 +181,7 @@ export default function Signup() {
     >
       {/* ✅ LOCKED DARK OVERLAY (same in light + dark) */}
       <motion.div
-        className="absolute inset-0 z-0 bg-gradient-to-b from-black/75 via-black/65 to-black/95"
+        className="absolute inset-0 z-0 bg-linear-to-b from-black/75 via-black/65 to-black/95"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}

@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
-import DashboardLayout from "@/layouts/DashboardLayout";
+
 import HeaderSection from "@/components/common/HeaderSection";
 import { projects } from "./project.data";
+import DashboardLayout from "@/features/dashboard/layout/DashboardLayout";
 
 export default function ProjectDetails() {
   const { id } = useParams();

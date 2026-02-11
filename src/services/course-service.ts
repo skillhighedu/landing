@@ -3,6 +3,7 @@ import type { ApiResponse } from "@/types/api";
 import { handleApiError } from "@/utils/errorHandler";
 
 import type { Department,SelectedCourse,FormatedCourses, LessonsResponse, CompletedLessons } from "@/types/course";
+import type { CourseDashboardResponse } from "@/features/dashboard/types";
 
 export const fetchCourses = async (): Promise<Department[]> => {
   try {
@@ -35,9 +36,9 @@ export const fetchFormattedCourses = async (): Promise<FormatedCourses[]> => {
 };
 
 
-export const fetchDashboardCourse = async (slug:string): Promise<SelectedCourse> => {
+export const fetchDashboardCourse = async (slug:string): Promise<CourseDashboardResponse> => {
   try {
-    const response = await apiClient.get<ApiResponse<SelectedCourse>>(`/dashboard/students/course-details/${slug}`);
+    const response = await apiClient.get<ApiResponse<CourseDashboardResponse>>(`/dashboard/students/course-details/${slug}`);
     return response.data.additional!;
   } catch (error) {
     throw handleApiError(error);
@@ -48,7 +49,7 @@ export const fetchDashboardCourse = async (slug:string): Promise<SelectedCourse>
 export const fetchCourseLessons = async (slug:string): Promise<LessonsResponse> => {
   try {
     const response = await apiClient.get<ApiResponse<LessonsResponse>>(`/dashboard/course/${slug}/lessons`);
-  
+
     return response.data.additional!;
   } catch (error) {
     throw handleApiError(error);

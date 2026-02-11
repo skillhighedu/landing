@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react"
 import { useParams, useLocation } from "react-router-dom"
 import AboutCourse from "@/components/AboutCouse"
 import Trees from "@/assets/images/bg.jpg";
-import Certificates from "@/components/Certificates"
+
 import CurriculumAccordion from "@/components/Curriculam"
 import FAQ from "@/components/FAQ"
 import Pricing from "@/components/Pricing"

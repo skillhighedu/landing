@@ -1,5 +1,6 @@
-import type { LessonTopic } from "@/types/course";
+
+import type { CourseLesson } from "../../types";
 
 export interface PlayerProps {
-  currentLesson: LessonTopic | null;
+  currentLesson: CourseLesson | null;
 }

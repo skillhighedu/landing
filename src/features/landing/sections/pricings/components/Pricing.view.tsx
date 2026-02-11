@@ -48,9 +48,10 @@ export default function PricingView({
             : 'grid-cols-1 md:grid-cols-3'
         }`}
       >
-        {orderedPricings.map((option) => (
+        {orderedPricings.map((option,o) => (
           <PricingCard
             key={option.id}
+            index={o}
             option={option}
             isHighlighted={option.price === 10000}
             onSelect={onSelectPlan}

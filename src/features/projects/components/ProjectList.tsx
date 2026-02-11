@@ -3,9 +3,14 @@ import DashboardLayout from "../../dashboard/layout/DashboardLayout";
 import HeaderSection from "@/components/common/HeaderSection";
 import ProjectCard from "./ProjectCard";
 import { projects } from "./project.data";
+import type { ProjectItem } from "../types";
 
 export default function ProjectList() {
   const navigate = useNavigate();
+
+  const handleOpen = (project: ProjectItem) => {
+    navigate(`/course-dashboard/projects/${project.id}`);
+  };
 
   return (
     <DashboardLayout>
@@ -15,15 +20,11 @@ export default function ProjectList() {
         </div>
 
         <div className="max-w-6xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p, i) => (
+          {projects.map((p) => (
             <ProjectCard
               key={p.id}
-              index={i}
-              title={p.title}
-              description={p.description}
-              difficulty={p.difficulty}
-              time={p.time}
-              onOpen={() => navigate(`/course-dashboard/projects/${p.id}`)}
+              project={p}
+              onOpen={handleOpen}
             />
           ))}
         </div>

@@ -1,12 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
-import HeaderSection from "@/components/common/HeaderSection";
-
 import LearnInPublic from "../sections/learn-in-public";
-
 import CourseDashboardSkeleton from "../skeltons/CourseDashboardSkeleton";
-
 import { useCourse } from "@/hooks/tanstack/useCourses";
 import DashboardLayout from "../layout/DashboardLayout";
 import ProgressSection from "@/features/dashboard/sections/progress/ProgressSection";
@@ -29,17 +25,13 @@ export default function CourseDashboardPage({ mode }: Props) {
   }, []);
 
   const query =
-  mode === "demo"
-    ? useDemoCourse(slug!)
-    : useCourse(slug!);
+    mode === "demo"
+      ? useDemoCourse(slug!)
+      : useCourse(slug!);
 
-const { data, isLoading, isError } = query;
+  const { data, isLoading, isError } = query;
 
-
-
-  if (isLoading) {
-    return <CourseDashboardSkeleton />;
-  }
+  if (isLoading) return <CourseDashboardSkeleton />;
 
   if (isError || !data) {
     return (
@@ -56,36 +48,33 @@ const { data, isLoading, isError } = query;
   return (
     <DashboardLayout title="Course Dashboard">
 
-      
-              {mode === "demo" && <DemoNotice />}
-      <main
-        className="
-          min-h-screen
-          px-4 sm:px-8 py-10
-          bg-neutral-50 text-neutral-900 rounded-2xl
-          dark:bg-neutral-900 dark:text-white
-          
-        "
-      >
-    
+      {mode === "demo" && <DemoNotice />}
 
-        {/* Course hero */}
+      <main className="min-h-screen px-4 sm:px-8 py-10 bg-neutral-50 text-neutral-900 rounded-2xl dark:bg-neutral-900 dark:text-white">
+
         <CourseHeader
           courseName={data.courseData.courseName}
           courseThumbnail={data.courseData.courseThumbnail}
-          totalTopicsCount={0}
-          modules={[]}
           slug={slug!}
           mode={mode}
         />
 
-        {/* Content */}
         <div className="mx-auto mt-8 max-w-7xl space-y-10">
-          <ProgressSection mode={mode} />
+
+          {/* FIXED */}
+          <ProgressSection
+            mode={mode}
+            realData={{
+              topics: data.topicProgress,
+              quizzes: data.quizProgress,
+              projects: data.projectProgress,
+            }}
+          />
 
           <LearnInPublic mode={mode} />
 
           <CourseCurriculum modules={data.courseData.modules} />
+
         </div>
       </main>
     </DashboardLayout>

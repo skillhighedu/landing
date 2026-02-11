@@ -1,5 +1,5 @@
-import { useEffect, type HTMLAttributes } from "react";
-import ReactMarkdown, { type Components } from "react-markdown";
+import { type HTMLAttributes } from "react";
+import  { type Components } from "react-markdown";
 import { cn } from "@/lib/utils";
 
 

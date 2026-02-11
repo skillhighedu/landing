@@ -1,15 +1,16 @@
-import type { LessonTopic } from "@/types/course";
+
 import { Play, Lock } from "lucide-react";
 import clsx from "clsx";
 import { Checkbox } from "@/components/ui/checkbox";
+import type { CourseLesson } from "../types";
 
 interface SidebarProps {
-  lessonsList: LessonTopic[];
+  lessonsList: CourseLesson[];
   activeLessonId?: string;
   completedLessonIds?: string[];
-  onLessonSelect: (lesson: LessonTopic) => void;
+  onLessonSelect: (lesson: CourseLesson) => void;
   onToggleComplete?: (lessonId: string) => void;
-  onLockedLessonClick?: (lesson: LessonTopic) => void;
+  onLockedLessonClick?: (lesson: CourseLesson) => void;
 }
 
 export default function Sidebar({

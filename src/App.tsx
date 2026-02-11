@@ -12,7 +12,6 @@ import Spinner from "@/components/ui/Spinner";
 
 // Lazy pages
 const Home = lazy(() => import("@/pages/landing/Home"));
-const AllCourses = lazy(() => import("@/pages/courses/AllCourses"));
 const CourseDetails = lazy(() => import("@/features/landing/pages/AboutCourse"));
 const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
 const Profile = lazy(() => import("@/features/landing/pages/Profile"));
@@ -28,8 +27,7 @@ import Blog from "@/pages/blogs/Blogs";
 import BlogDetail from "@/features/blog/components/BlogDetail";
 import Quiz from "./features/quiz/components/Quiz";
 import PlayGround from "./features/playground/PlayGround";
-import ProjectList from "./features/projects/components/ProjectList";
-import BountyList from "./features/bounties/components/BountyList";
+
 import Courses from "./features/landing/pages/Courses";
 import RealDashboardPage from "./features/dashboard/pages/RealDashboardPage";
 import ScrollToTop from "./components/common/ScrollToTop";
@@ -72,7 +70,7 @@ function App() {
            <Route path="/course/:slug/demo/play" element={<PlayGround mode="demo" />}/>
             <Route path="/course/:slug/demo/resume" element={<Resume mode="demo" />} />
             <Route path="/course/:slug/demo/projects" element={<Projects mode="demo" />} />
-            <Route path="/course/:slug/demo/bounties" element={<Bounties mode="demo" />} />
+            <Route path="/course/:slug/demo/bounties" element={<Bounties  />} />
 
 
 
@@ -111,6 +109,7 @@ function App() {
             <Route path="/course-dashboard/:slug/quiz" element={<QuizList mode = "real" />}/>
             <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz mode = "real" />}/>
             <Route path="/course-dashboard/:slug/projects" element={<Projects mode="real"  />} />
+            <Route path="/course-dashboard/:slug/bounties" element={<Bounties  />} />
             <Route path="/course-dashboard/:slug/download-certificates" element={<Certificate  />} />
     
             

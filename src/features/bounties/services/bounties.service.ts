@@ -18,7 +18,7 @@ export const fetchBounties = async (
 ): Promise<BountiesResponseData> => {
   const res = await apiClient.get<
     ApiResponse<BountiesResponseData>
-  >(`/course-bounties/course/${slug}/bounties`);
-
+  >(`/course-bounties/course/bounty/${slug}`);
+  console.log(res)
   return res.data.additional!;
 };

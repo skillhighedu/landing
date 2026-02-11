@@ -12,7 +12,7 @@ export default function HeroSection() {
     <section
       className="
         relative
-        min-h-[100vh] lg:min-h-screen
+        min-h-screen lg:min-h-screen
         bg-black
         overflow-hidden
         flex items-center

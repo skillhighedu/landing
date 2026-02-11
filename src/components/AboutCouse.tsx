@@ -19,7 +19,7 @@ interface CourseStat {
   icon: string;
 }
 
-const fakeStats = ["1k+ learners trained", "Used across 20+ colleges", "Designed for real-world roles"];
+
 
 export default function AboutCourse({
   courseSlug,

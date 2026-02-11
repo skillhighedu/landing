@@ -55,19 +55,35 @@ const Resume: React.FC<PlayGroundProps> = ({ mode }) => {
 
   return (
     <DashboardLayout title="Resume">
+      {mode === "demo" && <DemoNotice />}
 
-      
-              {mode === "demo" && <DemoNotice />}
       <Container size="lg">
-        <div className="py-10">
-          <div className="rounded-2xl bg-white dark:bg-neutral-800 shadow-lg ring-1 ring-border">
-            <div className="border-b border-border px-8 py-6">
-              <p className="text-sm text-muted-foreground">
+        <div className="py-6 sm:py-8 lg:py-10 px-3 sm:px-4 font-sans">
+          <div
+            className="
+              rounded-2xl
+              bg-white dark:bg-neutral-800
+              shadow-lg
+              ring-1 ring-border
+              overflow-hidden
+            "
+          >
+            {/* Header */}
+            <div className="border-b border-border px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
+              <p className="text-sm sm:text-base text-muted-foreground">
                 Fill in your details and generate a clean PDF resume.
               </p>
             </div>
 
-            <form onSubmit={formik.handleSubmit} className="px-8 py-8 space-y-10">
+            {/* Form */}
+            <form
+              onSubmit={formik.handleSubmit}
+              className="
+                px-4 sm:px-6 lg:px-8
+                py-6 sm:py-8
+                space-y-8 sm:space-y-10
+              "
+            >
               <PersonalInfoSection formik={formik} />
               <ObjectiveSection formik={formik} />
               <ExperienceSection formik={formik} />
@@ -75,11 +91,29 @@ const Resume: React.FC<PlayGroundProps> = ({ mode }) => {
               <ProjectsSection formik={formik} />
               <ExtraCurricularSection formik={formik} />
 
-              <div className="pt-6 border-t border-border flex items-center justify-end gap-3">
+              {/* Actions */}
+              <div
+                className="
+                  pt-6
+                  border-t border-border
+                  flex flex-col sm:flex-row
+                  items-stretch sm:items-center
+                  justify-end
+                  gap-3
+                "
+              >
                 <button
                   type="button"
                   onClick={() => formik.resetForm()}
-                  className="rounded-lg border border-border px-5 py-2.5 text-sm text-foreground hover:bg-muted"
+                  className="
+                    rounded-lg
+                    border border-border
+                    px-5 py-2.5
+                    text-sm
+                    text-foreground
+                    hover:bg-muted
+                    w-full sm:w-auto
+                  "
                 >
                   Reset
                 </button>
@@ -89,7 +123,7 @@ const Resume: React.FC<PlayGroundProps> = ({ mode }) => {
                   disabled={isDemo}
                   title={isDemo ? "Locked in Demo" : "Generate PDF"}
                   icon={isDemo ? <Lock size={14} /> : undefined}
-                  className="px-6 py-2.5"
+                  className="px-6 py-2.5 w-full sm:w-auto"
                 />
               </div>
             </form>
@@ -99,5 +133,6 @@ const Resume: React.FC<PlayGroundProps> = ({ mode }) => {
     </DashboardLayout>
   );
 };
+
 
 export default Resume;
