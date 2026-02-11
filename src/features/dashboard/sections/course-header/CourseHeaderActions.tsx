@@ -29,10 +29,10 @@ export default function CourseHeaderActions({ slug, mode }: Props) {
         w-full sm:w-fit
       "
     >
-      {actions.map(({ label, icon, href, onClick, className }, i) => {
+      {actions.map(({ label, icon, href, onClick,  }, i) => {
         const button = (
           <CustomButton
-            className={`text-xs sm:text-sm ${className}`}
+            className={`text-xs sm:text-sm`}
             icon={icon}
             title={label}
             onClick={onClick}

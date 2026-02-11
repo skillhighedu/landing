@@ -30,43 +30,33 @@ export default function ProfilePage() {
   const student = studentProfile[0];
 
   return (
-   <Container size="full">
-
-     <div className="min-h-screen bg-white dark:bg-neutral-900 text-white mt-20 rounded-2xl">
-      <div className="max-w-7xl mx-auto px-4 py-10">
-
-                <div className="mb-12">
-                  <HeaderSection title="Profile" />
-                </div>
-        
-
-        {/* Header */}
-        <ProfileHeader name={student?.name} loading={loading} />
-
-        {/* MAIN DASHBOARD LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start">
-          
-          {/* SIDEBAR (STICKY) */}
-          <ProfileSidebar
-            student={student}
-            loading={loading}
-            onLogout={logout}
-          />
-
-          {/* MAIN CONTENT (SCROLLS) */}
-          <div className="space-y-10 min-h-[60vh]">
-            {!loading && student && <ProfileForm student={student} />}
-
-            <YourCourses
-              courses={student}
-              loading={loading}
-           
-            />
+    <Container size="full">
+      <div className="min-h-screen bg-white dark:bg-neutral-900 mt-20 rounded-2xl">
+        <div className="max-w-7xl mx-auto px-4 py-10">
+          <div className="mb-12">
+            <HeaderSection title="Profile" />
           </div>
 
+          <ProfileHeader name={student?.name} loading={loading} />
+
+          <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start">
+            <ProfileSidebar
+              student={student}
+              loading={loading}
+              onLogout={logout}
+            />
+
+            <div className="space-y-10 min-h-[60vh]">
+              {!loading && student && <ProfileForm student={student} />}
+
+              <YourCourses
+                courses={student?.courses ?? []}
+                loading={loading}
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-   </Container>
+    </Container>
   );
 }

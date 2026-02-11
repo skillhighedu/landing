@@ -6,6 +6,8 @@ export const getCourseActions = (
   slug: string,
   mode: DashboardMode,
   onClaimCertificate?: () => void
+
+
 ) => {
   if (mode === "demo") {
     return [
@@ -17,7 +19,7 @@ export const getCourseActions = (
       {
         label: "Unlock Full Course",
         icon: <Lock size={18} />,
-        href: "#pricing",
+        href: `/course/${slug}`,
       },
     ];
   }

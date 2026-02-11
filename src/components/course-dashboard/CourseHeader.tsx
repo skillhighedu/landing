@@ -10,7 +10,7 @@ export default function CourseHeader({
   mode
 }: any) {
   const actions = getCourseActions(slug,mode);
-  console.log("CLASSNAME:", actions)
+
 
   return (
     <motion.section
@@ -54,9 +54,6 @@ export default function CourseHeader({
               {courseName}
             </h1>
 
-            <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-white/80">
-              Your learning space · Course overview
-            </p>
           </div>
 
           {/* Actions */}
@@ -69,10 +66,10 @@ export default function CourseHeader({
               w-full sm:w-fit
             "
           >
-            {actions.map(({ label, icon, href, className }, i) => {
+            {actions.map(({ label, icon, href }, i) => {
               const Btn = (
                 <CustomButton
-                  className={`text-xs sm:text-sm ${className}`}
+                  className={`text-xs sm:text-sm `}
                   icon={icon}
                   title={label}
                 >

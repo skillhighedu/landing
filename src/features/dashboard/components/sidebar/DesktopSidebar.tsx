@@ -53,6 +53,7 @@ export default function DesktopSidebar({
           transition-all duration-300
         `}
       >
+        {/* Toggle */}
         <button
           onClick={() => setOpen(!open)}
           className="
@@ -60,11 +61,13 @@ export default function DesktopSidebar({
             bg-white dark:bg-neutral-900
             border border-neutral-200 dark:border-neutral-700
             rounded-full p-1.5 shadow
+            hover:scale-110 transition
           "
         >
           {open ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
         </button>
 
+        {/* NAV */}
         <nav className="flex flex-col gap-2 pt-24 px-2">
           {navItems.map(({ label, icon: Icon, path }) => (
             <Tooltip key={label}>
@@ -74,15 +77,27 @@ export default function DesktopSidebar({
                   end={!path}
                   className={({ isActive }) =>
                     `
-                    group flex items-center gap-4 px-3 py-2 rounded-lg text-sm font-medium
+                    group flex items-center gap-4
+                    px-3 py-2 rounded-lg
+                    text-sm font-medium
+                    transition-all duration-200
                     ${
                       isActive
                         ? "bg-primary text-white"
-                        : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
-                    }`
+                        : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+                    }
+                  `
                   }
                 >
-                  <Icon size={20} />
+                  {/* ICON ANIMATION */}
+                  <Icon
+                    size={20}
+                    className="
+                      transition-all duration-200
+                      group-hover:scale-110 group-hover:-translate-y-[1px]
+                    "
+                  />
+
                   {open && <span>{label}</span>}
                 </NavLink>
               </TooltipTrigger>
@@ -96,25 +111,27 @@ export default function DesktopSidebar({
           ))}
         </nav>
 
-        {logoutItem && (
-          <div className="mt-auto px-2 pb-6 border-t border-neutral-200 dark:border-neutral-800">
-            <LogoutConfirmDialog onConfirm={logout}>
-              <button
-                disabled={mode === "demo"}
-                className="
-                  mt-4 w-full
-                  flex items-center gap-4 px-3 py-2 rounded-lg
-                  text-sm font-medium text-red-500
-                  hover:bg-red-50 dark:hover:bg-red-900/20
-                  disabled:opacity-40
-                "
-              >
-                <logoutItem.icon size={20} />
-                {open && <span>{logoutItem.label}</span>}
-              </button>
-            </LogoutConfirmDialog>
-          </div>
-        )}
+        {/* LOGOUT */}
+     {logoutItem && (
+  <div className="mt-auto px-2 pb-6 border-t border-neutral-200 dark:border-neutral-800">
+    <LogoutConfirmDialog onConfirm={logout}>
+      <button
+      disabled={mode==="demo"}
+        className="
+          mt-4 w-full
+          group flex items-center gap-4
+          px-3 py-2 rounded-lg
+          text-sm font-medium
+          text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20
+        "
+      >
+        <logoutItem.icon size={20} />
+        {open && <span>{logoutItem.label}</span>}
+      </button>
+    </LogoutConfirmDialog>
+  </div>
+)}
+
       </aside>
     </TooltipProvider>
   );

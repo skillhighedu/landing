@@ -1,4 +1,5 @@
-type RibbonType = 'FEATURED' | 'HIGH DEMAND' | 'TRENDING' | 'POPULAR';
+import type { RibbonType } from "@/types/ribbon";
+
 
 export type Course = {
   id: string;

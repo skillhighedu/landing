@@ -27,14 +27,14 @@ export default function PlayGroundMobileSidebar({
         className={`
           fixed inset-y-0 right-0 z-50
           w-[85vw] max-w-sm
-          bg-neutral-900/95 backdrop-blur-xl
+          bg-white dark:bg-neutral-900/95 backdrop-blur-xl
           shadow-2xl
           transition-transform duration-300 ease-out
           ${open ? "translate-x-0" : "translate-x-full"}
         `}
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-4 border-b border-white/10 bg-neutral-900/90">
+        <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-4 border-b border-white/10 bg-white dark:bg-neutral-900/90">
           <h3 className="text-base font-semibold">Lessons</h3>
 
           <button

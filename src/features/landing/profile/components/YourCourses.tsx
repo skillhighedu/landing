@@ -1,13 +1,17 @@
+import type { Course } from "../types";
 import CourseCard from "./CourseCard";
 import { CourseCardSkeleton } from "./skeletons/CourseCardSkeleton";
-import type { StudentProfile } from "../types";
+
 
 interface Props {
-  courses: StudentProfile;
+  courses: Course[];
   loading: boolean;
 }
 
+
 export default function YourCourses({ courses, loading }: Props) {
+
+  console.log(courses)
 
   if (loading) {
     return (
@@ -25,7 +29,7 @@ export default function YourCourses({ courses, loading }: Props) {
     );
   }
 
-  if (!courses.courses.length) {
+  if (!courses.length) {
     return (
       <section
         className="
@@ -51,7 +55,7 @@ export default function YourCourses({ courses, loading }: Props) {
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {courses.courses.map((course) => (
+        {courses.map((course:Course) => (
           <CourseCard key={course.courseId} course={course} />
         ))}
       </div>

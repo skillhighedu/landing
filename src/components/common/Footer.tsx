@@ -51,7 +51,7 @@ export default function Footer() {
       />
 
       {/* ================= Content ================= */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 font-sans">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-14">
 
           {/* Brand */}
@@ -60,13 +60,13 @@ export default function Footer() {
               <img src={Logo} alt="SkillHigh Logo" className="h-11 w-auto" />
             </a>
 
-            <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-sm">
+            <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-sm font-sans">
               Learn by building. Grow by doing. Empowering the next generation
               of developers, creators, and leaders through practical learning.
             </p>
 
             {/* Socials */}
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-3 pt-2 font-sans">
               {[
                 {
                   label: "LinkedIn",

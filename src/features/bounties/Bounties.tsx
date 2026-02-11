@@ -3,11 +3,16 @@ import DashboardLayout from "@/features/dashboard/layout/DashboardLayout";
 import DemoNotice from "@/features/dashboard/components/common/DemoNotice";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 
-import { useDemoBounties, useBounties, useAppliedBounties } from "./hooks/useBounties";
+import {
+  useDemoBounties,
+  // useBounties,
+  // useAppliedBounties,
+} from "./hooks/useBounties";
 
 import BountyCard from "./components/BountyCard";
-import AppliedBountyCard from "./components/AppliedBountyCard";
+// import AppliedBountyCard from "./components/AppliedBountyCard";
 import EmptyBountyState from "./components/EmptyBountyState";
+import WorkInProgress from "@/components/common/WorkinProgress";
 
 type TabType = "available" | "applied";
 
@@ -15,23 +20,26 @@ export default function Bounties() {
   const { slug, mode } = useDashboardRouteStore();
   const [tab, setTab] = useState<TabType>("available");
 
-  /* AVAILABLE */
-  const demoAvailable = useDemoBounties(mode === "demo" ? slug : undefined);
-  const realAvailable = useBounties(mode === "real" ? slug : undefined);
+  /* REAL MODE → feature not live yet */
+  if (mode === "real") {
+    return (
+      <DashboardLayout title="Bounties">
+        <WorkInProgress />
+      </DashboardLayout>
+    );
+  }
 
-  /* APPLIED */
-  const realApplied = useAppliedBounties(mode === "real" ? slug : undefined);
+  /* DEMO MODE */
+  const demoAvailable = useDemoBounties(slug);
+  const availableQuery = demoAvailable;
 
-  const availableQuery = mode === "demo" ? demoAvailable : realAvailable;
-  const appliedQuery = realApplied;
-
-  const locked = mode === "demo";
+  const locked = true;
 
   return (
     <DashboardLayout title="Bounties">
       <div className="space-y-8">
 
-        {locked && <DemoNotice />}
+        <DemoNotice />
 
         {/* TAB SWITCH */}
         <div className="flex gap-3 border-b border-border pb-6">
@@ -45,20 +53,6 @@ export default function Bounties() {
           >
             Available Bounties
           </button>
-
-          {/* Hide in demo */}
-          {mode !== "demo" && (
-            <button
-              onClick={() => setTab("applied")}
-              className={`px-4 py-2 rounded-lg text-sm font-sans ${
-                tab === "applied"
-                  ? "bg-primary text-white"
-                  : "hover:bg-muted"
-              }`}
-            >
-              Applied Bounties
-            </button>
-          )}
         </div>
 
         {/* AVAILABLE TAB */}
@@ -81,28 +75,6 @@ export default function Bounties() {
             )}
           </>
         )}
-
-        {/* APPLIED TAB (only real mode) */}
-        {mode !== "demo" && tab === "applied" && (
-          <>
-            {appliedQuery.isLoading ? (
-              <div>Loading...</div>
-            ) : appliedQuery.data?.bounties.length === 0 ? (
-              <EmptyBountyState title="You have not applied to any bounties yet" />
-            ) : (
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {appliedQuery.data?.bounties.map((bounty) => (
-                  <AppliedBountyCard
-                    key={bounty.id}
-                    bounty={bounty}
-                    locked={locked}
-                  />
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
       </div>
     </DashboardLayout>
   );

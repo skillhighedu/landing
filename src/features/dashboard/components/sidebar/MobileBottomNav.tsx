@@ -24,6 +24,7 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
 
   if (!slug) return null;
 
+  /* split logout item */
   const navItems = items.filter((i) => i.action !== "logout");
   const logoutItem = items.find((i) => i.action === "logout");
 
@@ -37,6 +38,7 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
         border-t border-neutral-200 dark:border-neutral-800
       "
     >
+      {/* NORMAL NAV ITEMS */}
       {navItems.map(({ label, icon: Icon, path }) => (
         <Tooltip key={label}>
           <TooltipTrigger asChild>
@@ -44,35 +46,38 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
               to={buildPath(path)}
               end={path === ""}
               className={({ isActive }) =>
-                `flex items-center justify-center w-full h-full
+                `
+                flex items-center justify-center
+                w-full h-full transition-colors
                 ${
                   isActive
                     ? "text-primary"
                     : "text-neutral-500 dark:text-neutral-400"
-                }`
+                }
+              `
               }
             >
               <Icon size={22} />
             </NavLink>
           </TooltipTrigger>
+
           <TooltipContent side="top" className="text-xs">
             {label}
           </TooltipContent>
         </Tooltip>
       ))}
 
+      {/* LOGOUT BUTTON */}
       {logoutItem && (
         <Tooltip>
           <TooltipTrigger asChild>
             <LogoutConfirmDialog onConfirm={logout}>
-              <button
-                disabled={mode === "demo"}
-                className="flex items-center justify-center w-full h-full text-red-500 disabled:opacity-40"
-              >
+              <button disabled={mode==="demo"} className="flex items-center justify-center w-full h-full text-red-500">
                 <logoutItem.icon size={22} />
               </button>
             </LogoutConfirmDialog>
           </TooltipTrigger>
+
           <TooltipContent side="top" className="text-xs">
             {logoutItem.label}
           </TooltipContent>

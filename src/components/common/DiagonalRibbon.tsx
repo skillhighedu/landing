@@ -1,6 +1,7 @@
 'use client';
 
-type RibbonType = 'FIRE' | 'HOT' | 'WAVE' | 'RISING' | 'ACTIVE' | 'NEW';
+import type { RibbonType } from "@/types/ribbon";
+
 
 type Props = {
   label: RibbonType;
