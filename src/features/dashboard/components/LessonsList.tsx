@@ -43,10 +43,10 @@ export default function Sidebar({
                   "group flex items-start gap-3 rounded-xl p-3 border transition-all",
                   isLocked
                     ? "opacity-60 cursor-pointer"
-                    : "cursor-pointer hover:bg-neutral-100 dark:hover:bg-white/5",
+                    : "cursor-pointer hover:bg-neutral-100 hover:text-primary dark:hover:bg-white/5",
                   isActive &&
                     !isLocked &&
-                    "bg-neutral-900 text-white border-transparent"
+                    "bg-primary/10 text-primary border-transparent"
                 )}
                 onClick={() => {
                   if (isLocked) {
@@ -77,7 +77,7 @@ export default function Sidebar({
                 </div>
 
                 <div className="flex-1">
-                  <p className="text-sm font-medium leading-snug">
+                  <p className="text-sm font-medium font-sans leading-snug">
                     {item.title}
                   </p>
 
@@ -88,10 +88,14 @@ export default function Sidebar({
                   )}
                 </div>
               </div>
+              
             </li>
+            
           );
         })}
       </ul>
+
+      
     </div>
   );
 }

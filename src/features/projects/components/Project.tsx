@@ -11,9 +11,10 @@ import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import type { ProjectItem } from "../types";
 import ProjectCardSkeleton from "./ProjectCardSkeleton";
 
-export default function Projects() {
-  const { slug ,mode } = useDashboardRouteStore();
+export default function Projects({ mode }: PlayGroundProps) {
+  const { slug  } = useDashboardRouteStore();
 
+ 
   
   const demoQuery = useDemoProjects(mode === "demo" ? slug : undefined); // its wokring in dmeo but check once
 const realQuery = useProjects(mode === "real" ? slug : undefined);  // not going reqs if im logined and with mod ereal
@@ -22,7 +23,7 @@ const { data: projects, isLoading } =
   mode === "demo" ? demoQuery : realQuery;
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(mode)
+  console.log(projects)
   const locked = mode === "demo";
 
   return (

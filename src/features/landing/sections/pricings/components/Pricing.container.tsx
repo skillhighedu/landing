@@ -16,13 +16,14 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(
     const { pricings } = usePricingsStore();
     const { selectedCourse } = useSelectedCourseStore();
 
+
     const {
       selectedPlan,
       setSelectedPlan,
       registrationAmount,
     } = usePricing(courseSlug);
 
-    console.log(registrationAmount)
+
 
     const { pay } = usePricingPayment();
 

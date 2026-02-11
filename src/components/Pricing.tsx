@@ -202,6 +202,7 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug, autoOpen
   }
 
   const filteredPricings = pricings.filter((p) => p.type === selectedCourse?.pricingType)
+
   return (
     <section ref={ref} className="w-full py-20 px-4 text-white">
       <div className="max-w-7xl mx-auto">
@@ -224,6 +225,8 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(({ courseSlug, autoOpen
       : "grid-cols-1 md:grid-cols-3"
   }`}
 >
+
+
   {filteredPricings &&
     filteredPricings.map((option, idx) => (
       <motion.div

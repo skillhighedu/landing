@@ -13,13 +13,13 @@ export default function CourseHeader({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
-      className="max-w-7xl mx-auto mt-8 mb-12 px-2 sm:px-0"
+      className="max-w-7xl mx-auto mt-3 mb-12 px-2 sm:px-0"
     >
       <div
         className="
           relative overflow-hidden rounded-2xl sm:rounded-3xl
           flex flex-col justify-end
-          min-h-[220px] sm:min-h-[280px] md:min-h-[340px]
+          min-h-[220px] sm:min-h-[280px] md:min-h-[440px]
         "
       >
         {/* Background image */}

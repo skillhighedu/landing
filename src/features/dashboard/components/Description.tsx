@@ -2,9 +2,7 @@ import { lessonMarkdownComponents } from "@/components/common/ContentMarkdownRen
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-
 export default function Description() {
-
   const LESSON_MARKDOWN = `
 ## Lesson Objective
 
@@ -47,9 +45,6 @@ export function Button({ label, onClick }: ButtonProps) {
 
 ---
 
-
----
-
 ## Summary
 
 After completing this lesson, you should be comfortable with:
@@ -59,13 +54,25 @@ After completing this lesson, you should be comfortable with:
 `;
 
   return (
-    <div className="rounded-2xl border border-white/10 text-neutral-900 dark:text-white bg-white dark:bg-neutral-900/80 shadow-lg p-4 sm:p-6 lg:p-8 font-mono">
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        components={lessonMarkdownComponents}
+    <div className="w-full">
+      <div
+        className="
+          rounded-2xl
+          border border-border
+          bg-card
+          shadow-sm
+          p-3 sm:p-6 lg:p-2
+        "
       >
-        {LESSON_MARKDOWN}
-      </ReactMarkdown>
+        <div className="prose dark:prose-invert max-w-none font-sans">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={lessonMarkdownComponents}
+          >
+            {LESSON_MARKDOWN}
+          </ReactMarkdown>
+        </div>
+      </div>
     </div>
   );
 }

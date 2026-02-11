@@ -1,10 +1,9 @@
+import { motion, useReducedMotion } from "framer-motion";
+import Trees from "@/assets/images/forest.jpg";
 
-import { motion, useReducedMotion } from 'framer-motion';
-import Trees from '@/assets/images/forest.jpg';
-
-import HeroHeadline from './components/HeroHeadline';
-import HeroActions from './components/HeroActions';
-import HeroPartners from './components/HeroPartners';
+import HeroHeadline from "./components/HeroHeadline";
+import HeroActions from "./components/HeroActions";
+import HeroPartners from "./components/HeroPartners";
 
 export default function HeroSection() {
   const reduceMotion = useReducedMotion();
@@ -13,11 +12,12 @@ export default function HeroSection() {
     <section
       className="
         relative
-        min-h-screen
+        min-h-[100vh] lg:min-h-screen
         bg-black
         overflow-hidden
         flex items-center
-        pt-[100px]   
+        pt-28 sm:pt-32 lg:pt-36
+        pb-16
       "
     >
       {/* Background */}
@@ -29,10 +29,13 @@ export default function HeroSection() {
         transition={{
           duration: 12,
           repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'easeInOut',
+          repeatType: "reverse",
+          ease: "easeInOut",
         }}
       />
+
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/40" />
 
       {/* CRT Scanlines */}
       {!reduceMotion && (
@@ -40,15 +43,29 @@ export default function HeroSection() {
       )}
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div
+        className="
+          relative z-10
+          w-full
+          max-w-6xl
+          mx-auto
+          px-5 sm:px-8 lg:px-12
+          text-center
+        "
+      >
         <HeroHeadline />
-        <HeroActions />
 
-        <p className="mt-6 text-sm text-neutral-300">
+        <div className="mt-6 sm:mt-8">
+          <HeroActions />
+        </div>
+
+        <p className="mt-6 text-sm sm:text-base text-neutral-300">
           Join 10,000+ learners leveling up with SkillHigh.
         </p>
 
-        <HeroPartners />
+        <div className="mt-10">
+          <HeroPartners />
+        </div>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Menu } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import { useAuthStore } from "@/store/authStore";
@@ -18,7 +19,13 @@ export default function Navbar() {
   ) as Department[];
 
   const { checkAuth } = useAuthStore();
-  const open = useSidebarStore((s) => s.open);   // ← sidebar state
+  const { open } = useSidebarStore();
+
+  const location = useLocation();
+const isCourseDashboard =
+  location.pathname.startsWith("/course-dashboard") ||
+  location.pathname.startsWith("/demo");
+
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -32,7 +39,7 @@ export default function Navbar() {
     checkAuth();
   }, [checkAuth]);
 
-  // Hide / show navbar on scroll
+  /* Hide / show navbar on scroll */
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -44,7 +51,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [lastScrollY]);
 
-  // Close dropdown on outside click
+  /* Close dropdown outside */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (
@@ -66,53 +73,47 @@ export default function Navbar() {
           fixed top-0 left-0 w-full z-50
           transition-all duration-300
           ${isVisible ? "translate-y-0" : "-translate-y-full"}
-          ${open ? "lg:pl-56" : "lg:pl-16"}
+          ${isCourseDashboard && open ? "lg:pl-56" : "lg:pl-10"}
         `}
       >
-      <Container size="full">
+        <Container size="full">
           <div
-          className="
-            mx-auto 
-            px-4 sm:px-6 py-3
-            flex items-center justify-between
-            rounded-b-2xl
-            backdrop-blur-xl
-            bg-white/70 dark:bg-neutral-900/70
-            border-b border-black/5 dark:border-white/10
-          "
-        >
-          {/* Desktop navbar */}
-          <DesktopNavbar
-            departments={departments}
-            dropdownRef={dropdownRef}
-            coursesOpen={coursesOpen}
-            setCoursesOpen={setCoursesOpen}
-            selectedDept={selectedDept}
-            setSelectedDept={setSelectedDept}
-          />
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open menu"
             className="
-              md:hidden
-              inline-flex items-center justify-center
-              rounded-xl
-              p-2.5
-              text-neutral-700 dark:text-neutral-200
-              hover:bg-neutral-200/60 dark:hover:bg-neutral-800/60
-              active:scale-95
-              transition
+              mx-auto px-4 sm:px-6 py-3
+              flex items-center justify-between
+              rounded-b-2xl
+              backdrop-blur-xl
+              bg-white/70 dark:bg-neutral-900/70
+              border-b border-black/5 dark:border-white/10
             "
           >
-            <Menu size={22} />
-          </button>
-        </div>
-      </Container>
+            <DesktopNavbar
+              departments={departments}
+              dropdownRef={dropdownRef}
+              coursesOpen={coursesOpen}
+              setCoursesOpen={setCoursesOpen}
+              selectedDept={selectedDept}
+              setSelectedDept={setSelectedDept}
+            />
+
+            <button
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+              className="
+                md:hidden
+                inline-flex items-center justify-center
+                rounded-xl p-2.5
+                text-neutral-700 dark:text-neutral-200
+                hover:bg-neutral-200/60 dark:hover:bg-neutral-800/60
+                active:scale-95 transition
+              "
+            >
+              <Menu size={22} />
+            </button>
+          </div>
+        </Container>
       </header>
 
-      {/* Mobile drawer */}
       <MobileDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}

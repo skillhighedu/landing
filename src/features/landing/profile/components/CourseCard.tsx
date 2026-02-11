@@ -37,7 +37,7 @@ export default function CourseCard({ course }: Props) {
         <div
           className="
             absolute inset-0
-            bg-gradient-to-t
+            bg-linear-to-t
             from-black/30 via-black/10 to-transparent
             opacity-70
           "

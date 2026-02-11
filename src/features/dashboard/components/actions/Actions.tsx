@@ -1,15 +1,7 @@
 import { useEffect, useCallback } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  MessageCircle,
-
-} from "lucide-react";
-
-
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import CustomButton from "@/components/common/Button";
 import type { ActionsProps } from "./types";
-
 
 export default function Actions({
   lessons,
@@ -17,13 +9,10 @@ export default function Actions({
   onChangeLesson,
   onOpenDiscussion,
 }: ActionsProps) {
-
-
-
   if (!currentLesson || lessons.length === 0) return null;
 
   const currentIndex = lessons.findIndex(
-    (l) => l.id === currentLesson.id,
+    (l) => l.id === currentLesson.id
   );
   if (currentIndex === -1) return null;
 
@@ -38,7 +27,7 @@ export default function Actions({
     if (!isLast) onChangeLesson(lessons[currentIndex + 1]);
   }, [isLast, currentIndex, lessons, onChangeLesson]);
 
-  /* ---------- keyboard navigation ---------- */
+  /* Keyboard navigation */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") goPrev();
@@ -50,22 +39,14 @@ export default function Actions({
   }, [goPrev, goNext]);
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      {/* Left: Discussion */}
-      <div>
-        {onOpenDiscussion && (
-          <CustomButton
-            title="Discussion"
-            icon={<MessageCircle className="h-4 w-4" />}
-            variant="success"
-            onClick={onOpenDiscussion}
-          />
-        )}
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      
+      {/* Lesson position */}
+      <div className="text-sm text-white/60">
+        Lesson {currentIndex + 1} of {lessons.length}
       </div>
 
-   
-
-      {/* Right: Navigation */}
+      {/* Navigation */}
       <div className="flex items-center gap-3">
         <CustomButton
           title="Previous"

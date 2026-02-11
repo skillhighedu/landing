@@ -3,11 +3,11 @@ import { fetchProjects } from "../services/demo-projects.service";
 import type { ProjectsResponse } from "../types";
 
 export const useProjects = (
-  slug: string | undefined,
+  slug: string | undefined
 
 ) => {
   return useQuery<ProjectsResponse>({
-    queryKey: ["projects", slug],
+    queryKey: ["real-projects", slug],
     queryFn: () => fetchProjects(slug!),
     enabled: !!slug,
     refetchOnMount: true,

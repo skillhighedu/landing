@@ -19,7 +19,7 @@ export default function PricingModal({
   onPay,
 }: PricingModalProps) {
 
-  console.log(registrationAmount)
+
   const [isFullPayment, setIsFullPayment] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -109,8 +109,9 @@ export default function PricingModal({
                       Pre-registration fee
                     </p>
                     <p className="text-2xl sm:text-3xl font-bold text-primary mt-1">
-                      ₹{registrationAmount.toLocaleString()}
-                    </p>
+  ₹{Number(registrationAmount || 0).toLocaleString()}
+</p>
+
                     <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2">
                       Pay the remaining amount later after onboarding
                     </p>

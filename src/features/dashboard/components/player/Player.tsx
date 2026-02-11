@@ -14,35 +14,32 @@ export default function Player({ currentLesson }: PlayerProps) {
     }
   }, [currentLesson?.id]);
 
-  const handleLoad = () => {
-    setIsVideoLoading(false);
-  };
-
+  const handleLoad = () => setIsVideoLoading(false);
   const handleError = () => {
     setIsVideoLoading(false);
     setHasError(true);
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full min-w-0 space-y-3">
       <div
         className="
           relative w-full aspect-video
           rounded-2xl overflow-hidden
-          dark:bg-neutral-900
           border border-white/10
+          bg-neutral-900
           shadow-xl
         "
       >
-        {/* ---------- Loading ---------- */}
-        {currentLesson && isVideoLoading &&   (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-neutral-900/90">
+        {/* Loading */}
+        {currentLesson && isVideoLoading && (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-neutral-900/90 backdrop-blur-sm transition-opacity">
             <Loader2 className="h-6 w-6 animate-spin text-white/70" />
             <p className="text-sm text-white/50">Loading video…</p>
           </div>
         )}
 
-        {/* ---------- Error ---------- */}
+        {/* Error */}
         {currentLesson && hasError && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 bg-neutral-900">
             <p className="text-lg font-semibold text-red-400">
@@ -54,7 +51,7 @@ export default function Player({ currentLesson }: PlayerProps) {
           </div>
         )}
 
-        {/* ---------- Video ---------- */}
+        {/* Video */}
         {currentLesson ? (
           <iframe
             key={currentLesson.id}
@@ -76,16 +73,15 @@ export default function Player({ currentLesson }: PlayerProps) {
           </div>
         )}
 
-        {/* ---------- LOCKED OVERLAY ---------- */}
-        {currentLesson?.locked && (
-         <BuyOverlay />
-        )}
+        {/* Locked overlay */}
+        {currentLesson?.locked && <BuyOverlay />}
       </div>
 
+      {/* Lesson title */}
       {currentLesson && (
-        <div className="text-sm text-white/70">
+        <h2 className="text-sm sm:text-base font-medium text-white/80 truncate">
           {currentLesson.title}
-        </div>
+        </h2>
       )}
     </div>
   );

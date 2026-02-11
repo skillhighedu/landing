@@ -16,6 +16,7 @@ export function usePricingPayment() {
     courseId: string;
     priceId: string;
     isFullPayment: boolean;
+    
   }) {
     if (!isAuthenticated) {
       navigate('/signup', {

@@ -1,9 +1,6 @@
-
 import Player from "@/features/dashboard/components/player/Player";
 import Actions from "@/features/dashboard/components/actions/Actions";
 import Description from "@/features/dashboard/components/Description";
-
-
 
 export default function PlayGroundContent({
   lessons,
@@ -15,10 +12,11 @@ export default function PlayGroundContent({
   if (!currentLesson) return null;
 
   return (
-    <>
-
-
+    <div className="space-y-6 min-w-0">
+      {/* Video */}
       <Player currentLesson={currentLesson} />
+
+      {/* Lesson navigation / actions */}
       <Actions
         lessons={lessons}
         currentLesson={currentLesson}
@@ -26,9 +24,15 @@ export default function PlayGroundContent({
         onOpenDiscussion={() => setActiveTab("discussion")}
       />
 
-      {activeTab === "content" && <Description />}
-      {activeTab === "discussion" && (
-        <div className="rounded-2xl border border-white/10 bg-neutral-900/80 ">
+      {/* Content */}
+      {activeTab === "content" && (
+        
+          <Description />
+  
+      )}
+
+      {/* {activeTab === "discussion" && (
+        <div className="rounded-2xl border border-white/10 bg-neutral-900/80 p-5 sm:p-6">
           <h3 className="text-lg font-semibold mb-2">
             Discussion
           </h3>
@@ -36,7 +40,7 @@ export default function PlayGroundContent({
             Discussion UI goes here.
           </p>
         </div>
-      )}
-    </>
+      )} */}
+    </div>
   );
 }

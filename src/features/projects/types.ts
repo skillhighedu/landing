@@ -1,8 +1,24 @@
+export interface ProjectSolution {
+  id: string;
+  projectId: string;
+  explanation: string;
+  githubLink: string;
+  isCompleted: boolean;
+  reviewState: "SUCCESSFUL" | "FAILED" | "PENDING";
+  reviewNotes: string | null;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ProjectItem {
   id: string;
-  title: string;
+  projectName: string;
   projectLink: string | null;
   locked: boolean;
+
+  // real mode only → optional
+  solutions?: ProjectSolution[];
 }
 
 export interface ProjectsResponse {

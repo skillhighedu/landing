@@ -5,19 +5,29 @@ import CustomButton from "@/components/common/Button";
 
 export default function HeroActions() {
   return (
-    <div className="mt-8 flex flex-col sm:flex-row-reverse gap-4 justify-center">
-      <BookingModal
-        title="Schedule Your Call"
-        icon={<Calendar />}
-        className="bg-neutral-900"
-      />
-
-      <Link to="/all-courses">
+    <div
+      className="
+        mt-8
+        flex flex-col sm:flex-row sm:items-center sm:justify-center
+        gap-4
+        w-full max-w-xl mx-auto
+      "
+    >
+      {/* Primary CTA */}
+      <Link to="/all-courses" className="w-full sm:w-auto">
         <CustomButton
           title="Get Started"
           icon={<Sword />}
+          className="w-full sm:w-auto"
         />
       </Link>
+
+      {/* Secondary CTA */}
+      <BookingModal
+        title="Schedule Your Call"
+        icon={<Calendar />}
+        className="w-full sm:w-auto bg-neutral-900"
+      />
     </div>
   );
 }

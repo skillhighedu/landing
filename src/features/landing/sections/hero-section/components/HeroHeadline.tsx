@@ -31,7 +31,7 @@ export default function HeroHeadline() {
 
       <p className="mt-4 text-base sm:text-lg md:text-xl text-neutral-200 font-bricolage max-w-3xl mx-auto">
         <Balancer>
-          SkillHigh helps you grow what matters — real skills, real projects, real outcomes.
+          SkillHigh helps you grow what matters  real skills, real projects, real outcomes.
         </Balancer>
       </p>
     </>

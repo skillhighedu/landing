@@ -6,7 +6,7 @@ export const useDemoProjects = (
   slug: string | undefined,
 ) => {
   return useQuery<ProjectsResponse>({
-    queryKey: ["projects", slug],
+    queryKey: ["demo-projects", slug],
     queryFn: () => fetchDemoProjects(slug!),
     enabled: !!slug,
     refetchOnMount: true,

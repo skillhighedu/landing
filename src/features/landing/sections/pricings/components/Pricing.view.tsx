@@ -11,8 +11,19 @@ export default function PricingView({
   pricingType: PricingTypes;
   onSelectPlan: (plan: any) => void;
 }) {
-  const highlightIndex =
-    pricings.length >= 2 ? 1 : 0; 
+
+  // Find the 10,000 plan (Mentor-Driven)
+  const mentorPlan = pricings.find(p => p.price === 10000);
+
+  // Remaining plans
+  const others = pricings.filter(p => p.price !== 10000);
+
+  // Order: left | mentor | right
+  const orderedPricings =
+    mentorPlan && others.length === 2
+      ? [others[0], mentorPlan, others[1]]
+      : pricings;
+
   return (
     <>
       <div className="text-center mb-16">
@@ -32,17 +43,16 @@ export default function PricingView({
 
       <div
         className={`grid gap-10 ${
-          pricings.length === 1
+          orderedPricings.length === 1
             ? 'grid-cols-1 place-items-center'
             : 'grid-cols-1 md:grid-cols-3'
         }`}
       >
-        {pricings.map((option, idx) => (
+        {orderedPricings.map((option) => (
           <PricingCard
             key={option.id}
             option={option}
-            index={idx}
-            isHighlighted={idx === highlightIndex}
+            isHighlighted={option.price === 10000}
             onSelect={onSelectPlan}
           />
         ))}

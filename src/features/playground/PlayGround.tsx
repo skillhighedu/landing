@@ -5,6 +5,8 @@ import DashboardLayout from "../dashboard/layout/DashboardLayout";
 import PlayGroundContent from "./PlayGroundContent";
 import PlayGroundSidebar from "./PlayGroundSidebar";
 import PlayGroundMobileSidebar from "./PlayGroundMobileSidebar";
+import PlayGroundSkeleton from "./PlayGroundSkeleton";
+
 import { usePlayGroundData } from "./PlayGround.logic";
 import type { LessonTopic } from "@/types/course";
 import type { PlayGroundProps } from "@/types/dashboard/demo";
@@ -38,56 +40,68 @@ export default function PlayGround({ mode }: PlayGroundProps) {
 
   return (
     <DashboardLayout title={currentLesson?.title}>
-     <Container size="full">
-         {mode === "demo" && <DemoNotice />}
-       
-        <div className="flex gap-6">
-          <main className="flex-1 space-y-6">
-            <PlayGroundContent
+      <Container size="full">
+
+        {lessonQuery.isLoading ? (
+          <PlayGroundSkeleton />
+        ) : (
+          <>
+            {mode === "demo" && <DemoNotice />}
+
+            {/* Mobile Lessons Button */}
+            <div className="lg:hidden mb-4 flex justify-end">
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="px-4 py-2 rounded-lg bg-primary text-white text-sm"
+              >
+                Lessons
+              </button>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-6">
+              <main className="flex-1 min-w-0">
+                <PlayGroundContent
+                  lessons={lessons}
+                  currentLesson={currentLesson}
+                  setCurrentLesson={setCurrentLesson}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                />
+              </main>
+
+              <PlayGroundSidebar
+                lessons={lessons}
+                currentLesson={currentLesson}
+                completedLessonIds={completedLessonIds}
+                onSelectLesson={setCurrentLesson}
+                onLockedLessonClick={(lesson) => {
+                  setCurrentLesson(lesson);
+                }}
+                onToggleComplete={(lessonId: string) => {
+                  if (!toggleMutation || !slug) return;
+                  toggleMutation.mutate({
+                    slug,
+                    lessonId,
+                    completed: !completedLessonIds.includes(lessonId),
+                  });
+                }}
+              />
+            </div>
+
+            <PlayGroundMobileSidebar
+              open={mobileOpen}
+              onClose={() => setMobileOpen(false)}
               lessons={lessons}
-              currentLesson={currentLesson}
-              setCurrentLesson={setCurrentLesson}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
+              activeLessonId={currentLesson?.id}
+              completedLessonIds={completedLessonIds}
+              onSelect={(lesson: LessonTopic) => {
+                setCurrentLesson(lesson);
+                setMobileOpen(false);
+              }}
             />
-          </main>
-
-          <PlayGroundSidebar
-            lessons={lessons}
-            currentLesson={currentLesson}
-            completedLessonIds={completedLessonIds}
-            onSelectLesson={setCurrentLesson}
-
-            /* IMPORTANT — locked click */
-            onLockedLessonClick={(lesson) => {
-              setCurrentLesson(lesson);
-            }}
-
-            onToggleComplete={(lessonId: string) => {
-              if (!toggleMutation || !slug) return;
-              toggleMutation.mutate({
-                slug,
-                lessonId,
-                completed: !completedLessonIds.includes(lessonId),
-              });
-            }}
-          />
-        </div>
-
-     
-
-        <PlayGroundMobileSidebar
-          open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
-          lessons={lessons}
-          activeLessonId={currentLesson?.id}
-          completedLessonIds={completedLessonIds}
-          onSelect={(lesson: LessonTopic) => {
-            setCurrentLesson(lesson);
-            setMobileOpen(false);
-          }}
-        />
-     </Container>
+          </>
+        )}
+      </Container>
     </DashboardLayout>
   );
 }

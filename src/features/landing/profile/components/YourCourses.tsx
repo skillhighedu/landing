@@ -8,6 +8,7 @@ interface Props {
 }
 
 export default function YourCourses({ courses, loading }: Props) {
+
   if (loading) {
     return (
       <section>

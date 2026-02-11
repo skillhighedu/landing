@@ -5,11 +5,15 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { motion } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react"; // eye icon
+import { Eye, EyeOff } from "lucide-react";
 import BgImage from "@/assets/images/warrior.jpg";
-import CustomButton from "@/components/common/Button";;
+import CustomButton from "@/components/common/Button";
 import { toast } from "sonner";
-import { verifyOtp, verifyForgetOtp,setNewPassword } from "@/services/student-service"; // backend APIs
+import {
+  verifyOtp,
+  verifyForgetOtp,
+  setNewPassword,
+} from "@/services/student-service";
 
 interface OtpInputProps {
   email: string;
@@ -17,8 +21,7 @@ interface OtpInputProps {
   password: string;
   isForgetPassword?: boolean;
   resetEmail?: string;
-  onClose?: () => void; // <--- add this
-  onSuccess?: () => void; // <-- add this
+  onClose?: () => void;
 }
 
 export default function OtpInput({
@@ -27,7 +30,7 @@ export default function OtpInput({
   password,
   isForgetPassword = false,
   resetEmail,
-  onClose
+  onClose,
 }: OtpInputProps) {
   const [otpValue, setOtpValue] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,7 +40,6 @@ export default function OtpInput({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordLoading, setPasswordLoading] = useState(false);
 
-  // Eye toggle states
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -45,19 +47,29 @@ export default function OtpInput({
     window.scrollTo(0, 0);
   }, []);
 
+  /* ================= OTP VERIFY ================= */
   const handleOtpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (otpValue.length !== 6) return toast.error("Enter valid 6-digit OTP");
+
+    if (otpValue.length !== 6)
+      return toast.error("Enter valid 6-digit OTP");
 
     try {
       setLoading(true);
-      if (!isForgetPassword) {
+
+      if (isForgetPassword) {
+        /* Forgot password OTP */
         await verifyForgetOtp(resetEmail!, otpValue);
+        setVerified(true);
+        toast.success("OTP verified. Set your new password.");
       } else {
+        /* Signup OTP */
         await verifyOtp(name, email, password, otpValue);
+        toast.success("Account created successfully!");
+
+        if (onClose) onClose(); // close modal
+        return;
       }
-      setVerified(true);
-      toast.success("OTP verified successfully!");
     } catch (err: any) {
       console.error(err);
       toast.error(err.message || "Something went wrong, try again.");
@@ -66,23 +78,28 @@ export default function OtpInput({
     }
   };
 
+  /* ================= SET NEW PASSWORD ================= */
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPassword || !confirmPassword) return toast.error("All fields are required");
-    if (newPassword !== confirmPassword) return toast.error("Passwords do not match");
+
+    if (!newPassword || !confirmPassword)
+      return toast.error("All fields are required");
+
+    if (newPassword !== confirmPassword)
+      return toast.error("Passwords do not match");
 
     try {
       setPasswordLoading(true);
-     const res = await setNewPassword( newPassword,confirmPassword); 
+
+      const res = await setNewPassword(newPassword, confirmPassword);
       toast.success(res);
+
       setVerified(false);
       setOtpValue("");
       setNewPasswordValue("");
       setConfirmPassword("");
-    
-    if (onClose) onClose();
 
-      
+      if (onClose) onClose();
     } catch (err: any) {
       console.error(err);
       toast.error(err.message || "Failed to update password");
@@ -106,13 +123,27 @@ export default function OtpInput({
       >
         {!verified ? (
           <>
-            <h2 className="text-2xl text-center text-white mb-2">Verify to Continue</h2>
+            <h2 className="text-2xl text-center text-white mb-2">
+              {isForgetPassword
+                ? "Verify to Reset Password"
+                : "Verify Your Account"}
+            </h2>
+
             <p className="text-sm text-center text-neutral-400 mb-6">
-              Enter the 6-digit OTP sent to {email}
+              Enter the 6-digit OTP sent to{" "}
+              {isForgetPassword ? resetEmail : email}
             </p>
 
-            <form onSubmit={handleOtpSubmit} className="space-y-6 flex flex-col items-center">
-              <InputOTP maxLength={6} value={otpValue} onChange={setOtpValue} className="w-full flex justify-center">
+            <form
+              onSubmit={handleOtpSubmit}
+              className="space-y-6 flex flex-col items-center"
+            >
+              <InputOTP
+                maxLength={6}
+                value={otpValue}
+                onChange={setOtpValue}
+                className="w-full flex justify-center"
+              >
                 <InputOTPGroup>
                   {[...Array(6)].map((_, i) => (
                     <InputOTPSlot key={i} index={i} className="h-12 w-12" />
@@ -130,16 +161,18 @@ export default function OtpInput({
           </>
         ) : (
           <>
-            <h2 className="text-2xl text-center text-white mb-2">Set New Password</h2>
-            <form onSubmit={handlePasswordSubmit} className="space-y-4 relative">
-              {/* New Password */}
+            <h2 className="text-2xl text-center text-white mb-2">
+              Set New Password
+            </h2>
+
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <div className="relative">
                 <input
                   type={showNewPassword ? "text" : "password"}
                   placeholder="New Password"
                   value={newPassword}
                   onChange={(e) => setNewPasswordValue(e.target.value)}
-                  className="w-full p-3 font-bricolage rounded-lg bg-neutral-800 text-white border border-neutral-700 focus:border-primary"
+                  className="w-full p-3 rounded-lg bg-neutral-800 text-white border border-neutral-700"
                 />
                 <button
                   type="button"
@@ -150,21 +183,24 @@ export default function OtpInput({
                 </button>
               </div>
 
-              {/* Confirm Password */}
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full p-3 font-bricolage rounded-lg bg-neutral-800 text-white border border-neutral-700 focus:border-primary"
+                  className="w-full p-3 rounded-lg bg-neutral-800 text-white border border-neutral-700"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400"
                 >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showConfirmPassword ? (
+                    <EyeOff size={20} />
+                  ) : (
+                    <Eye size={20} />
+                  )}
                 </button>
               </div>
 
