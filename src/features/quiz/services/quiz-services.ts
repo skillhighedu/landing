@@ -4,6 +4,8 @@ import { handleApiError } from "@/utils/errorHandler";
 import type {
   QuizByQuizIdResponse,
   QuizzesByCourseIdResponse,
+  SubmitQuizAnswer,
+  SubmitQuizResult,
 } from "../types";
 
 export interface QuizItem {
@@ -59,3 +61,27 @@ export const fetchQuizQuestions = async (
     throw error;
   }
 };
+
+
+export const submitQuizResult = async (
+  quizId: string,
+  answers: SubmitQuizAnswer[],
+): Promise<SubmitQuizResult> => {
+  try {
+    const res = await apiClient.post<ApiResponse<null>>(
+      `/course-quiz/quizzes/submitResult/${quizId}`,
+      { answers },
+    );
+    
+     return {
+      message: res.data.message,
+      score: res.data.additional ?? "0",
+    };
+    
+  } catch (error) {
+    handleApiError(error);
+    throw error;
+  }
+};
+
+
