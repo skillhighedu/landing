@@ -71,3 +71,40 @@ export type QuizzesByCourseIdResponse = {
         id: string;
     }[];
 };
+
+export type SubmitQuizAnswer = {
+  questionId: string;
+  answerId: string;
+};
+
+
+export type SubmitQuizVars = {
+  quizId: string;
+  answers: SubmitQuizAnswer[];
+};
+
+export type AnswerOptionDTO = {
+  id: string;
+  text: string;
+};
+
+export type QuestionDTO = {
+  id: string;
+  text: string;
+  answers: AnswerOptionDTO[];
+};
+
+export type RouteParams = {
+  slug: string;
+  quizId: string;
+};
+
+export type SubmitQuizResult = {
+  message: string;
+  score: string; 
+};
+
+export type QuizResultCardProps = {
+  result: SubmitQuizResult;
+  onRetake: () => void;
+};
