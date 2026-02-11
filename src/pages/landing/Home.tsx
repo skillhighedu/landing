@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 // import { shouldShowIntro, markIntroSeen } from "@/utils/intro";
 // import SkillsCurtainIntro from "@/components/SkillsCurtainIntro";
 import { Landing } from "@/features/landing";
