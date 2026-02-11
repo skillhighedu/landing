@@ -1,10 +1,10 @@
 import { CalendarDays, ClipboardList } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import CustomButton from "@/components/common/Button";
-import type { AppliedBounty } from "../types";
+import type {  Bounty } from "../types";
 
 interface Props {
-  bounty: AppliedBounty;
+  bounty: Bounty;
   locked?: boolean;
 }
 

@@ -65,11 +65,15 @@ export type QuizByQuizIdResponse = {
   questions: QuizQuestion[];
 }| null; 
 
+export type QuizItem = {
+  id: string;
+  title: string;
+  locked: boolean;
+  questionsCount: number;
+};
+
 export type QuizzesByCourseIdResponse = {
-    id: string;
-    questions: {
-        id: string;
-    }[];
+    quizzes: QuizItem[];
 };
 
 export type SubmitQuizAnswer = {

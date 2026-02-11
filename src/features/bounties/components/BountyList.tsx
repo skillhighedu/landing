@@ -15,10 +15,10 @@ export default function BountyList() {
         </div>
 
         <div className="max-w-6xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {bounties.map((bounty, index) => (
+          {bounties.map((bounty, ) => (
             <BountyCard
               key={bounty.id}
-              index={index}
+            //   index={index}
               bounty={bounty}
               onOpen={() => navigate(`/bounties/${bounty.id}`)}
             />

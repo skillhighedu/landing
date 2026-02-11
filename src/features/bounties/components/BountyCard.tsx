@@ -7,13 +7,13 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import type { Bounty } from "../types";
+import type {  Bounty } from "../types";
 import CustomButton from "@/components/common/Button";
 
 interface Props {
   bounty: Bounty;
   locked?: boolean;
-  index: number;
+  
   onOpen?: () => void;
 }
 
@@ -32,9 +32,9 @@ const getRemainingTime = (expiry: string) => {
 export default function BountyCard({
   bounty,
   locked,
-  index,
   onOpen,
 }: Props) {
+    
   const [timeLeft, setTimeLeft] = useState(
     getRemainingTime(bounty.expiryDate)
   );

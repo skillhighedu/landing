@@ -17,6 +17,10 @@ export interface ProjectItem {
   projectLink: string | null;
   locked: boolean;
 
+  difficulty?: string;
+  description?: string;
+  skills?: string[];
+  time?: string;
   // real mode only → optional
   solutions?: ProjectSolution[];
 }

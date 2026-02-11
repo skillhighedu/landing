@@ -10,6 +10,7 @@ export default function CourseHeader({
   mode
 }: any) {
   const actions = getCourseActions(slug,mode);
+  console.log("CLASSNAME:", actions)
 
   return (
     <motion.section

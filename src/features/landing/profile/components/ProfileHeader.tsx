@@ -3,7 +3,7 @@ interface Props {
   loading: boolean;
 }
 
-export default function ProfileHeader({ name, loading }: Props) {
+export default function ProfileHeader({  loading }: Props) {
  
 
   return (
