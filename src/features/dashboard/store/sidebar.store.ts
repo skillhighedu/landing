@@ -7,7 +7,7 @@ type SidebarState = {
 };
 
 export const useSidebarStore = create<SidebarState>((set) => ({
-  open: false,
+  open: true,
   toggle: () => set((s) => ({ open: !s.open })),
   setOpen: (v) => set({ open: v }),
 }));
