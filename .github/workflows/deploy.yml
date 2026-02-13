@@ -47,5 +47,5 @@ jobs:
           script: |
             sudo mkdir -p /var/www/html
             sudo rm -rf /var/www/html/*
-            sudo cp -r /home/ubuntu/frontend-build/* /var/www/html/
+            sudo cp -r /home/ubuntu/frontend-build/dist/* /var/www/html/
             sudo systemctl reload nginx
