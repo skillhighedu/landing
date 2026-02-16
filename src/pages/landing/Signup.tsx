@@ -102,7 +102,6 @@ export default function Signup() {
         });
       }
     } catch (err: any) {
-      toast.error(err?.message);
     } finally {
       setLoading(false);
     }
@@ -117,8 +116,7 @@ export default function Signup() {
       toast.success(response);
       setIsOtpSent(true);
     } catch (err: any) {
-      console.error(err);
-      toast.error(err.message || "Failed to send reset email");
+ 
     } finally {
       setResetLoading(false);
     }
@@ -286,7 +284,7 @@ export default function Signup() {
                     {isSignup ? "Enter the Arena" : "Welcome Back"}
                   </h2>
                   <p className="text-sm text-center text-neutral-600 dark:text-neutral-400">
-                    {isSignup ? "Create your warrior profile" : "Continue your quest"}
+                    {isSignup ? "Create your account" : "Continue your quest"}
                   </p>
                 </div>
 
@@ -313,7 +311,7 @@ export default function Signup() {
                   )}
 
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-2 block">
+                    <label className="text-xs  uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-2 block">
                       Email
                     </label>
                     <Input
@@ -333,7 +331,7 @@ export default function Signup() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-2 flex items-center justify-between">
+                    <label className="text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-2 flex items-center justify-between">
                       <span>Password</span>
 
                       {isSignup && form.password && (
@@ -448,7 +446,7 @@ export default function Signup() {
                         : "Enter"
                     }
                     icon={<Swords size={20} />}
-                    className="w-full text-white rounded-md font-bold py-3 hover:scale-105 transition-transform"
+                    className="w-full text-white rounded-md "
                     disabled={loading || (isSignup && passwordStrength < 3)}
                   />
                 </form>

@@ -9,16 +9,19 @@ import { useProjects } from "../hooks/useProjects";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import type { ProjectItem } from "../types";
 import ProjectCardSkeleton from "./ProjectCardSkeleton";
-import WorkInProgress from "@/components/common/WorkinProgress";
+import { useSubmitProject } from "../hooks/useSubmitProject";
 
 export default function Projects({ mode }: PlayGroundProps) {
   const { slug } = useDashboardRouteStore();
+const submitMutation = useSubmitProject();
 
   const demoQuery = useDemoProjects(mode === "demo" ? slug : undefined);
   const realQuery = useProjects(mode === "real" ? slug : undefined);
 
   const { data: projects, isLoading } =
     mode === "demo" ? demoQuery : realQuery;
+
+    console.log(projects)
 
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,10 +33,10 @@ export default function Projects({ mode }: PlayGroundProps) {
       <div className="flex flex-col min-h-screen px-4 py-6">
 
         {/* REAL MODE → feature not live yet */}
-        {mode === "real" && <WorkInProgress />}
+        {/* {mode === "real" && <WorkInProgress />} */}
 
         {/* DEMO MODE → show demo projects */}
-        {mode === "demo" && (
+        {/* {mode === "demo" && ( */}
           <>
             <DemoNotice />
 
@@ -56,14 +59,26 @@ export default function Projects({ mode }: PlayGroundProps) {
                   ))}
             </div>
 
-            <SubmitModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              onSubmit={() => setIsModalOpen(false)}
-              selectedProject={selectedProject}
-            />
+           <SubmitModal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  isSubmitting={submitMutation.isPending}
+  onSubmit={(githubLink, explanation) => {
+    if (!selectedProject) return;
+
+    submitMutation.mutate({
+      projectId: selectedProject.id,
+      githubLink,
+      explanation,
+    });
+
+    setIsModalOpen(false);
+  }}
+  selectedProject={selectedProject}
+/>
+
           </>
-        )}
+        {/* )} */}
 
       </div>
     </DashboardLayout>

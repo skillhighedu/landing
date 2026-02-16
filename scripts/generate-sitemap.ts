@@ -2,13 +2,13 @@ import { writeFileSync } from "fs";
 import { SitemapStream, streamToPromise } from "sitemap";
 
 const sitemapRoutes = [
-  "/", 
   "/all-courses",
   "/contact-us",
   "/outsource",
   "/signup",
   "/profile",
-  "/course"
+  "/course",
+  "/blogs"
 ];
 
 (async () => {

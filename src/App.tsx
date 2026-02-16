@@ -33,6 +33,8 @@ import RealDashboardPage from "./features/dashboard/pages/RealDashboardPage";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Bounties from "./features/bounties/Bounties";
 import Certificate from "./features/certificate/Certificate";
+// import MentorDashboard from "./features/mentor/pages/Dashboard";
+
 
 
 function App() {
@@ -71,6 +73,8 @@ function App() {
             <Route path="/course/:slug/demo/resume" element={<Resume mode="demo" />} />
             <Route path="/course/:slug/demo/projects" element={<Projects mode="demo" />} />
             <Route path="/course/:slug/demo/bounties" element={<Bounties  />} />
+            {/* <Route path="/course/mentoring" element={< MentorDashboard/>} /> */}
+
 
 
 
