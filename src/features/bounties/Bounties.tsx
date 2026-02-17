@@ -4,42 +4,48 @@ import DemoNotice from "@/features/dashboard/components/common/DemoNotice";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 
 import {
-  useDemoBounties,
-  // useBounties,
-  // useAppliedBounties,
+//   useDemoBounties,
+//   useBounties,
+//   useAppliedBounties,
+  useCourseBounties,
 } from "./hooks/useBounties";
 
 import BountyCard from "./components/BountyCard";
 // import AppliedBountyCard from "./components/AppliedBountyCard";
 import EmptyBountyState from "./components/EmptyBountyState";
-import WorkInProgress from "@/components/common/WorkinProgress";
+// import WorkInProgress from "@/components/common/WorkinProgress";
 
 type TabType = "available" | "applied";
 
-export default function Bounties() {
-  const { slug, mode } = useDashboardRouteStore();
+export default function Bounties( ) {
+  const { slug, mode} = useDashboardRouteStore();
   const [tab, setTab] = useState<TabType>("available");
 
   /* REAL MODE → feature not live yet */
-  if (mode === "real") {
-    return (
-      <DashboardLayout title="Bounties">
-        <WorkInProgress />
-      </DashboardLayout>
-    );
-  }
+//   if (mode === "real") {
+//     return (
+//       <DashboardLayout title="Bounties">
+//         <WorkInProgress />
+//       </DashboardLayout>
+//     );
+//   }
 
-  /* DEMO MODE */
-  const demoAvailable = useDemoBounties(slug);
-  const availableQuery = demoAvailable;
+/* DEMO MODE */
+
+
+
+// const demoQuery = useDemoBounties(slug);
+// const realQuery = useBounties(slug);
+const availableQuery = useCourseBounties(slug, mode);
+// console.log("availableQuery", availableQuery)
+
 
   const locked = true;
 
   return (
     <DashboardLayout title="Bounties">
       <div className="space-y-8">
-
-        <DemoNotice />
+        {mode === "demo" && <DemoNotice />}
 
         {/* TAB SWITCH */}
         <div className="flex gap-3 border-b border-border pb-6">

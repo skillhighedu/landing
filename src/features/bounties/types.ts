@@ -38,3 +38,16 @@ export type DemoBounty = {
   locked?: boolean;
 };
 
+export type Mode = "real" | "demo"
+
+export interface BountyClaim {
+  notes: string;
+  submittedLink: string;
+  status: ReviewState;
+  applicationId:string;
+};
+
+export type ReviewState = "REVIEWING" | "COMPLETED" | "REJECTED";
+
+
+export type SubmitBountyPayload = Omit<BountyClaim, "status">;
