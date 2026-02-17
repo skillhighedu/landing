@@ -37,7 +37,8 @@ export default function HeaderSection({
                 rounded-full
                 border
                 transition active:scale-95
-
+                  shadow-[0_4px_10px_rgba(0,0,0,0.10)]
+    backdrop-blur-md
                 bg-black/5 text-neutral-700 border-black/10
                 hover:bg-black/10 hover:text-black
 

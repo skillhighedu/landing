@@ -30,7 +30,7 @@ export const fetchProjects = async (
      
 
   const res = await apiClient.get<ApiResponse<ProjectsResponse>>(url);
-  console.log(res)
+
   return res.data.additional!;
   } catch (error) {
     handleApiError(error)

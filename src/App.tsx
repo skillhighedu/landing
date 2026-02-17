@@ -33,6 +33,8 @@ import RealDashboardPage from "./features/dashboard/pages/RealDashboardPage";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Bounties from "./features/bounties/Bounties";
 import Certificate from "./features/certificate/Certificate";
+// import MentorDashboard from "./features/mentor/pages/Dashboard";
+
 
 
 function App() {

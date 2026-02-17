@@ -35,7 +35,7 @@ export default function HeroSection() {
       />
 
       {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-white/10 dark:bg-black/40" />
 
       {/* CRT Scanlines */}
       {!reduceMotion && (

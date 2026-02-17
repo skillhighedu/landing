@@ -82,7 +82,7 @@ if (loading) {
   aria-label="Course hero section"
 >
   {/* Header */}
-  <div className="relative z-20 mt-24 lg:ml-24">
+  <div className="relative z-20 mt-24 ml-3 lg:ml-24">
     <HeaderSection />
   </div>
 

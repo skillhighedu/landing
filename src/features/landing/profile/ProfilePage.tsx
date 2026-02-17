@@ -39,6 +39,10 @@ export default function ProfilePage() {
 
           <ProfileHeader name={student?.name} loading={loading} />
 
+<YourCourses
+                courses={student?.courses ?? []}
+                loading={loading}
+              />
           <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start">
             <ProfileSidebar
               student={student}
@@ -49,10 +53,7 @@ export default function ProfilePage() {
             <div className="space-y-10 min-h-[60vh]">
               {!loading && student && <ProfileForm student={student} />}
 
-              <YourCourses
-                courses={student?.courses ?? []}
-                loading={loading}
-              />
+              
             </div>
           </div>
         </div>

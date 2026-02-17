@@ -10,6 +10,7 @@ interface SubmitModalProps {
   onClose: () => void;
   onSubmit: (githubLink: string, description: string) => void;
   selectedProject: ProjectItem | null;
+  isSubmitting?: boolean;
 }
 
 interface LocalSolutionState {
@@ -18,7 +19,13 @@ interface LocalSolutionState {
 }
 
 const SubmitModal = memo(
-  ({ isOpen, onClose, onSubmit, selectedProject }: SubmitModalProps) => {
+  ({
+    isOpen,
+    onClose,
+    onSubmit,
+    selectedProject,
+    isSubmitting,
+  }: SubmitModalProps) => {
     const [projectSolution, setProjectSolution] =
       useState<LocalSolutionState>({
         githubLink: "",
@@ -27,7 +34,12 @@ const SubmitModal = memo(
 
     useEffect(() => {
       if (selectedProject) {
-        const existingSolution = selectedProject.solutions?.[0];
+        const existingSolution =
+          selectedProject.solutions?.sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() -
+              new Date(a.createdAt).getTime()
+          )[0];
 
         setProjectSolution({
           githubLink: existingSolution?.githubLink || "",
@@ -41,8 +53,7 @@ const SubmitModal = memo(
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
         <div className="w-full max-w-lg rounded-2xl bg-card border border-border shadow-2xl p-6">
-          
-          {/* Header */}
+
           <div className="flex items-center justify-between pb-4 border-b border-border">
             <h2 className="text-xl">Submit Solution</h2>
 
@@ -54,7 +65,6 @@ const SubmitModal = memo(
             </button>
           </div>
 
-          {/* Project Info */}
           <div className="mt-5">
             <h3 className="text-lg">{selectedProject.projectName}</h3>
 
@@ -70,7 +80,6 @@ const SubmitModal = memo(
             )}
           </div>
 
-          {/* Inputs */}
           <div className="mt-6 space-y-4">
             <Input
               placeholder="Enter GitHub repository URL"
@@ -95,19 +104,19 @@ const SubmitModal = memo(
             />
           </div>
 
-          {/* Footer */}
           <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-border">
-            <CustomButton
-              title="Cancel"
-              icon=""
-              onClick={onClose}
-            />
+            <CustomButton title="Cancel" icon="" onClick={onClose} />
 
             <CustomButton
               title={
-                selectedProject?.solutions?.length ? "Update" : "Submit"
+                isSubmitting
+                  ? "Submitting..."
+                  : selectedProject?.solutions?.length
+                  ? "Update"
+                  : "Submit"
               }
               icon=""
+              disabled={isSubmitting}
               onClick={() =>
                 onSubmit(
                   projectSolution.githubLink,
