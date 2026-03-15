@@ -18,6 +18,7 @@ import Container from "@/layouts/Container";
 import type { PlayGroundProps } from "@/types/dashboard/demo";
 import { Lock } from "lucide-react";
 import DemoNotice from "../dashboard/components/common/DemoNotice";
+import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 
 const initialValues: ResumeFormValues = {
   email: "",
@@ -40,9 +41,11 @@ const initialValues: ResumeFormValues = {
   experience: "",
 };
 
-const Resume: React.FC<PlayGroundProps> = ({ mode }) => {
-  const isDemo = mode === "demo";
+const Resume: React.FC<PlayGroundProps> = () => {
+  
+   const {mode } =  useDashboardRouteStore()
 
+   const isDemo = mode === "demo"
   const formik = useFormik<ResumeFormValues>({
     initialValues,
     validationSchema: validationSchemaType,

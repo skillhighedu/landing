@@ -11,6 +11,8 @@ export default function PlayGroundContent({
 }: any) {
   if (!currentLesson) return null;
 
+ 
+
   return (
     <div className="space-y-6 min-w-0">
       {/* Video */}

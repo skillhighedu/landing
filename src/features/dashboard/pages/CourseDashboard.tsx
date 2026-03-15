@@ -24,6 +24,7 @@ export default function CourseDashboardPage({ mode }: Props) {
     window.scrollTo(0, 0);
   }, []);
 
+
   const query =
     mode === "demo"
       ? useDemoCourse(slug!)

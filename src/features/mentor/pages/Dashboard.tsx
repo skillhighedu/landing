@@ -1,7 +1,8 @@
-import Header from "@/components/common/Header";
+import CustomButton from "@/components/common/Button";
+
 import HeaderSection from "@/components/common/HeaderSection";
 import Container from "@/layouts/Container";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 
 interface Solution {
   id: string;
@@ -63,10 +64,12 @@ export default function MentorDashboard() {
 
   return (
 
-     <Container>
-       <HeaderSection title="Projects" />
+  <Container>
+  <HeaderSection title="Projects" />
 
-      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 w-full max-w-7xl sm:px-0">
+  <div className="w-full flex justify-center items-center mt-20">
+    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 w-full max-w-7xl">
+
         {projects.map((project, index) => {
           const newSolutions = project.solutions?.filter(
             (solution) => solution.reviewState === "REVIEWING"
@@ -79,7 +82,7 @@ export default function MentorDashboard() {
               ${newSolutions > 0 ? "bg-red-100 border-red-400" : "bg-white"}`}
             >
               <div>
-                <h2 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-gray-900 truncate">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-2 font-sans sm:mb-3 text-gray-900 truncate">
                   <span className="text-primary font-bold mr-2">
                     #{index + 1}.
                   </span>
@@ -87,7 +90,7 @@ export default function MentorDashboard() {
                 </h2>
 
                 {newSolutions > 0 && (
-                  <p className="text-sm sm:text-md text-red-600 font-medium mb-3 sm:mb-4">
+                  <p className="text-sm sm:text-md font-sans text-red-600 font-medium mb-3 sm:mb-4">
                     New {newSolutions}{" "}
                     {newSolutions === 1 ? "Solution" : "Solutions"}
                   </p>
@@ -104,15 +107,17 @@ export default function MentorDashboard() {
                   View Project
                 </a>
 
-                <button
-                  className="w-full sm:w-auto flex-1 px-4 py-2 border-1 bg-white border-primary text-primary sm:px-5 sm:py-3 rounded-lg transition font-medium shadow-sm cursor-pointer"
+                <CustomButton
+                title="Review Solutions"
+                 
                 >
-                  Review Solutions
-                </button>
+                
+                </CustomButton>
               </div>
             </div>
           );
         })}
+      </div>
       </div>
      </Container>
 

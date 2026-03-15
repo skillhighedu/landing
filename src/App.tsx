@@ -16,7 +16,7 @@ const CourseDetails = lazy(() => import("@/features/landing/pages/AboutCourse"))
 const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
 const Profile = lazy(() => import("@/features/landing/pages/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
-const DemoDashboardPage  = lazy(() => import("@/features/dashboard/pages/DemoDashboardPage"));
+const DemoDashboardPage = lazy(() => import("@/features/dashboard/pages/DemoDashboardPage"));
 const QuizList = lazy(() => import("@/features/quiz/QuizList"));
 const Projects = lazy(() => import("@/features/projects/components/Project"));
 const Resume = lazy(() => import("@/features/resume/Resume"));
@@ -33,7 +33,7 @@ import RealDashboardPage from "./features/dashboard/pages/RealDashboardPage";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Bounties from "./features/bounties/Bounties";
 import Certificate from "./features/certificate/Certificate";
-// import MentorDashboard from "./features/mentor/pages/Dashboard";
+import MentorDashboard from "./features/mentor/pages/Dashboard";
 
 
 
@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div className="text-white bg-white dark:bg-neutral-900 min-h-screen">
-      <Popup mode={ isAuthenticated ? "real":"demo"} />
+      <Popup mode={isAuthenticated ? "real" : "demo"} />
 
       <Suspense
         fallback={
@@ -55,25 +55,25 @@ function App() {
           </div>
         }
       >
-        <ScrollToTop/>
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/course/:courseSlug" element={<CourseDetails />} />
-            <Route path="/all-courses" element={<Courses/>} />
+            <Route path="/all-courses" element={<Courses />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/outsource" element={<OutSource />} />
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetail />} />
 
-            <Route  path="/course/:slug/demo" element={<DemoDashboardPage  />} />
-            <Route path="/course/:slug/demo/quiz" element={<QuizList mode = "demo" />} />
+            <Route path="/course/:slug/demo" element={<DemoDashboardPage />} />
+            <Route path="/course/:slug/demo/quiz" element={<QuizList mode="demo" />} />
             <Route path="/course/:slug/demo/quiz/:quizId" element={<Quiz mode="demo" />} />
-           <Route path="/course/:slug/demo/play" element={<PlayGround mode="demo" />}/>
+            <Route path="/course/:slug/demo/play" element={<PlayGround mode="demo" />} />
             <Route path="/course/:slug/demo/resume" element={<Resume mode="demo" />} />
             <Route path="/course/:slug/demo/projects" element={<Projects mode="demo" />} />
-            <Route path="/course/:slug/demo/bounties" element={<Bounties  />} />
-            {/* <Route path="/course/mentoring" element={< MentorDashboard/>} /> */}
+            <Route path="/course/:slug/demo/bounties" element={<Bounties />} />
+            <Route path="/course/mentoring" element={< MentorDashboard />} />
 
 
 
@@ -99,24 +99,24 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
               <Route
-  path="/course-dashboard/:slug"
-  element={
-   
-      <RealDashboardPage />
- 
-  }
-/>
+                path="/course-dashboard/:slug"
+                element={
 
-           <Route path="/course-dashboard/:slug/lessons" element={<PlayGround mode="real" />}/>
+                  <RealDashboardPage />
 
-            <Route path="/learn-in-public" element={<LearnInPublicPage />} />
-            <Route path="/course-dashboard/:slug/quiz" element={<QuizList mode = "real" />}/>
-            <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz mode = "real" />}/>
-            <Route path="/course-dashboard/:slug/projects" element={<Projects mode="real"  />} />
-            <Route path="/course-dashboard/:slug/bounties" element={<Bounties  />} />
-            <Route path="/course-dashboard/:slug/download-certificates" element={<Certificate  />} />
-    
-            
+                }
+              />
+
+              <Route path="/course-dashboard/:slug/lessons" element={<PlayGround mode="real" />} />
+
+              <Route path="/learn-in-public" element={<LearnInPublicPage />} />
+              <Route path="/course-dashboard/:slug/quiz" element={<QuizList mode="real" />} />
+              <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz mode="real" />} />
+              <Route path="/course-dashboard/:slug/projects" element={<Projects mode="real" />} />
+              <Route path="/course-dashboard/:slug/bounties" element={<Bounties />} />
+              <Route path="/course-dashboard/:slug/download-certificates" element={<Certificate />} />
+
+
 
 
 
