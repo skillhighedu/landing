@@ -5,7 +5,7 @@ import LearningJourneySection from '../sections/learning-journey/pages/LearningJ
 import TestimonialsSection from '../sections/testimonals/TestimonialsSection'
 import BenefitsSection from '../sections/benefits/BenefitsSection'
 import CoursesSection from '../sections/courses/CoursesSection'
-import ComparisonSection from '../sections/comparison/ComparisonSection'
+
 import CertificatePartnersSection from '../sections/certificate-partners'
 import RecognizedBySection from '../sections/recognized-by/RecognizedBySection'
 
@@ -23,7 +23,7 @@ export default function Landing() {
     <CoursesSection/>
 
     <BenefitsSection/>
-    <ComparisonSection/>
+ 
     <LearningJourneySection/>
     <TestimonialsSection/>
     <Stat />

@@ -1,27 +1,24 @@
 import { useState } from "react";
 import DashboardLayout from "@/features/dashboard/layout/DashboardLayout";
+import DemoNotice from "@/features/dashboard/components/common/DemoNotice";
+import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import SubmitModal from "../components/Model";
 import ProjectCard from "../components/ProjectCard";
-import type { PlayGroundProps } from "@/types/dashboard/demo";
-import DemoNotice from "@/features/dashboard/components/common/DemoNotice";
+import ProjectCardSkeleton from "./ProjectCardSkeleton";
 import { useDemoProjects } from "../hooks/useDemoProjects";
 import { useProjects } from "../hooks/useProjects";
-import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
-import type { ProjectItem } from "../types";
-import ProjectCardSkeleton from "./ProjectCardSkeleton";
 import { useSubmitProject } from "../hooks/useSubmitProject";
+import type { ProjectItem } from "../types";
 
-export default function Projects({ mode }: PlayGroundProps) {
-  const { slug } = useDashboardRouteStore();
-const submitMutation = useSubmitProject();
+export default function Projects() {
+  const { slug, mode } = useDashboardRouteStore();
+  const submitMutation = useSubmitProject();
 
   const demoQuery = useDemoProjects(mode === "demo" ? slug : undefined);
   const realQuery = useProjects(mode === "real" ? slug : undefined);
 
   const { data: projects, isLoading } =
     mode === "demo" ? demoQuery : realQuery;
-
-    console.log(projects)
 
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,56 +27,45 @@ const submitMutation = useSubmitProject();
 
   return (
     <DashboardLayout title="Projects">
-      <div className="flex flex-col min-h-screen px-4 py-6">
+      <div className="flex min-h-screen flex-col px-4 py-6">
+        {mode === "demo" && <DemoNotice />}
 
-        {/* REAL MODE → feature not live yet */}
-        {/* {mode === "real" && <WorkInProgress />} */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3">
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <ProjectCardSkeleton key={i} />
+              ))
+            : projects?.projects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  locked={locked}
+                  onOpen={(p) => {
+                    if (locked) return;
+                    setSelectedProject(p);
+                    setIsModalOpen(true);
+                  }}
+                />
+              ))}
+        </div>
 
-        {/* DEMO MODE → show demo projects */}
-        {/* {mode === "demo" && ( */}
-          <>
-            <DemoNotice />
+        <SubmitModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          isSubmitting={submitMutation.isPending}
+          onSubmit={(githubLink, explanation) => {
+            if (!selectedProject) return;
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-8">
-              {isLoading
-                ? Array.from({ length: 6 }).map((_, i) => (
-                    <ProjectCardSkeleton key={i} />
-                  ))
-                : projects?.projects.map((project) => (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      locked={locked}
-                      onOpen={(p) => {
-                        if (locked) return;
-                        setSelectedProject(p);
-                        setIsModalOpen(true);
-                      }}
-                    />
-                  ))}
-            </div>
+            submitMutation.mutate({
+              projectId: selectedProject.id,
+              githubLink,
+              explanation,
+            });
 
-           <SubmitModal
-  isOpen={isModalOpen}
-  onClose={() => setIsModalOpen(false)}
-  isSubmitting={submitMutation.isPending}
-  onSubmit={(githubLink, explanation) => {
-    if (!selectedProject) return;
-
-    submitMutation.mutate({
-      projectId: selectedProject.id,
-      githubLink,
-      explanation,
-    });
-
-    setIsModalOpen(false);
-  }}
-  selectedProject={selectedProject}
-/>
-
-          </>
-        {/* )} */}
-
+            setIsModalOpen(false);
+          }}
+          selectedProject={selectedProject}
+        />
       </div>
     </DashboardLayout>
   );

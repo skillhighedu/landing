@@ -4,8 +4,9 @@ import CustomButton from "@/components/common/Button";
 import { updateProfile } from "@/services/student-service";
 import { toast } from "sonner";
 import { User, Phone, Mail } from "lucide-react";
+import type { StudentProfile } from "../types";
 
-export default function ProfileForm({ student }: any) {
+export default function ProfileForm({ student }: { student: StudentProfile }) {
   const [name, setName] = useState(student.name);
   const [phoneNumber, setPhoneNumber] = useState(student.phoneNumber || "");
   const [saving, setSaving] = useState(false);
@@ -14,9 +15,8 @@ export default function ProfileForm({ student }: any) {
     try {
       setSaving(true);
       await updateProfile(name, phoneNumber);
-      toast.success("Profile updated");
     } catch {
-      toast.error("Failed to update profile");
+     
     } finally {
       setSaving(false);
     }

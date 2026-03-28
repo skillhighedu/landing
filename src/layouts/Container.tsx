@@ -12,7 +12,7 @@ const sizeMap = {
   md: "max-w-5xl",
   lg: "max-w-6xl",
   xl: "max-w-7xl",
-  full: "max-w-none", // 🔥 key line
+  full: "max-w-none",
 };
 
 export default function Container({

@@ -1,7 +1,11 @@
 import { create } from "zustand";
 import api from "@/config/axiosConfig";
 
-interface User { role: string; }
+interface User {
+  role: string;
+  userId?: string;
+  courseId?: string;
+}
 
 interface AuthState {
   user: User | null;
@@ -17,73 +21,80 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
+  user:            null,
   isAuthenticated: false,
-  loading: true,
-  error: null,
-  isCheckingAuth: false,
-  authChecked: false,
+  loading:         true,
+  error:           null,
+  isCheckingAuth:  false,
+  authChecked:     false,
 
   checkAuth: async () => {
+    // already checked or in progress — skip
     if (get().isCheckingAuth || get().authChecked) return;
 
-    set({ loading: true, isCheckingAuth: true });
-// Check if we're on signup page - if so, don't check auth
-    if (window.location.pathname === "/signup") {
-      set({ loading: false, isCheckingAuth: false });
+    // skip on public pages that don't need auth
+    const publicPaths = ["/signup", "/mentor/login"];
+    if (publicPaths.includes(window.location.pathname)) {
+      set({ loading: false, isCheckingAuth: false, authChecked: true });
       return;
     }
-    set({ isCheckingAuth: true });
+
+    set({ loading: true, isCheckingAuth: true });
+
     try {
       const res = await api.get("/auth/check/", { withCredentials: true });
-      const role = res.data?.additional?.role;
+      const { role, userId, courseId } = res.data?.additional ?? {};
 
       if (role) {
         set({
-          user: { role },
+          user:            { role, userId, courseId },
           isAuthenticated: true,
-          loading: false,
-          isCheckingAuth: false,
-          authChecked: true,
+          loading:         false,
+          isCheckingAuth:  false,
+          authChecked:     true,
         });
       } else {
         set({
-          user: null,
+          user:            null,
           isAuthenticated: false,
-          loading: false,
-          isCheckingAuth: false,
-          authChecked: true,
+          loading:         false,
+          isCheckingAuth:  false,
+          authChecked:     true,
         });
       }
     } catch {
       set({
-        user: null,
+        user:            null,
         isAuthenticated: false,
-        loading: false,
-        isCheckingAuth: false,
-        authChecked: true,
+        loading:         false,
+        isCheckingAuth:  false,
+        authChecked:     true,
       });
     }
   },
 
   logout: async () => {
     set({ loading: true });
-    await api.post("/auth/logout", {}, { withCredentials: true });
+    try {
+      await api.post("/auth/logout", {}, { withCredentials: true });
+    } catch {
+      // still clear local state even if request fails
+    }
     set({
-      user: null,
+      user:            null,
       isAuthenticated: false,
-      loading: false,
-      authChecked: true,
+      loading:         false,
+      authChecked:     false,  
+      isCheckingAuth:  false,
     });
-
   },
 
   login: (userData: User) => {
     set({
-      user: userData,
+      user:            userData,
       isAuthenticated: true,
-      loading: false,
-      authChecked: true,
+      loading:         false,
+      authChecked:     true,
     });
   },
 

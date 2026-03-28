@@ -32,7 +32,14 @@ export default function CourseDashboardPage({ mode }: Props) {
 
   const { data, isLoading, isError } = query;
 
-  if (isLoading) return <CourseDashboardSkeleton />;
+  if (isLoading) {
+    return (
+      <DashboardLayout title="Course Dashboard">
+        {mode === "demo" && <DemoNotice />}
+        <CourseDashboardSkeleton />
+      </DashboardLayout>
+    );
+  }
 
   if (isError || !data) {
     return (
@@ -69,6 +76,7 @@ export default function CourseDashboardPage({ mode }: Props) {
               topics: data.topicProgress,
               quizzes: data.quizProgress,
               projects: data.projectProgress,
+              mentorPercentage: data.mentorPercentage ?? null,
             }}
           />
 

@@ -60,8 +60,8 @@ const Resume: React.FC<PlayGroundProps> = () => {
     <DashboardLayout title="Resume">
       {mode === "demo" && <DemoNotice />}
 
-      <Container size="lg">
-        <div className="py-6 sm:py-8 lg:py-10 px-3 sm:px-4 font-sans">
+      <Container size="xl">
+        <div className="py-6 sm:py-8 lg:py-1 px-3 sm:px-1 font-sans">
           <div
             className="
               rounded-2xl

@@ -25,21 +25,32 @@ export default function DesktopNavbar({
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
 
-  const isCourseDashboard = location.pathname.startsWith("/course-dashboard");
+const HIDE_POPUP_ROUTES = [
+  "/mentor",
+  "/certificate/verify",
+];
+
+const isMatchedRoute =
+  HIDE_POPUP_ROUTES.some((route) => location.pathname.startsWith(route)) ||
+  location.pathname.includes("/demo");
+
+const shouldHideNavLinks = isMatchedRoute;
+const shouldHideProfileAction = location.pathname.includes("/demo");
+const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
 
   return (
-    <>
-      {/* Logo always visible */}
-      <Link to="/" className="flex items-center gap-2">
-        <img src={Logo} alt="SkillHigh" className="h-9" />
+    <div className="flex w-full items-center justify-between gap-4">
+      {/* Logo */}
+      <Link to="/" className="flex shrink-0 items-center gap-2">
+        <img src={Logo} alt="SkillHigh" className="h-8 sm:h-9 w-auto" />
       </Link>
 
-      {/* Nav links → hidden on course dashboard */}
-      {!isCourseDashboard && (
-        <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-700 dark:text-neutral-300">
-          <Link to="/">Home</Link>
+      {/* Nav links — hidden on mobile and course dashboard */}
+      {!shouldHideNavLinks && (
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+          <NavLink to="/" label="Home" />
 
           <ProgramsDropdown
             departments={departments}
@@ -51,37 +62,71 @@ export default function DesktopNavbar({
             onSelectCourse={(slug) => navigate(`/course/${slug}`)}
           />
 
-          <Link to="/blogs">Blogs</Link>
+          <NavLink to="/blogs" label="Blogs" />
+
+          <NavLink to="/check-certificate" label="Certificate" />
+
         </nav>
       )}
 
       {/* Right actions */}
-      <div className="hidden md:flex items-center gap-3">
-        {/* Dark mode → always visible */}
+      <div className="flex items-center gap-2 sm:gap-3 ml-auto md:ml-0">
+        {/* Theme toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-lg bg-black/50 dark:bg-white/10 cursor-pointer"
+          aria-label="Toggle theme"
+          className="
+            flex items-center justify-center
+            h-8 w-8 sm:h-9 sm:w-9 rounded-lg
+            bg-neutral-100 dark:bg-white/10
+            text-neutral-600 dark:text-neutral-300
+            hover:bg-neutral-200 dark:hover:bg-white/15
+            transition-colors duration-150
+          "
         >
-          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
         </button>
 
-        {/* Profile → visible everywhere if authenticated */}
-        {isAuthenticated && (
+        {/* Authenticated — profile button */}
+        {isAuthenticated && !shouldHideProfileAction && (
           <CustomButton
-            title="Profile"
-            icon={<User size={16} />}
+            title={profileLabel}
+            icon={<User size={15} />}
             onClick={() => navigate("/profile")}
+  
           />
         )}
 
-        {/* Start Learning → hide on course dashboard */}
-        {!isAuthenticated && !isCourseDashboard && (
+        {/* Unauthenticated + not on course dashboard — CTA */}
+        {!isAuthenticated && !shouldHideNavLinks && (
           <CustomButton
             title="Start Learning"
             onClick={() => navigate("/signup")}
+            className="hidden sm:inline-flex"
           />
         )}
       </div>
-    </>
+    </div>
+  );
+}
+
+function NavLink({ to, label }: { to: string; label: string }) {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+
+  return (
+    <Link
+      to={to}
+      className={`
+        text-sm font-medium transition-colors duration-150
+        ${
+          isActive
+            ? "text-black dark:text-white"
+            : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+        }
+      `}
+    >
+      {label}
+    </Link>
   );
 }

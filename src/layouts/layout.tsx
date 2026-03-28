@@ -1,5 +1,4 @@
 
-import Footer from "@/components/common/Footer";
 import Navbar from "@/components/navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { useFetchDepartments } from "@/hooks/useFetchDepartments";
@@ -7,14 +6,13 @@ import { useFetchFaqs } from "@/hooks/useFetchFaqs";
 import { useFetchTestimonals } from "@/hooks/useFetchTestimonals";
 import { useFetchFormattedCourses } from "@/hooks/useFetchFormattedCourses";
 import { useFetchPricings } from "@/hooks/useFetchPricings";
-import {useLocation} from "react-router-dom"
-import { useEffect, useState } from "react";
+
 import { usePageScroll } from "@/hooks/usePageScroll";
 
 export default function Layout() {
 
   usePageScroll()
-  const [displayBanner, setDisplayBanner] = useState(true);
+  // const [displayBanner, setDisplayBanner] = useState(true);
 
   useFetchDepartments();
   useFetchFaqs();
@@ -22,17 +20,17 @@ export default function Layout() {
   useFetchFormattedCourses();
   useFetchPricings();
 
-  const location = useLocation();
+//   const location = useLocation();
 
-  useEffect(() => {
-   const HIDE_BANNER_PATHS = ["/course-dashboard", "/course"];
+//   useEffect(() => {
+//    const HIDE_BANNER_PATHS = ["/course-dashboard", "/course"];
 
-const shouldHideBanner = HIDE_BANNER_PATHS.some((path) =>
-  location.pathname.startsWith(path)
-);
+// const shouldHideBanner = HIDE_BANNER_PATHS.some((path) =>
+//   location.pathname.startsWith(path)
+// );
 
-    setDisplayBanner(!shouldHideBanner);
-  }, [location.pathname]);
+//     setDisplayBanner(!shouldHideBanner);
+//   }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -45,7 +43,6 @@ const shouldHideBanner = HIDE_BANNER_PATHS.some((path) =>
         <Outlet />
       </main>
 
-      {displayBanner && <Footer />}
     </div>
   );
 }

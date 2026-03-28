@@ -11,11 +11,11 @@ import { useParams } from "react-router-dom";
 import DemoDashboardSection from "../sections/demodashboard/DemoDashboard";
 
 export default function AboutCourse() {
-  // ✅ CREATE REF HERE (PARENT)
+  // CREATE REF HERE (PARENT)
   const pricingRef = useRef<HTMLDivElement>(null);
   const { courseSlug } = useParams<{ courseSlug: string }>();
  
-  // ✅ SCROLL FUNCTION
+  // SCROLL FUNCTION
   const scrollToPricing = () => {
     pricingRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -34,14 +34,14 @@ const scrollToDemo = () => {
 
   return (
     <>
-      {/* 👇 pass scroll function */}
+    
       <CoursePage courseSlug={courseSlug!} scrollToPricing={scrollToPricing} scrollToDemo={scrollToDemo} />
 
       <Curriculum />
       <DemoDashboardSection ref={demoRef} courseSlug={courseSlug!}/>
       <Tools />
 
-      {/* 👇 pass ref to Pricing */}
+    
       <Pricings ref={pricingRef} />
 
       <Certificates />

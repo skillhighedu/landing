@@ -2,8 +2,11 @@
 
 import MentorsCallView from './MentorsCall.view';
 import type { MentorsCallProps } from '../types';
+import { useSelectedCourseStore } from '@/store/useSelectedCourse';
 
 export default function MentorsCall({ onJoin }: MentorsCallProps) {
+  const courseName = useSelectedCourseStore((state) => state.selectedCourse?.courseName);
+
   const handleJoin = () => {
     if (onJoin) {
       onJoin();
@@ -16,5 +19,5 @@ export default function MentorsCall({ onJoin }: MentorsCallProps) {
     );
   };
 
-  return <MentorsCallView onJoin={handleJoin} />;
+  return <MentorsCallView onJoin={handleJoin} courseName={courseName} />;
 }

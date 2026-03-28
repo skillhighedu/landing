@@ -4,20 +4,21 @@ import { useAuthStore } from "@/store/authStore";
 import Spinner from "../components/ui/Spinner";
 
 export default function ProtectedRoute() {
-  const { user, loading, checkAuth } = useAuthStore();
-  console.log(useAuthStore.getState())
+  const { user, loading, authChecked, checkAuth } = useAuthStore();
+
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+  }, []);  
 
-  if (loading) {
+  if (loading || !authChecked) {
     return (
       <div className="flex items-center justify-center min-h-screen text-primary h-screen">
-        <Spinner/>
+        <Spinner />
       </div>
     );
   }
 
+  // allow both students AND mentors through — MentorRoute handles the role check
   if (!user) {
     return <Navigate to="/signup" replace />;
   }

@@ -19,7 +19,7 @@ export default function YourCourses({ courses, loading, onPayment }: YourCourses
       <h3 className="text-3xl mb-6 text-primary">Your Courses</h3>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
           {Array.from({ length: 4 }).map((_, i) => (
             <motion.div
               key={i}
@@ -36,7 +36,7 @@ export default function YourCourses({ courses, loading, onPayment }: YourCourses
           ))}
         </div>
       ) : courses.courses.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
           {courses.courses.map((course) => (
             <motion.div
               key={course.courseId}

@@ -22,9 +22,8 @@ export default function Navbar() {
   const { open } = useSidebarStore();
 
   const location = useLocation();
-const isCourseDashboard =
-  location.pathname.startsWith("/course-dashboard") ||
-  location.pathname.startsWith("/demo");
+  const isCourseDashboard =
+    location.pathname.startsWith("/course-dashboard") || location.pathname.includes("/demo");
 
 
   const [isVisible, setIsVisible] = useState(true);
@@ -71,9 +70,9 @@ const isCourseDashboard =
       <header
         className={`
           fixed top-0 left-0 w-full z-50
-          transition-all duration-300
+          transition-[padding,transform] duration-300
           ${isVisible ? "translate-y-0" : "-translate-y-full"}
-          ${isCourseDashboard && open ? "lg:pl-56" : "lg:pl-10"}
+          ${isCourseDashboard ? (open ? "lg:pl-60" : "lg:pl-16") : ""}
         `}
       >
         <Container size="full">

@@ -19,6 +19,7 @@ export interface Course {
 export interface StudentProfile {
   name: string;
   email: string;
+  phoneNumber?: string;
   courses: Course[];
 }
 

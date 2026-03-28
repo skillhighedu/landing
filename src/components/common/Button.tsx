@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { type ReactNode, type ButtonHTMLAttributes } from "react";
 import clsx from "clsx";
 
@@ -11,6 +11,7 @@ type CustomButtonProps = {
   isBack?: boolean;
   variant?: Variant;
   className?: string;
+  loading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function CustomButton({
@@ -19,6 +20,8 @@ export default function CustomButton({
   isBack = false,
   variant = "primary",
   className,
+  loading = false,
+  disabled,
   ...props
 }: CustomButtonProps) {
   const base =
@@ -40,18 +43,26 @@ export default function CustomButton({
   return (
     <Button
       aria-label={title}
-      className={clsx(base, variants[variant], className)}
+      className={clsx(
+        base,
+        variants[variant],
+        (disabled || loading) &&
+          "cursor-not-allowed opacity-70 hover:translate-y-0 hover:shadow-[4px_4px_0_#000]",
+        className
+      )}
+      disabled={disabled || loading}
       {...props}
     >
+      {loading ? <Loader2 size={18} className="animate-spin" /> : null}
       {isBack ? (
         <>
-          {icon}
+          {!loading ? icon : null}
           {title}
         </>
       ) : (
         <>
           {title}
-          {icon}
+          {!loading ? icon : null}
         </>
       )}
     </Button>

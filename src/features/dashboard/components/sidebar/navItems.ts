@@ -13,8 +13,8 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, path: "" },
   { label: "Quiz", icon: ClipboardList, path: "quiz" },
 
-  { label: "Projects", icon: FolderKanban, path: "projects", comingSoon: true },
-  { label: "Bounties", icon: Trophy, path: "bounties", comingSoon: true },
+  { label: "Projects", icon: FolderKanban, path: "projects", comingSoon: false },
+  { label: "Bounties", icon: Trophy, path: "bounties", comingSoon: false },
 
   { label: "Resume", icon: FileText, path: "resume" },
 

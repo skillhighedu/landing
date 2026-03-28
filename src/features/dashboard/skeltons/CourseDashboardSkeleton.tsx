@@ -1,9 +1,9 @@
 export default function CourseDashboardSkeleton() {
   return (
-    <div className="min-h-screen px-4 sm:px-8 py-12 mt-12">
+    <div className="min-h-[70vh] py-4">
       
       {/* Course Header Skeleton */}
-      <div className="max-w-7xl mx-auto mt-8 mb-12">
+      <div className="mx-auto mb-12 max-w-7xl">
         <div className="relative overflow-hidden rounded-3xl h-[260px] sm:h-80 md:h-[360px] bg-neutral-200 dark:bg-neutral-800 animate-pulse">
           <div className="absolute bottom-0 left-0 p-6 sm:p-10 w-full">
             <div className="h-8 w-2/3 bg-neutral-300 dark:bg-neutral-700 rounded mb-3" />

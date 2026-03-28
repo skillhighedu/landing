@@ -9,6 +9,7 @@ export default function CurriculumAccordion() {
   if (!selectedCourse) return null;
 
   return (
+    
     <CurriculumAccordionView modules={selectedCourse.modules} />
   );
 }

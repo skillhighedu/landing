@@ -31,7 +31,7 @@ export default function PlayGround({ mode }: PlayGroundProps) {
     toggleMutation,
   } = usePlayGroundData(slug, mode);
 
-  console.log(lessonQuery,completedLessonIds,toggleMutation)
+
 
  const lessons = lessonQuery.data?.courseLessons ?? [];
 

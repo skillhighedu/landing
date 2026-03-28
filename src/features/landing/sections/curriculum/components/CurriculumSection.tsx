@@ -20,7 +20,7 @@ export default function CurriculumSection({
   return (
     <div
       className="
-        w-full max-w-4xl mx-auto mb-4 sm:mb-6
+        w-full max-w-6xl mx-auto mb-4 sm:mb-6
         rounded-xl
         border border-neutral-200 dark:border-neutral-800
         bg-white dark:bg-neutral-900

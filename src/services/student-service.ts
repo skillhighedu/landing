@@ -48,7 +48,6 @@ export const verifyOtp = async (name: string, email: string, password: string, o
 export const verifyForgetOtp = async ( email: string,  otp: string): Promise<string> => {
   try {
     const payload = {  email, otp };
-  console.log(payload)
     const response = await apiClient.post<ApiResponse<string>>("/auth/forget-password-verification", payload);
     return response.data.message;
   } catch (error) {
@@ -90,7 +89,6 @@ export const updateProfile = async ( name:string,phoneNumber:string): Promise<st
 export const profile = async (): Promise<StudentProfile> => {
   try {
     const response = await apiClient.get<ApiResponse<StudentProfile>>("/auth/profile");
-    console.log(response)
     return response.data.additional!;
   } catch (error) {
     throw handleApiError(error);

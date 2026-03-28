@@ -2,6 +2,7 @@ import { easeOut, motion } from "framer-motion";
 import BookingModal from "@/components/common/BookingModal";
 import { Icon, CalendarDays } from "@/components/icons";
 import type { BookCallCardData } from "../types";
+import Container from "@/layouts/Container";
 
 type Props = BookCallCardData;
 
@@ -11,7 +12,8 @@ export default function BookCallCard({
   buttonText,
 }: Props) {
   return (
-    <motion.div
+  <Container size="xl">
+      <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
@@ -54,6 +56,7 @@ export default function BookCallCard({
             {description}
           </p>
         </div>
+        
 
         {/* Right */}
         <div className="flex justify-center lg:justify-end">
@@ -70,5 +73,6 @@ export default function BookCallCard({
         </div>
       </div>
     </motion.div>
+  </Container>
   );
 }

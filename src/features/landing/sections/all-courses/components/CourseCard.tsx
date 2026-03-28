@@ -58,7 +58,7 @@ export default function CourseCard({ course, index }: Props) {
           {course.courseName}
         </h3>
 
-        <p className="mb-4 line-clamp-2 text-sm text-neutral-300">
+        <p className="mb-4 line-clamp-4 text-sm font-mono text-neutral-300">
           {course.courseDescription}
         </p>
 

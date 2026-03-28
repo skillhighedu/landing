@@ -4,4 +4,5 @@ export interface ProgressData {
   topics: number;
   quizzes: number;
   projects: number;
+  mentorPercentage?: number | null;
 }

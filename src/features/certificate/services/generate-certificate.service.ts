@@ -9,6 +9,8 @@ import api from "@/config/axiosConfig";
 export const generateCerticateService = async (
   slug: string,
   navigate: (path: string) => void,
+
+ 
 ): Promise<CertificateDetails> => {
   try {
     const response = await api.get<ApiResponse<CertificateDetails>>(
@@ -32,7 +34,7 @@ export const verifyCertificateService = async (
 ): Promise<CertificateDetails> => {
   try {
     const response = await api.get<ApiResponse<CertificateDetails>>(
-      `/certificate/verify-certificate/${cid}`,
+      `/certificate/fetch-certificate/${cid}`,
     );
 
     if (!response.data.additional) {

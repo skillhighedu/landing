@@ -10,7 +10,7 @@ const DemoDashboardSection = forwardRef<
 >(({ courseSlug }, ref) => {
   return (
     <section ref={ref} className="relative my-10">
-      <Container>
+      <Container size="xl">
         <div
           className="
             relative overflow-hidden

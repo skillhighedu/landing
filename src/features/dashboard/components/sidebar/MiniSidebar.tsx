@@ -7,7 +7,7 @@ import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 
 export default function MiniSidebar() {
   const { slug, mode } = useDashboardRouteStore();
-  const { open, setOpen } = useSidebarStore();
+  const { open, toggle } = useSidebarStore();
 
   if (!slug) return null;
 
@@ -15,7 +15,7 @@ export default function MiniSidebar() {
     <>
       <DesktopSidebar
         open={open}
-        setOpen={setOpen}
+        toggle={toggle}
         slug={slug}
         mode={mode}
         items={NAV_ITEMS}

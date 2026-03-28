@@ -5,7 +5,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { motion } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, KeyRound, MailCheck, ShieldCheck } from "lucide-react";
 import BgImage from "@/assets/images/warrior.jpg";
 import CustomButton from "@/components/common/Button";
 import { toast } from "sonner";
@@ -113,26 +113,54 @@ export default function OtpInput({
       className="min-h-screen w-full bg-cover bg-center relative flex items-center justify-center px-4"
       style={{ backgroundImage: `url(${BgImage})` }}
     >
-      <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/60 to-black/90 z-0" />
+      <div className="absolute inset-0 bg-linear-to-b dark:from-black/70 dark:via-black/60 dark:to-black/90 z-0" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-md bg-neutral-900/80 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-neutral-700"
+        className="relative z-10 w-full max-w-md rounded-[28px] border border-neutral-200 bg-white p-8 shadow-xl backdrop-blur-md dark:border-neutral-700 dark:bg-neutral-900/80"
       >
         {!verified ? (
           <>
-            <h2 className="text-2xl text-center text-white mb-2">
+            <div className="mb-6">
+              {onClose && (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="mb-5 inline-flex items-center gap-2 text-sm text-neutral-600 transition-colors hover:text-primary dark:text-neutral-300"
+                >
+                  <ArrowLeft size={16} />
+                  Back
+                </button>
+              )}
+
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary">
+                {isForgetPassword ? <MailCheck size={24} /> : <ShieldCheck size={24} />}
+              </div>
+
+              <h2 className="mb-2 text-center text-2xl text-black dark:text-white">
               {isForgetPassword
                 ? "Verify to Reset Password"
                 : "Verify Your Account"}
-            </h2>
+              </h2>
 
-            <p className="text-sm text-center text-neutral-400 mb-6">
-              Enter the 6-digit OTP sent to{" "}
-              {isForgetPassword ? resetEmail : email}
-            </p>
+              <p className="text-center text-sm leading-6 text-neutral-500 dark:text-neutral-400 font-mono">
+                Enter the 6-digit verification code sent to{" "}
+                <span className="font-semibold text-neutral-900 dark:text-white">
+                  {isForgetPassword ? resetEmail : email}
+                </span>
+              </p>
+            </div>
+
+            <div className="mb-6 rounded-2xl border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-950/70">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
+                Security check
+              </p>
+              <p className="mt-2 font-mono text-sm text-neutral-700 dark:text-neutral-300">
+                This code expires soon. Enter it carefully to continue.
+              </p>
+            </div>
 
             <form
               onSubmit={handleOtpSubmit}
@@ -142,11 +170,11 @@ export default function OtpInput({
                 maxLength={6}
                 value={otpValue}
                 onChange={setOtpValue}
-                className="w-full flex justify-center"
+                className="w-full flex justify-center text-white"
               >
                 <InputOTPGroup>
                   {[...Array(6)].map((_, i) => (
-                    <InputOTPSlot key={i} index={i} className="h-12 w-12" />
+                    <InputOTPSlot key={i} index={i} className="h-12 w-12 rounded-xl border-neutral-300 dark:border-neutral-700" />
                   ))}
                 </InputOTPGroup>
               </InputOTP>
@@ -154,16 +182,24 @@ export default function OtpInput({
               <CustomButton
                 type="submit"
                 title={loading ? "Verifying..." : "Verify OTP"}
-                className="w-full text-white rounded-lg mt-6"
+                className="mt-2 w-full "
                 disabled={loading}
               />
             </form>
           </>
         ) : (
           <>
-            <h2 className="text-2xl text-center text-white mb-2">
-              Set New Password
-            </h2>
+            <div className="mb-6">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary">
+                <KeyRound size={24} />
+              </div>
+              <h2 className="mb-2 text-center text-2xl text-black dark:text-white">
+                Set New Password
+              </h2>
+              <p className="text-center text-sm leading-6 text-neutral-500 dark:text-neutral-400">
+                Choose a strong password you haven&apos;t used before.
+              </p>
+            </div>
 
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <div className="relative">
@@ -172,7 +208,7 @@ export default function OtpInput({
                   placeholder="New Password"
                   value={newPassword}
                   onChange={(e) => setNewPasswordValue(e.target.value)}
-                  className="w-full p-3 rounded-lg bg-neutral-800 text-white border border-neutral-700"
+                  className="w-full rounded-xl border border-neutral-300 bg-white p-3 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
                 />
                 <button
                   type="button"
@@ -189,7 +225,7 @@ export default function OtpInput({
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full p-3 rounded-lg bg-neutral-800 text-white border border-neutral-700"
+                  className="w-full rounded-xl border border-neutral-300 bg-white p-3 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
                 />
                 <button
                   type="button"
@@ -207,7 +243,7 @@ export default function OtpInput({
               <CustomButton
                 type="submit"
                 title={passwordLoading ? "Updating..." : "Set Password"}
-                className="w-full text-white rounded-lg"
+                className="w-full rounded-xl text-white"
                 disabled={passwordLoading}
               />
             </form>

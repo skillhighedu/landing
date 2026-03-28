@@ -1,7 +1,7 @@
-
+import type { LucideIcon } from "lucide-react";
 export interface NavItem {
   label: string;
-  icon: any;
+  icon: LucideIcon;
   path?: string;
   action?: "logout";
   comingSoon?: boolean; 

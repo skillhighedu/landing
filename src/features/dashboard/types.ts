@@ -30,6 +30,7 @@ export interface ProgressData {
   topics: number;
   quizzes: number;
   projects: number;
+  mentorPercentage?: number | null;
 }
 
 export interface CourseDashboardResponse {
@@ -44,4 +45,5 @@ export interface CourseDashboardResponse {
   topicProgress: number;
   quizProgress: number;
   projectProgress: number;
+  mentorPercentage?: number | null;
 }

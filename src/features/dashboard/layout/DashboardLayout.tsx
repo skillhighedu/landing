@@ -32,17 +32,17 @@ export default function DashboardLayout({
     <div className="min-h-screen flex bg-background text-foreground">
       <MiniSidebar />
 
-     <main
-  className={`
-    flex-1 min-w-0
-    transition-[padding] duration-300 ease-in-out
-    ${open ? "lg:pl-56" : "lg:pl-16"}
-    pb-16 lg:pb-0
-  `}
->
+      <main
+        className={`
+          min-w-0 flex-1
+          pb-16 pt-20 lg:pb-0 lg:pt-24
+          transition-[padding] duration-300 ease-in-out
+          ${open ? "lg:pl-60" : "lg:pl-16"}
+        `}
+      >
 
         {title && (
-          <div className="px-4 sm:px-8 lg:px-10 pt-24">
+          <div className="px-4 sm:px-8 lg:px-10">
             <HeaderSection title={title} />
           </div>
         )}

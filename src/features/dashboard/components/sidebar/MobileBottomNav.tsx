@@ -32,11 +32,11 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
     <nav
       className="
         fixed bottom-0 left-0 right-0 z-50
-        flex items-center justify-around
-        h-14 lg:hidden
-        bg-white dark:bg-neutral-900
-        border-t border-neutral-200 dark:border-neutral-800
+        grid h-16 grid-cols-6 lg:hidden
+        border-t border-neutral-200 bg-white/95 backdrop-blur-xl
+        dark:border-neutral-800 dark:bg-neutral-900/95
       "
+      aria-label="Dashboard navigation"
     >
       {/* NORMAL NAV ITEMS */}
       {navItems.map(({ label, icon: Icon, path }) => (
@@ -47,8 +47,7 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
               end={path === ""}
               className={({ isActive }) =>
                 `
-                flex items-center justify-center
-                w-full h-full transition-colors
+                flex h-full flex-col items-center justify-center gap-1 transition-all
                 ${
                   isActive
                     ? "text-primary"
@@ -58,6 +57,9 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
               }
             >
               <Icon size={22} />
+              <span className="max-w-[72px] font-mono truncate text-[10px] font-medium leading-none">
+                {label}
+              </span>
             </NavLink>
           </TooltipTrigger>
 
@@ -72,8 +74,14 @@ export default function MobileBottomNav({ items }: MobileSidebarProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <LogoutConfirmDialog onConfirm={logout}>
-              <button disabled={mode==="demo"} className="flex items-center justify-center w-full h-full text-red-500">
+              <button
+                disabled={mode==="demo"}
+                className="flex h-full w-full flex-col items-center justify-center gap-1 text-red-500 disabled:cursor-not-allowed disabled:opacity-50"
+              >
                 <logoutItem.icon size={22} />
+                <span className="max-w-[72px] truncate text-[10px] font-medium leading-none">
+                  {logoutItem.label}
+                </span>
               </button>
             </LogoutConfirmDialog>
           </TooltipTrigger>

@@ -13,7 +13,8 @@ export default function MobileDrawer({
 }) {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
+  const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
 
   if (!open) return null;
 
@@ -97,7 +98,7 @@ export default function MobileDrawer({
         <div className="mt-3">
           {isAuthenticated ? (
             <CustomButton
-              title="Profile"
+              title={profileLabel}
               onClick={() => {
                 onClose();
                 navigate("/profile");

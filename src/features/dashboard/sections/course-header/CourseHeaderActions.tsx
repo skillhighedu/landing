@@ -30,11 +30,16 @@ export default function CourseHeaderActions({ slug, mode }: Props) {
       "
     >
       {actions.map(({ label, icon, href, onClick,  }, i) => {
+        const isCertificateAction = label === "Claim Certificates";
+        const isLoading = isCertificateAction && generateMutation.isPending;
+        const buttonTitle = isLoading ? "Preparing Certificates..." : label;
         const button = (
           <CustomButton
             className={`text-xs sm:text-sm`}
             icon={icon}
-            title={label}
+            title={buttonTitle}
+            loading={isLoading}
+            disabled={isLoading}
             onClick={onClick}
           />
         );

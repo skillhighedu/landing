@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { NavItem } from "./types";
 import { useAuthStore } from "@/store/authStore";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -15,7 +15,7 @@ interface Props {
   mode: "demo" | "real";
   items: NavItem[];
   open: boolean;
-  setOpen: (v: boolean) => void;
+  toggle: () => void;
 }
 
 export default function DesktopSidebar({
@@ -23,115 +23,113 @@ export default function DesktopSidebar({
   mode,
   items,
   open,
-  setOpen,
+  toggle,
 }: Props) {
   const { logout } = useAuthStore();
 
   const buildPath = (path?: string) => {
-    const base =
-      mode === "demo"
-        ? `/course/${slug}/demo`
-        : `/course-dashboard/${slug}`;
-
+    const base = mode === "demo" ? `/course/${slug}/demo` : `/course-dashboard/${slug}`;
     return `${base}${path ? `/${path}` : ""}`;
   };
 
-  const navItems = items.filter((i) => i.action !== "logout");
-  const logoutItem = items.find((i) => i.action === "logout");
+  const navItems = items.filter((item) => item.action !== "logout");
+  const logoutItem = items.find((item) => item.action === "logout");
 
   return (
-    <TooltipProvider delayDuration={100}>
+    <TooltipProvider delayDuration={120}>
       <aside
-        className={`
-          fixed left-0 top-0 z-50
-          hidden lg:flex
-          h-screen
-          ${open ? "w-60" : "w-16"}
-          flex-col
-          bg-white dark:bg-neutral-900
-          border-r border-neutral-200 dark:border-neutral-800
-          transition-all duration-300
-        `}
+        className={`fixed left-0 top-1 z-40 hidden h-[calc(100vh-2rem)] flex-col border-r border-neutral-200 bg-white/95 backdrop-blur-xl transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900/95 lg:flex ${
+          open ? "w-56" : "w-16"
+        }`}
       >
-        {/* Toggle */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="
-            absolute -right-3 top-8
-            bg-white dark:bg-neutral-900
-            border border-neutral-200 dark:border-neutral-700
-            rounded-full p-1.5 shadow
-            hover:scale-110 transition
-          "
-        >
-          {open ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
-        </button>
+        <div className="flex items-center justify-end px-2 pt-4">
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-white shadow-sm transition hover:scale-105 dark:border-neutral-700 dark:bg-neutral-900"
+          >
+            {open ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+          </button>
+        </div>
 
-        {/* NAV */}
-        <nav className="flex flex-col gap-2 pt-24 px-2">
-          {navItems.map(({ label, icon: Icon, path }) => (
-            <Tooltip key={label}>
+        <nav className="flex flex-1 flex-col gap-2 px-2 py-4">
+          {navItems.map(({ label, icon: Icon, path, comingSoon }) => {
+            const navNode = (
+              <NavLink
+                key={label}
+                to={buildPath(path)}
+                end={!path}
+                className={({ isActive }) =>
+                  `group flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+                  }`
+                }
+              >
+                <Icon
+                  size={20}
+                  className="shrink-0 transition-all duration-200 text-neutral-900 dark:text-neutral-400  group-hover:-translate-y-[1px] group-hover:scale-110"
+                />
+
+                {open && (
+                  <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
+                    <span className="truncate">{label}</span>
+                    {comingSoon && (
+                      <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] text-white/80">
+                        Soon
+                      </span>
+                    )}
+                  </div>
+                )}
+              </NavLink>
+            );
+
+            if (open) {
+              return navNode;
+            }
+
+            return (
+              <Tooltip key={label}>
+                <TooltipTrigger asChild>{navNode}</TooltipTrigger>
+                <TooltipContent side="right" sideOffset={12} className="font-mono">
+                  {comingSoon ? `${label} â€¢ Coming soon` : label}
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
+        </nav>
+
+        {logoutItem && (
+          <div className="border-t border-neutral-200 px-2 pb-4 pt-4 dark:border-neutral-800">
+            <Tooltip>
               <TooltipTrigger asChild>
-                <NavLink
-                  to={buildPath(path)}
-                  end={!path}
-                  className={({ isActive }) =>
-                    `
-                    group flex items-center gap-4
-                    px-3 py-2 rounded-lg
-                    text-sm font-medium
-                    transition-all duration-200
-                    ${
-                      isActive
-                        ? "bg-primary text-white"
-                        : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
-                    }
-                  `
-                  }
-                >
-                  {/* ICON ANIMATION */}
-                  <Icon
-                    size={20}
-                    className="
-                      transition-all duration-200
-                      group-hover:scale-110 group-hover:-translate-y-[1px]
-                    "
-                  />
-
-                  {open && <span>{label}</span>}
-                </NavLink>
+                <div>
+                  <LogoutConfirmDialog onConfirm={logout}>
+                    <button
+                      type="button"
+                      disabled={mode === "demo"}
+                      className="group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-red-900/20"
+                    >
+                      <logoutItem.icon
+                        size={20}
+                        className="shrink-0 transition-transform duration-200 group-hover:scale-110"
+                      />
+                      {open && <span>{logoutItem.label}</span>}
+                    </button>
+                  </LogoutConfirmDialog>
+                </div>
               </TooltipTrigger>
 
               {!open && (
-                <TooltipContent side="right">
-                  {label}
+                <TooltipContent side="right" sideOffset={12} className="font-mono">
+                  {mode === "demo" ? "Logout disabled in demo" : logoutItem.label}
                 </TooltipContent>
               )}
             </Tooltip>
-          ))}
-        </nav>
-
-        {/* LOGOUT */}
-     {logoutItem && (
-  <div className="mt-auto px-2 pb-6 border-t border-neutral-200 dark:border-neutral-800">
-    <LogoutConfirmDialog onConfirm={logout}>
-      <button
-      disabled={mode==="demo"}
-        className="
-          mt-4 w-full
-          group flex items-center gap-4
-          px-3 py-2 rounded-lg
-          text-sm font-medium
-          text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20
-        "
-      >
-        <logoutItem.icon size={20} />
-        {open && <span>{logoutItem.label}</span>}
-      </button>
-    </LogoutConfirmDialog>
-  </div>
-)}
-
+          </div>
+        )}
       </aside>
     </TooltipProvider>
   );

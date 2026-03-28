@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence, easeOut } from "framer-motion";
-import { Swords, Check, X, Eye, EyeOff } from "lucide-react";
+import { Swords, Check, X, Eye, EyeOff, ArrowLeft, Mail, ShieldCheck } from "lucide-react";
 import BgImage from "@/assets/images/warrior.jpg";
 import CustomButton from "@/components/common/Button";
 import GoogleLoginButton from "@/components/ui/GoogleLoginButton";
@@ -55,7 +55,7 @@ export default function Signup() {
   const [isResetting, setIsResetting] = useState(false);
   const [resetForm, setResetForm] = useState({ email: "" });
   const [resetLoading, setResetLoading] = useState(false);
-  const [resetEmailSent, setResetEmailSent] = useState(false);
+  const [, setResetEmailSent] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -114,6 +114,7 @@ export default function Signup() {
     try {
       const response = await ForgetPassword(resetForm.email);
       toast.success(response);
+      setResetEmailSent(true);
       setIsOtpSent(true);
     } catch (err: any) {
  
@@ -152,18 +153,19 @@ export default function Signup() {
         animate="visible"
         exit="exit"
         variants={otpVariants}
-        className="min-h-screen flex items-center justify-center bg-background text-foreground px-4"
+        className="min-h-screen b flex items-center justify-center bg-background text-foreground "
       >
         <OtpInput
           email={form.email}
           name={form.name}
           password={form.password}
-          isForgetPassword={false}
+          isForgetPassword={isResetting}
           resetEmail={resetForm.email}
           onClose={() => {
             setIsOtpSent(false);
             setIsResetting(false);
             setResetEmailSent(false);
+            setResetForm({ email: "" });
           }}
         />
       </motion.div>
@@ -177,7 +179,7 @@ export default function Signup() {
       className="min-h-screen w-full bg-cover bg-center relative"
       style={{ backgroundImage: `url(${BgImage})` }}
     >
-      {/* ✅ LOCKED DARK OVERLAY (same in light + dark) */}
+      {/* âœ… LOCKED DARK OVERLAY (same in light + dark) */}
       <motion.div
         className="absolute inset-0 z-0 bg-linear-to-b from-black/75 via-black/65 to-black/95"
         initial={{ opacity: 0 }}
@@ -203,79 +205,89 @@ export default function Signup() {
           >
             {isResetting ? (
               <>
-                {!resetEmailSent ? (
-                  <>
-                    <div className="mb-8">
-                      <h2 className="text-3xl font-black mb-2 text-center">
-                        Recover Access
-                      </h2>
-                      <p className="text-sm text-center text-neutral-600 dark:text-neutral-400">
-                        Enter your email to receive password reset instructions
+                <div >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsResetting(false);
+                      setResetEmailSent(false);
+                      setResetForm({ email: "" });
+                    }}
+                    className=" inline-flex cursor-pointer items-center gap-2 text-sm text-neutral-600 transition-colors hover:text-primary dark:text-neutral-300"
+                  >
+                    <ArrowLeft size={16} />
+                    Back to login
+                  </button>
+
+                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary">
+                    <ShieldCheck size={24} />
+                  </div>
+
+                  <h2 className="text-center text-md sm:text-2xl font-black">
+                    Forgot your password?
+                  </h2>
+                  <p className="mt-2 text-center font-mono text-sm text-neutral-600 dark:text-neutral-400">
+                    Enter your email and we&apos;ll send a 6-digit verification code to help you reset it.
+                  </p>
+                </div>
+
+                <div className="mb-6  mt-6 rounded-2xl border border-neutral-200 bg-white/60 p-4 dark:border-neutral-800 dark:bg-neutral-900/40">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 rounded-xl bg-primary/10 p-2 text-primary">
+                      <Mail size={16} />
+                    </div>
+                    <div className="space-y-1 text-sm font-mono">
+                      <p className="font-semibold text-neutral-900 dark:text-white">
+                        Reset steps
+                      </p>
+                      <p className="text-neutral-600 dark:text-neutral-400">
+                        1. Enter your email
+                      </p>
+                      <p className="text-neutral-600 dark:text-neutral-400">
+                        2. Verify the OTP code
+                      </p>
+                      <p className="text-neutral-600 dark:text-neutral-400">
+                        3. Set your new password
                       </p>
                     </div>
-
-                    <div className="space-y-5">
-                      <div>
-                        <label className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-2 block">
-                          Email Address
-                        </label>
-                        <Input
-                          type="email"
-                          placeholder="warrior@example.com"
-                          value={resetForm.email}
-                          onChange={(e) =>
-                            setResetForm({ ...resetForm, email: e.target.value })
-                          }
-                          className="
-                            bg-white/80 text-neutral-900 border-2 border-neutral-200
-                            dark:bg-neutral-900/60 dark:text-white dark:border-neutral-700
-                            focus:border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary/30
-                            transition-all px-4 py-3
-                          "
-                        />
-                      </div>
-
-                      <CustomButton
-                        type="button"
-                        title={resetLoading ? "Sending..." : "Send Reset Link"}
-                        className="w-full text-white rounded-md font-bold py-3 hover:scale-105 transition-transform"
-                        disabled={resetLoading}
-                        onClick={handleForgetPassword}
-                      />
-
-                      <button
-                        type="button"
-                        onClick={() => setIsResetting(false)}
-                        className="w-full text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors py-2"
-                      >
-                        Back to Login
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="mb-6 inline-flex items-center justify-center w-16 h-16 bg-green-500/20 border-2 border-green-500 rounded">
-                      <Check className="w-8 h-8 text-green-500" />
-                    </div>
-                    <h2 className="text-3xl font-black mb-3">Check Your Email</h2>
-                    <p className="text-sm text-neutral-700 dark:text-neutral-300 mb-8">
-                      We've sent a password reset link to{" "}
-                      <span className="font-semibold text-primary">
-                        {resetForm.email}
-                      </span>
-                    </p>
-                    <CustomButton
-                      type="button"
-                      title="Back to Login"
-                      className="w-full text-white rounded-md font-bold py-3"
-                      onClick={() => {
-                        setIsResetting(false);
-                        setResetEmailSent(false);
-                        setResetForm({ email: "" });
-                      }}
-                    />
                   </div>
-                )}
+                </div>
+
+                <div className="space-y-5">
+                  <div>
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" />
+                      <Input
+                        type="email"
+                        placeholder="yourname@email.com"
+                        value={resetForm.email}
+                        onChange={(e) =>
+                          setResetForm({ ...resetForm, email: e.target.value })
+                        }
+                        className="
+                          rounded-xl border-2 border-neutral-200 bg-white/80 py-3 pl-11 text-neutral-900
+                          transition-all focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30
+                          dark:border-neutral-700 dark:bg-neutral-900/60 dark:text-white
+                        "
+                      />
+                    </div>
+                  </div>
+
+                  <CustomButton
+                    type="button"
+                    title={resetLoading ? "Sending code..." : "Send Verification Code"}
+                    className="w-full "
+                    disabled={resetLoading}
+                    onClick={handleForgetPassword}
+                  />
+
+                  <p className="text-center text-xs leading-5 text-neutral-500 font-mono dark:text-neutral-400">
+                    We&apos;ll send the verification code only to the email linked with your account.
+                  </p>
+                </div>
               </>
             ) : (
               <>

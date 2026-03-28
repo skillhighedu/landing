@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Logo from "@/assets/logo.png";
 import PP from "@/assets/PRIVACY_POLICY.pdf";
 import TC from "@/assets/TermsandConditions.pdf";
@@ -7,7 +8,38 @@ import {
   Youtube,
   Twitter,
   Facebook,
+  Mail,
+  Phone,
+  MapPin,
 } from "lucide-react";
+
+const socialLinks = [
+  {
+    label: "LinkedIn",
+    icon: Linkedin,
+    url: "https://www.linkedin.com/company/skillhigh",
+  },
+  {
+    label: "Instagram",
+    icon: Instagram,
+    url: "https://www.instagram.com/skillhighedutechnologies/",
+  },
+  {
+    label: "YouTube",
+    icon: Youtube,
+    url: "https://www.youtube.com/@SkillHighTechnologies",
+  },
+  {
+    label: "X",
+    icon: Twitter,
+    url: "https://x.com/SkillHighedu",
+  },
+  {
+    label: "Facebook",
+    icon: Facebook,
+    url: "https://www.facebook.com/share/1AYSxjWiyZ/",
+  },
+];
 
 const openExternal = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
@@ -15,205 +47,166 @@ const openExternal = (url: string) => {
 
 export default function Footer() {
   return (
-    <footer
-      className="
-        relative overflow-hidden
-        bg-neutral-50 dark:bg-neutral-950
-        border-t border-neutral-200 dark:border-neutral-800 
-      "
-    >
-      {/* ================= Decorative Curves ================= */}
+    <footer className="relative overflow-hidden border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950">
+      <div className="pointer-events-none absolute -left-32 top-0 h-80 w-80 rounded-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-gradient-to-bl from-primary/20 via-primary/10 to-transparent blur-3xl" />
 
-      {/* Left curve */}
-      <div
-        className="
-          pointer-events-none
-          absolute -top-40 -left-40
-          h-96 w-96
-          rounded-full
-          bg-gradient-to-br from-primary/20 via-primary/10 to-transparent
-          blur-3xl
-          dark:from-primary/25 dark:via-primary/10
-        "
-      />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
+     
 
-      {/* Right curve */}
-      <div
-        className="
-          pointer-events-none
-          absolute -top-40 -right-40
-          h-96 w-96
-          rounded-full
-          bg-gradient-to-bl from-primary/20 via-primary/10 to-transparent
-          blur-3xl
-          dark:from-primary/25 dark:via-primary/10
-        "
-      />
-
-      {/* ================= Content ================= */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 font-sans">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-14">
-
-          {/* Brand */}
+        <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
           <div className="space-y-5">
-            <a href="/" className="inline-flex items-center gap-2">
+            <Link to="/" className="inline-flex cursor-pointer items-center gap-2">
               <img src={Logo} alt="SkillHigh Logo" className="h-11 w-auto" />
-            </a>
+            </Link>
 
-            <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-sm font-sans">
-              Learn by building. Grow by doing. Empowering the next generation
-              of developers, creators, and leaders through practical learning.
+            <p className="max-w-sm font-mono text-sm leading-7 text-neutral-600 dark:text-neutral-400">
+              Learn by building. Grow by doing. SkillHigh helps the next generation of developers, creators, and leaders build useful skills with confidence.
             </p>
 
-            {/* Socials */}
-            <div className="flex items-center gap-3 pt-2 font-sans">
-              {[
-                {
-                  label: "LinkedIn",
-                  icon: Linkedin,
-                  url: "https://www.linkedin.com/company/skillhigh",
-                },
-                {
-                  label: "Instagram",
-                  icon: Instagram,
-                  url: "https://www.instagram.com/skillhighedutechnologies/",
-                },
-                {
-                  label: "YouTube",
-                  icon: Youtube,
-                  url: "https://www.youtube.com/@SkillHighTechnologies",
-                },
-                {
-                  label: "X",
-                  icon: Twitter,
-                  url: "https://x.com/SkillHighedu",
-                },
-                {
-                  label: "Facebook",
-                  icon: Facebook,
-                  url: "https://www.facebook.com/share/1AYSxjWiyZ/",
-                },
-              ].map(({ label, icon: Icon, url }) => (
+            <div className="flex flex-wrap items-center gap-3">
+              {socialLinks.map(({ label, icon: Icon, url }) => (
                 <button
                   key={label}
+                  type="button"
                   onClick={() => openExternal(url)}
                   aria-label={label}
-                  className="
-                    p-2 rounded-lg
-                    bg-neutral-200 text-neutral-700
-                    hover:bg-neutral-300 hover:text-black
-                    transition
-
-                    dark:bg-neutral-900 dark:text-neutral-400
-                    dark:hover:bg-neutral-800 dark:hover:text-white
-                  "
+                  className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-neutral-200 bg-white p-2.5 text-neutral-600 transition hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/5 hover:text-primary dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:border-primary/30 dark:hover:bg-primary/10 dark:hover:text-white"
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="h-5 w-5" />
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Company */}
           <div>
-            <h3 className="text-sm font-semibold mb-4 text-neutral-900 dark:text-white">
-              Company
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-neutral-900 dark:text-white">
+              Explore
             </h3>
-            <ul className="space-y-3 text-sm text-neutral-600 dark:text-neutral-400">
+            <ul className="space-y-3 font-mono text-sm text-neutral-600 dark:text-neutral-400">
               <li>
-                <a href="/about" className="hover:text-black dark:hover:text-white transition">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="/contact-us" className="hover:text-black dark:hover:text-white transition">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://cal.com/skillhigh"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-black dark:hover:text-white transition"
+                <Link
+                  to="/all-courses"
+                  className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
                 >
-                  Book a Meet
-                </a>
+                  Programs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/blogs"
+                  className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
+                >
+                  Blogs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact-us"
+                  className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
+                >
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold mb-4 text-neutral-900 dark:text-white">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-neutral-900 dark:text-white">
               Legal
             </h3>
-            <ul className="space-y-3 text-sm text-neutral-600 dark:text-neutral-400">
+            <ul className="space-y-3 font-mono text-sm text-neutral-600 dark:text-neutral-400">
               <li>
                 <button
+                  type="button"
                   onClick={() => openExternal(PP)}
-                  className="hover:text-black dark:hover:text-white transition"
+                  className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
                 >
                   Privacy Policy
                 </button>
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => openExternal(TC)}
-                  className="hover:text-black dark:hover:text-white transition"
+                  className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
                 >
                   Terms & Conditions
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => openExternal("https://cal.com/skillhigh")}
+                  className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
+                >
+                  Book a Meet
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
-            <h3 className="text-sm font-semibold mb-4 text-neutral-900 dark:text-white">
-              Get in touch
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-neutral-900 dark:text-white">
+              Get In Touch
             </h3>
-            <ul className="space-y-3 text-sm text-neutral-600 dark:text-neutral-400">
+            <ul className="space-y-4 font-mono text-sm text-neutral-600 dark:text-neutral-400">
               <li>
                 <a
                   href="mailto:admin@skillhigh.in"
-                  className="hover:text-black dark:hover:text-white transition"
+                  className="inline-flex cursor-pointer items-start gap-3 transition hover:text-black dark:hover:text-white"
                 >
-                  admin@skillhigh.in
+                  <Mail size={16} className="mt-0.5 shrink-0" />
+                  <span>admin@skillhigh.in</span>
                 </a>
               </li>
               <li>
                 <a
                   href="tel:+919182661204"
-                  className="hover:text-black dark:hover:text-white transition"
+                  className="inline-flex cursor-pointer items-start gap-3 transition hover:text-black dark:hover:text-white"
                 >
-                  +91 9182661204
+                  <Phone size={16} className="mt-0.5 shrink-0" />
+                  <span>+91 9182661204</span>
                 </a>
               </li>
-              <li className="leading-relaxed">
-                CFJ4+PPQ Cluster, Malkajgiri 55 Block-04, Teachers Colony,
-                Greenlands, Begumpet, Hyderabad, Telangana 500016
+              <li className="flex items-start gap-3 leading-7">
+                <MapPin size={16} className="mt-1 shrink-0" />
+                <span>
+                  CFJ4+PPQ Cluster, Malkajgiri 55 Block-04, Teachers Colony, Greenlands, Begumpet, Hyderabad, Telangana 500016
+                </span>
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div
-        className="
-          relative z-10
-          border-t border-neutral-200 dark:border-neutral-800
-          py-6 text-center
-          text-xs sm:text-sm
-          text-neutral-500
-        "
-      >
-        © {new Date().getFullYear()}{" "}
-        <span className="text-neutral-900 dark:text-white font-medium">
-          SkillHigh
-        </span>
-        . All rights reserved.
+      <div className="relative z-10 border-t border-neutral-200 px-4 py-5 dark:border-neutral-800">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-xs text-neutral-500 sm:flex-row sm:text-sm">
+          <p>
+            © {new Date().getFullYear()}{" "}
+            <span className="font-medium text-neutral-900 dark:text-white">SkillHigh</span>. All rights reserved.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/all-courses"
+              className="cursor-pointer transition hover:text-neutral-900 dark:hover:text-white"
+            >
+              Programs
+            </Link>
+            <Link
+              to="/blogs"
+              className="cursor-pointer transition hover:text-neutral-900 dark:hover:text-white"
+            >
+              Blogs
+            </Link>
+            <Link
+              to="/contact-us"
+              className="cursor-pointer transition hover:text-neutral-900 dark:hover:text-white"
+            >
+              Contact
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

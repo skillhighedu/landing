@@ -52,7 +52,7 @@ export default function LearnInPublic() {
             ))}
           </ul>
           <div className="flex flex-wrap gap-3">
-            <Link to="/learn-in-public">
+            <Link to="/course-dashboard/learn-in-public">
               <CustomButton 
                 title="Go to Learn In Public"
                 className="rounded-lg text-white flex items-center gap-2"
@@ -103,7 +103,7 @@ export default function LearnInPublic() {
               </p>
               <p className="text-lg ">For X & LinkedIn</p>
             </div>
-            <Link to="/learn-in-public">
+            <Link to="/course-dashboard/learn-in-public">
               <CustomButton
                 title="Log today"
                 className="bg-white text-slate-900 rounded-lg hover:bg-gray-100"

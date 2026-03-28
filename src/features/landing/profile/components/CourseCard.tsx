@@ -1,37 +1,54 @@
-import CustomButton from "@/components/common/Button";
-import type { Course } from "../types";
 import { Link } from "react-router-dom";
+import CustomButton from "@/components/common/Button";
 import {
   createPendingPayment,
   razorpayConfig,
   verifyPendingPayment,
 } from "@/services/payment-service";
 import { loadRazorpayScript } from "@/utils/razorpay";
+import type { Course } from "../types";
 
 interface Props {
   course: Course;
 }
 
+type RazorpaySuccessResponse = {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+};
+
+type RazorpayCheckoutOptions = {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  handler: (response: RazorpaySuccessResponse) => Promise<void>;
+};
+
 export default function CourseCard({ course }: Props) {
   const isPending = !course.purchaseDetails?.isFullPayment;
 
-  console.log(course)
   const handlePayment = async (orderId: string) => {
     const isLoaded = await loadRazorpayScript();
-    if (!isLoaded) throw new Error("Razorpay SDK failed to load.");
+    if (!isLoaded) {
+      throw new Error("Razorpay SDK failed to load.");
+    }
 
     const config = await razorpayConfig();
     const orderDetails = await createPendingPayment(orderId);
 
     return new Promise<void>((resolve, reject) => {
-      const options = {
+      const options: RazorpayCheckoutOptions = {
         key: config.key,
         amount: orderDetails.amount!,
         currency: "INR",
         name: `${orderDetails.courseName} | Skillhigh`,
-        description: `${orderDetails.courseName} – ${orderDetails.planTitle}`,
+        description: `${orderDetails.courseName} - ${orderDetails.planTitle}`,
         order_id: orderDetails.orderId,
-        handler: async function (response: any) {
+        handler: async function (response: RazorpaySuccessResponse) {
           try {
             await verifyPendingPayment({
               razorpay_order_id: response.razorpay_order_id,
@@ -47,22 +64,22 @@ export default function CourseCard({ course }: Props) {
         },
       };
 
-      const rzp = new (window as any).Razorpay(options);
+      const Razorpay = (window as Window & {
+        Razorpay?: new (options: RazorpayCheckoutOptions) => { open: () => void };
+      }).Razorpay;
+
+      if (!Razorpay) {
+        reject(new Error("Razorpay SDK is unavailable."));
+        return;
+      }
+
+      const rzp = new Razorpay(options);
       rzp.open();
     });
   };
 
   return (
-    <div
-      className="
-        group rounded-2xl overflow-hidden border
-        bg-white dark:bg-neutral-900
-        border-neutral-200 dark:border-neutral-800
-        transition-all duration-300
-        hover:shadow-xl hover:-translate-y-1
-      "
-    >
-      {/* Thumbnail */}
+    <div className="group overflow-hidden rounded-[28px] border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900">
       <div className="relative aspect-video overflow-hidden">
         <img
           src={course.courseThumbnail}
@@ -70,33 +87,39 @@ export default function CourseCard({ course }: Props) {
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {isPending && (
-          <span className="absolute top-3 left-3 text-xs font-medium px-2.5 py-1 rounded-full bg-red-500 text-white shadow">
-            Payment Pending
-          </span>
-        )}
+        <span
+          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-semibold shadow ${
+            isPending
+              ? "bg-amber-500 text-white"
+              : "bg-emerald-500 text-white"
+          }`}
+        >
+          {isPending ? "Pending payment" : "Active course"}
+        </span>
       </div>
 
-      {/* Content */}
-      <div className="p-5 flex flex-col gap-3">
-        <h4 className="text-base font-semibold line-clamp-2 text-neutral-900 dark:text-white">
+      <div className="flex flex-col gap-3 p-5">
+        <h4 className="line-clamp-2 text-base font-semibold text-neutral-900 dark:text-white">
           {course.courseName}
         </h4>
 
-        {/* CTA */}
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          {isPending
+            ? "Complete the pending payment to unlock the full course dashboard."
+            : "Continue learning from your course dashboard."}
+        </p>
+
         {isPending ? (
           <CustomButton
             title="Pay Pending Payment"
-            onClick={() =>
-              handlePayment(course.purchaseDetails?.purchaseId as string)
-            }
-            className="w-full bg-red-500 hover:bg-red-600 text-white"
+            onClick={() => handlePayment(course.purchaseDetails?.purchaseId as string)}
+            className="w-full bg-red-500 text-white hover:bg-red-600"
           />
         ) : (
           <Link to={`/course-dashboard/${course.slug}`}>
             <CustomButton
               title="Start Course"
-              className="w-full bg-primary hover:opacity-90 text-white"
+              className="w-full bg-primary text-white hover:opacity-90"
             />
           </Link>
         )}
