@@ -15,5 +15,9 @@ export const useVerifyCertificate = (cid: string) => {
       return data;
     },
     enabled: !!cid,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
   });
 };

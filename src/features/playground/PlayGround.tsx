@@ -24,6 +24,7 @@ export default function PlayGround({ mode }: PlayGroundProps) {
     useState<"content" | "discussion">("content");
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pendingLessonIds, setPendingLessonIds] = useState<string[]>([]);
 
   const {
     lessonQuery,
@@ -77,16 +78,23 @@ export default function PlayGround({ mode }: PlayGroundProps) {
                 lessons={lessons}
                 currentLesson={currentLesson}
                 completedLessonIds={completedLessonIds}
+                pendingLessonIds={pendingLessonIds}
                 onSelectLesson={setCurrentLesson}
                 onLockedLessonClick={(lesson) => {
                   setCurrentLesson(lesson);
                 }}
-                onToggleComplete={(lessonId: string) => {
-                  if (!toggleMutation || !slug) return;
+                onToggleComplete={(lessonId: string, completed: boolean) => {
+                  if (!toggleMutation || !slug || pendingLessonIds.includes(lessonId)) return;
+
+                  setPendingLessonIds((prev) => [...prev, lessonId]);
                   toggleMutation.mutate({
                     slug,
                     lessonId,
-                    completed: !completedLessonIds.includes(lessonId),
+                    completed,
+                  }, {
+                    onSettled: () => {
+                      setPendingLessonIds((prev) => prev.filter((id) => id !== lessonId));
+                    },
                   });
                 }}
               />
@@ -98,14 +106,21 @@ export default function PlayGround({ mode }: PlayGroundProps) {
               lessons={lessons}
               activeLessonId={currentLesson?.id}
               completedLessonIds={completedLessonIds}
-              onToggleComplete={(lessonId: string) => {
-    if (!toggleMutation || !slug) return;
-    toggleMutation.mutate({
-      slug,
-      lessonId,
-      completed: !completedLessonIds.includes(lessonId),
-    });
-  }}
+              pendingLessonIds={pendingLessonIds}
+              onToggleComplete={(lessonId: string, completed: boolean) => {
+                if (!toggleMutation || !slug || pendingLessonIds.includes(lessonId)) return;
+
+                setPendingLessonIds((prev) => [...prev, lessonId]);
+                toggleMutation.mutate({
+                  slug,
+                  lessonId,
+                  completed,
+                }, {
+                  onSettled: () => {
+                    setPendingLessonIds((prev) => prev.filter((id) => id !== lessonId));
+                  },
+                });
+              }}
               onSelect={(lesson: CourseLesson) => {
                 setCurrentLesson(lesson);
                 setMobileOpen(false);

@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, LockKeyhole, Mail } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { useMentorLogin } from "@/features/mentor/hooks/useAuth";
 import { useAuthStore } from "@/store/authStore";
 import CustomButton from "@/components/common/Button";
+import HeaderSection from "@/components/common/HeaderSection";
+import Container from "@/layouts/Container";
 
 const MentorLogin = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
   const [form, setForm] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const { mutate, isPending, error } = useMentorLogin();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,17 +33,11 @@ const MentorLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background px-4 py-24">
+  
+   <Container size="full" className="mt-20 py-10">
+       <HeaderSection/>
       <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <section className="hidden rounded-[32px] border border-border bg-gradient-to-br from-primary/10 via-background to-background p-10 shadow-sm lg:block">
-          <button
-            type="button"
-            onClick={() => navigate("/")}
-            className="mb-10 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
-          >
-            <ArrowLeft size={16} />
-            Back to home
-          </button>
 
           <div className="max-w-xl space-y-6">
             <div className="space-y-3">
@@ -108,13 +105,21 @@ const MentorLogin = () => {
                 <Input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={form.password}
                   onChange={handleChange}
                   required
-                  className="h-12 pl-10"
+                  className="h-12 pl-10 pr-12"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
             </div>
 
@@ -139,7 +144,8 @@ const MentorLogin = () => {
           </button>
         </section>
       </div>
-    </div>
+   </Container>
+  
   );
 };
 

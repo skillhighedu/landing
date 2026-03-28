@@ -30,14 +30,15 @@ export default function DesktopNavbar({
 const HIDE_POPUP_ROUTES = [
   "/mentor",
   "/certificate/verify",
+  "/course-dashboard",
+  "/profile"
 ];
 
 const isMatchedRoute =
-  HIDE_POPUP_ROUTES.some((route) => location.pathname.startsWith(route)) ||
-  location.pathname.includes("/demo");
+  HIDE_POPUP_ROUTES.some((route) => location.pathname.startsWith(route));
 
 const shouldHideNavLinks = isMatchedRoute;
-const shouldHideProfileAction = location.pathname.includes("/demo");
+const shouldHideProfileAction = false;
 const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
 
   return (
@@ -93,7 +94,7 @@ const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
             title={profileLabel}
             icon={<User size={15} />}
             onClick={() => navigate("/profile")}
-  
+            className="hidden md:inline-flex"
           />
         )}
 

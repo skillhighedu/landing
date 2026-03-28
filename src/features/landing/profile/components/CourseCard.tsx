@@ -99,11 +99,11 @@ export default function CourseCard({ course }: Props) {
       </div>
 
       <div className="flex flex-col gap-3 p-5">
-        <h4 className="line-clamp-2 text-base font-semibold text-neutral-900 dark:text-white">
+        <h4 className=" text-base  text-neutral-900 dark:text-white">
           {course.courseName}
         </h4>
 
-        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 font-mono">
           {isPending
             ? "Complete the pending payment to unlock the full course dashboard."
             : "Continue learning from your course dashboard."}

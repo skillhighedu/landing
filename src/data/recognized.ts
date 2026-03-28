@@ -1,7 +1,7 @@
 import StartupIndia from "@/assets/images/recog/startup_india_logo.png"
 import Aicte from "@/assets/images/recog/aicte.png"
 import Iso from "@/assets/images/recog/iso.png"
-import Msme from "@/assets/images/recog/msme.png"
+import Msme from "@/assets/images/partners/MSME_Logo.svg"
 
 export const recognizedPartners = [
   {

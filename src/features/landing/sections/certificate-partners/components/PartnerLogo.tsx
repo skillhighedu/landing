@@ -10,24 +10,17 @@ export default function PartnerLogo({ logo, alt }: Props) {
   return (
     <motion.div
       variants={logoVariants}
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 200, damping: 18 }}
       className="
-        relative
-        rounded-xl
-        bg-neutral-50 dark:bg-neutral-900
-        border dark:border-neutral-800
-        px-6 py-5
-        pixel-border
-        shadow-[4px_4px_0_#000]
-        hover:shadow-[6px_6px_0_#000]
-        transition-shadow
+        group relative flex min-h-[160px] min-w-[220px] items-center justify-center
+        rounded-3xl border border-neutral-200 bg-white px-8 py-8
+        shadow-sm transition-all duration-200 hover:border-primary/15 hover:shadow-md
+        dark:border-neutral-800 dark:bg-neutral-900
       "
     >
       <img
         src={logo}
         alt={alt}
-        className="h-20 sm:h-28 object-contain mx-auto opacity-90"
+        className="mx-auto h-24 object-contain opacity-90 transition-opacity duration-200 group-hover:opacity-100 sm:h-28"
         loading="lazy"
       />
     </motion.div>

@@ -75,8 +75,8 @@ export default function LearnInPublicSection({ mode }: PlayGroundProps) {
              
             </CustomButton>
           ) : (
-            <Link to="/learn-in-public">
-              <CustomButton title="   Start logging" className="rounded-lg">
+            <Link to="/course-dashboard/learn-in-public">
+              <CustomButton title="Start logging" className="rounded-lg">
              
               </CustomButton>
             </Link>
@@ -141,7 +141,7 @@ export default function LearnInPublicSection({ mode }: PlayGroundProps) {
                
               </CustomButton>
             ) : (
-              <Link to="/learn-in-public">
+              <Link to="/course-dashboard/learn-in-public">
                 <CustomButton
                 title=" Log today"
                   className="

@@ -1,9 +1,20 @@
 import { ArrowLeft, DownloadIcon } from "lucide-react";
 import CustomButton from "@/components/common/Button";
 
+import type { CertificateIds } from "@/types/certificateStore";
+
+type CertificatePreviewType = {
+  type: string;
+  idKey: keyof CertificateIds;
+  background: string;
+  heading: string;
+  description: string;
+};
+
 type Props = {
   previewUrls: string[];
-  certificateTypes: { type: string }[];
+  certificateTypes: CertificatePreviewType[];
+  getCertificateId: (type: CertificatePreviewType) => string;
   handleDownloadAll: () => void;
   onBack: () => void;
 };
@@ -11,42 +22,51 @@ type Props = {
 export default function CertificatePreviewGrid({
   previewUrls,
   certificateTypes,
+  getCertificateId,
   handleDownloadAll,
   onBack,
 }: Props) {
   return (
     <>
-     
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
+      <div className="grid w-full max-w-5xl grid-cols-1 gap-5 lg:grid-cols-2">
         {previewUrls.map((url, idx) => (
-          <div key={idx} className="border rounded-lg overflow-hidden shadow-lg">
+          <div
+            key={idx}
+            className="overflow-hidden rounded-[24px] border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+          >
             <iframe
               src={url}
               width="100%"
-              height="400px"
+              height="320px"
               title={`Preview ${certificateTypes[idx]?.type ?? "Certificate"}`}
+              className="block w-full sm:h-[380px] lg:h-[420px]"
             />
-            <p className="p-2 text-center text-sm text-gray-500 dark:text-gray-400">
-              {certificateTypes[idx]?.type}
-            </p>
+            <div className="border-t border-neutral-200 bg-white px-4 py-4 text-center dark:border-neutral-800 dark:bg-neutral-900">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+                {certificateTypes[idx]?.type}
+              </p>
+              <p className="mt-2 font-mono text-sm text-gray-700 dark:text-gray-300">
+                {getCertificateId(certificateTypes[idx]) || "ID not available"}
+              </p>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="flex gap-4 mt-6">
-       
+      <div className="mt-6 flex w-full max-w-5xl flex-col gap-3 sm:flex-row">
         <CustomButton
-        isBack
+          isBack
           title="Back"
-          icon={<ArrowLeft/>}
+          icon={<ArrowLeft />}
           onClick={onBack}
+          className="w-full justify-center sm:w-auto"
         />
-         <CustomButton
+
+        <CustomButton
           title="Download All Certificates"
           icon={<DownloadIcon className="mr-2" />}
           onClick={handleDownloadAll}
-         
+          className="w-full justify-center sm:w-auto"
         />
       </div>
     </>

@@ -7,8 +7,9 @@ interface Props {
   lessons: CourseLesson[];
   activeLessonId?: string;
   completedLessonIds: string[];
+  pendingLessonIds: string[];
   onSelect: (lesson: CourseLesson) => void;
-  onToggleComplete: (lessonId: string) => void;
+  onToggleComplete: (lessonId: string, completed: boolean) => void;
 }
 
 export default function PlayGroundMobileSidebar({
@@ -17,6 +18,7 @@ export default function PlayGroundMobileSidebar({
   lessons,
   activeLessonId,
   completedLessonIds,
+  pendingLessonIds,
   onSelect,
   onToggleComplete,
 }: Props) {
@@ -51,6 +53,7 @@ export default function PlayGroundMobileSidebar({
             lessonsList={lessons}
             activeLessonId={activeLessonId}
             completedLessonIds={completedLessonIds}
+            pendingLessonIds={pendingLessonIds}
             onLessonSelect={onSelect}
             onToggleComplete={onToggleComplete}
           />

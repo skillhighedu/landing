@@ -32,6 +32,9 @@ export const useLessonsCheckboxStatus = (slug: string) =>
     queryKey: coursesKeys.byCourseLessonsStatus(slug),
     queryFn: () => lessonsStatus(slug),
     enabled: !!slug,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 export const useToggleLessonCompletion = () => {
   const queryClient = useQueryClient();
@@ -79,10 +82,6 @@ export const useToggleLessonCompletion = () => {
       }
     },
 
-    onSettled: (_, __, { slug }) => {
-      queryClient.invalidateQueries({
-        queryKey: coursesKeys.byCourseLessonsStatus(slug),
-      });
-    },
+    onSuccess: () => {},
   });
 };

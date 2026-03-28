@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Linkedin, Link as LinkIcon, Share2, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
-import CustomButton from "@/components/common/Button";
 import type { BlogShareProps } from "../types/types";
 
 const shareLinks = [
@@ -63,40 +62,34 @@ export default function BlogShare({ title, slug, className }: BlogShareProps) {
     <div
       className={cn(
         `
-        rounded-2xl border px-4 py-3 sm:px-6 sm:py-4
-        flex flex-wrap items-center gap-3 sm:gap-4
-
-        bg-white border-black/10 text-black
+        flex flex-wrap items-center gap-3 rounded-[1.75rem] border px-4 py-4 sm:px-6 sm:py-5
+        bg-neutral-50 border-neutral-200 text-black
         dark:bg-neutral-900/80 dark:border-neutral-800 dark:text-gray-200
         `,
         className
       )}
     >
-      <div className="inline-flex items-center gap-2 text-sm font-medium text-black/70 dark:text-gray-400">
+      <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-black/70 dark:text-gray-400">
         <Share2 className="h-4 w-4 text-primary" />
         Share this article
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
-        <CustomButton
-          title="Share"
-          icon={<Share2 className="h-4 w-4" />}
-          isBack
+        <button
           type="button"
           onClick={handleNativeShare}
-          className="
-            bg-primary/15! text-primary! border! border-primary/60!
-            px-3! py-2! text-xs! sm:text-sm!
-            shadow-none! hover:bg-primary/25! transition-colors
-          "
-        />
+          className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-primary transition hover:bg-primary/10 sm:text-sm"
+        >
+          <Share2 className="h-4 w-4" />
+          Share
+        </button>
 
         <button
           type="button"
           onClick={handleCopy}
           className="
-            inline-flex items-center gap-2 rounded-full border px-3 py-1.5
-            text-xs sm:text-sm font-medium transition-colors
+            inline-flex items-center gap-2 rounded-full border px-4 py-2
+            font-mono text-xs sm:text-sm uppercase tracking-[0.15em] transition-colors
 
             border-black/15 text-black/80 hover:border-primary/60 hover:text-black
             dark:border-neutral-700 dark:text-gray-300 dark:hover:border-primary/60 dark:hover:text-white
@@ -116,7 +109,7 @@ export default function BlogShare({ title, slug, className }: BlogShareProps) {
             rel="noopener noreferrer"
             aria-label={`Share on ${name}`}
             className="
-              group inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors
+              group inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors
 
               border-black/15 text-black/70 hover:border-primary/60 hover:text-black
               dark:border-neutral-700 dark:text-gray-300 dark:hover:border-primary/60 dark:hover:text-white

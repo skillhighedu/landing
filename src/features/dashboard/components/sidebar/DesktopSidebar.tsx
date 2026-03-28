@@ -38,7 +38,7 @@ export default function DesktopSidebar({
   return (
     <TooltipProvider delayDuration={120}>
       <aside
-        className={`fixed left-0 top-1 z-40 hidden h-[calc(100vh-2rem)] flex-col border-r border-neutral-200 bg-white/95 backdrop-blur-xl transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900/95 lg:flex ${
+        className={`fixed left-0  z-40 hidden h-[calc(100vh-0rem)] flex-col border-r border-neutral-200 bg-white/95 backdrop-blur-xl transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900/95 lg:flex ${
           open ? "w-56" : "w-16"
         }`}
       >

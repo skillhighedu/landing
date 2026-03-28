@@ -16,7 +16,7 @@ export default function LearnInPublicPage() {
   return (
     <DashboardLayout title="Learn in Public">
       <Container size="full">
-      <div className="min-h-screen bg-white dark:bg-neutral-900 ">
+      <div className="min-h-screen bg-white dark:bg-neutral-950 p-3 rounded-2xl ">
         <div className="max-w-7xl mx-auto  px-4 space-y-10 text-white">
           <HeaderCard />
           <StepsGrid />

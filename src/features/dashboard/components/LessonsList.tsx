@@ -2,14 +2,16 @@
 import { Play, Lock } from "lucide-react";
 import clsx from "clsx";
 import { Checkbox } from "@/components/ui/checkbox";
+import type { CheckedState } from "@radix-ui/react-checkbox";
 import type { CourseLesson } from "../types";
 
 interface SidebarProps {
   lessonsList: CourseLesson[];
   activeLessonId?: string;
   completedLessonIds?: string[];
+  pendingLessonIds?: string[];
   onLessonSelect: (lesson: CourseLesson) => void;
-  onToggleComplete?: (lessonId: string) => void;
+  onToggleComplete?: (lessonId: string, completed: boolean) => void;
   onLockedLessonClick?: (lesson: CourseLesson) => void;
 }
 
@@ -17,6 +19,7 @@ export default function Sidebar({
   lessonsList,
   activeLessonId,
   completedLessonIds = [],
+  pendingLessonIds = [],
   onLessonSelect,
   onToggleComplete,
   onLockedLessonClick,
@@ -36,6 +39,7 @@ export default function Sidebar({
           const isActive = item.id === activeLessonId;
           const isCompleted = completedLessonIds.includes(item.id);
           const isLocked = item.locked === true;
+          const isPending = pendingLessonIds.includes(item.id);
 
           return (
             <li key={item.id}>
@@ -59,10 +63,11 @@ export default function Sidebar({
               >
                 <Checkbox
                   checked={isCompleted}
-                  disabled={isLocked}
-                  onCheckedChange={() =>
-                    !isLocked && onToggleComplete?.(item.id)
-                  }
+                  disabled={isLocked || isPending}
+                  onCheckedChange={(checked: CheckedState) => {
+                    if (isLocked || isPending) return;
+                    onToggleComplete?.(item.id, checked === true);
+                  }}
                   onClick={(e) => e.stopPropagation()}
                   className="mt-1"
                 />

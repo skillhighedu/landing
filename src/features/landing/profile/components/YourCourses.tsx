@@ -12,10 +12,10 @@ export default function YourCourses({ courses = [], loading }: Props) {
     <section className="space-y-5">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">
+          <h3 className="text-xl  text-neutral-900 dark:text-white">
             Your Courses
           </h3>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 font-mono">
             Review your enrolled courses and continue from where you left off.
           </p>
         </div>

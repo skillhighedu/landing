@@ -14,27 +14,33 @@ import { AlertTriangle, EyeIcon, PencilLine, ShieldCheck, X } from "lucide-react
 import { alexBrushFont, CormorantGramond } from "@/assets/fonts";
 import CustomButton from "@/components/common/Button";
 import CertificatePreviewGrid from "./CertificatePreviewGrid";
+import type { CertificateIds } from "@/types/certificateStore";
 
 const certificateTypes = [
   {
     type: "Internship",
+    idKey: "internshipId" as keyof CertificateIds,
     background: certificateBg,
     heading: "INTERNSHIP COMPLETION CERTIFICATE",
     description: "for successfully completing the  industrial internship in ",
   },
   {
     type: "Industrial",
+    idKey: "industrialTrainingId" as keyof CertificateIds,
     background: certificateBg,
     heading: "INDUSTRIAL PARTICIPATION CERTIFICATE",
     description: "for successfully participating in industrial training in ",
   },
   {
     type: "Participation",
+    idKey: "participationId" as keyof CertificateIds,
     background: certificateBg,
     heading: "PARTICIPATION CERTIFICATE",
     description: "for actively participating in ",
   },
 ];
+
+type CertificateType = (typeof certificateTypes)[number];
 
 interface CertficateGeneratorProps {
   skipNameConfirmation?: boolean;
@@ -48,6 +54,16 @@ export default function CertficateGenerator({
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [showNameConfirm, setShowNameConfirm] = useState(false);
+
+  const getTypeCertificateId = (type: CertificateType): string => {
+    const ids = certificateDetails?.certificateIds;
+
+    if (!ids) {
+      return "";
+    }
+
+    return ids[type.idKey] || "";
+  };
 
   const generateCertificates = async () => {
     try {
@@ -183,31 +199,41 @@ export default function CertficateGenerator({
         }
 
         // Certificate ID
-        let certificateId = "";
-        if (cert.type === "Internship")
-          certificateId =
-            certificateDetails?.certificateIds?.internshipId ?? "";
-        else if (cert.type === "Industrial")
-          certificateId =
-            certificateDetails?.certificateIds?.industrialTrainingId ?? "";
-        else if (cert.type === "Participation")
-          certificateId =
-            certificateDetails?.certificateIds?.participationId ?? "";
-        certificateId ||= `${cert.type}-${Date.now()}`;
+        const certificateId = certificateDetails?.cid || "";
+        const typeCertificateId = getTypeCertificateId(cert);
 
-        page.drawText(`Certificate ID: ${certificateId}`, {
+        const certificateIdText = `Certificate ID: ${certificateId}`;
+        page.drawText(certificateIdText, {
           x:
             (page.getWidth() -
-              fontRegular.widthOfTextAtSize(
-                `Certificate ID: ${certificateId}`,
-                14,
-              )) /
+              fontRegular.widthOfTextAtSize(certificateIdText, 14)) /
             2,
-          y: 250,
+          y: 280,
           size: 14,
           font: fontRegular,
           color: fontGray,
         });
+
+        if (typeCertificateId) {
+          const typeIdLabel =
+            cert.type === "Internship"
+              ? "Internship ID"
+              : cert.type === "Industrial"
+                ? "Industrial Training ID"
+                : "Participation ID";
+
+          const typeCertificateIdText = `${typeIdLabel}: ${typeCertificateId}`;
+          page.drawText(typeCertificateIdText, {
+            x:
+              (page.getWidth() -
+                fontRegular.widthOfTextAtSize(typeCertificateIdText, 13)) /
+              2,
+            y: 260,
+            size: 13,
+            font: fontRegular,
+            color: fontGray,
+          });
+        }
 
         const pdfBytes = await pdfDoc.save();
         const arrayBuffer = pdfBytes.buffer.slice(
@@ -257,36 +283,36 @@ export default function CertficateGenerator({
     <div className="min-h-screen p-8 dark:bg-darkPrimary flex flex-col items-center gap-8">
       {showNameConfirm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-2xl overflow-hidden rounded-[32px] border border-neutral-200 bg-white p-6 text-neutral-900 shadow-2xl dark:border-neutral-800 dark:bg-neutral-950 dark:text-white sm:p-8">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-linear-to-b from-primary/10 to-transparent" />
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[28px] border border-neutral-200 bg-white p-5 text-neutral-900 shadow-2xl dark:border-neutral-800 dark:bg-neutral-950 dark:text-white sm:rounded-[32px] sm:p-8">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-primary/10 to-transparent sm:h-28" />
 
             <button
               type="button"
               onClick={() => setShowNameConfirm(false)}
-              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-2xl border border-neutral-200 bg-white/90 text-neutral-500 transition hover:border-neutral-400 hover:text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-neutral-300 dark:hover:border-neutral-500 dark:hover:text-white"
+              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-2xl border border-neutral-200 bg-white/90 text-neutral-500 transition hover:border-neutral-400 hover:text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-neutral-300 dark:hover:border-neutral-500 dark:hover:text-white sm:right-4 sm:top-4 sm:h-10 sm:w-10"
               aria-label="Close dialog"
             >
               <X size={18} />
             </button>
 
             <div className="relative mb-6 text-left">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
-                  <AlertTriangle size={22} />
+              <div className="mb-4 flex flex-wrap items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400 sm:h-12 sm:w-12">
+                  <AlertTriangle size={20} />
                 </div>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/12 text-primary">
-                  <ShieldCheck size={22} />
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/12 text-primary sm:h-12 sm:w-12">
+                  <ShieldCheck size={20} />
                 </div>
               </div>
 
               <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-primary/85">
                 Certificate Checkpoint
               </p>
-              <h2 className="mt-3 font-mono text-2xl leading-tight sm:text-3xl">
+              <h2 className="mt-3 font-mono text-xl leading-tight sm:text-3xl">
                 Check your certificate name before continuing
               </h2>
 
-              <p className="mt-3 font-mono text-sm leading-7 text-neutral-600 dark:text-neutral-300">
+              <p className="mt-3 font-mono text-sm leading-6 text-neutral-600 dark:text-neutral-300 sm:leading-7">
                 Your certificates will be generated with the profile name currently saved on your account.
                 Please make sure it is correct before you continue.
               </p>
@@ -297,7 +323,7 @@ export default function CertficateGenerator({
                 <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">
                   Current certificate name
                 </p>
-                <p className="mt-3 break-words font-mono text-xl text-neutral-900 dark:text-white sm:text-2xl">
+                <p className="mt-3 break-words font-mono text-lg text-neutral-900 dark:text-white sm:text-2xl">
                   {certificateDetails?.name || "Name not available"}
                 </p>
                 <p className="mt-3 font-mono text-sm leading-6 text-neutral-600 dark:text-neutral-400">
@@ -356,6 +382,23 @@ export default function CertficateGenerator({
             Generate and preview your Internship, Industrial, and Participation
             certificates before downloading them.
           </p>
+
+          <div className="grid w-full max-w-4xl gap-4 sm:grid-cols-3">
+            {certificateTypes.map((cert) => (
+              <div
+                key={cert.type}
+                className="rounded-[20px] border border-neutral-200 bg-white p-4 text-left shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+              >
+                <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary">
+                  {cert.type}
+                </p>
+                <p className="mt-3 font-mono text-sm text-neutral-900 dark:text-white">
+                  {getTypeCertificateId(cert) || "ID not available"}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <CustomButton
             icon={  <EyeIcon className="mr-2" />}
             title="Preview Certificates"
@@ -371,6 +414,7 @@ export default function CertficateGenerator({
          <CertificatePreviewGrid
           previewUrls={previewUrls}
           certificateTypes={certificateTypes}
+          getCertificateId={getTypeCertificateId}
           handleDownloadAll={handleDownloadAll}
           onBack={() => {
             setIsPreviewMode(false);

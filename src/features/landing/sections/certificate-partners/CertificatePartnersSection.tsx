@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { BadgeCheck, ShieldCheck, Sparkles } from "lucide-react";
 
 import Header from "@/components/common/Header";
 import Container from "@/layouts/Container";
@@ -20,28 +21,30 @@ export default function CertificatePartnersSection() {
   }, [controls, inView]);
 
   return (
-    <section className="bg-white dark:bg-neutral-950 py-20 overflow-hidden">
+    <section className="overflow-hidden bg-white py-20 dark:bg-neutral-950">
       <Container size="xl">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-center mb-14"
+          className="mb-14 text-center"
         >
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 text-sm font-medium text-primary">
+            <ShieldCheck className="h-4 w-4" />
+            Trusted certificate ecosystem
+          </div>
+
           <Header
-            title="Our Certificate Partners"
-            subline="Trusted certifications that validate real-world skills."
+            title="Backed By Trusted Certificate Partners"
+            subline="The certification path is designed to feel credible, career-relevant, and easier to showcase beyond the course itself."
           />
+
         </motion.div>
 
-        {/* Logos */}
         <motion.div
           ref={ref}
           className="
-            flex flex-wrap
-            items-center justify-center
-            gap-8 sm:gap-10
+            mx-auto grid max-w-4xl gap-5 sm:grid-cols-2
           "
           variants={containerVariants}
           initial="hidden"

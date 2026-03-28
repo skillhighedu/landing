@@ -69,7 +69,7 @@ export default function Navbar() {
     <>
       <header
         className={`
-          fixed top-0 left-0 w-full z-50
+          pointer-events-none fixed top-0 left-0 w-full z-50
           transition-[padding,transform] duration-300
           ${isVisible ? "translate-y-0" : "-translate-y-full"}
           ${isCourseDashboard ? (open ? "lg:pl-60" : "lg:pl-16") : ""}
@@ -78,6 +78,7 @@ export default function Navbar() {
         <Container size="full">
           <div
             className="
+              pointer-events-auto
               mx-auto px-4 sm:px-6 py-3
               flex items-center justify-between
               rounded-b-2xl

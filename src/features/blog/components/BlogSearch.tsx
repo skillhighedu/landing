@@ -18,11 +18,11 @@ export default function BlogSearch({
         id="blog-search"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search by title, keywords, or topic..."
+        placeholder="Search by title, keyword, or topic"
         className={cn(
-          "w-full rounded-2xl border px-12 py-3 text-sm sm:text-base transition",
-          "bg-background border-border text-foreground placeholder:text-muted-foreground",
-          "focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/20"
+          "w-full rounded-[1.25rem] border px-12 py-3.5 font-mono text-sm transition sm:text-base",
+          "bg-white border-neutral-200 text-neutral-900 placeholder:text-neutral-400 dark:bg-neutral-950 dark:border-neutral-800 dark:text-white dark:placeholder:text-neutral-500",
+          "focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/15"
         )}
       />
 

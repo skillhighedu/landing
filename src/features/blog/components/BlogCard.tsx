@@ -1,71 +1,84 @@
 import React from "react";
+import { Clock3 } from "lucide-react";
 import { Link } from "react-router-dom";
+
 import type { BlogCardProps } from "../types/types";
+
+function formatBlogDate(date: string) {
+  return new Date(date).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
 
 const BlogCard: React.FC<BlogCardProps> = ({
   slug,
   title,
   publishedAt,
   readingTime,
+  excerpt,
   content,
   thumbnail,
-  tags,
+  tags = [],
+  category,
 }) => {
+  const summary = excerpt?.trim() || content;
+
   return (
     <Link
       to={`/blogs/${slug}`}
       aria-label={`Read blog: ${title}`}
-      className="
-        group block overflow-hidden rounded-2xl border transition-all duration-300
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
-
-        bg-card text-card-foreground border-border
-        hover:bg-muted/50 hover:border-border
-      "
+      className="group flex flex-col overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
     >
       {thumbnail && (
-        <div className="overflow-hidden aspect-video bg-muted">
+        <div className="aspect-[16/10] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
           <img
             src={thumbnail}
             alt={title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
             loading="lazy"
           />
         </div>
       )}
 
-      <div className="p-5 space-y-3">
-        {tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className="
-                  inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium
-                  border-primary/40 bg-primary/10 text-primary
-                "
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-wrap items-center gap-2">
+          {category?.name && (
+            <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-primary">
+              {category.name}
+            </span>
+          )}
 
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>{publishedAt}</span>
-          <span>{readingTime}min</span>
+          {tags.slice(0, 2).map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-neutral-300 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500 dark:border-neutral-700 dark:text-neutral-300"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
 
-        <h3 className="text-base sm:text-lg font-bricolage transition-colors duration-200 group-hover:text-primary">
+        <div className="mt-4 flex items-center gap-3 font-sans text-xs text-neutral-500 dark:text-neutral-400">
+          <span>{formatBlogDate(publishedAt)}</span>
+          <span>•</span>
+          <span className="inline-flex items-center gap-1.5">
+            <Clock3 className="h-3.5 w-3.5" />
+            {readingTime} min read
+          </span>
+        </div>
+
+        <h3 className="mt-4 font-mono text-2xl leading-tight text-neutral-950 transition-colors group-hover:text-primary dark:text-white">
           {title}
         </h3>
 
-        <p className="text-sm text-muted-foreground font-sans leading-relaxed line-clamp-3">
-          {content}
+        <p className="mt-4 line-clamp-3 font-sans text-sm leading-7 text-neutral-600 dark:text-neutral-300">
+          {summary}
         </p>
 
-        <span className="mt-3 inline-block text-sm font-medium text-primary group-hover:text-foreground transition-colors">
-          Read More
+        <span className="mt-6 font-mono text-sm text-neutral-900 transition-colors group-hover:text-primary dark:text-white">
+          Read article
         </span>
       </div>
     </Link>

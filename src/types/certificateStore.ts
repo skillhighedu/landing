@@ -10,6 +10,7 @@ export interface CertificateDetails {
   fromDate: string;
   toDate: string;
   qrCode?: string;
+  cid:string;
   certificateIds?: CertificateIds;
 }
 

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { X, Sun, Moon } from "lucide-react";
+import { X, Sun, Moon, ChevronRight, User } from "lucide-react";
 import CustomButton from "@/components/common/Button";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useAuthStore } from "@/store/authStore";
@@ -18,92 +18,91 @@ export default function MobileDrawer({
 
   if (!open) return null;
 
+  const navItems = [
+    { label: "Home", to: "/" },
+    { label: "Programs", to: "/all-courses" },
+    { label: "Blogs", to: "/blogs" },
+    { label: "Certificate", to: "/check-certificate" },
+  ];
+
   return (
     <>
-      {/* Click outside backdrop (transparent) */}
       <div
-        className="fixed inset-0 z-40"
+        className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px]"
         onClick={onClose}
       />
 
-      {/* Dropdown panel */}
       <div
         className="
-          fixed right-4 top-16 z-50
-          w-64
-          rounded-2xl
-          shadow-xl
-          p-4
-
-          /* Light */
-          bg-white text-neutral-900
-
-          /* Dark */
-          dark:bg-neutral-900 dark:text-white
-          border border-neutral-200 dark:border-neutral-800
+          fixed right-0 top-0 z-50 flex h-screen w-[88vw] max-w-sm flex-col
+          border-l border-neutral-200 bg-white text-neutral-900 shadow-2xl
+          dark:border-neutral-800 dark:bg-neutral-950 dark:text-white
         "
       >
-        {/* Header */}
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-medium">Menu</span>
-          <button onClick={onClose}>
-            <X size={16} />
+        <div className="flex items-center justify-between border-b border-neutral-200 px-5 py-5 dark:border-neutral-800">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-primary">
+              SkillHigh
+            </p>
+            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">Navigation</p>
+          </div>
+
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition hover:bg-neutral-100 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
+          >
+            <X size={18} />
           </button>
         </div>
 
-        {/* Links */}
-        <nav className="flex flex-col gap-2 text-sm">
-          <Link
-            to="/"
-            onClick={onClose}
-            className="rounded-lg px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-          >
-            Home
-          </Link>
-          <Link
-            to="/all-courses"
-            onClick={onClose}
-            className="rounded-lg px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-          >
-            Programs
-          </Link>
-          <Link
-            to="/blogs"
-            onClick={onClose}
-            className="rounded-lg px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-          >
-            Blogs
-          </Link>
-        </nav>
+        <div className="flex-1 overflow-y-auto px-5 py-5">
+          <nav className="flex flex-col gap-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={onClose}
+                className="flex items-center justify-between rounded-2xl border border-transparent px-4 py-3 font-mono text-sm transition hover:border-neutral-200 hover:bg-neutral-50 dark:hover:border-neutral-800 dark:hover:bg-neutral-900"
+              >
+                <span>{item.label}</span>
+                <ChevronRight className="h-4 w-4 text-neutral-400" />
+              </Link>
+            ))}
+          </nav>
 
-        <div className="my-3 h-px bg-neutral-200 dark:bg-neutral-800" />
+          <div className="my-5 h-px bg-neutral-200 dark:bg-neutral-800" />
 
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          className="
-            w-full flex items-center justify-between
-            rounded-lg px-2 py-2
-            text-sm
-            hover:bg-neutral-100 dark:hover:bg-neutral-800
-          "
-        >
-          <span>
-            {theme === "dark" ? "Light mode" : "Dark mode"}
-          </span>
-          {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-        </button>
+          <div className="rounded-[1.5rem] border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900/80">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
+              Preferences
+            </p>
 
-        {/* CTA */}
-        <div className="mt-3">
+            <button
+              onClick={toggleTheme}
+              className="
+                mt-3 flex w-full items-center justify-between rounded-2xl px-3 py-3
+                text-sm transition hover:bg-white dark:hover:bg-neutral-950
+              "
+            >
+              <span className="font-sans">
+                {theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              </span>
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
+        </div>
+
+        <div className="border-t border-neutral-200 px-5 py-5 dark:border-neutral-800">
           {isAuthenticated ? (
             <CustomButton
               title={profileLabel}
+              icon={<User size={15} />}
               onClick={() => {
                 onClose();
                 navigate("/profile");
               }}
-              className="w-full"
+              className="w-full justify-center"
             />
           ) : (
             <CustomButton
@@ -112,7 +111,7 @@ export default function MobileDrawer({
                 onClose();
                 navigate("/signup");
               }}
-              className="w-full"
+              className="w-full justify-center"
             />
           )}
         </div>
