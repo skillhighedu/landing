@@ -32,7 +32,7 @@ export default function CourseSubmissionsPage() {
   };
 
   return (
-    <Container>
+    <Container size="full">
       <div className="py-10 mt-20">
         <HeaderSection title="All Submissions" />
 

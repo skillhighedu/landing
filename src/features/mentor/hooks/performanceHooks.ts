@@ -6,10 +6,10 @@ import {
 
 export const PERFORMANCE_KEY = ["performance"] as const;
 
-export const usePerformance = () =>
+export const usePerformance = (page: number, limit: number) =>
   useQuery({
-    queryKey: PERFORMANCE_KEY,
-    queryFn: fetchPerformanceByCourseId,
+    queryKey: [...PERFORMANCE_KEY, page, limit],
+    queryFn: () => fetchPerformanceByCourseId(page, limit),
     staleTime: 2 * 60 * 1000,
   });
 

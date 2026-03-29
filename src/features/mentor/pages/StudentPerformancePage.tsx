@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderSection from "@/components/common/HeaderSection";
 import Container from "@/layouts/Container";
@@ -66,7 +66,9 @@ function getInitials(name: string) {
   return parts.map((part) => part.charAt(0).toUpperCase()).join("") || "ST";
 }
 
-function formatDate(date: string) {
+function formatDate(date: string | null) {
+  if (!date) return "Not available";
+
   return new Date(date).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
@@ -120,6 +122,7 @@ function sortStudents(students: StudentPerformance[], sortBy: SortOption) {
 
 export default function StudentPerformancePage() {
   const navigate = useNavigate();
+  const tableSectionRef = useRef<HTMLDivElement | null>(null);
   const [search, setSearch] = useState("");
   const [filterBand, setFilterBand] = useState<FilterBand>("ALL");
   const [sortBy, setSortBy] = useState<SortOption>("RANK");
@@ -127,11 +130,13 @@ export default function StudentPerformancePage() {
   const [editingStudent, setEditingStudent] = useState<StudentPerformance | null>(null);
 
   const {
-    data: students = [],
+    data: performanceData,
     isLoading,
     isError,
     refetch,
-  } = usePerformance();
+  } = usePerformance(page, STUDENTS_PER_PAGE);
+  const students = performanceData?.students ?? [];
+  const serverPagination = performanceData?.pagination;
 
   const filteredStudents = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -159,12 +164,14 @@ export default function StudentPerformancePage() {
     (student) => student.percentage >= 50 && student.percentage < 80
   ).length;
   const topPerformer = students[0];
-  const totalPages = Math.max(1, Math.ceil(filteredStudents.length / STUDENTS_PER_PAGE));
-  const currentPage = Math.min(page, totalPages);
-  const paginatedStudents = filteredStudents.slice(
-    (currentPage - 1) * STUDENTS_PER_PAGE,
-    currentPage * STUDENTS_PER_PAGE
-  );
+  const totalPages = Math.max(1, serverPagination?.totalPages ?? 1);
+  const currentPage = serverPagination?.page ?? page;
+  const paginatedStudents = filteredStudents;
+
+  const handlePageChange = (nextPage: number) => {
+    const safePage = Math.max(1, Math.min(nextPage, totalPages));
+    setPage(safePage);
+  };
 
   useEffect(() => {
     setPage(1);
@@ -176,8 +183,17 @@ export default function StudentPerformancePage() {
     }
   }, [page, totalPages]);
 
+  useEffect(() => {
+    if (page === 1) return;
+
+    tableSectionRef.current?.scrollIntoView({
+      behavior: "auto",
+      block: "start",
+    });
+  }, [page]);
+
   return (
-    <Container>
+    <Container size="full">
       <div className="mt-20 py-10 font-mono">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
@@ -387,19 +403,24 @@ export default function StudentPerformancePage() {
         )}
 
         {!isLoading && !isError && filteredStudents.length > 0 && (
-          <div className="mt-8 overflow-hidden rounded-[28px] border border-border bg-card shadow-sm">
-            <div className="hidden grid-cols-[96px_1.6fr_1.1fr_120px_180px_112px] gap-4 border-b border-border bg-muted/40 px-6 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground lg:grid">
+          <div
+            ref={tableSectionRef}
+            key={currentPage}
+            className="mt-8 overflow-hidden rounded-[28px] border border-border bg-card shadow-sm"
+          >
+            <div className="hidden grid-cols-[96px_1.5fr_1fr_120px_220px_170px_112px] gap-4 border-b border-border bg-muted/30 px-6 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:grid">
               <span>Rank</span>
               <span>Student</span>
               <span>Updated</span>
               <span>Score</span>
+              <span>Counts</span>
               <span>Progress</span>
               <span>Action</span>
             </div>
 
             {paginatedStudents.map((student, index) => (
               <PerformanceRow
-                key={student.id}
+                key={student.id ?? student.userId}
                 student={student}
                 isLast={index === paginatedStudents.length - 1}
                 onEdit={() => setEditingStudent(student)}
@@ -412,9 +433,9 @@ export default function StudentPerformancePage() {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            totalItems={filteredStudents.length}
+            totalItems={serverPagination?.total ?? filteredStudents.length}
             itemsPerPage={STUDENTS_PER_PAGE}
-            onPageChange={setPage}
+            onPageChange={handlePageChange}
           />
         )}
       </div>
@@ -487,12 +508,12 @@ function PerformanceRow({
 
   return (
     <div
-      className={`grid grid-cols-1 gap-4 px-5 py-5 transition-colors hover:bg-muted/20 lg:grid-cols-[96px_1.6fr_1.1fr_120px_180px_112px] lg:items-center lg:px-6 ${
+      className={`grid grid-cols-1 gap-4 px-5 py-5 transition-colors hover:bg-muted/20 xl:grid-cols-[96px_1.5fr_1fr_120px_220px_170px_112px] xl:items-center xl:px-6 ${
         !isLast ? "border-b border-border" : ""
       }`}
     >
-      <div className="flex items-center justify-between lg:block">
-        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground lg:hidden">
+      <div className="flex items-center justify-between xl:block">
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:hidden">
           Rank
         </span>
         <span className="inline-flex w-fit items-center rounded-full border border-border px-3 py-1 text-xs font-semibold text-foreground">
@@ -510,18 +531,18 @@ function PerformanceRow({
         </div>
       </div>
 
-      <div className="flex items-center justify-between lg:block">
-        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground lg:hidden">
+      <div className="flex items-center justify-between xl:block">
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:hidden">
           Updated
         </span>
-        <div>
+        <div className="rounded-2xl border border-border bg-background px-3 py-2 xl:border-0 xl:bg-transparent xl:p-0">
           <p className="text-sm text-foreground">{formatDate(student.updatedAt)}</p>
           <p className="text-xs text-muted-foreground">Created {formatDate(student.createdAt)}</p>
         </div>
       </div>
 
-      <div className="flex items-center justify-between lg:block">
-        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground lg:hidden">
+      <div className="flex items-center justify-between xl:block">
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:hidden">
           Score
         </span>
         <span
@@ -532,6 +553,29 @@ function PerformanceRow({
       </div>
 
       <div className="space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:hidden">
+          Counts
+        </span>
+        <div className="grid grid-cols-3 gap-2">
+          <CountPill
+            label="Projects"
+            value={student.completedProjectsCount ?? 0}
+          />
+          <CountPill
+            label="Topics"
+            value={student.completedTopicsCount ?? 0}
+          />
+          <CountPill
+            label="Quiz"
+            value={student.completedQuizCount ?? 0}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:hidden">
+          Progress
+        </span>
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>{tone.note}</span>
           <span>{student.percentage}%</span>
@@ -546,10 +590,21 @@ function PerformanceRow({
 
       <button
         onClick={onEdit}
-        className="inline-flex items-center justify-center rounded-2xl border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+        className="inline-flex items-center justify-center rounded-2xl border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted xl:self-center"
       >
         Update
       </button>
+    </div>
+  );
+}
+
+function CountPill({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-2xl border border-border bg-background px-3 py-2.5 text-center shadow-sm">
+      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-1 text-sm font-semibold text-foreground">{value}</p>
     </div>
   );
 }
@@ -700,13 +755,6 @@ function Pagination({
 }) {
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
-  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1).filter(
-    (pageNumber) => Math.abs(pageNumber - currentPage) <= 1 || pageNumber === 1 || pageNumber === totalPages
-  );
-
-  const uniquePageNumbers = pageNumbers.filter(
-    (pageNumber, index) => pageNumbers.indexOf(pageNumber) === index
-  );
 
   return (
     <div className="mt-5 flex flex-col gap-3 rounded-[28px] border border-border bg-card/85 p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
@@ -723,19 +771,9 @@ function Pagination({
           Prev
         </button>
 
-        {uniquePageNumbers.map((pageNumber) => (
-          <button
-            key={pageNumber}
-            onClick={() => onPageChange(pageNumber)}
-            className={`h-9 min-w-9 rounded-2xl border px-3 text-xs font-semibold transition-colors ${
-              pageNumber === currentPage
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-background text-foreground hover:bg-muted"
-            }`}
-          >
-            {pageNumber}
-          </button>
-        ))}
+        <div className="inline-flex h-9 min-w-[84px] items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 px-3 font-mono text-xs font-semibold text-primary">
+          {currentPage}/{totalPages}
+        </div>
 
         <button
           onClick={() => onPageChange(currentPage + 1)}

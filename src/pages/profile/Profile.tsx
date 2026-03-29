@@ -18,7 +18,7 @@ import YourCourses from "@/components/profile/YourCourses";
 
 
 const Skeleton = ({ className }: { className?: string }) => (
-  <div className={`animate-pulse bg-neutral-700/50 ${className}`}></div>
+  <div className={`animate-pulse rounded-2xl bg-neutral-700/50 ${className}`}></div>
 );
 
 export default function Profile() {
@@ -96,15 +96,28 @@ export default function Profile() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="col-span-1 lg:col-span-2 rounded-2xl shadow-xl border border-neutral-700"
+          className="col-span-1 lg:col-span-2 rounded-2xl border border-neutral-700 bg-neutral-900 shadow-xl"
         >
           {loading ? (
-            <div className="p-6 space-y-4">
-              <Skeleton className="h-6 w-1/3 rounded-md" />
-              <Skeleton className="h-10 w-full rounded-lg" />
-              <Skeleton className="h-6 w-1/3 rounded-md" />
-              <Skeleton className="h-10 w-full rounded-lg" />
-              <Skeleton className="h-10 w-1/2 rounded-lg mt-4" />
+            <div className="space-y-6 p-6 sm:p-8">
+              <div className="space-y-3">
+                <Skeleton className="h-5 w-28" />
+                <Skeleton className="h-12 w-full rounded-xl" />
+              </div>
+
+              <div className="space-y-3">
+                <Skeleton className="h-5 w-36" />
+                <Skeleton className="h-12 w-full rounded-xl" />
+              </div>
+
+              <div className="space-y-3">
+                <Skeleton className="h-5 w-32" />
+                <Skeleton className="h-32 w-full rounded-[1.25rem]" />
+              </div>
+
+              <div className="flex justify-end">
+                <Skeleton className="h-12 w-full rounded-xl sm:w-44" />
+              </div>
             </div>
           ) : (
             studentProfile[0] && <ProfileForm student={studentProfile[0]} />

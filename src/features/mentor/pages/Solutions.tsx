@@ -204,7 +204,7 @@ export default function Solutions() {
   }
 
   return (
-    <Container>
+    <Container size="full">
       <div
         className={`mt-20 py-10 font-mono transition-all duration-500 ${
           visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"

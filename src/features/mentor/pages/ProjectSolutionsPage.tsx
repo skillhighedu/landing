@@ -69,7 +69,7 @@ export default function ProjectSolutionsPage() {
   }, [activeFilter, solutions]);
 
   return (
-    <Container>
+    <Container size="full">
       <div className="mt-10 py-10">
         <div className="mb-8 flex items-center gap-3">
           <button

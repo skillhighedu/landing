@@ -13,7 +13,7 @@ interface ProfileCardProps {
 }
 
 const Skeleton = ({ className }: { className?: string }) => (
-  <div className={`animate-pulse bg-neutral-700/50 ${className}`}></div>
+  <div className={`animate-pulse rounded-2xl bg-neutral-700/50 ${className}`}></div>
 );
 
 export default function ProfileCard({ student, loading, onLogout }: ProfileCardProps) {
@@ -28,10 +28,13 @@ export default function ProfileCard({ student, loading, onLogout }: ProfileCardP
     >
       {loading ? (
         <>
-          <Skeleton className="w-28 h-28 rounded-full mb-4" />
-          <Skeleton className="h-6 w-40 mb-2 rounded-md" />
-          <Skeleton className="h-4 w-32 rounded-md" />
-          <Skeleton className="h-10 w-full mt-6 rounded-lg" />
+          <Skeleton className="mb-4 h-28 w-28 rounded-full" />
+          <Skeleton className="mb-2 h-6 w-40" />
+          <Skeleton className="h-4 w-32" />
+          <div className="mt-6 w-full space-y-3">
+            <Skeleton className="h-11 w-full rounded-xl" />
+            <Skeleton className="h-11 w-full rounded-xl" />
+          </div>
         </>
       ) : (
         <>

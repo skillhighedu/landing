@@ -10,7 +10,7 @@ interface YourCoursesProps {
 }
 
 const Skeleton = ({ className }: { className?: string }) => (
-  <div className={`animate-pulse bg-neutral-700/50 ${className}`}></div>
+  <div className={`animate-pulse rounded-2xl bg-neutral-700/50 ${className}`}></div>
 );
 
 export default function YourCourses({ courses, loading, onPayment }: YourCoursesProps) {
@@ -26,12 +26,14 @@ export default function YourCourses({ courses, loading, onPayment }: YourCourses
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-neutral-800 rounded-2xl shadow-lg border border-neutral-700 overflow-hidden p-4 flex flex-col space-y-2"
+              className="bg-neutral-800 rounded-2xl shadow-lg border border-neutral-700 overflow-hidden flex flex-col"
             >
-              <Skeleton className="w-full aspect-video rounded-md" />
-              <Skeleton className="h-6 w-3/4 rounded-md" />
-              <Skeleton className="h-6 w-1/2 rounded-md" />
-              <Skeleton className="h-10 w-full rounded-lg mt-auto" />
+              <Skeleton className="w-full aspect-video rounded-none" />
+              <div className="flex flex-1 flex-col gap-3 p-4">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-5 w-1/2" />
+                <Skeleton className="mt-4 h-11 w-full rounded-xl" />
+              </div>
             </motion.div>
           ))}
         </div>

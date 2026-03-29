@@ -7,6 +7,12 @@ import type { Department } from "./types";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useAuthStore } from "@/store/authStore";
 
+const scrollPageToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  document.documentElement.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  document.body.scrollTo({ top: 0, left: 0, behavior: "auto" });
+};
+
 export default function DesktopNavbar({
   departments,
   dropdownRef,
@@ -44,7 +50,11 @@ const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
   return (
     <div className="flex w-full items-center justify-between gap-4">
       {/* Logo */}
-      <Link to="/" className="flex shrink-0 items-center gap-2">
+      <Link
+        to="/"
+        onClick={scrollPageToTop}
+        className="flex shrink-0 items-center gap-2"
+      >
         <img src={Logo} alt="SkillHigh" className="h-8 sm:h-9 w-auto" />
       </Link>
 
@@ -118,6 +128,11 @@ function NavLink({ to, label }: { to: string; label: string }) {
   return (
     <Link
       to={to}
+      onClick={() => {
+        if (to === "/") {
+          scrollPageToTop();
+        }
+      }}
       className={`
         text-sm font-medium transition-colors duration-150
         ${

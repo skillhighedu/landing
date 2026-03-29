@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import api from "@/config/axiosConfig";
+import axios from "axios";
 
 interface User {
   role: string;
@@ -62,7 +63,27 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           authChecked:     true,
         });
       }
-    } catch {
+    } catch (error) {
+      const isNetworkError =
+        !navigator.onLine ||
+        (axios.isAxiosError(error) && !error.response) ||
+        (typeof error === "object" &&
+          error !== null &&
+          "isNetworkError" in error &&
+          Boolean((error as { isNetworkError?: boolean }).isNetworkError));
+
+      if (isNetworkError) {
+        set((state) => ({
+          user: state.user,
+          isAuthenticated: Boolean(state.user),
+          loading: false,
+          isCheckingAuth: false,
+          authChecked: true,
+          error: "Network connection lost",
+        }));
+        return;
+      }
+
       set({
         user:            null,
         isAuthenticated: false,

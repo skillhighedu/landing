@@ -1,8 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { X, Sun, Moon, ChevronRight, User } from "lucide-react";
+import Logo from "@/assets/logo.png";
 import CustomButton from "@/components/common/Button";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useAuthStore } from "@/store/authStore";
+
+const scrollPageToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  document.documentElement.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  document.body.scrollTo({ top: 0, left: 0, behavior: "auto" });
+};
+
+const HIDE_POPUP_ROUTES = [
+  "/mentor",
+  "/certificate/verify",
+  "/course-dashboard",
+  "/profile",
+];
 
 export default function MobileDrawer({
   open,
@@ -12,9 +26,14 @@ export default function MobileDrawer({
   onClose: () => void;
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { isAuthenticated, user } = useAuthStore();
   const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
+
+  const shouldHideNavLinks = HIDE_POPUP_ROUTES.some((route) =>
+    location.pathname.startsWith(route),
+  );
 
   if (!open) return null;
 
@@ -40,12 +59,24 @@ export default function MobileDrawer({
         "
       >
         <div className="flex items-center justify-between border-b border-neutral-200 px-5 py-5 dark:border-neutral-800">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-primary">
-              SkillHigh
-            </p>
-            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">Navigation</p>
-          </div>
+          <Link
+            to="/"
+            onClick={() => {
+              scrollPageToTop();
+              onClose();
+            }}
+            className="flex items-center gap-3"
+          >
+            <img src={Logo} alt="SkillHigh" className="h-8 w-auto" />
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-primary">
+                SkillHigh
+              </p>
+              <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                Navigation
+              </p>
+            </div>
+          </Link>
 
           <button
             onClick={onClose}
@@ -57,21 +88,38 @@ export default function MobileDrawer({
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5">
-          <nav className="flex flex-col gap-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={onClose}
-                className="flex items-center justify-between rounded-2xl border border-transparent px-4 py-3 font-mono text-sm transition hover:border-neutral-200 hover:bg-neutral-50 dark:hover:border-neutral-800 dark:hover:bg-neutral-900"
-              >
-                <span>{item.label}</span>
-                <ChevronRight className="h-4 w-4 text-neutral-400" />
-              </Link>
-            ))}
-          </nav>
+          {!shouldHideNavLinks && (
+            <>
+              <nav className="flex flex-col gap-2">
+                {navItems.map((item) => {
+                  const isActive = location.pathname === item.to;
 
-          <div className="my-5 h-px bg-neutral-200 dark:bg-neutral-800" />
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      onClick={() => {
+                        if (item.to === "/") {
+                          scrollPageToTop();
+                        }
+                        onClose();
+                      }}
+                      className={`flex items-center justify-between rounded-2xl border px-4 py-3 font-mono text-sm transition ${
+                        isActive
+                          ? "border-primary/20 bg-primary/10 text-primary"
+                          : "border-transparent hover:border-neutral-200 hover:bg-neutral-50 dark:hover:border-neutral-800 dark:hover:bg-neutral-900"
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronRight className="h-4 w-4 text-neutral-400" />
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              <div className="my-5 h-px bg-neutral-200 dark:bg-neutral-800" />
+            </>
+          )}
 
           <div className="rounded-[1.5rem] border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900/80">
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
@@ -86,7 +134,9 @@ export default function MobileDrawer({
               "
             >
               <span className="font-sans">
-                {theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                {theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"}
               </span>
               {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
             </button>
@@ -104,7 +154,7 @@ export default function MobileDrawer({
               }}
               className="w-full justify-center"
             />
-          ) : (
+          ) : !shouldHideNavLinks ? (
             <CustomButton
               title="Start learning"
               onClick={() => {
@@ -113,7 +163,7 @@ export default function MobileDrawer({
               }}
               className="w-full justify-center"
             />
-          )}
+          ) : null}
         </div>
       </div>
     </>

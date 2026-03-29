@@ -5,6 +5,7 @@ import api from "@/config/axiosConfig";
 import { handleApiError } from "@/utils/errorHandler";
 import type { ApiResponse } from "@/types";
 import type { MentorProfile } from "../types";
+import { useAuthStore } from "@/store/authStore";
 
 function InfoRow({
   icon,
@@ -50,6 +51,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
     async function fetchProfile() {
@@ -68,10 +70,12 @@ export default function Profile() {
   }, []);
 
   const handleLogout = async () => {
-    setLoggingOut(true);
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    localStorage.removeItem("token");
-    setLoggingOut(false);
+    try {
+      setLoggingOut(true);
+      await logout();
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   return (

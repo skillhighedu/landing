@@ -34,7 +34,7 @@ export default function MentorDashboard() {
 
   if (isLoading) {
     return (
-      <Container>
+      <Container size="full">
         <div className="mt-20 py-10 font-mono">
           <HeaderSection title="Project Submissions" />
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -70,7 +70,7 @@ export default function MentorDashboard() {
 
   if (!projects || projects.length === 0) {
     return (
-      <Container>
+      <Container >
         <div className="mt-20 py-10 font-mono">
           <HeaderSection title="Project Submissions" />
           <div className="mt-10 rounded-[28px] border border-dashed border-border bg-card/70 p-12 text-center">
@@ -85,7 +85,7 @@ export default function MentorDashboard() {
   }
 
   return (
-    <Container>
+    <Container size="full">
       <div className="mt-20 py-10 font-mono">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">

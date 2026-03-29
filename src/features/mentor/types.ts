@@ -40,14 +40,32 @@ export type PaginatedSubmissions = {
 };
 
 export type StudentPerformance = {
-  id: string;
+  id: string | null;
   userId: string;
   name: string;
   email: string;
   percentage: number;
   rank: number;
-  createdAt: string;
-  updatedAt: string;
+  submittedProjectsCount?: number;
+  completedProjectsCount?: number;
+  completedTopicsCount?: number;
+  completedQuizCount?: number;
+  submittedProjects?: Array<{
+    solutionId: string;
+    projectId: string;
+    projectName: string;
+    githubLink: string;
+    isCompleted: boolean;
+    reviewState: "REVIEWING" | "SUCCESSFUL" | "FAILED";
+    submittedAt: string;
+  }>;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export type PaginatedStudentPerformance = {
+  students: StudentPerformance[];
+  pagination: PaginationMeta;
 };
 
 export type MentorQuestion = {
