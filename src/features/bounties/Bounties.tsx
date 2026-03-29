@@ -17,6 +17,7 @@ import EmptyBountyState from "./components/EmptyBountyState";
 import BountyApplyDialog from "./components/BountyApplyDialog";
 import BountySubmissionDialog from "./components/BountySubmissionDialog";
 import type { AppliedBounty, Bounty } from "./types";
+import { writeBountyNotificationCache } from "./utils/bountyNotifications";
 import {
   BadgeIndianRupee,
   BriefcaseBusiness,
@@ -153,6 +154,11 @@ export default function Bounties() {
     document.documentElement.scrollTo({ top: 0, left: 0, behavior: "auto" });
     document.body.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [mode, slug]);
+
+  useEffect(() => {
+    if (!slug || mode !== "real") return;
+    writeBountyNotificationCache(slug, mode, bounties);
+  }, [bounties, mode, slug]);
 
   useEffect(() => {
     setStoredNotes(getStoredBountyNotes());
@@ -329,6 +335,65 @@ export default function Bounties() {
                       : `${reviewingCount} currently under review`}
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+            <div className="rounded-[1.5rem] border border-border bg-card p-5 shadow-sm sm:p-6">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary/70">
+                How It Works
+              </p>
+              <h3 className="mt-2 font-mono text-xl text-foreground">
+                Bounty flow
+              </h3>
+
+              <div className="mt-5 space-y-3">
+                {[
+                  "Review the brief, reward, deadline, and available slots before applying.",
+                  "Apply once you are sure you can complete the bounty within the listed time.",
+                  "After applying, move to the applied tab to track your submission state.",
+                  "Submit one clean public link with notes that explain what you built.",
+                ].map((item, index) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 rounded-2xl border border-border bg-background px-4 py-3"
+                  >
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-[11px] uppercase tracking-[0.14em] text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="font-mono text-sm font-normal leading-6 text-muted-foreground">
+                      {item}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[1.5rem] border border-border bg-card p-5 shadow-sm sm:p-6">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary/70">
+                Rules
+              </p>
+              <h3 className="mt-2 font-mono text-xl text-foreground">
+                Before you submit
+              </h3>
+
+              <div className="mt-5 space-y-3">
+                {[
+                  "Do not apply to multiple active bounties if your current one is still incomplete.",
+                  "Keep your submitted link public and accessible for the reviewer.",
+                  "Use the notes field to explain approach, deliverables, and anything important to check.",
+                  "Once work is submitted, the card locks the submit action and moves into review flow.",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl border border-dashed border-border bg-muted/20 px-4 py-3"
+                  >
+                    <p className="font-mono text-sm font-normal leading-6 text-muted-foreground">
+                      {item}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

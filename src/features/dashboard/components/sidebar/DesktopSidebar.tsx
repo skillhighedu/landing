@@ -9,6 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import LogoutConfirmDialog from "./LogoutConfirmDialog";
+import { useBountyNotificationStatus } from "@/features/bounties/hooks/useBountyNotificationStatus";
 
 interface Props {
   slug: string;
@@ -26,9 +27,11 @@ export default function DesktopSidebar({
   toggle,
 }: Props) {
   const { logout } = useAuthStore();
+  const hasActiveBounties = useBountyNotificationStatus(slug, mode);
 
   const buildPath = (path?: string) => {
-    const base = mode === "demo" ? `/course/${slug}/demo` : `/course-dashboard/${slug}`;
+    const base =
+      mode === "demo" ? `/course/${slug}/demo` : `/course-dashboard/${slug}`;
     return `${base}${path ? `/${path}` : ""}`;
   };
 
@@ -38,7 +41,7 @@ export default function DesktopSidebar({
   return (
     <TooltipProvider delayDuration={120}>
       <aside
-        className={`fixed left-0  z-40 hidden h-[calc(100vh-0rem)] flex-col border-r border-neutral-200 bg-white/95 backdrop-blur-xl transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900/95 lg:flex ${
+        className={`fixed left-0 z-40 hidden h-[calc(100vh-0rem)] flex-col border-r border-neutral-200 bg-white/95 backdrop-blur-xl transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900/95 lg:flex ${
           open ? "w-56" : "w-16"
         }`}
       >
@@ -55,6 +58,9 @@ export default function DesktopSidebar({
 
         <nav className="flex flex-1 flex-col gap-2 px-2 py-4">
           {navItems.map(({ label, icon: Icon, path, comingSoon }) => {
+            const showBountyNotification =
+              path === "bounties" && mode === "real" && hasActiveBounties;
+
             const navNode = (
               <NavLink
                 key={label}
@@ -68,19 +74,31 @@ export default function DesktopSidebar({
                   }`
                 }
               >
-                <Icon
-                  size={20}
-                  className="shrink-0 transition-all duration-200 text-neutral-900 dark:text-neutral-400  group-hover:-translate-y-[1px] group-hover:scale-110"
-                />
+                <div className="relative shrink-0">
+                  <Icon
+                    size={20}
+                    className="text-neutral-900 transition-all duration-200 group-hover:-translate-y-[1px] group-hover:scale-110 dark:text-neutral-400"
+                  />
+                  {showBountyNotification && (
+                    <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-white dark:ring-neutral-900" />
+                  )}
+                </div>
 
                 {open && (
                   <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
                     <span className="truncate">{label}</span>
-                    {comingSoon && (
-                      <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] text-white/80">
-                        Soon
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {showBountyNotification && (
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-primary">
+                          New
+                        </span>
+                      )}
+                      {comingSoon && (
+                        <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] text-white/80">
+                          Soon
+                        </span>
+                      )}
+                    </div>
                   </div>
                 )}
               </NavLink>
@@ -94,7 +112,7 @@ export default function DesktopSidebar({
               <Tooltip key={label}>
                 <TooltipTrigger asChild>{navNode}</TooltipTrigger>
                 <TooltipContent side="right" sideOffset={12} className="font-mono">
-                  {comingSoon ? `${label} â€¢ Coming soon` : label}
+                  {comingSoon ? `${label} - Coming soon` : label}
                 </TooltipContent>
               </Tooltip>
             );

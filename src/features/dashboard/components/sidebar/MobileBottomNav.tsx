@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useAuthStore } from "@/store/authStore";
 import LogoutConfirmDialog from "./LogoutConfirmDialog";
+import { useBountyNotificationStatus } from "@/features/bounties/hooks/useBountyNotificationStatus";
 
 export default function MobileBottomNav({
   slug,
@@ -14,6 +15,7 @@ export default function MobileBottomNav({
   items,
 }: MobileSidebarProps) {
   const { logout } = useAuthStore();
+  const hasActiveBounties = useBountyNotificationStatus(slug, mode);
 
   const buildPath = (path?: string) => {
     const base =
@@ -26,7 +28,6 @@ export default function MobileBottomNav({
 
   if (!slug) return null;
 
-  /* split logout item */
   const navItems = items.filter((i) => i.action !== "logout");
   const logoutItem = items.find((i) => i.action === "logout");
 
@@ -40,7 +41,6 @@ export default function MobileBottomNav({
       "
       aria-label="Dashboard navigation"
     >
-      {/* NORMAL NAV ITEMS */}
       {navItems.map(({ label, icon: Icon, path }) => (
         <Tooltip key={label}>
           <TooltipTrigger asChild>
@@ -58,7 +58,12 @@ export default function MobileBottomNav({
               `
               }
             >
-              <Icon size={22} />
+              <div className="relative">
+                <Icon size={22} />
+                {path === "bounties" && mode === "real" && hasActiveBounties && (
+                  <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-white dark:ring-neutral-900" />
+                )}
+              </div>
               <span className="max-w-[72px] font-mono truncate text-[10px] font-medium leading-none">
                 {label}
               </span>
@@ -71,13 +76,12 @@ export default function MobileBottomNav({
         </Tooltip>
       ))}
 
-      {/* LOGOUT BUTTON */}
       {logoutItem && (
         <Tooltip>
           <TooltipTrigger asChild>
             <LogoutConfirmDialog onConfirm={logout}>
               <button
-                disabled={mode==="demo"}
+                disabled={mode === "demo"}
                 className="flex h-full w-full flex-col items-center justify-center gap-1 text-red-500 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <logoutItem.icon size={22} />
