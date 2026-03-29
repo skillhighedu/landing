@@ -1,4 +1,3 @@
-/* ---------- SINGLE BOUNTY ---------- */
 export interface Bounty {
   id: string;
   name: string;
@@ -12,29 +11,49 @@ export interface Bounty {
   createdAt: string;
   link: string | null;
   locked: boolean;
-  applicationCount:string
+  applicationCount: string;
 }
 
-/* ---------- META ---------- */
+export interface AppliedBounty {
+  id: string;
+  bountyId: string;
+  name: string;
+  description: string;
+  link: string | null;
+  amount: number;
+  type: string;
+  expiryDate: string;
+  isBountyAwarded?: boolean | null;
+  submittedLink?: string | null;
+  status?: string | null;
+  notes?: string | null;
+}
+
 export interface BountyMeta {
   demo: boolean;
   totalBounties: number;
   unlockedBounties: number;
 }
 
-/* ---------- RESPONSE DATA ---------- */
 export interface BountiesResponseData {
   courseId: string;
   bounties: Bounty[];
   meta: BountyMeta;
 }
 
-export type DemoBounty = {
-  id: string;
-  title: string;
-  description: string;
-  reward: string;
-  difficulty: "Easy" | "Medium" | "Hard";
-  locked?: boolean;
-};
+export interface ApplyBountyPayload {
+  bountyId: string;
+  courseId: string;
+}
 
+export interface CancelBountyApplicationPayload {
+  applicationId: string;
+  bountyId: string;
+}
+
+export interface SubmitBountyPayload {
+  bountyId: string;
+  applicationId: string;
+  submittedLink: string;
+  notes: string;
+}

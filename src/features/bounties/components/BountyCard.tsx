@@ -16,7 +16,8 @@ import CustomButton from "@/components/common/Button";
 interface Props {
   bounty: Bounty;
   locked?: boolean;
-  onOpen?: () => void;
+  isApplied?: boolean;
+  onApply?: (bounty: Bounty) => void;
 }
 
 const getRemainingTime = (expiry: string) => {
@@ -34,7 +35,8 @@ const getRemainingTime = (expiry: string) => {
 export default function BountyCard({
   bounty,
   locked,
-  onOpen,
+  isApplied,
+  onApply,
 }: Props) {
   const [timeLeft, setTimeLeft] = useState(getRemainingTime(bounty.expiryDate));
 
@@ -52,37 +54,39 @@ export default function BountyCard({
   let displayStatus = bounty.status;
   if (isExpired) displayStatus = "EXPIRED";
   else if (isClosed) displayStatus = "CLOSED";
+  else if (isApplied) displayStatus = "APPLIED";
 
   return (
-    <Card
-      onClick={onOpen}
-      className="flex h-full cursor-pointer flex-col rounded-[1.75rem] border p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg"
-    >
+    <Card className="flex h-full flex-col rounded-[1.5rem] border border-border p-5 shadow-sm transition-all duration-200 hover:border-primary/20 hover:shadow-md sm:p-6">
       <div className="flex flex-1 flex-col space-y-4">
         <div className="flex items-start justify-between gap-3">
-          <div>
+          <div className="min-w-0">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
               <Target className="h-3.5 w-3.5" />
-              Bounty
+              {bounty.type}
             </div>
 
-            <h3 className="mt-3 font-mono text-lg leading-snug">{bounty.name}</h3>
+            <h3 className="mt-3 font-mono text-lg leading-snug text-foreground">
+              {bounty.name}
+            </h3>
           </div>
 
           <span
-            className={`rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] ${
+            className={`shrink-0 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] ${
               displayStatus === "EXPIRED"
-                ? "bg-gray-200 text-gray-700"
+                ? "bg-muted text-muted-foreground"
                 : displayStatus === "CLOSED"
                   ? "bg-red-100 text-red-600"
-                  : "bg-green-100 text-green-700"
+                  : displayStatus === "APPLIED"
+                    ? "bg-primary/10 text-primary"
+                    : "bg-green-100 text-green-700"
             }`}
           >
             {displayStatus}
           </span>
         </div>
 
-        <p className="min-h-[84px] text-sm leading-7 text-muted-foreground font-mono line-clamp-3">
+        <p className="min-h-[72px] font-mono text-sm font-normal leading-7 text-muted-foreground line-clamp-3">
           {bounty.description}
         </p>
 
@@ -91,7 +95,7 @@ export default function BountyCard({
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
               Slots
             </p>
-            <div className="mt-2 flex items-center gap-2 text-sm">
+            <div className="mt-2 flex items-center gap-2 text-sm text-foreground">
               <ClipboardList size={16} /> {bounty.slots}
             </div>
           </div>
@@ -127,12 +131,12 @@ export default function BountyCard({
             rel="noreferrer"
             className="flex items-center gap-1 font-mono text-sm text-primary hover:underline"
           >
-            <Link2 size={16} /> View Details <ArrowUpRight size={16} />
+            <Link2 size={16} /> View brief <ArrowUpRight size={16} />
           </a>
         )}
       </div>
 
-      <div className="mt-6 flex items-center justify-between border-t border-border pt-5">
+      <div className="mt-6 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
         <span className="font-mono text-lg font-semibold text-primary">
           Rs. {bounty.amount}
         </span>
@@ -141,15 +145,18 @@ export default function BountyCard({
           title={
             locked
               ? "Locked"
-              : isExpired
-                ? "Expired"
-                : isClosed
-                  ? "Closed"
-                  : "Apply"
+              : isApplied
+                ? "Applied"
+                : isExpired
+                  ? "Expired"
+                  : isClosed
+                    ? "Closed"
+                    : "Apply Now"
           }
-          disabled={locked || isExpired || isClosed}
+          disabled={locked || isExpired || isClosed || isApplied}
+          onClick={() => onApply?.(bounty)}
           icon={locked ? <Lock size={16} /> : undefined}
-          className="font-mono text-sm"
+          className="w-full justify-center font-mono text-sm sm:w-auto"
         />
       </div>
     </Card>

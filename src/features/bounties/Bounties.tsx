@@ -1,13 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import DashboardLayout from "@/features/dashboard/layout/DashboardLayout";
 import DemoNotice from "@/features/dashboard/components/common/DemoNotice";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import {
-  useDemoBounties,
+  useAppliedBounties,
+  useApplyBounty,
   useBounties,
+  useCancelBountyApplication,
+  useDemoBounties,
+  useSubmitBountyWork,
 } from "./hooks/useBounties";
 import BountyCard from "./components/BountyCard";
+import AppliedBountyCard from "./components/AppliedBountyCard";
 import EmptyBountyState from "./components/EmptyBountyState";
+import BountyApplyDialog from "./components/BountyApplyDialog";
+import BountySubmissionDialog from "./components/BountySubmissionDialog";
+import type { AppliedBounty, Bounty } from "./types";
 import {
   BadgeIndianRupee,
   BriefcaseBusiness,
@@ -15,8 +24,45 @@ import {
   Sparkles,
   Target,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type TabType = "available" | "applied";
+const BOUNTY_NOTES_STORAGE_KEY = "skillhigh-bounty-notes";
+
+const getStoredBountyNotes = (): Record<string, string> => {
+  if (typeof window === "undefined") return {};
+
+  const raw = window.sessionStorage.getItem(BOUNTY_NOTES_STORAGE_KEY);
+  if (!raw) return {};
+
+  try {
+    return JSON.parse(raw) as Record<string, string>;
+  } catch {
+    return {};
+  }
+};
+
+const setStoredBountyNote = (applicationId: string, notes: string) => {
+  if (typeof window === "undefined") return;
+
+  const current = getStoredBountyNotes();
+  window.sessionStorage.setItem(
+    BOUNTY_NOTES_STORAGE_KEY,
+    JSON.stringify({
+      ...current,
+      [applicationId]: notes,
+    }),
+  );
+};
 
 function BountyCardSkeleton() {
   return (
@@ -52,12 +98,37 @@ function BountyCardSkeleton() {
 export default function Bounties() {
   const { slug, mode } = useDashboardRouteStore();
   const [tab, setTab] = useState<TabType>("available");
+  const [selectedBounty, setSelectedBounty] = useState<Bounty | null>(null);
+  const [selectedAppliedBounty, setSelectedAppliedBounty] =
+    useState<AppliedBounty | null>(null);
+  const [cancelTarget, setCancelTarget] = useState<AppliedBounty | null>(null);
+  const [storedNotes, setStoredNotes] = useState<Record<string, string>>({});
+
   const demoAvailable = useDemoBounties(slug);
   const realAvailable = useBounties(slug);
   const availableQuery = mode === "demo" ? demoAvailable : realAvailable;
   const locked = mode === "demo";
+  const courseId = availableQuery.data?.courseId;
+  const appliedQuery = useAppliedBounties(mode === "demo" ? undefined : courseId);
+  const applyMutation = useApplyBounty();
+  const cancelMutation = useCancelBountyApplication();
+  const submitMutation = useSubmitBountyWork();
+
   const bounties = availableQuery.data?.bounties ?? [];
-  const totalBounties = availableQuery.data?.meta?.totalBounties ?? bounties.length;
+  const appliedBounties = useMemo(
+    () =>
+      (appliedQuery.data ?? []).map((bounty) => ({
+        ...bounty,
+        notes: storedNotes[bounty.id] ?? bounty.notes ?? null,
+      })),
+    [appliedQuery.data, storedNotes],
+  );
+  const appliedIds = useMemo(
+    () => new Set(appliedBounties.map((bounty) => bounty.bountyId)),
+    [appliedBounties],
+  );
+  const totalBounties =
+    availableQuery.data?.meta?.totalBounties ?? bounties.length;
   const openBounties = useMemo(
     () =>
       bounties.filter((bounty) => {
@@ -71,13 +142,10 @@ export default function Bounties() {
     () => bounties.reduce((sum, bounty) => sum + Number(bounty.amount || 0), 0),
     [bounties],
   );
-  const closingSoon = useMemo(
-    () =>
-      bounties.filter((bounty) => {
-        const diff = new Date(bounty.expiryDate).getTime() - Date.now();
-        return diff > 0 && diff <= 1000 * 60 * 60 * 24 * 3;
-      }).length,
-    [bounties],
+  const appliedCount = appliedBounties.length;
+  const reviewingCount = useMemo(
+    () => appliedBounties.filter((bounty) => bounty.status === "REVIEWING").length,
+    [appliedBounties],
   );
 
   useEffect(() => {
@@ -85,6 +153,104 @@ export default function Bounties() {
     document.documentElement.scrollTo({ top: 0, left: 0, behavior: "auto" });
     document.body.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [mode, slug]);
+
+  useEffect(() => {
+    setStoredNotes(getStoredBountyNotes());
+  }, []);
+
+  const handleConfirmApply = () => {
+    if (!selectedBounty || !courseId) {
+      toast.error("Course information is missing. Please refresh and try again.");
+      return;
+    }
+
+    applyMutation.mutate(
+      {
+        bountyId: selectedBounty.id,
+        courseId,
+      },
+      {
+        onSuccess: () => {
+          setSelectedBounty(null);
+          setTab("applied");
+        },
+      },
+    );
+  };
+
+  const handleSubmitWork = ({
+    submittedLink,
+    notes,
+  }: {
+    submittedLink: string;
+    notes: string;
+  }) => {
+    if (!selectedAppliedBounty || !courseId) {
+      toast.error("Bounty submission is missing required details.");
+      return;
+    }
+
+    if (!submittedLink.trim()) {
+      toast.error("Submission link is required.");
+      return;
+    }
+
+    const isValidLink = /^https?:\/\/\S+$/i.test(submittedLink.trim());
+    if (!isValidLink) {
+      toast.error("Enter a valid submission URL.");
+      return;
+    }
+
+    if (!notes.trim() || notes.trim().length < 10) {
+      toast.error("Notes should be at least 10 characters.");
+      return;
+    }
+
+    submitMutation.mutate(
+      {
+        payload: {
+          bountyId: selectedAppliedBounty.bountyId,
+          applicationId: selectedAppliedBounty.id,
+          submittedLink: submittedLink.trim(),
+          notes: notes.trim(),
+        },
+        courseId,
+      },
+      {
+        onSuccess: () => {
+          setStoredBountyNote(selectedAppliedBounty.id, notes.trim());
+          setStoredNotes((prev) => ({
+            ...prev,
+            [selectedAppliedBounty.id]: notes.trim(),
+          }));
+          setSelectedAppliedBounty(null);
+        },
+      },
+    );
+  };
+
+  const handleCancelApplication = () => {
+    if (!cancelTarget || !courseId) {
+      toast.error("Application details are missing.");
+      return;
+    }
+
+    cancelMutation.mutate(
+      {
+        payload: {
+          applicationId: cancelTarget.id,
+          bountyId: cancelTarget.bountyId,
+        },
+        courseId,
+      },
+      {
+        onSuccess: () => {
+          setCancelTarget(null);
+          setTab("available");
+        },
+      },
+    );
+  };
 
   return (
     <DashboardLayout title="Bounties">
@@ -101,11 +267,11 @@ export default function Bounties() {
                 </div>
 
                 <h2 className="mt-4 max-w-2xl font-mono text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
-                  Explore time-bound challenges, apply fast, and earn for solving real tasks.
+                  Apply, track your entries, and submit work without leaving the course dashboard.
                 </h2>
 
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-                  Keep an eye on deadlines, open slots, and payout values. The best bounties usually move quickly.
+                  Open bounties move into your applied queue after confirmation, and completed work can be submitted directly from the applied tab.
                 </p>
               </div>
 
@@ -115,8 +281,12 @@ export default function Bounties() {
                     <BriefcaseBusiness className="h-4 w-4" />
                     Total
                   </div>
-                  <div className="mt-3 text-2xl font-semibold text-foreground">{totalBounties}</div>
-                  <p className="mt-1 text-sm text-muted-foreground">Bounties currently listed</p>
+                  <div className="mt-3 text-2xl font-semibold text-foreground">
+                    {totalBounties}
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Bounties currently listed
+                  </p>
                 </div>
 
                 <div className="rounded-2xl border border-border bg-background/80 px-4 py-4">
@@ -124,8 +294,12 @@ export default function Bounties() {
                     <Target className="h-4 w-4" />
                     Open
                   </div>
-                  <div className="mt-3 text-2xl font-semibold text-foreground">{openBounties}</div>
-                  <p className="mt-1 text-sm text-muted-foreground">Accepting applications now</p>
+                  <div className="mt-3 text-2xl font-semibold text-foreground">
+                    {openBounties}
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Accepting applications now
+                  </p>
                 </div>
 
                 <div className="rounded-2xl border border-border bg-background/80 px-4 py-4">
@@ -133,23 +307,33 @@ export default function Bounties() {
                     <BadgeIndianRupee className="h-4 w-4" />
                     Reward Pool
                   </div>
-                  <div className="mt-3 text-2xl font-semibold text-foreground">Rs. {totalReward}</div>
-                  <p className="mt-1 text-sm text-muted-foreground">Combined listed reward value</p>
+                  <div className="mt-3 text-2xl font-semibold text-foreground">
+                    Rs. {totalReward}
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Combined listed reward value
+                  </p>
                 </div>
 
                 <div className="rounded-2xl border border-border bg-background/80 px-4 py-4">
                   <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                     <Clock3 className="h-4 w-4" />
-                    Closing Soon
+                    Applied
                   </div>
-                  <div className="mt-3 text-2xl font-semibold text-foreground">{closingSoon}</div>
-                  <p className="mt-1 text-sm text-muted-foreground">Ending within the next 3 days</p>
+                  <div className="mt-3 text-2xl font-semibold text-foreground">
+                    {mode === "demo" ? 0 : appliedCount}
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {mode === "demo"
+                      ? "Application flow is disabled in demo mode"
+                      : `${reviewingCount} currently under review`}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="flex gap-3 border-b border-border pb-4">
+          <div className="flex flex-wrap gap-3 border-b border-border pb-4">
             <button
               onClick={() => setTab("available")}
               className={`rounded-xl px-4 py-2 font-mono text-sm ${
@@ -159,6 +343,18 @@ export default function Bounties() {
               }`}
             >
               Available Bounties
+            </button>
+
+            <button
+              onClick={() => setTab("applied")}
+              disabled={mode === "demo"}
+              className={`rounded-xl px-4 py-2 font-mono text-sm ${
+                tab === "applied"
+                  ? "bg-primary text-white"
+                  : "text-foreground hover:bg-muted"
+              } ${mode === "demo" ? "cursor-not-allowed opacity-50" : ""}`}
+            >
+              Applied Bounties
             </button>
           </div>
 
@@ -175,15 +371,50 @@ export default function Bounties() {
                   title="Unable to load bounties right now"
                   subtitle="Please refresh and try again in a moment."
                 />
-              ) : availableQuery.data?.bounties.length === 0 ? (
+              ) : bounties.length === 0 ? (
                 <EmptyBountyState title="No bounties available right now" />
               ) : (
                 <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {availableQuery.data?.bounties.map((bounty) => (
+                  {bounties.map((bounty) => (
                     <BountyCard
                       key={bounty.id}
                       bounty={bounty}
                       locked={locked}
+                      isApplied={appliedIds.has(bounty.id)}
+                      onApply={(item) => setSelectedBounty(item)}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {tab === "applied" && !locked && (
+            <>
+              {appliedQuery.isLoading ? (
+                <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <BountyCardSkeleton key={index} />
+                  ))}
+                </div>
+              ) : appliedQuery.isError ? (
+                <EmptyBountyState
+                  title="Unable to load applied bounties"
+                  subtitle="Please refresh and try again."
+                />
+              ) : appliedBounties.length === 0 ? (
+                <EmptyBountyState
+                  title="No applied bounties yet"
+                  subtitle="Apply to a bounty from the available tab and it will show up here."
+                />
+              ) : (
+                <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                  {appliedBounties.map((bounty) => (
+                    <AppliedBountyCard
+                      key={bounty.id}
+                      bounty={bounty}
+                      onSubmit={setSelectedAppliedBounty}
+                      onCancel={setCancelTarget}
                     />
                   ))}
                 </div>
@@ -192,6 +423,50 @@ export default function Bounties() {
           )}
         </section>
       </div>
+
+      <BountyApplyDialog
+        open={Boolean(selectedBounty)}
+        bounty={selectedBounty}
+        submitting={applyMutation.isPending}
+        onClose={() => setSelectedBounty(null)}
+        onConfirm={handleConfirmApply}
+      />
+
+      <BountySubmissionDialog
+        open={Boolean(selectedAppliedBounty)}
+        bounty={selectedAppliedBounty}
+        submitting={submitMutation.isPending}
+        onClose={() => setSelectedAppliedBounty(null)}
+        onSubmit={handleSubmitWork}
+      />
+
+      <AlertDialog
+        open={Boolean(cancelTarget)}
+        onOpenChange={(open) => !open && setCancelTarget(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-mono">
+              Cancel this application?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="font-sans">
+              This will remove your application and return the slot to the bounty.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={cancelMutation.isPending}>
+              Keep Application
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleCancelApplication}
+              disabled={cancelMutation.isPending}
+            >
+              {cancelMutation.isPending ? "Cancelling..." : "Cancel Application"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </DashboardLayout>
   );
 }
