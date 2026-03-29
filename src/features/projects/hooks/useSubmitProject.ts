@@ -3,7 +3,9 @@ import {
   submitProjectService,
   updateProjectSubmissionService,
   type SubmitProjectPayload,
+  type UpdateProjectPayload,
 } from "../services/project.service";
+import { toast } from "sonner";
 
 export function useSubmitProject() {
   const queryClient = useQueryClient();
@@ -12,8 +14,15 @@ export function useSubmitProject() {
     mutationFn: (payload: SubmitProjectPayload) => submitProjectService(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["projects"],
+        queryKey: ["real-projects"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["demo-projects"],
+      });
+      toast.success("Project submitted successfully.");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Failed to submit project.");
     },
   });
 }
@@ -22,17 +31,19 @@ export function useUpdateProjectSubmission() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      submissionId,
-      payload,
-    }: {
-      submissionId: string;
-      payload: SubmitProjectPayload;
-    }) => updateProjectSubmissionService(submissionId, payload),
+    mutationFn: (payload: UpdateProjectPayload) =>
+      updateProjectSubmissionService(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["projects"],
+        queryKey: ["real-projects"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["demo-projects"],
+      });
+      toast.success("Project submission updated successfully.");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Failed to update project submission.");
     },
   });
 }

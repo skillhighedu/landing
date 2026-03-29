@@ -8,6 +8,12 @@ export interface SubmitProjectPayload {
   explanation: string;
 }
 
+export interface UpdateProjectPayload {
+  solutionId: string;
+  githubLink: string;
+  explanation: string;
+}
+
 export interface SubmitProjectResponse {
   id: string;
   projectId: string;
@@ -20,7 +26,7 @@ export const submitProjectService = async (
   payload: SubmitProjectPayload
 ): Promise<SubmitProjectResponse> => {
   try {
-    const url = `/projects/submission`;
+    const url = `/projects/submitSolution`;
 
     const res =
       await apiClient.post<ApiResponse<SubmitProjectResponse>>(url, payload);
@@ -34,11 +40,10 @@ export const submitProjectService = async (
 
 
 export const updateProjectSubmissionService = async (
-  submissionId: string,
-  payload: SubmitProjectPayload
+  payload: UpdateProjectPayload
 ): Promise<SubmitProjectResponse> => {
   try {
-    const url = `/projects/submission/${submissionId}`;
+    const url = `/projects/updateSolution`;
 
     const res =
       await apiClient.put<ApiResponse<SubmitProjectResponse>>(url, payload);

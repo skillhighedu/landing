@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { BookOpenCheck, Layers3, PlayCircle } from "lucide-react";
 import CourseHeaderActions from "./CourseHeaderActions";
 import type { CourseHeaderProps } from "./types";
 
@@ -13,46 +14,49 @@ export default function CourseHeader({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
-      className="max-w-7xl mx-auto mt-3 mb-12 px-2 sm:px-0"
+      className="mx-auto mb-8 mt-2 max-w-7xl px-0 sm:mb-10"
     >
       <div
         className="
-          relative overflow-hidden rounded-2xl sm:rounded-3xl
-          flex flex-col justify-end
-          min-h-[220px] sm:min-h-[280px] md:min-h-[440px]
+          relative flex min-h-[280px] flex-col justify-end overflow-hidden rounded-[1.75rem]
+          border border-black/5 sm:min-h-[340px] lg:min-h-[420px]
         "
       >
-        {/* Background image */}
         <img
           src={courseThumbnail}
           alt={courseName}
-          className="absolute inset-0 h-full w-full object-cover scale-105"
+          className="absolute inset-0 h-full w-full scale-[1.03] object-cover"
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/55 to-black/35" />
+        <div className="absolute -right-12 top-8 h-36 w-36 rounded-full bg-primary/20 blur-3xl" />
+        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-black/45 to-transparent" />
 
-        {/* Content */}
         <div
           className="
             relative z-10
             w-full
-            p-4 sm:p-6 md:p-10
-            text-white
+            p-4 text-white sm:p-6 lg:p-8
           "
         >
-          {/* Title */}
-          <div className="max-w-3xl">
-            <h1 className="text-xl sm:text-2xl md:text-4xl font-semibold leading-tight">
-              {courseName}
-            </h1>
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(280px,0.8fr)] lg:items-end">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-white/85">
+                <BookOpenCheck className="h-4 w-4" />
+                Course Dashboard
+              </div>
 
-            <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-white/80">
-              Your learning space · Course overview
-            </p>
+              <h1 className="mt-4  text-2xl t sm:text-3xl lg:text-5xl">
+                {courseName}
+              </h1>
+
+              <p className="mt-3 max-w-2xl font-mono text-sm leading-7 text-white/80 sm:text-base">
+                Start from the essentials, track your progress, and move through the curriculum with a clearer learning flow.
+              </p>
+            </div>
+
           </div>
 
-          {/* Actions */}
           <CourseHeaderActions slug={slug} mode={mode} />
         </div>
       </div>

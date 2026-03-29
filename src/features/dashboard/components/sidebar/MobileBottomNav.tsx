@@ -5,12 +5,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import { useAuthStore } from "@/store/authStore";
 import LogoutConfirmDialog from "./LogoutConfirmDialog";
 
-export default function MobileBottomNav({ items }: MobileSidebarProps) {
-  const { slug, mode } = useDashboardRouteStore();
+export default function MobileBottomNav({
+  slug,
+  mode,
+  items,
+}: MobileSidebarProps) {
   const { logout } = useAuthStore();
 
   const buildPath = (path?: string) => {

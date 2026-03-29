@@ -25,63 +25,63 @@ export default function Player({ currentLesson }: PlayerProps) {
       <div
         className="
           relative w-full aspect-video
-          rounded-2xl overflow-hidden
-          border border-white/10
-          bg-neutral-900
+          overflow-hidden rounded-[1.5rem]
+          border border-border
+          bg-neutral-950
           shadow-xl
         "
       >
-        {/* Loading */}
         {currentLesson && isVideoLoading && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-neutral-900/90 backdrop-blur-sm transition-opacity">
             <Loader2 className="h-6 w-6 animate-spin text-white/70" />
-            <p className="text-sm text-white/50">Loading video…</p>
+            <p className="font-mono text-sm text-white/50">Loading video...</p>
           </div>
         )}
 
-        {/* Error */}
         {currentLesson && hasError && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 bg-neutral-900">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-neutral-900 px-6 text-center">
             <p className="text-lg font-semibold text-red-400">
               Failed to load video
             </p>
-            <p className="text-sm text-white/50 mt-2">
+            <p className="mt-2 text-sm text-white/50">
               Please try again later.
             </p>
           </div>
         )}
 
-        {/* Video */}
         {currentLesson ? (
           <iframe
             key={currentLesson.id}
             src={currentLesson.video!}
-            className="absolute inset-0 w-full h-full"
+            className="absolute inset-0 h-full w-full"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
             onLoad={handleLoad}
             onError={handleError}
           />
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
             <p className="text-xl font-semibold text-white/70">
               Select a lesson
             </p>
-            <p className="text-sm text-white/50 mt-2">
+            <p className="mt-2 text-sm text-white/50">
               Choose a lesson from the sidebar
             </p>
           </div>
         )}
 
-        {/* Locked overlay */}
         {currentLesson?.locked && <BuyOverlay />}
       </div>
 
-      {/* Lesson title */}
       {currentLesson && (
-        <h2 className="text-sm sm:text-base font-medium text-white/80 truncate">
-          {currentLesson.title}
-        </h2>
+        <div className="rounded-2xl border border-border bg-background px-4 py-3 sm:px-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary/70">
+            Current lesson
+          </p>
+          <h2 className="mt-2 text-sm font-semibold text-foreground sm:text-base">
+            {currentLesson.title}
+          </h2>
+        </div>
       )}
     </div>
   );

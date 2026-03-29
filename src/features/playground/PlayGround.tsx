@@ -13,6 +13,7 @@ import type { PlayGroundProps } from "@/types/dashboard/demo";
 import DemoNotice from "../dashboard/components/common/DemoNotice";
 import Container from "@/layouts/Container";
 import type { CourseLesson } from "../dashboard/types";
+import CustomButton from "@/components/common/Button";
 
 export default function PlayGround({ mode }: PlayGroundProps) {
   const { slug = "" } = useParams();
@@ -46,24 +47,32 @@ export default function PlayGround({ mode }: PlayGroundProps) {
   return (
     <DashboardLayout title={currentLesson?.title}>
       <Container size="full">
-
         {lessonQuery.isLoading ? (
           <PlayGroundSkeleton />
         ) : (
           <>
             {mode === "demo" && <DemoNotice />}
 
-            {/* Mobile Lessons Button */}
-            <div className="lg:hidden mb-4 flex justify-end">
-              <button
-                onClick={() => setMobileOpen(true)}
-                className="px-4 py-2 rounded-lg bg-primary text-white text-sm"
-              >
-                Lessons
-              </button>
+            <div className="mb-4 rounded-[1.5rem] border border-border bg-card px-4 py-4 shadow-sm sm:px-5 lg:hidden">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                    Lesson Workspace
+                  </p>
+                  <p className="mt-1 text-sm text-foreground">
+                    Open the lesson list to switch content quickly.
+                  </p>
+                </div>
+
+                <CustomButton
+                  onClick={() => setMobileOpen(true)}
+                  title="Lessons"
+                  className="w-full justify-center font-mono sm:w-auto"
+                />
+              </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-6">
+            <div className="flex flex-col gap-6 xl:flex-row">
               <main className="flex-1 min-w-0">
                 <PlayGroundContent
                   lessons={lessons}

@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import MiniSidebar from "@/features/dashboard/components/Sidebar";
+import Sidebar from "@/features/dashboard/components/Sidebar";
 import { useDashboardRouteStore } from "@/store/dashboardRoute.store";
 import HeaderSection from "@/components/common/HeaderSection";
 import { useSidebarStore } from "../store/sidebar.store";
@@ -30,7 +30,7 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen flex bg-background text-foreground">
-      <MiniSidebar />
+      <Sidebar slug={slug} mode={mode} />
 
       <main
         className={`

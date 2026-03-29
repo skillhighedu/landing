@@ -26,7 +26,7 @@ export const fetchProjects = async (
 ): Promise<ProjectsResponse> => {
   try {
     const url =
-      `/course-projects/course/${slug}/projects`
+      `/projects/course/${slug}/projects`
      
 
   const res = await apiClient.get<ApiResponse<ProjectsResponse>>(url);

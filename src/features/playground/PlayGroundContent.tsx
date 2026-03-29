@@ -14,35 +14,25 @@ export default function PlayGroundContent({
  
 
   return (
-    <div className="space-y-6 min-w-0">
-      {/* Video */}
-      <Player currentLesson={currentLesson} />
+    <div className="min-w-0 space-y-6">
+      <div className="rounded-[1.5rem] border border-border bg-card p-3 shadow-sm sm:p-4">
+        <Player currentLesson={currentLesson} />
+      </div>
 
-      {/* Lesson navigation / actions */}
-      <Actions
-        lessons={lessons}
-        currentLesson={currentLesson}
-        onChangeLesson={setCurrentLesson}
-        onOpenDiscussion={() => setActiveTab("discussion")}
-      />
+      <div className="rounded-[1.5rem] border border-border bg-card p-4 shadow-sm sm:p-5">
+        <Actions
+          lessons={lessons}
+          currentLesson={currentLesson}
+          onChangeLesson={setCurrentLesson}
+          onOpenDiscussion={() => setActiveTab("discussion")}
+        />
+      </div>
 
-      {/* Content */}
       {activeTab === "content" && (
-        
+        <div className="rounded-[1.5rem] border border-border bg-card p-4 shadow-sm sm:p-6">
           <Description description={currentLesson.description}  />
-  
-      )}
-
-      {/* {activeTab === "discussion" && (
-        <div className="rounded-2xl border border-white/10 bg-neutral-900/80 p-5 sm:p-6">
-          <h3 className="text-lg font-semibold mb-2">
-            Discussion
-          </h3>
-          <p className="text-white/60 text-sm">
-            Discussion UI goes here.
-          </p>
         </div>
-      )} */}
+      )}
     </div>
   );
 }

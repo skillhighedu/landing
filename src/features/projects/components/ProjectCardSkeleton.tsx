@@ -2,26 +2,27 @@ export default function ProjectCardSkeleton() {
   return (
     <div
       className="
-        rounded-3xl border border-border
-        bg-card
-        p-7
-        min-h-60
-        flex flex-col justify-between
+        flex min-h-72 flex-col justify-between rounded-[1.75rem] border border-border
+        bg-card p-6
         animate-pulse
+        shadow-sm
       "
     >
-      {/* Top */}
       <div>
-        <div className="h-6 w-3/4 bg-muted rounded mb-4" />
+        <div className="mb-4 h-6 w-24 rounded-full bg-muted" />
+        <div className="mb-4 h-6 w-3/4 rounded bg-muted" />
 
-        <div className="h-4 w-40 bg-muted rounded" />
+        <div className="h-4 w-40 rounded bg-muted" />
       </div>
 
-      {/* Bottom */}
-      <div className="flex items-center justify-between mt-8">
-        <div className="h-6 w-20 bg-muted rounded-full" />
+      <div className="mt-8 grid grid-cols-2 gap-3">
+        <div className="h-20 rounded-2xl bg-muted" />
+        <div className="h-20 rounded-2xl bg-muted" />
+      </div>
 
-        <div className="h-10 w-32 bg-muted rounded-xl" />
+      <div className="mt-6 h-11 w-full rounded-xl bg-muted" />
+      <div className="mt-4 flex items-center justify-between">
+        <div className="h-3 w-24 rounded bg-muted" />
       </div>
     </div>
   );

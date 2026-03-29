@@ -10,6 +10,7 @@ import { markdownComponents } from "./Markdown";
 import { useSpecifyBlog } from "../hooks/useBlogs";
 import { BlogDetailSkeleton } from "../skeleton/BlogDetailSkeleton";
 import Container from "@/layouts/Container";
+import HeaderSection from "@/components/common/HeaderSection";
 
 function formatBlogDate(date: string) {
   return new Date(date).toLocaleDateString("en-IN", {
@@ -25,8 +26,10 @@ export default function BlogDetail() {
   const { data: post, isLoading } = useSpecifyBlog(slug!);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.body.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [slug]);
 
   const markdownContent = useMemo(() => {
     if (!post?.content) return "";
@@ -68,13 +71,8 @@ export default function BlogDetail() {
       <div className="min-h-screen bg-white px-6 py-16 text-neutral-950 dark:bg-neutral-900 mt-10 dark:text-white sm:px-10">
         <article className="mx-auto max-w-6xl">
           <div className="mb-8">
-            <Link
-              to="/blogs"
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 font-mono text-sm text-neutral-700 transition hover:border-primary hover:text-primary dark:border-neutral-700 dark:text-neutral-200"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to blogs
-            </Link>
+  
+             <HeaderSection />
           </div>
 
           <header className="border-b border-neutral-200 pb-8 dark:border-neutral-800">

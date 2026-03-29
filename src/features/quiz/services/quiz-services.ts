@@ -29,8 +29,6 @@ export const fetchQuizzes = async (
       ApiResponse<QuizzesByCourseIdResponse>
     >(url);
 
-   console.log(res)
-
     return res.data.additional?.quizzes ?? [];
   } catch (error) {
     handleApiError(error);
@@ -49,8 +47,6 @@ export const fetchQuizQuestions = async (
       mode === "demo"
         ? `/demodashboard/course/${slug}/demo/quiz/${quizId}`
         : `/course-quiz/course/${slug}/quiz/${quizId}`;
-
-        console.log(slug)
     const res = await apiClient.get<
       ApiResponse<QuizByQuizIdResponse>
     >(url);

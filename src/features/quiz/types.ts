@@ -85,6 +85,8 @@ export type SubmitQuizAnswer = {
 export type SubmitQuizVars = {
   quizId: string;
   answers: SubmitQuizAnswer[];
+  slug: string;
+  mode: "demo" | "real";
 };
 
 export type AnswerOptionDTO = {
@@ -100,7 +102,13 @@ export type QuestionDTO = {
 
 export type RouteParams = {
   slug: string;
+  quizId?: string;
+};
+
+export type QuizRouteState = {
   quizId: string;
+  quizTitle: string;
+  questionsCount?: number;
 };
 
 export type SubmitQuizResult = {

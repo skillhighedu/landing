@@ -6,6 +6,7 @@ import BlogCard from "../components/BlogCard";
 import BlogSearch from "../components/BlogSearch";
 import { useBlogs } from "../hooks/useBlogs";
 import { cn } from "@/lib/utils";
+import HeaderSection from "@/components/common/HeaderSection";
 
 function EmptyState({
   query,
@@ -76,7 +77,8 @@ export default function Blog() {
   }, [activeCategory, blogPosts, query]);
 
   return (
-    <Container size="full">
+    <Container size="xl">
+   
       <SEO
         title="SkillHigh Blog - Ideas, Notes, and Career Growth"
         description="Read practical articles from SkillHigh on coding, careers, projects, and learning in public."
@@ -84,7 +86,9 @@ export default function Blog() {
       />
 
       <section className="min-h-screen bg-white py-20 text-neutral-950 dark:bg-neutral-900 dark:text-white">
-        <div className="mx-auto max-w-6xl pt-10">
+         <HeaderSection />
+        <div className="mx-auto max-w-7xl pt-10">
+            
           <div className="border-b border-neutral-200 pb-8 dark:border-neutral-800">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-primary">SkillHigh Blog</p>
             <h1 className="mt-4 font-mono text-4xl leading-tight sm:text-5xl">

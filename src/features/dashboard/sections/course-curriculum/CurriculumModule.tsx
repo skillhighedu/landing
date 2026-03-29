@@ -17,36 +17,33 @@ export default function CurriculumModuleCard({
       animate={{ opacity: 1 }}
       transition={{ delay: index * 0.05 }}
       className="
-        rounded-xl p-5
-        bg-white dark:bg-neutral-900
+        rounded-[1.5rem] border border-border bg-white p-4 shadow-sm sm:p-5 dark:bg-neutral-900
       "
     >
-      {/* Module header */}
       <div className="flex items-start gap-4">
         <div
           className="
-            flex h-8 w-8 items-center justify-center
-            rounded-full text-sm font-medium
+            flex h-9 w-9 items-center justify-center
+            rounded-2xl font-mono text-sm font-medium
             bg-primary/10 text-primary
           "
         >
-          {index + 1}
+          {String(index + 1).padStart(2, "0")}
         </div>
 
         <div className="flex-1">
-          <h4 className="font-medium">
+          <h4 className="font-mono text-base font-medium sm:text-lg">
             {module.moduleName}
           </h4>
 
-          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+          <p className="mt-1 font-mono text-xs uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
             {module.contents?.length ?? 0} lessons
           </p>
         </div>
       </div>
 
-      {/* Lessons */}
       {module.contents?.length ? (
-        <ul className="mt-4 space-y-2 pl-12 font-sans">
+        <ul className="mt-4 space-y-2 pl-0 sm:pl-13">
           {module.contents.map((lesson) => (
             <CurriculumLessonItem
               key={lesson.id}

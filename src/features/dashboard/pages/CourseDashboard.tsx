@@ -55,10 +55,9 @@ export default function CourseDashboardPage({ mode }: Props) {
 
   return (
     <DashboardLayout title="Course Dashboard">
-
       {mode === "demo" && <DemoNotice />}
 
-      <main className="min-h-screen px-4 sm:px-8 py-10 bg-neutral-50 text-neutral-900 rounded-2xl dark:bg-neutral-900 dark:text-white">
+      <main className="min-h-screen rounded-[1.75rem] bg-neutral-50 px-3 py-6 text-neutral-900 sm:px-5 sm:py-8 lg:px-6 dark:bg-neutral-900 dark:text-white">
 
         <CourseHeader
           courseName={data.courseData.courseName}
@@ -67,9 +66,7 @@ export default function CourseDashboardPage({ mode }: Props) {
           mode={mode}
         />
 
-        <div className="mx-auto mt-8 max-w-7xl space-y-10">
-
-          {/* FIXED */}
+        <div className="mx-auto mt-6 max-w-7xl space-y-8 sm:mt-8 sm:space-y-10">
           <ProgressSection
             mode={mode}
             realData={{

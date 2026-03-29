@@ -10,9 +10,7 @@ export default function Actions({
 }: ActionsProps) {
   if (!currentLesson || lessons.length === 0) return null;
 
-  const currentIndex = lessons.findIndex(
-    (l) => l.id === currentLesson.id
-  );
+  const currentIndex = lessons.findIndex((l) => l.id === currentLesson.id);
   if (currentIndex === -1) return null;
 
   const isFirst = currentIndex === 0;
@@ -26,7 +24,6 @@ export default function Actions({
     if (!isLast) onChangeLesson(lessons[currentIndex + 1]);
   }, [isLast, currentIndex, lessons, onChangeLesson]);
 
-  /* Keyboard navigation */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") goPrev();
@@ -38,21 +35,24 @@ export default function Actions({
   }, [goPrev, goNext]);
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-      
-      {/* Lesson position */}
-      <div className="text-sm text-white/60">
-        Lesson {currentIndex + 1} of {lessons.length}
+    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="rounded-2xl border border-border bg-muted/25 px-4 py-3">
+        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary/70">
+          Lesson Progress
+        </p>
+        <p className="mt-2 text-sm font-semibold text-foreground sm:text-base">
+          Lesson {currentIndex + 1} of {lessons.length}
+        </p>
       </div>
 
-      {/* Navigation */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <CustomButton
           title="Previous"
           isBack
           icon={<ChevronLeft className="h-4 w-4" />}
           disabled={isFirst}
           onClick={goPrev}
+          className="font-mono"
         />
 
         <CustomButton
@@ -61,6 +61,7 @@ export default function Actions({
           variant="primary"
           disabled={isLast}
           onClick={goNext}
+          className="font-mono"
         />
       </div>
     </div>

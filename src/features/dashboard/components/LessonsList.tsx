@@ -1,4 +1,3 @@
-
 import { Play, Lock } from "lucide-react";
 import clsx from "clsx";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -33,8 +32,8 @@ export default function Sidebar({
   }
 
   return (
-    <div className="h-[calc(100vh-280px)] overflow-y-auto pr-2">
-      <ul className="flex flex-col gap-2 px-2 py-1">
+    <div className="max-h-[calc(100vh-260px)] overflow-y-auto pr-1">
+      <ul className="flex flex-col gap-3">
         {lessonsList.map((item, index) => {
           const isActive = item.id === activeLessonId;
           const isCompleted = completedLessonIds.includes(item.id);
@@ -45,13 +44,13 @@ export default function Sidebar({
             <li key={item.id}>
               <div
                 className={clsx(
-                  "group flex items-start gap-3 rounded-xl p-3 border transition-all",
+                  "group flex items-start gap-3 rounded-2xl border px-3 py-3.5 transition-all",
                   isLocked
-                    ? "opacity-60 cursor-pointer"
-                    : "cursor-pointer hover:bg-neutral-100 hover:text-primary dark:hover:bg-white/5",
+                    ? "cursor-pointer border-border/70 bg-muted/40 opacity-75"
+                    : "cursor-pointer border-border bg-background hover:border-primary/20 hover:bg-muted/50 hover:text-primary",
                   isActive &&
                     !isLocked &&
-                    "bg-primary/10 text-primary border-transparent"
+                    "border-primary/20 bg-primary/10 text-primary shadow-sm"
                 )}
                 onClick={() => {
                   if (isLocked) {
@@ -72,36 +71,34 @@ export default function Sidebar({
                   className="mt-1"
                 />
 
-                <div className="mt-0.5 w-4 flex justify-center">
+                <div className="mt-0.5 flex w-7 justify-center">
                   {isLocked ? (
                     <Lock className="h-4 w-4 opacity-60" />
                   ) : isActive ? (
                     <Play className="h-4 w-4" />
                   ) : (
-                    <span className="text-xs opacity-60">{index + 1}</span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] opacity-60">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   )}
                 </div>
 
-                <div className="flex-1">
-                  <p className="text-sm font-medium font-sans leading-snug">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium leading-snug text-foreground">
                     {item.title}
                   </p>
 
                   {isLocked && (
-                    <p className="mt-0.5 text-xs opacity-60">
-                      Locked · Buy course to unlock
+                    <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">
+                      Locked - Buy course to unlock
                     </p>
                   )}
                 </div>
               </div>
-              
             </li>
-            
           );
         })}
       </ul>
-
-      
     </div>
   );
 }

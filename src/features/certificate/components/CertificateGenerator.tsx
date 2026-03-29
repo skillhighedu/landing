@@ -280,7 +280,7 @@ export default function CertficateGenerator({
   };
 
   return (
-    <div className="min-h-screen p-8 dark:bg-darkPrimary flex flex-col items-center gap-8">
+    <div className="flex min-h-screen flex-col items-center gap-6 p-3 sm:p-6 lg:p-8 dark:bg-darkPrimary">
       {showNameConfirm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
           <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[28px] border border-neutral-200 bg-white p-5 text-neutral-900 shadow-2xl dark:border-neutral-800 dark:bg-neutral-950 dark:text-white sm:rounded-[32px] sm:p-8">
@@ -377,17 +377,23 @@ export default function CertficateGenerator({
   
       {!isPreviewMode ? (
         <>
-          
-          <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl text-center">
-            Generate and preview your Internship, Industrial, and Participation
-            certificates before downloading them.
-          </p>
+          <div className="w-full max-w-5xl rounded-[28px] border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:p-6 lg:p-8">
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary">
+              Certificate Center
+            </p>
+            <h2 className="mt-3 font-mono text-2xl text-neutral-900 dark:text-white sm:text-3xl">
+              Preview your certificates before downloading
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-gray-500 dark:text-gray-400">
+              Generate and review your Internship, Industrial, and Participation certificates in one place before you download them.
+            </p>
+          </div>
 
-          <div className="grid w-full max-w-4xl gap-4 sm:grid-cols-3">
+          <div className="grid w-full max-w-5xl gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {certificateTypes.map((cert) => (
               <div
                 key={cert.type}
-                className="rounded-[20px] border border-neutral-200 bg-white p-4 text-left shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+                className="rounded-[24px] border border-neutral-200 bg-white p-4 text-left shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:p-5"
               >
                 <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary">
                   {cert.type}
@@ -402,11 +408,9 @@ export default function CertficateGenerator({
           <CustomButton
             icon={  <EyeIcon className="mr-2" />}
             title="Preview Certificates"
-  
             onClick={handlePreviewClick}
-            className="mt-4 p-3 text-white cursor-pointer"
+            className="mt-2 cursor-pointer p-3 font-mono text-white"
           >
-        
           </CustomButton>
         </>
       ) : (
@@ -416,10 +420,6 @@ export default function CertficateGenerator({
           certificateTypes={certificateTypes}
           getCertificateId={getTypeCertificateId}
           handleDownloadAll={handleDownloadAll}
-          onBack={() => {
-            setIsPreviewMode(false);
-            setPreviewUrls([]);
-          }}
         />
         </>
       )}

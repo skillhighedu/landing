@@ -6,7 +6,7 @@ export default function QuizHeader({ current, total }: HeaderProps) {
 
   return (
     <div className="mb-6">
-      <div className="flex justify-between text-sm text-zinc-400">
+      <div className="flex justify-between text-sm text-zinc-400 ">
         <span>Question {current + 1} of {total}</span>
         <span>{Math.round(progress)}%</span>
       </div>

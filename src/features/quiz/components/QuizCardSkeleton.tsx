@@ -2,33 +2,38 @@ export default function QuizCardSkeleton() {
   return (
     <div
       className="
-        rounded-xl border border-border
+        flex flex-col gap-5 rounded-[1.75rem] border border-border
         p-5 sm:p-6
-        flex flex-col gap-4
         animate-pulse
-        bg-white dark:bg-neutral-900
+        bg-white shadow-sm dark:bg-neutral-900
       "
     >
-      {/* Header */}
-      <div className="flex items-start gap-3">
-        <div className="h-9 w-9 rounded-md bg-muted" />
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start gap-3">
+          <div className="h-11 w-11 rounded-2xl bg-muted" />
 
-        <div className="flex-1 space-y-2">
-          <div className="h-4 w-40 bg-muted rounded" />
-          <div className="h-3 w-28 bg-muted rounded" />
+          <div className="flex-1 space-y-3">
+            <div className="h-6 w-24 rounded-full bg-muted" />
+            <div className="h-4 w-40 rounded bg-muted" />
+          </div>
         </div>
+
+        <div className="h-6 w-16 rounded-full bg-muted" />
       </div>
 
-      {/* Description */}
       <div className="space-y-2">
-        <div className="h-3 bg-muted rounded" />
-        <div className="h-3 w-5/6 bg-muted rounded" />
+        <div className="h-3 rounded bg-muted" />
+        <div className="h-3 w-5/6 rounded bg-muted" />
       </div>
 
-      {/* Footer */}
-      <div className="pt-4 border-t border-border flex items-center justify-between">
-        <div className="h-3 w-20 bg-muted rounded" />
-        <div className="h-8 w-20 bg-muted rounded-md" />
+      <div className="grid grid-cols-2 gap-3">
+        <div className="h-20 rounded-2xl bg-muted" />
+        <div className="h-20 rounded-2xl bg-muted" />
+      </div>
+
+      <div className="flex items-center justify-between border-t border-border pt-5">
+        <div className="h-3 w-28 rounded bg-muted" />
+        <div className="h-10 w-28 rounded-xl bg-muted" />
       </div>
     </div>
   );

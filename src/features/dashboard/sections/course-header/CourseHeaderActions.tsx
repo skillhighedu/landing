@@ -22,11 +22,10 @@ export default function CourseHeaderActions({ slug, mode }: Props) {
   return (
     <div
       className="
-        mt-4 sm:mt-6
+        mt-5 sm:mt-6
         flex flex-wrap gap-2 sm:gap-3
-        bg-white/10 backdrop-blur-md
-        rounded-xl p-3 sm:p-4
-        w-full sm:w-fit
+        w-full
+        rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur-md sm:w-fit sm:p-4
       "
     >
       {actions.map(({ label, icon, href, onClick,  }, i) => {
@@ -35,7 +34,7 @@ export default function CourseHeaderActions({ slug, mode }: Props) {
         const buttonTitle = isLoading ? "Preparing Certificates..." : label;
         const button = (
           <CustomButton
-            className={`text-xs sm:text-sm`}
+            className="w-full justify-center font-mono text-xs sm:w-auto sm:text-sm"
             icon={icon}
             title={buttonTitle}
             loading={isLoading}

@@ -85,6 +85,7 @@ function App() {
             <Route path="/course/:slug/demo/lessons" element={<PlayGround mode="demo" />} />
             <Route path="/course/:slug/demo/play" element={<PlayGround mode="demo" />} />
             <Route path="/course/:slug/demo/quiz" element={<QuizList mode="demo" />} />
+            <Route path="/course/:slug/demo/quiz/play" element={<Quiz mode="demo" />} />
             <Route path="/course/:slug/demo/quiz/:quizId" element={<Quiz mode="demo" />} />
             <Route path="/course/:slug/demo/projects" element={<Projects  />} />
             <Route path="/course/:slug/demo/bounties" element={<Bounties />} />
@@ -119,6 +120,7 @@ function App() {
               <Route path="/course-dashboard/:slug" element={<RealDashboardPage />} />
               <Route path="/course-dashboard/:slug/lessons" element={<PlayGround mode="real" />} />
               <Route path="/course-dashboard/:slug/quiz" element={<QuizList mode="real" />} />
+              <Route path="/course-dashboard/:slug/quiz/play" element={<Quiz mode="real" />} />
               <Route path="/course-dashboard/:slug/quiz/:quizId" element={<Quiz mode="real" />} />
               <Route path="/course-dashboard/:slug/projects" element={<Projects  />} />
               <Route path="/course-dashboard/:slug/bounties" element={<Bounties />} />
