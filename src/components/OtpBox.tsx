@@ -208,7 +208,7 @@ export default function OtpInput({
                   placeholder="New Password"
                   value={newPassword}
                   onChange={(e) => setNewPasswordValue(e.target.value)}
-                  className="w-full rounded-xl border border-neutral-300 bg-white p-3 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+                  className="w-full rounded-xl font-mono border border-neutral-300 bg-white p-3 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
                 />
                 <button
                   type="button"
@@ -225,7 +225,7 @@ export default function OtpInput({
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full rounded-xl border border-neutral-300 bg-white p-3 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+                  className="w-full font-mono rounded-xl border border-neutral-300 bg-white p-3 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
                 />
                 <button
                   type="button"

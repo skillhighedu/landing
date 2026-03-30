@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import CustomButton from "@/components/common/Button";
 import { motion } from "framer-motion";
-import { updateProfile } from "@/services/student-service";
+import { profile, updateProfile } from "@/services/student-service";
 import { toast } from "sonner";
+import { useStudentProfileStore } from "@/store/studentStore";
 
 interface ProfileFormProps {
   student: {
@@ -15,6 +16,7 @@ interface ProfileFormProps {
 }
 
 export default function ProfileForm({ student, onUpdate }: ProfileFormProps) {
+  const setStudentProfile = useStudentProfileStore((state) => state.setStudentProfile);
   const [name, setName] = useState(student?.name || "");
   const [phoneNumber, setPhoneNumber] = useState(student?.phoneNumber || "");
   const [loading, setLoading] = useState(false);
@@ -23,17 +25,24 @@ export default function ProfileForm({ student, onUpdate }: ProfileFormProps) {
     try {
       setLoading(true);
 
-      // call API
-      const res = await updateProfile( name, phoneNumber );
+      const message = await updateProfile(name, phoneNumber);
+      const refreshedProfile = await profile();
 
-      // optimistic update to parent if provided
-      onUpdate?.({ name, phoneNumber });
+      setStudentProfile([refreshedProfile]);
+      setName(refreshedProfile.name);
+      setPhoneNumber(refreshedProfile.phoneNumber || "");
+      onUpdate?.({
+        name: refreshedProfile.name,
+        phoneNumber: refreshedProfile.phoneNumber,
+      });
 
-      toast.success(res || "Profile updated successfully");
-    } catch (err: any) {
-      toast.error(
-        err?.response?.data?.message || "Failed to update profile. Try again."
-      );
+      toast.success(message);
+    } catch (error) {
+      const nextMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to update profile. Try again.";
+      toast.error(nextMessage);
     } finally {
       setLoading(false);
     }

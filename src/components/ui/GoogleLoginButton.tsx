@@ -26,8 +26,8 @@ const handleLogin = () => {
       onClick={handleLogin}
       className="
         flex items-center justify-center gap-3
-        w-full max-w-sm mt-2
-        px-2 py-3
+        mt-2 w-full
+        px-4 py-3
         text-sm  text-gray-700 cursor-pointer
         pixel-border shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] 
         bg-white border border-gray-300 rounded-xl 

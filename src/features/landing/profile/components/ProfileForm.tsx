@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import CustomButton from "@/components/common/Button";
-import { updateProfile } from "@/services/student-service";
+import { profile, updateProfile } from "@/services/student-service";
 import { toast } from "sonner";
 import { User, Phone, Mail } from "lucide-react";
 import type { StudentProfile } from "../types";
+import { useStudentProfileStore } from "@/store/studentStore";
 
 export default function ProfileForm({ student }: { student: StudentProfile }) {
+  const setStudentProfile = useStudentProfileStore((state) => state.setStudentProfile);
   const [name, setName] = useState(student.name);
   const [phoneNumber, setPhoneNumber] = useState(student.phoneNumber || "");
   const [saving, setSaving] = useState(false);
@@ -14,9 +16,17 @@ export default function ProfileForm({ student }: { student: StudentProfile }) {
   const handleSave = async () => {
     try {
       setSaving(true);
-      await updateProfile(name, phoneNumber);
-    } catch {
-     
+      const message = await updateProfile(name, phoneNumber);
+      const refreshedProfile = await profile();
+
+      setStudentProfile([refreshedProfile]);
+      setName(refreshedProfile.name);
+      setPhoneNumber(refreshedProfile.phoneNumber || "");
+      toast.success(message);
+    } catch (error) {
+      const nextMessage =
+        error instanceof Error ? error.message : "Failed to update profile.";
+      toast.error(nextMessage);
     } finally {
       setSaving(false);
     }
