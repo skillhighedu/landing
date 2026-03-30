@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import CustomButton from "@/components/common/Button";;
+import CustomButton from "@/components/common/Button";
+import LogoutConfirmDialog from "@/features/dashboard/components/sidebar/LogoutConfirmDialog";
 
 interface Student {
   name?: string;
@@ -45,12 +46,16 @@ export default function ProfileCard({ student, loading, onLogout }: ProfileCardP
           </div>
           <h2 className="text-2xl font-semibold">{student?.name}</h2>
           <p className="text-gray-400 font-sans">{student?.email}</p>
-          <CustomButton
-            onClick={onLogout}
-            icon=""
-            title="Logout"
-            className="mt-6 bg-red-500 hover:bg-red-700 w-full sm:w-auto"
-          />
+          <LogoutConfirmDialog onConfirm={onLogout}>
+            <div className="mt-6 w-full sm:w-auto">
+              <CustomButton
+                type="button"
+                icon=""
+                title="Logout"
+                className="w-full bg-red-500 hover:bg-red-700 sm:w-auto"
+              />
+            </div>
+          </LogoutConfirmDialog>
         </>
       )}
     </motion.div>

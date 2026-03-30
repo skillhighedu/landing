@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowRight, CheckCircle2, ListChecks } from "lucide-react";
+import { toast } from "sonner";
 import QuestionCard from "./QuestionCard";
 import DashboardLayout from "../../dashboard/layout/DashboardLayout";
 import CustomButton from "@/components/common/Button";
@@ -55,6 +56,7 @@ export default function Quiz({ mode }: { mode: "demo" | "real" }) {
     message: string;
   } | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[][]>([]);
+  const [showSelectionError, setShowSelectionError] = useState(false);
   const autoAdvanceTimeoutRef = useRef<number | null>(null);
   const submitMutation = useSubmitQuizResult();
 
@@ -88,6 +90,7 @@ export default function Quiz({ mode }: { mode: "demo" | "real" }) {
   useEffect(() => {
     setSelectedIndexes(Array.from({ length: questions.length }, () => []));
     setCurrent(0);
+    setShowSelectionError(false);
   }, [questions.length]);
 
   useEffect(() => {
@@ -112,6 +115,8 @@ export default function Quiz({ mode }: { mode: "demo" | "real" }) {
       window.clearTimeout(autoAdvanceTimeoutRef.current);
     }
 
+    setShowSelectionError(false);
+
     setSelectedIndexes((prev) => {
       const copy = prev.map((arr) => [...arr]);
       copy[current] = [index];
@@ -128,6 +133,11 @@ export default function Quiz({ mode }: { mode: "demo" | "real" }) {
 
   const handleNextOrFinish = async () => {
     if (!safeQuizId) return;
+    if (!hasSelection) {
+      setShowSelectionError(true);
+      toast.error("Please select an answer before continuing.");
+      return;
+    }
 
     if (!isLast) {
       setCurrent((value) => value + 1);
@@ -237,6 +247,12 @@ export default function Quiz({ mode }: { mode: "demo" | "real" }) {
                     </span>
                   </div>
 
+                  {showSelectionError ? (
+                    <p className="mb-4 text-sm font-mono text-destructive">
+                      Choose one option to continue to the next question.
+                    </p>
+                  ) : null}
+
                   {question ? (
                     <QuestionCard
                       question={question}
@@ -259,6 +275,7 @@ export default function Quiz({ mode }: { mode: "demo" | "real" }) {
                       {!isLast ? (
                         <CustomButton
                           onClick={handleNextOrFinish}
+                          disabled={!hasSelection}
                           title="Next question"
                           icon={<ArrowRight className="h-4 w-4" />}
                           className="w-full justify-center font-mono sm:w-auto"
@@ -266,7 +283,7 @@ export default function Quiz({ mode }: { mode: "demo" | "real" }) {
                       ) : (
                         <CustomButton
                           onClick={handleNextOrFinish}
-                          disabled={submitMutation.isPending}
+                          disabled={submitMutation.isPending || !hasSelection}
                           loading={submitMutation.isPending}
                           title="Submit quiz"
                           icon={<CheckCircle2 className="h-4 w-4" />}

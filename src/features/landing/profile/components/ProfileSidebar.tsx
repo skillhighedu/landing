@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import type { StudentProfile } from "../types";
 import CustomButton from "@/components/common/Button";
+import LogoutConfirmDialog from "@/features/dashboard/components/sidebar/LogoutConfirmDialog";
 
 interface Props {
   student?: StudentProfile;
@@ -82,17 +83,18 @@ export default function ProfileSidebar({
 
    
 
-     {!loading && 
-      <CustomButton
-        type="button"
-        title="Logout"
-        onClick={onLogout}
-        icon={<LogOut size={18} />}
-        
-        className="flex w-full items-center justify-center gap-2 rounded-[22px] border border-red-200 bg-red-50  text-sm  text-red-600 transition-colors hover:bg-red-100 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/40"
-      >
-             </CustomButton>
-     }
+     {!loading && (
+      <LogoutConfirmDialog onConfirm={onLogout}>
+        <div>
+          <CustomButton
+            type="button"
+            title="Logout"
+            icon={<LogOut size={18} />}
+            className="flex w-full items-center justify-center gap-2 rounded-[22px] border border-red-200 bg-red-50  text-sm  text-red-600 transition-colors hover:bg-red-100 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/40"
+          />
+        </div>
+      </LogoutConfirmDialog>
+     )}
         
  
     </div>

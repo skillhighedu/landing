@@ -6,6 +6,7 @@ import { handleApiError } from "@/utils/errorHandler";
 import type { ApiResponse } from "@/types";
 import type { MentorProfile } from "../types";
 import { useAuthStore } from "@/store/authStore";
+import LogoutConfirmDialog from "@/features/dashboard/components/sidebar/LogoutConfirmDialog";
 
 function InfoRow({
   icon,
@@ -164,13 +165,15 @@ export default function Profile() {
                 </div>
 
                 <div className="px-8 pb-8 pt-2">
-                  <button
-                    onClick={() => void handleLogout()}
-                    disabled={loggingOut}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-6 py-3 text-sm font-semibold text-red-600 transition-colors duration-200 hover:bg-red-100 disabled:opacity-60"
-                  >
-                    {loggingOut ? "Signing out..." : "Sign Out"}
-                  </button>
+                  <LogoutConfirmDialog onConfirm={() => void handleLogout()}>
+                    <button
+                      type="button"
+                      disabled={loggingOut}
+                      className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-6 py-3 text-sm font-semibold text-red-600 transition-colors duration-200 hover:bg-red-100 disabled:opacity-60"
+                    >
+                      {loggingOut ? "Signing out..." : "Sign Out"}
+                    </button>
+                  </LogoutConfirmDialog>
                 </div>
               </div>
             )}

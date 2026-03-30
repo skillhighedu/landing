@@ -19,6 +19,11 @@ export const useSubmitQuizResult = () => {
           queryKey: ["demo-course", slug],
           type: "active",
         });
+        queryClient.removeQueries({
+          queryKey: ["demo-course", slug],
+          exact: true,
+          type: "inactive",
+        });
         return;
       }
 
@@ -28,6 +33,11 @@ export const useSubmitQuizResult = () => {
       await queryClient.refetchQueries({
         queryKey: coursesKeys.byCourseSlug(slug),
         type: "active",
+      });
+      queryClient.removeQueries({
+        queryKey: coursesKeys.byCourseSlug(slug),
+        exact: true,
+        type: "inactive",
       });
     },
   });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Container from "@/layouts/Container";
 import HeaderSection from "@/components/common/HeaderSection";
 import { profile } from "@/services/student-service";
@@ -16,6 +16,7 @@ export default function ProfilePage() {
   const { studentProfile, setStudentProfile } = useStudentProfileStore();
   const { logout } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<ProfileSection>(
     location.state?.section === "settings" ? "settings" : "courses"
@@ -46,13 +47,22 @@ export default function ProfilePage() {
   }, [location.state]);
 
   const student = studentProfile[0];
+  const handleBack = () => {
+    if (activeSection === "settings") {
+      setActiveSection("courses");
+      navigate("/profile", { replace: true, state: { section: "courses" } });
+      return;
+    }
+
+    navigate(-1);
+  };
 
   return (
     <Container size="xl">
       <div className="mt-20 min-h-screen rounded-2xl bg-white dark:bg-neutral-900">
         <div className="mx-auto max-w-7xl px-4 pb-12">
           <div className="mb-8">
-            <HeaderSection title="Profile" />
+            <HeaderSection title="Profile" onBack={handleBack} />
           </div>
 
           <ProfileHeader

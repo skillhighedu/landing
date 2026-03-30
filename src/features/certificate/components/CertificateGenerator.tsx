@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PDFDocument, PDFFont, rgb, StandardFonts } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
@@ -54,6 +54,21 @@ export default function CertficateGenerator({
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [showNameConfirm, setShowNameConfirm] = useState(false);
+
+  useEffect(() => {
+    if (!showNameConfirm) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, [showNameConfirm]);
 
   const getTypeCertificateId = (type: CertificateType): string => {
     const ids = certificateDetails?.certificateIds;
@@ -282,8 +297,8 @@ export default function CertficateGenerator({
   return (
     <div className="flex min-h-screen flex-col items-center gap-6 p-3 sm:p-6 lg:p-8 dark:bg-darkPrimary">
       {showNameConfirm && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[28px] border border-neutral-200 bg-white p-5 text-neutral-900 shadow-2xl dark:border-neutral-800 dark:bg-neutral-950 dark:text-white sm:rounded-[32px] sm:p-8">
+        <div className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-black/70 p-3 backdrop-blur-sm sm:flex sm:items-center sm:justify-center sm:p-4">
+          <div className="relative mx-auto my-4 w-full max-w-2xl overflow-y-auto overscroll-contain rounded-[28px] border border-neutral-200 bg-white p-5 text-neutral-900 shadow-2xl [max-height:calc(100dvh-1.5rem)] dark:border-neutral-800 dark:bg-neutral-950 dark:text-white sm:my-0 sm:rounded-[32px] sm:p-8 sm:[max-height:calc(100dvh-2rem)]">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-primary/10 to-transparent sm:h-28" />
 
             <button
@@ -308,48 +323,47 @@ export default function CertficateGenerator({
               <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-primary/85">
                 Certificate Checkpoint
               </p>
-              <h2 className="mt-3 font-mono text-xl leading-tight sm:text-3xl">
-                Check your certificate name before continuing
+              <h2 className="mt-3 max-w-xl font-mono text-lg leading-tight sm:text-2xl">
+                Confirm your certificate name
               </h2>
 
-              <p className="mt-3 font-mono text-sm leading-6 text-neutral-600 dark:text-neutral-300 sm:leading-7">
-                Your certificates will be generated with the profile name currently saved on your account.
-                Please make sure it is correct before you continue.
+              <p className="mt-3 max-w-xl font-mono text-sm leading-6 text-neutral-600 dark:text-neutral-300">
+                We will use your saved profile name on every certificate.
               </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
               <div className="rounded-[24px] border border-neutral-200 bg-neutral-50 p-5 dark:border-neutral-800 dark:bg-neutral-900/90">
                 <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">
-                  Current certificate name
+                  Name on certificate
                 </p>
                 <p className="mt-3 break-words font-mono text-lg text-neutral-900 dark:text-white sm:text-2xl">
                   {certificateDetails?.name || "Name not available"}
                 </p>
                 <p className="mt-3 font-mono text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-                  This exact name will appear on every certificate generated from this page.
+                  This exact name will appear on all generated certificates.
                 </p>
               </div>
 
               <div className="rounded-[24px] border border-neutral-200 bg-neutral-50/80 p-5 dark:border-neutral-800 dark:bg-neutral-900/70">
                 <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-300/90">
-                  Before you continue
+                  Quick check
                 </p>
-                <ul className="mt-3 space-y-3 font-mono text-sm leading-6 text-neutral-700 dark:text-neutral-300">
-                  <li>Check spelling carefully.</li>
-                  <li>Make sure your full name is updated.</li>
-                  <li>Edit it first if anything looks wrong.</li>
+                <ul className="mt-3 space-y-2 font-mono text-sm leading-6 text-neutral-700 dark:text-neutral-300">
+                  <li>Check spelling.</li>
+                  <li>Use your full name.</li>
+                  <li>Edit first if needed.</li>
                 </ul>
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col gap-3 border-t border-neutral-200 pt-6 dark:border-neutral-800 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 border-t border-neutral-200 pt-6 dark:border-neutral-800 sm:flex-row sm:flex-wrap">
               <CustomButton
                 type="button"
                 title="Edit Name In Profile"
                 icon={<PencilLine size={18} />}
                 variant="outline"
-                className="w-full text-neutral-900 dark:text-white font-mono sm:w-auto"
+                className="w-full font-mono text-neutral-900 dark:text-white sm:flex-1"
                 onClick={() => {
                   setShowNameConfirm(false);
                   navigate("/profile", { state: { section: "settings" } });
@@ -359,7 +373,7 @@ export default function CertficateGenerator({
                 type="button"
                 title="Name Is Correct"
                 icon={<EyeIcon className="mr-2" />}
-                className="w-full font-mono sm:w-auto"
+                className="w-full font-mono sm:flex-1"
                 onClick={() => {
                   setShowNameConfirm(false);
                   void generateCertificates();
@@ -368,7 +382,7 @@ export default function CertficateGenerator({
             </div>
 
             <p className="mt-4 font-mono text-xs leading-5 text-neutral-500 dark:text-neutral-500">
-              Tip: If the name is wrong, update it in profile settings before previewing or downloading anything.
+              Update it in profile settings first if anything looks wrong.
             </p>
           </div>
         </div>

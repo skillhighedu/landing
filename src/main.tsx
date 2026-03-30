@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./styles/fonts.css";
@@ -25,6 +26,27 @@ const queryClient = new QueryClient({
   },
 });
 
+function GlobalToaster() {
+  return createPortal(
+    <Toaster
+      position="bottom-right"
+      richColors
+      closeButton
+      duration={3000}
+      className="font-bricolage"
+      style={{
+        zIndex: 20000,
+      }}
+      toastOptions={{
+        style: {
+          zIndex: 20000,
+        },
+      }}
+    />,
+    document.body,
+  );
+}
+
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={false} />
@@ -36,13 +58,7 @@ createRoot(document.getElementById("root")!).render(
             {/* 🌐 GLOBAL OFFLINE ALERT */}
             <OfflineAlert />
 
-            <Toaster
-              position="bottom-right"
-              richColors
-              closeButton
-              duration={3000}
-              className="font-bricolage"
-            />
+            <GlobalToaster />
 
             <App />
           </SmoothScrollProvider>

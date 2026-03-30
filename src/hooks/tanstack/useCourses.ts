@@ -82,6 +82,25 @@ export const useToggleLessonCompletion = () => {
       }
     },
 
-    onSuccess: () => {},
+    onSuccess: async (_, { slug }) => {
+      await queryClient.invalidateQueries({
+        queryKey: coursesKeys.byCourseSlug(slug),
+      });
+      await queryClient.refetchQueries({
+        queryKey: coursesKeys.byCourseSlug(slug),
+        type: "active",
+      });
+      queryClient.removeQueries({
+        queryKey: coursesKeys.byCourseSlug(slug),
+        exact: true,
+        type: "inactive",
+      });
+    },
+
+    onSettled: async (_, __, { slug }) => {
+      await queryClient.invalidateQueries({
+        queryKey: coursesKeys.byCourseLessonsStatus(slug),
+      });
+    },
   });
 };
