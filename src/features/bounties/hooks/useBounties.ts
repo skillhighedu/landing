@@ -16,19 +16,26 @@ import type {
   SubmitBountyPayload,
 } from "../types";
 
-export const useDemoBounties = (slug?: string) => {
+type BountyQueryOptions = {
+  enabled?: boolean;
+};
+
+export const useDemoBounties = (
+  slug?: string,
+  options?: BountyQueryOptions,
+) => {
   return useQuery<BountiesResponseData>({
     queryKey: ["demo-bounties", slug],
     queryFn: () => fetchDemoBounties(slug!),
-    enabled: !!slug,
+    enabled: !!slug && (options?.enabled ?? true),
   });
 };
 
-export const useBounties = (slug?: string) => {
+export const useBounties = (slug?: string, options?: BountyQueryOptions) => {
   return useQuery<BountiesResponseData>({
     queryKey: ["real-bounties", slug],
     queryFn: () => fetchBounties(slug!),
-    enabled: !!slug,
+    enabled: !!slug && (options?.enabled ?? true),
   });
 };
 
@@ -64,7 +71,6 @@ export const useCancelBountyApplication = () => {
   return useMutation({
     mutationFn: ({
       payload,
-      courseId,
     }: {
       payload: CancelBountyApplicationPayload;
       courseId: string;
@@ -88,7 +94,6 @@ export const useSubmitBountyWork = () => {
   return useMutation({
     mutationFn: ({
       payload,
-      courseId,
     }: {
       payload: SubmitBountyPayload;
       courseId: string;

@@ -104,13 +104,14 @@ export default function Bounties() {
     useState<AppliedBounty | null>(null);
   const [cancelTarget, setCancelTarget] = useState<AppliedBounty | null>(null);
   const [storedNotes, setStoredNotes] = useState<Record<string, string>>({});
+  const isDemo = mode === "demo";
 
-  const demoAvailable = useDemoBounties(slug);
-  const realAvailable = useBounties(slug);
-  const availableQuery = mode === "demo" ? demoAvailable : realAvailable;
-  const locked = mode === "demo";
+  const demoAvailable = useDemoBounties(slug, { enabled: isDemo });
+  const realAvailable = useBounties(slug, { enabled: !isDemo });
+  const availableQuery = isDemo ? demoAvailable : realAvailable;
+  const locked = isDemo;
   const courseId = availableQuery.data?.courseId;
-  const appliedQuery = useAppliedBounties(mode === "demo" ? undefined : courseId);
+  const appliedQuery = useAppliedBounties(isDemo ? undefined : courseId);
   const applyMutation = useApplyBounty();
   const cancelMutation = useCancelBountyApplication();
   const submitMutation = useSubmitBountyWork();
@@ -261,7 +262,7 @@ export default function Bounties() {
   return (
     <DashboardLayout title="Bounties">
       <div className="space-y-8">
-        {mode === "demo" && <DemoNotice />}
+        {isDemo && <DemoNotice />}
 
         <section className="space-y-6">
           <div className="overflow-hidden rounded-[2rem] border border-border bg-gradient-to-br from-primary/10 via-background to-background shadow-sm">
@@ -327,10 +328,10 @@ export default function Bounties() {
                     Applied
                   </div>
                   <div className="mt-3 text-2xl font-semibold text-foreground">
-                    {mode === "demo" ? 0 : appliedCount}
+                    {isDemo ? 0 : appliedCount}
                   </div>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {mode === "demo"
+                    {isDemo
                       ? "Application flow is disabled in demo mode"
                       : `${reviewingCount} currently under review`}
                   </p>
@@ -412,12 +413,12 @@ export default function Bounties() {
 
             <button
               onClick={() => setTab("applied")}
-              disabled={mode === "demo"}
+              disabled={isDemo}
               className={`rounded-xl px-4 py-2 font-mono text-sm ${
                 tab === "applied"
                   ? "bg-primary text-white"
                   : "text-foreground hover:bg-muted"
-              } ${mode === "demo" ? "cursor-not-allowed opacity-50" : ""}`}
+              } ${isDemo ? "cursor-not-allowed opacity-50" : ""}`}
             >
               Applied Bounties
             </button>
