@@ -1,4 +1,11 @@
-import { Children, isValidElement, type HTMLAttributes, type ReactNode } from "react";
+import {
+  Children,
+  isValidElement,
+  type HTMLAttributes,
+  type ImgHTMLAttributes,
+  type InputHTMLAttributes,
+  type ReactNode,
+} from "react";
 import { type Components } from "react-markdown";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +16,14 @@ type MarkdownElementProps<T extends HTMLElement = HTMLElement> = HTMLAttributes<
 type MarkdownCodeProps = MarkdownElementProps<HTMLElement> & {
   inline?: boolean;
   children?: ReactNode;
+};
+
+type MarkdownInputProps = InputHTMLAttributes<HTMLInputElement> & {
+  node?: unknown;
+};
+
+type MarkdownImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+  node?: unknown;
 };
 
 function isImageOnlyParagraph(children: ReactNode) {
@@ -89,7 +104,7 @@ export const markdownComponents: Components = {
   li: ({ className, ...props }: MarkdownElementProps<HTMLLIElement>) => (
     <li className={cn("leading-8 [&>input]:mr-3 [&>input]:translate-y-[1px]", className)} {...props} />
   ),
-  input: ({ className, type, checked, disabled, ...props }: MarkdownElementProps<HTMLInputElement>) => (
+  input: ({ className, type, checked, disabled, ...props }: MarkdownInputProps) => (
     <input
       type={type}
       checked={checked}
@@ -99,7 +114,7 @@ export const markdownComponents: Components = {
       {...props}
     />
   ),
-  img: ({ className, alt, ...props }: MarkdownElementProps<HTMLImageElement>) => (
+  img: ({ className, alt, ...props }: MarkdownImageProps) => (
     // eslint-disable-next-line jsx-a11y/alt-text
     <img
       loading="lazy"

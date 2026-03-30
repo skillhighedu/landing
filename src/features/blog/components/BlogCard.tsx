@@ -12,6 +12,16 @@ function formatBlogDate(date: string) {
   });
 }
 
+function getSummary(excerpt: string, content: string) {
+  const fallback = content
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/[#>*_\-\[\]()`]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return excerpt.trim() || fallback;
+}
+
 const BlogCard: React.FC<BlogCardProps> = ({
   slug,
   title,
@@ -20,16 +30,16 @@ const BlogCard: React.FC<BlogCardProps> = ({
   excerpt,
   content,
   thumbnail,
-  tags = [],
+  tags,
   category,
 }) => {
-  const summary = excerpt?.trim() || content;
+  const summary = getSummary(excerpt, content);
 
   return (
     <Link
       to={`/blogs/${slug}`}
       aria-label={`Read blog: ${title}`}
-      className="group flex flex-col overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
+      className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
     >
       {thumbnail && (
         <div className="aspect-[16/10] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
@@ -62,7 +72,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
         <div className="mt-4 flex items-center gap-3 font-sans text-xs text-neutral-500 dark:text-neutral-400">
           <span>{formatBlogDate(publishedAt)}</span>
-          <span>•</span>
+          <span>&bull;</span>
           <span className="inline-flex items-center gap-1.5">
             <Clock3 className="h-3.5 w-3.5" />
             {readingTime} min read

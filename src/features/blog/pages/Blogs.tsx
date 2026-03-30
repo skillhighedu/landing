@@ -7,6 +7,7 @@ import BlogSearch from "../components/BlogSearch";
 import { useBlogs } from "../hooks/useBlogs";
 import { cn } from "@/lib/utils";
 import HeaderSection from "@/components/common/HeaderSection";
+import type { BlogPost } from "../types/types";
 
 function EmptyState({
   query,
@@ -49,9 +50,9 @@ export default function Blog() {
   const categories = useMemo(() => {
     const values = new Set<string>();
 
-    blogPosts.forEach((post: any) => {
+    blogPosts.forEach((post: BlogPost) => {
       if (post.category?.name) values.add(post.category.name);
-      (post.tags ?? []).forEach((tag: string) => values.add(tag));
+      post.tags.forEach((tag) => values.add(tag));
     });
 
     return Array.from(values).sort();
@@ -61,16 +62,15 @@ export default function Blog() {
     const text = query.trim().toLowerCase();
 
     const byCategory = activeCategory
-      ? blogPosts.filter((post: any) => {
+      ? blogPosts.filter((post: BlogPost) => {
           const categoryName = post.category?.name;
-          const tags = post.tags ?? [];
-          return categoryName === activeCategory || tags.includes(activeCategory);
+          return categoryName === activeCategory || post.tags.includes(activeCategory);
         })
       : blogPosts;
 
     if (!text) return byCategory;
 
-    return byCategory.filter((post: any) => {
+    return byCategory.filter((post: BlogPost) => {
       const haystack = `${post.title ?? ""} ${post.excerpt ?? ""} ${post.content ?? ""}`.toLowerCase();
       return haystack.includes(text);
     });
@@ -184,7 +184,7 @@ export default function Blog() {
             </div>
           ) : (
             <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {filteredPosts.map((post: any) => (
+              {filteredPosts.map((post: BlogPost) => (
                 <BlogCard key={post.slug} {...post} />
               ))}
             </div>
