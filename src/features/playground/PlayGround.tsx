@@ -20,9 +20,8 @@ export default function PlayGround({ mode }: PlayGroundProps) {
 
   const [currentLesson, setCurrentLesson] =
     useState<CourseLesson | null>(null);
-
   const [activeTab, setActiveTab] =
-    useState<"content" | "discussion">("content");
+    useState<"description" | "questions">("description");
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [pendingLessonIds, setPendingLessonIds] = useState<string[]>([]);
@@ -43,6 +42,10 @@ export default function PlayGround({ mode }: PlayGroundProps) {
       setCurrentLesson(lessons[0]);
     }
   }, [lessons]);
+
+  useEffect(() => {
+    setActiveTab("description");
+  }, [currentLesson?.id]);
 
   return (
     <DashboardLayout title={currentLesson?.title}>
@@ -75,6 +78,8 @@ export default function PlayGround({ mode }: PlayGroundProps) {
             <div className="flex flex-col gap-6 xl:flex-row">
               <main className="flex-1 min-w-0">
                 <PlayGroundContent
+                  slug={slug}
+                  mode={mode}
                   lessons={lessons}
                   currentLesson={currentLesson}
                   setCurrentLesson={setCurrentLesson}

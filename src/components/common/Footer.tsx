@@ -94,6 +94,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  to="/careers"
+                  className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
+                >
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/blogs"
                   className="inline-flex cursor-pointer transition hover:text-black dark:hover:text-white"
                 >
@@ -192,6 +200,12 @@ export default function Footer() {
               className="cursor-pointer transition hover:text-neutral-900 dark:hover:text-white"
             >
               Programs
+            </Link>
+            <Link
+              to="/careers"
+              className="cursor-pointer transition hover:text-neutral-900 dark:hover:text-white"
+            >
+              Careers
             </Link>
             <Link
               to="/blogs"

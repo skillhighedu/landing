@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { MessageSquareQuote } from "lucide-react";
 import HeaderSection from "@/components/common/HeaderSection";
+import CustomButton from "@/components/common/Button";
 import Container from "@/layouts/Container";
 import api from "@/config/axiosConfig";
 import { handleApiError } from "@/utils/errorHandler";
 import type { ApiResponse } from "@/types";
 import type { MentorQuestion } from "../types";
+import { useNavigate } from "react-router-dom";
 
 type QuestionFilter = "all" | "unanswered" | "answered";
 
@@ -76,6 +79,7 @@ function FilterTab({
 }
 
 export default function Questions() {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState<MentorQuestion[]>([]);
   const [answerInputs, setAnswerInputs] = useState<Record<string, string>>({});
   const [openAnswerId, setOpenAnswerId] = useState<string | null>(null);
@@ -171,7 +175,20 @@ export default function Questions() {
           visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
         }`}
       >
-        <HeaderSection title="Questions" />
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <HeaderSection title="Questions" />
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              Review student lesson questions, see the related topic, and send answers without leaving the mentor workspace.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <CustomButton title="View Performance" onClick={() => navigate("/mentor/performance")}>
+              View Performance
+            </CustomButton>
+          </div>
+        </div>
 
         <div className="mb-8 mt-6 flex flex-wrap gap-3">
           <StatPill value={questions.length} label="Total" />
@@ -240,6 +257,13 @@ export default function Questions() {
                         </div>
                       )}
 
+                      {(question.topic?.title || question.topicTitle) && (
+                        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                          <MessageSquareQuote className="h-3.5 w-3.5" />
+                          {question.topic?.title || question.topicTitle}
+                        </div>
+                      )}
+
                       <p className="text-sm leading-relaxed text-foreground sm:text-base">
                         {displayText}
                         {needsTruncation && (
@@ -301,7 +325,7 @@ export default function Questions() {
                   {question.isAnswered && question.answer && !isOpen && (
                     <div className="mt-4 rounded-2xl border border-border/60 bg-muted/40 p-3">
                       <p className="mb-1 text-xs font-semibold text-muted-foreground">Your answer</p>
-                      <p className="line-clamp-3 text-sm leading-relaxed text-foreground/80">
+                      <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/80">
                         {question.answer}
                       </p>
                     </div>

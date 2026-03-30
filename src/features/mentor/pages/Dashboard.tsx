@@ -97,6 +97,9 @@ export default function MentorDashboard() {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
+            <CustomButton title="View Questions" onClick={() => navigate("/mentor/questions")}>
+              View Questions
+            </CustomButton>
             <CustomButton title="View Performance" onClick={() => navigate("/mentor/performance")}>
               View Performance
             </CustomButton>

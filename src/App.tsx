@@ -27,12 +27,14 @@ import VerifyCertificatePage from "./features/certificate/components/VerifyCerti
 import SearchByCertificate from "./features/certificate/components/SearchByCertificate";
 import ProjectSolutionsPage from "./features/mentor/pages/ProjectSolutionsPage";
 import StudentPerformancePage from "./features/mentor/pages/StudentPerformancePage";
+import MentorQuestionsPage from "./features/mentor/pages/Questions";
 import Resume from "./features/resume/Resume";
 import NotFound from "./pages/NotFound";
 
 const Home = lazy(() => import("@/pages/landing/Home"));
 const CourseDetails = lazy(() => import("@/features/landing/pages/AboutCourse"));
 const ContactUs = lazy(() => import("@/features/landing/components/Contact"));
+const CareersPage = lazy(() => import("@/features/careers/pages/CareersPage"));
 const Profile = lazy(() => import("@/features/landing/pages/Profile"));
 const Signup = lazy(() => import("@/pages/landing/Signup"));
 const DemoDashboardPage = lazy(() => import("@/features/dashboard/pages/DemoDashboardPage"));
@@ -75,6 +77,7 @@ function App() {
             <Route path="/course/:courseSlug" element={<CourseDetails />} />
             <Route path="/all-courses" element={<Courses />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/careers" element={<CareersPage />} />
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetail />} />
             <Route path="/check-certificate" element={<SearchByCertificate />} />
@@ -138,6 +141,7 @@ function App() {
               <Route element={<MentorLayout />}>
                 <Route path="/mentor/dashboard" element={<MentorDashboard />} />
                 <Route path="/mentor/projects/solutions" element={<ProjectSolutionsPage />} />
+                <Route path="/mentor/questions" element={<MentorQuestionsPage />} />
                 <Route path="/mentor/performance" element={<StudentPerformancePage />} />
               </Route>
             </Route>

@@ -75,7 +75,13 @@ export type MentorQuestion = {
   isAnswered: boolean;
   isVerified: boolean;
   studentName?: string | null;
+  topicId?: string | null;
+  topicTitle?: string | null;
+  topic?: {
+    title?: string | null;
+  } | null;
   createdAt: string;
+  updatedAt?: string;
 };
 
 export type MentorProfile = {

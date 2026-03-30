@@ -95,19 +95,21 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    set({
-      user:            null,
-      isAuthenticated: false,
-      loading:         false,
-      authChecked:     false,  
-      isCheckingAuth:  false,
-    });
-
-    void api.post("/auth/logout", {}, { withCredentials: true }).catch(() => {
+    try {
+      await api.post("/auth/logout", {}, { withCredentials: true });
+    } catch {
       // local logout + redirect should still complete even if the request fails
-    });
+    } finally {
+      set({
+        user:            null,
+        isAuthenticated: false,
+        loading:         false,
+        authChecked:     false,
+        isCheckingAuth:  false,
+      });
 
-    window.location.replace("/");
+      window.location.replace("/");
+    }
   },
 
   login: (userData: User) => {
