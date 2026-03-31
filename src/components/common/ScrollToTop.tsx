@@ -1,14 +1,31 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+function scrollPageToTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  document.documentElement.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  document.body.scrollTo({ top: 0, left: 0, behavior: "auto" });
+}
+
 export default function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { key } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    document.documentElement.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    document.body.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, [pathname]);
+    if (!("scrollRestoration" in window.history)) {
+      return;
+    }
+
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+
+    return () => {
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
+  }, []);
+
+  useEffect(() => {
+    scrollPageToTop();
+  }, [key]);
 
   return null;
 }

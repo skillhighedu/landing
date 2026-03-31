@@ -6,7 +6,6 @@ import {
   Linkedin,
   Instagram,
   Youtube,
-  Twitter,
   Facebook,
   Mail,
   Phone,
@@ -31,7 +30,16 @@ const socialLinks = [
   },
   {
     label: "X",
-    icon: Twitter,
+    icon: ({ className }: { className?: string }) => (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className={className}
+        fill="currentColor"
+      >
+        <path d="M18.244 2H21l-6.56 7.498L22 22h-5.956l-4.663-6.102L6.04 22H3.28l7.014-8.014L2 2h6.108l4.215 5.587L18.244 2Zm-2.09 18h1.527L7.278 3.895H5.64L16.154 20Z" />
+      </svg>
+    ),
     url: "https://x.com/SkillHighedu",
   },
   {

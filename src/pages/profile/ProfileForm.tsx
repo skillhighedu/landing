@@ -38,11 +38,7 @@ export default function ProfileForm({ student, onUpdate }: ProfileFormProps) {
 
       toast.success(message);
     } catch (error) {
-      const nextMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to update profile. Try again.";
-      toast.error(nextMessage);
+  
     } finally {
       setLoading(false);
     }

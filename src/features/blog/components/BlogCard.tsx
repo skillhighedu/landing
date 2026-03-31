@@ -87,7 +87,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           {summary}
         </p>
 
-        <span className="mt-6 font-mono text-sm text-neutral-900 transition-colors group-hover:text-primary dark:text-white">
+        <span className="mt-6 font-mono text-sm text-neutral-900 transition-colors group-hover:text-primary dark:text-white ">
           Read article
         </span>
       </div>

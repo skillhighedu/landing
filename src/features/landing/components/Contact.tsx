@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Mail,
@@ -10,6 +10,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { toast } from "sonner";
+
 import HeaderSection from "@/components/common/HeaderSection";
 import CustomButton from "@/components/common/Button";
 import { Input } from "@/components/ui/input";
@@ -22,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Container from "@/layouts/Container";
-import { sendContactDetails } from "@/services/contactus-service";
+import { submitContactLead } from "@/services/contactus-service";
 import type { ContactUsDetails } from "@/types";
 
 const categoryOptions: Array<{
@@ -36,7 +37,7 @@ const categoryOptions: Array<{
     description: "I want to explore courses, mentorship, or admissions.",
   },
   {
-    value: "EXISTING" as ContactUsDetails["category"],
+    value: "EXISTING",
     label: "Existing Student",
     description: "I need help with my current learning journey or course access.",
   },
@@ -80,15 +81,49 @@ export default function ContactUs() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
-  const [category, setCategory] =
-    useState<ContactUsDetails["category"]>("NEWSTUDENT");
+  const [category, setCategory] = useState<ContactUsDetails["category"]>("NEWSTUDENT");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const errors = useMemo(() => {
+    const nextErrors: Partial<Record<keyof ContactUsDetails, string>> = {};
+
+    if (!name.trim()) {
+      nextErrors.name = "Name is required.";
+    }
+
+    if (!email.trim()) {
+      nextErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      nextErrors.email = "Enter a valid email address.";
+    }
+
+    const normalizedPhone = phone.replace(/\D/g, "");
+    if (!normalizedPhone) {
+      nextErrors.phone = "Phone number is required.";
+    } else if (!/^\d{10}$/.test(normalizedPhone)) {
+      nextErrors.phone = "Phone must be exactly 10 digits.";
+    }
+
+    if (!category) {
+      nextErrors.category = "Choose a category.";
+    }
+
+    if (!message.trim()) {
+      nextErrors.message = "Message is required.";
+    }
+
+    return nextErrors;
+  }, [category, email, message, name, phone]);
 
   async function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setSubmitError("");
+    setSuccessMessage("");
 
-    if (!name.trim() || !email.trim() || !phone.trim() || !category) {
-      toast.error("Please fill in your name, email, phone, and category.");
+    if (Object.keys(errors).length > 0) {
+      toast.error("Please correct the highlighted fields and try again.");
       return;
     }
 
@@ -98,21 +133,24 @@ export default function ContactUs() {
       const payload: ContactUsDetails = {
         name: name.trim(),
         email: email.trim(),
-        phone: phone.trim(),
+        phone: phone.replace(/\D/g, ""),
         category,
         message: message.trim(),
       };
 
-      const response = await sendContactDetails(payload);
+      const response = await submitContactLead(payload);
 
-      toast.success(response);
+      toast.success(response.message);
+      setSuccessMessage(response.message);
       setName("");
       setEmail("");
       setPhone("");
       setMessage("");
       setCategory("NEWSTUDENT");
     } catch {
-      toast.error("Failed to submit. Please try again.");
+      const fallback = "Failed to submit. Please try again.";
+      setSubmitError(fallback);
+      toast.error(fallback);
     } finally {
       setIsSubmitting(false);
     }
@@ -133,7 +171,7 @@ export default function ContactUs() {
             transition={{ duration: 0.45 }}
             className="space-y-8"
           >
-            <div className="overflow-hidden font-mono rounded-[32px] border border-neutral-200 bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-800 p-8 text-white shadow-xl sm:p-10">
+            <div className="overflow-hidden rounded-[32px] border border-neutral-200 bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-800 p-8 font-mono text-white shadow-xl sm:p-10">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">
                 Let&apos;s Build Your Next Step
               </p>
@@ -152,7 +190,7 @@ export default function ContactUs() {
                         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/15 text-primary">
                           <Icon size={18} />
                         </div>
-                        {href && <ArrowUpRight size={16} className="text-neutral-400" />}
+                        {href ? <ArrowUpRight size={16} className="text-neutral-400" /> : null}
                       </div>
                       <h3 className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-neutral-300">
                         {title}
@@ -167,11 +205,7 @@ export default function ContactUs() {
                   }
 
                   return (
-                    <a
-                      key={title}
-                      href={href}
-                      className="block cursor-pointer"
-                    >
+                    <a key={title} href={href} className="block cursor-pointer">
                       {content}
                     </a>
                   );
@@ -184,7 +218,7 @@ export default function ContactUs() {
                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
                   What can we help with?
                 </h3>
-                <ul className="mt-4 space-y-3 text-sm font-mono leading-6 text-neutral-600 dark:text-neutral-400">
+                <ul className="mt-4 space-y-3 font-mono text-sm leading-6 text-neutral-600 dark:text-neutral-400">
                   <li>Course guidance and admissions support</li>
                   <li>Learning roadmap and mentorship questions</li>
                   <li>Existing student help with access or payments</li>
@@ -195,7 +229,7 @@ export default function ContactUs() {
                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
                   What happens after you submit?
                 </h3>
-                <ul className="mt-4 space-y-3 text-sm  font-mono leading-6 text-neutral-600 dark:text-neutral-400">
+                <ul className="mt-4 space-y-3 font-mono text-sm leading-6 text-neutral-600 dark:text-neutral-400">
                   <li>Our team reviews your request</li>
                   <li>We reach out on email or phone</li>
                   <li>You get the right next action, clearly and quickly</li>
@@ -225,6 +259,18 @@ export default function ContactUs() {
             </div>
 
             <div className="space-y-5">
+              {successMessage ? (
+                <div className="rounded-[24px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-200">
+                  {successMessage}
+                </div>
+              ) : null}
+
+              {submitError ? (
+                <div className="rounded-[24px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-200">
+                  {submitError}
+                </div>
+              ) : null}
+
               <div className="grid gap-5 sm:grid-cols-2">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-neutral-900 dark:text-white">
@@ -239,6 +285,7 @@ export default function ContactUs() {
                       className="h-12 pl-10"
                     />
                   </div>
+                  {errors.name ? <p className="text-sm text-red-600 dark:text-red-300">{errors.name}</p> : null}
                 </div>
 
                 <div className="space-y-2">
@@ -255,6 +302,7 @@ export default function ContactUs() {
                       className="h-12 pl-10"
                     />
                   </div>
+                  {errors.email ? <p className="text-sm text-red-600 dark:text-red-300">{errors.email}</p> : null}
                 </div>
               </div>
 
@@ -266,35 +314,32 @@ export default function ContactUs() {
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                     <Input
-                      placeholder="+91 98765 43210"
+                      placeholder="9876543210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="h-12 pl-10"
                     />
                   </div>
+                  {errors.phone ? <p className="text-sm text-red-600 dark:text-red-300">{errors.phone}</p> : null}
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-neutral-900 dark:text-white">
                     I am contacting as
                   </label>
-                  <Select
-                    value={category}
-                    onValueChange={(value) =>
-                      setCategory(value as ContactUsDetails["category"])
-                    }
-                  >
+                  <Select value={category} onValueChange={(value) => setCategory(value as ContactUsDetails["category"])}>
                     <SelectTrigger className="h-12">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
                       {categoryOptions.map((option) => (
-                        <SelectItem key={option.label} value={option.value ?? "NEWSTUDENT"}>
+                        <SelectItem key={option.label} value={option.value}>
                           {option.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                  {errors.category ? <p className="text-sm text-red-600 dark:text-red-300">{errors.category}</p> : null}
                 </div>
               </div>
 
@@ -324,6 +369,7 @@ export default function ContactUs() {
                     className="resize-none pl-10 pt-3"
                   />
                 </div>
+                {errors.message ? <p className="text-sm text-red-600 dark:text-red-300">{errors.message}</p> : null}
               </div>
 
               <CustomButton

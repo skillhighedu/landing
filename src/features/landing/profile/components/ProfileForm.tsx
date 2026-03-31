@@ -24,9 +24,7 @@ export default function ProfileForm({ student }: { student: StudentProfile }) {
       setPhoneNumber(refreshedProfile.phoneNumber || "");
       toast.success(message);
     } catch (error) {
-      const nextMessage =
-        error instanceof Error ? error.message : "Failed to update profile.";
-      toast.error(nextMessage);
+     
     } finally {
       setSaving(false);
     }

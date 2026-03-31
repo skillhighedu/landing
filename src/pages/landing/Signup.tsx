@@ -235,7 +235,7 @@ export default function Signup() {
 
                 <div className="mx-auto max-w-xl space-y-5">
                   <div>
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                    <label className="mb-2 block text-xs  uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
                       Email Address
                     </label>
                     <div className="relative">
@@ -343,7 +343,7 @@ export default function Signup() {
                     <form onSubmit={handleSubmit} className="space-y-5">
                       {isSignup && (
                         <div>
-                          <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                          <label className="mb-2 block text-xs  uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
                             Full Name
                           </label>
                           <Input

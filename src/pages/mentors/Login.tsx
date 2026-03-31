@@ -93,7 +93,7 @@ const MentorLogin = () => {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  className="h-12 pl-10"
+                  className="h-12 pl-10 text-neutral-900 dark:text-neutral-200"
                 />
               </div>
             </div>
@@ -110,7 +110,7 @@ const MentorLogin = () => {
                   value={form.password}
                   onChange={handleChange}
                   required
-                  className="h-12 pl-10 pr-12"
+                  className="h-12 pl-10 pr-12 text-neutral-900 dark:text-neutral-200"
                 />
                 <button
                   type="button"

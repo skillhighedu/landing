@@ -169,9 +169,9 @@ export default function Profile() {
                     <button
                       type="button"
                       disabled={loggingOut}
-                      className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-6 py-3 text-sm font-semibold text-red-600 transition-colors duration-200 hover:bg-red-100 disabled:opacity-60"
+                      className="flex w-full items-center cursor-pointer justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-6 py-3 text-sm font-semibold text-red-600 transition-colors duration-200 hover:bg-red-100 disabled:opacity-60"
                     >
-                      {loggingOut ? "Signing out..." : "Sign Out"}
+                      {loggingOut ? "Logging out..." : "Logout"}
                     </button>
                   </LogoutConfirmDialog>
                 </div>

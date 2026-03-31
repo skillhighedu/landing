@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import HeaderSection from "@/components/common/HeaderSection";
 import Container from "@/layouts/Container";
 import { toast } from "sonner";
@@ -16,6 +15,7 @@ type PerformanceTone = {
 type FilterBand = "ALL" | "HIGH" | "MID" | "LOW";
 type SortOption = "RANK" | "SCORE_DESC" | "SCORE_ASC" | "NAME";
 const STUDENTS_PER_PAGE = 8;
+const PERFORMANCE_FETCH_LIMIT = 1000;
 
 const FILTER_OPTIONS: { label: string; value: FilterBand }[] = [
   { label: "All", value: "ALL" },
@@ -121,7 +121,6 @@ function sortStudents(students: StudentPerformance[], sortBy: SortOption) {
 }
 
 export default function StudentPerformancePage() {
-  const navigate = useNavigate();
   const tableSectionRef = useRef<HTMLDivElement | null>(null);
   const [search, setSearch] = useState("");
   const [filterBand, setFilterBand] = useState<FilterBand>("ALL");
@@ -134,9 +133,8 @@ export default function StudentPerformancePage() {
     isLoading,
     isError,
     refetch,
-  } = usePerformance(page, STUDENTS_PER_PAGE);
+  } = usePerformance(1, PERFORMANCE_FETCH_LIMIT);
   const students = performanceData?.students ?? [];
-  const serverPagination = performanceData?.pagination;
 
   const filteredStudents = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -164,9 +162,13 @@ export default function StudentPerformancePage() {
     (student) => student.percentage >= 50 && student.percentage < 80
   ).length;
   const topPerformer = students[0];
-  const totalPages = Math.max(1, serverPagination?.totalPages ?? 1);
-  const currentPage = serverPagination?.page ?? page;
-  const paginatedStudents = filteredStudents;
+  const totalPages = Math.max(1, Math.ceil(filteredStudents.length / STUDENTS_PER_PAGE));
+  const currentPage = page;
+  const paginatedStudents = filteredStudents.slice(
+    (currentPage - 1) * STUDENTS_PER_PAGE,
+    currentPage * STUDENTS_PER_PAGE
+  );
+  const totalVisibleStudents = filteredStudents.length;
 
   const handlePageChange = (nextPage: number) => {
     const safePage = Math.max(1, Math.min(nextPage, totalPages));
@@ -403,10 +405,9 @@ export default function StudentPerformancePage() {
             key={currentPage}
             className="mt-8 overflow-hidden rounded-[28px] border border-border bg-card shadow-sm"
           >
-            <div className="hidden grid-cols-[96px_1.5fr_1fr_120px_220px_170px_112px] gap-4 border-b border-border bg-muted/30 px-6 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:grid">
+            <div className="hidden grid-cols-[96px_1.8fr_120px_220px_170px_112px] gap-4 border-b border-border bg-muted/30 px-6 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:grid">
               <span>Rank</span>
               <span>Student</span>
-              <span>Updated</span>
               <span>Score</span>
               <span>Counts</span>
               <span>Progress</span>
@@ -417,6 +418,7 @@ export default function StudentPerformancePage() {
               <PerformanceRow
                 key={student.id ?? student.userId}
                 student={student}
+                displayRank={(currentPage - 1) * STUDENTS_PER_PAGE + index + 1}
                 isLast={index === paginatedStudents.length - 1}
                 onEdit={() => setEditingStudent(student)}
               />
@@ -428,7 +430,7 @@ export default function StudentPerformancePage() {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            totalItems={serverPagination?.total ?? filteredStudents.length}
+            totalItems={totalVisibleStudents}
             itemsPerPage={STUDENTS_PER_PAGE}
             onPageChange={handlePageChange}
           />
@@ -492,10 +494,12 @@ function MiniStat({
 
 function PerformanceRow({
   student,
+  displayRank,
   isLast,
   onEdit,
 }: {
   student: StudentPerformance;
+  displayRank: number;
   isLast: boolean;
   onEdit: () => void;
 }) {
@@ -503,7 +507,7 @@ function PerformanceRow({
 
   return (
     <div
-      className={`grid grid-cols-1 gap-4 px-5 py-5 transition-colors hover:bg-muted/20 xl:grid-cols-[96px_1.5fr_1fr_120px_220px_170px_112px] xl:items-center xl:px-6 ${
+      className={`grid grid-cols-1 gap-4 px-5 py-5 transition-colors hover:bg-muted/20 xl:grid-cols-[96px_1.8fr_120px_220px_170px_112px] xl:items-center xl:px-6 ${
         !isLast ? "border-b border-border" : ""
       }`}
     >
@@ -512,7 +516,7 @@ function PerformanceRow({
           Rank
         </span>
         <span className="inline-flex w-fit items-center rounded-full border border-border px-3 py-1 text-xs font-semibold text-foreground">
-          {getRankLabel(student.rank)}
+          {getRankLabel(displayRank)}
         </span>
       </div>
 
@@ -523,16 +527,9 @@ function PerformanceRow({
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-foreground">{student.name}</p>
           <p className="truncate text-xs text-muted-foreground">{student.email}</p>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between xl:block">
-        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:hidden">
-          Updated
-        </span>
-        <div className="rounded-2xl border border-border bg-background px-3 py-2 xl:border-0 xl:bg-transparent xl:p-0">
-          <p className="text-sm text-foreground">{formatDate(student.updatedAt)}</p>
-          <p className="text-xs text-muted-foreground">Created {formatDate(student.createdAt)}</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            Created {formatDate(student.createdAt)}
+          </p>
         </div>
       </div>
 

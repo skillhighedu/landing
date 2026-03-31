@@ -11,6 +11,7 @@ export interface SignupPayload {
 
 
 export interface StudentProfile {
+  phoneNumber: string;
   name: string;
   email: string;
   courses: CourseInfo[];
