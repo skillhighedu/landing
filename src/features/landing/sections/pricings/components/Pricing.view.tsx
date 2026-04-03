@@ -23,6 +23,8 @@ export default function PricingView({
     mentorPlan && others.length === 2
       ? [others[0], mentorPlan, others[1]]
       : pricings;
+  const highlightedIndex =
+    orderedPricings.length >= 3 ? Math.floor(orderedPricings.length / 2) : 0;
 
   return (
     <>
@@ -53,7 +55,7 @@ export default function PricingView({
             key={option.id}
             index={o}
             option={option}
-            isHighlighted={option.price === 10000}
+            isHighlighted={o === highlightedIndex}
             onSelect={onSelectPlan}
           />
         ))}

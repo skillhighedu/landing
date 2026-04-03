@@ -1,6 +1,7 @@
 import apiClient from "@/config/axiosConfig";
 import type { ApiResponse } from "@/types";
 import { handleApiError } from "@/utils/errorHandler";
+import axios from "axios";
 import type {
   QuizByQuizIdResponse,
   QuizzesByCourseIdResponse,
@@ -31,6 +32,10 @@ export const fetchQuizzes = async (
 
     return res.data.additional?.quizzes ?? [];
   } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return [];
+    }
+
     handleApiError(error);
     throw error;
   }

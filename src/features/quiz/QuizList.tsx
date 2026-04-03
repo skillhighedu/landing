@@ -129,7 +129,7 @@ export default function QuizList({ mode }: PlayGroundProps) {
                   No quizzes yet
                 </p>
                 <p className="mt-3 text-base text-foreground">
-                  Quiz sets for this course will appear here once they are available.
+                  We will add quiz sets for this course soon. Check back shortly for updates.
                 </p>
               </div>
             )}

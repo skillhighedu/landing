@@ -1,6 +1,8 @@
 import { FileText, Lock, Upload, CheckCircle, XCircle, ArrowUpRight, TimerReset } from "lucide-react";
 import type { ProjectItem } from "../types";
 import CustomButton from "@/components/common/Button";
+import { getLatestProjectSolution } from "../utils/getLatestProjectSolution";
+import { normalizeProjectReviewState } from "../utils/normalizeProjectReviewState";
 
 interface Props {
   project: ProjectItem;
@@ -10,20 +12,14 @@ interface Props {
 
 export default function ProjectCard({ project, locked, onOpen }: Props) {
   const hasSolution = !!project.solutions?.length;
-  const solution = hasSolution
-    ? project.solutions!
-        .slice()
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        )[0]
-    : null;
+  const solution = getLatestProjectSolution(project);
+  const normalizedReviewState = normalizeProjectReviewState(solution?.reviewState);
 
-  const isApproved = solution?.reviewState === "SUCCESSFUL";
+  const isApproved = normalizedReviewState === "SUCCESSFUL";
   const statusTone =
-    solution?.reviewState === "SUCCESSFUL"
+    normalizedReviewState === "SUCCESSFUL"
       ? "border-emerald-200/70 bg-emerald-50/70 dark:border-emerald-900/40 dark:bg-emerald-950/10"
-      : solution?.reviewState === "FAILED"
+      : normalizedReviewState === "FAILED"
       ? "border-rose-200/70 bg-rose-50/70 dark:border-rose-900/40 dark:bg-rose-950/10"
       : "border-border bg-card";
 
@@ -76,18 +72,22 @@ export default function ProjectCard({ project, locked, onOpen }: Props) {
 
         {solution && (
           <div className="mt-4 flex items-center gap-2 font-mono text-sm font-medium">
-            {solution.reviewState === "SUCCESSFUL" && (
+            {normalizedReviewState === "SUCCESSFUL" && (
               <>
                 <CheckCircle className="w-4 h-4 text-green-500" />
                 <span className="text-green-600">Approved</span>
               </>
             )}
 
-            {solution.reviewState === "FAILED" && (
+            {normalizedReviewState === "FAILED" && (
               <>
                 <XCircle className="w-4 h-4 text-red-500" />
                 <span className="text-red-600">Needs Fix</span>
               </>
+            )}
+
+            {normalizedReviewState === "REVIEWING" && (
+              <span className="text-amber-600">Reviewing</span>
             )}
           </div>
         )}
@@ -120,7 +120,15 @@ export default function ProjectCard({ project, locked, onOpen }: Props) {
               Review
             </p>
             <p className="mt-1 text-base font-semibold text-foreground">
-              {isApproved ? "Approved" : solution?.reviewState === "FAILED" ? "Fixes" : hasSolution ? "Pending" : "None"}
+              {isApproved
+                ? "Approved"
+                : normalizedReviewState === "FAILED"
+                ? "Fixes"
+                : normalizedReviewState === "REVIEWING"
+                ? "Pending"
+                : hasSolution
+                ? "Pending"
+                : "None"}
             </p>
           </div>
         </div>

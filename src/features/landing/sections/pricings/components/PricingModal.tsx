@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -18,10 +18,15 @@ export default function PricingModal({
   fullAmount,
   onPay,
 }: PricingModalProps) {
-
-
   const [isFullPayment, setIsFullPayment] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      setIsFullPayment(false);
+      setLoading(false);
+    }
+  }, [open]);
 
   if (!open) return null;
 

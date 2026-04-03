@@ -12,6 +12,8 @@ import {
   useUpdateProjectSubmission,
 } from "../hooks/useSubmitProject";
 import type { ProjectItem } from "../types";
+import { getLatestProjectSolution } from "../utils/getLatestProjectSolution";
+import { normalizeProjectReviewState } from "../utils/normalizeProjectReviewState";
 import { BriefcaseBusiness, CheckCircle2, Clock3, FolderGit2, Sparkles, XCircle } from "lucide-react";
 import { toast } from "sonner";
 
@@ -25,7 +27,7 @@ export default function Projects() {
 
   const { data: projects, isLoading } =
     mode === "demo" ? demoQuery : realQuery;
-  const projectItems = projects?.projects ?? [];
+  const projectItems = useMemo(() => projects?.projects ?? [], [projects]);
   const totalProjects = projects?.meta?.totalProjects ?? projectItems.length;
   const submittedProjects = useMemo(
     () => projectItems.filter((project) => (project.solutions?.length ?? 0) > 0).length,
@@ -34,21 +36,30 @@ export default function Projects() {
   const approvedProjects = useMemo(
     () =>
       projectItems.filter(
-        (project) => project.solutions?.[0]?.reviewState === "SUCCESSFUL",
+        (project) =>
+          normalizeProjectReviewState(
+            getLatestProjectSolution(project)?.reviewState,
+          ) === "SUCCESSFUL",
       ).length,
     [projectItems],
   );
   const failedProjects = useMemo(
     () =>
       projectItems.filter(
-        (project) => project.solutions?.[0]?.reviewState === "FAILED",
+        (project) =>
+          normalizeProjectReviewState(
+            getLatestProjectSolution(project)?.reviewState,
+          ) === "FAILED",
       ).length,
     [projectItems],
   );
   const reviewingProjects = useMemo(
     () =>
       projectItems.filter(
-        (project) => project.solutions?.[0]?.reviewState === "PENDING",
+        (project) =>
+          normalizeProjectReviewState(
+            getLatestProjectSolution(project)?.reviewState,
+          ) === "REVIEWING",
       ).length,
     [projectItems],
   );
@@ -57,6 +68,50 @@ export default function Projects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const locked = mode === "demo";
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
+
+  const handleProjectSubmit = async (githubLink: string, explanation: string) => {
+    if (!selectedProject) return;
+
+    const trimmedGithubLink = githubLink.trim();
+    const trimmedExplanation = explanation.trim();
+    const latestSolution = getLatestProjectSolution(selectedProject);
+
+    if (!trimmedGithubLink) {
+      toast.error("GitHub link is required.");
+      return;
+    }
+
+    if (!trimmedGithubLink.startsWith("https://github.com/")) {
+      toast.error("Link must be a valid GitHub URL.");
+      return;
+    }
+
+    if (trimmedExplanation.length < 30) {
+      toast.error("Explanation must be at least 30 characters.");
+      return;
+    }
+
+    if (latestSolution?.id) {
+      await updateMutation.mutateAsync({
+        solutionId: latestSolution.id,
+        githubLink: trimmedGithubLink,
+        explanation: trimmedExplanation,
+      });
+    } else {
+      await submitMutation.mutateAsync({
+        projectId: selectedProject.id,
+        githubLink: trimmedGithubLink,
+        explanation: trimmedExplanation,
+      });
+    }
+
+    closeModal();
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -160,7 +215,7 @@ export default function Projects() {
                   No projects yet
                 </p>
                 <p className="mt-3 text-base text-foreground">
-                  Projects for this course will appear here once they are available.
+                  We will add projects for this course soon. Check back shortly for updates.
                 </p>
               </div>
             )}
@@ -169,50 +224,10 @@ export default function Projects() {
 
         <SubmitModal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={closeModal}
           isSubmitting={submitMutation.isPending || updateMutation.isPending}
           onSubmit={(githubLink, explanation) => {
-            if (!selectedProject) return;
-
-            const trimmedGithubLink = githubLink.trim();
-            const trimmedExplanation = explanation.trim();
-            const latestSolution =
-              selectedProject.solutions?.slice().sort(
-                (a, b) =>
-                  new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime()
-              )[0] ?? null;
-
-            if (!trimmedGithubLink) {
-              toast.error("GitHub link is required.");
-              return;
-            }
-
-            if (!trimmedGithubLink.startsWith("https://github.com/")) {
-              toast.error("Link must be a valid GitHub URL.");
-              return;
-            }
-
-            if (trimmedExplanation.length < 30) {
-              toast.error("Explanation must be at least 30 characters.");
-              return;
-            }
-
-            if (latestSolution?.id) {
-              updateMutation.mutate({
-                solutionId: latestSolution.id,
-                githubLink: trimmedGithubLink,
-                explanation: trimmedExplanation,
-              });
-            } else {
-              submitMutation.mutate({
-                projectId: selectedProject.id,
-                githubLink: trimmedGithubLink,
-                explanation: trimmedExplanation,
-              });
-            }
-
-            setIsModalOpen(false);
+            void handleProjectSubmit(githubLink, explanation);
           }}
           selectedProject={selectedProject}
         />
