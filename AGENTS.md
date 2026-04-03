@@ -6,7 +6,7 @@ GO throw before
 - Never generate quick hacks or temporary fixes.
 - Prefer clean, scalable, production-grade solutions.
 - Ask for clarification if requirements are unclear.
-- Do NOT assume missing context — request it.
+- Do NOT assume missing context — request it...
 
 ---
 

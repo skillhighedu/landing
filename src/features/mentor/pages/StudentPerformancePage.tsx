@@ -532,6 +532,7 @@ function PerformanceRow({
           </p>
         </div>
       </div>
+      
 
       <div className="flex items-center justify-between xl:block">
         <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground xl:hidden">
