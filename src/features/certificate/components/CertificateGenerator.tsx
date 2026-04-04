@@ -54,6 +54,7 @@ export default function CertficateGenerator({
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [showNameConfirm, setShowNameConfirm] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     if (!showNameConfirm) return;
@@ -271,17 +272,23 @@ export default function CertficateGenerator({
   };
 
   const handleDownloadAll = async () => {
-    for (let i = 0; i < previewUrls.length; i++) {
-      const url = previewUrls[i];
-      const certType = certificateTypes[i]?.type ?? `Certificate${i + 1}`;
-      if (typeof url === "string") {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        saveAs(
-          blob,
-          `${certificateDetails?.courseName || "certificate"}_${certType}.pdf`,
-        );
+    setIsDownloading(true);
+
+    try {
+      for (let i = 0; i < previewUrls.length; i++) {
+        const url = previewUrls[i];
+        const certType = certificateTypes[i]?.type ?? `Certificate${i + 1}`;
+        if (typeof url === "string") {
+          const response = await fetch(url);
+          const blob = await response.blob();
+          saveAs(
+            blob,
+            `${certificateDetails?.courseName || "certificate"}_${certType}.pdf`,
+          );
+        }
       }
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -434,6 +441,7 @@ export default function CertficateGenerator({
           certificateTypes={certificateTypes}
           getCertificateId={getTypeCertificateId}
           handleDownloadAll={handleDownloadAll}
+          isDownloading={isDownloading}
         />
         </>
       )}

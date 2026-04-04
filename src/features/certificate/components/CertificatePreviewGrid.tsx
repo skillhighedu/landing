@@ -1,4 +1,4 @@
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon, EyeIcon, FileText } from "lucide-react";
 import CustomButton from "@/components/common/Button";
 
 import type { CertificateIds } from "@/types/certificateStore";
@@ -16,6 +16,7 @@ type Props = {
   certificateTypes: CertificatePreviewType[];
   getCertificateId: (type: CertificatePreviewType) => string;
   handleDownloadAll: () => void;
+  isDownloading: boolean;
 };
 
 export default function CertificatePreviewGrid({
@@ -23,7 +24,12 @@ export default function CertificatePreviewGrid({
   certificateTypes,
   getCertificateId,
   handleDownloadAll,
+  isDownloading,
 }: Props) {
+  const handleOpenCertificate = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
       <div className="mb-6 flex w-full max-w-6xl flex-col gap-4 rounded-[28px] border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
@@ -40,10 +46,12 @@ export default function CertificatePreviewGrid({
         </div>
 
         <CustomButton
-          title="Download All Certificates"
+          title={isDownloading ? "Preparing Downloads" : "Download Certificates"}
           icon={<DownloadIcon className="mr-2" />}
           onClick={handleDownloadAll}
-          className="w-full justify-center font-mono sm:w-auto"
+          loading={isDownloading}
+          disabled={isDownloading}
+          className="w-full justify-center px-3 py-4 font-mono text-sm sm:w-auto sm:px-4"
         />
       </div>
 
@@ -66,12 +74,35 @@ export default function CertificatePreviewGrid({
               </div>
             </div>
 
+            <div className="border-b border-neutral-200 bg-neutral-50/70 p-4 dark:border-neutral-800 dark:bg-neutral-950/40 sm:hidden">
+              <div className="flex flex-col items-center rounded-[20px] border border-dashed border-neutral-200 bg-white px-4 py-8 text-center dark:border-neutral-800 dark:bg-neutral-900">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <FileText className="h-6 w-6" />
+                </div>
+                <p className="mt-4 font-mono text-sm text-neutral-900 dark:text-white">
+                  Mobile PDF preview opens better in a new tab.
+                </p>
+                <p className="mt-2 max-w-xs font-mono text-xs leading-6 text-neutral-500 dark:text-neutral-400">
+                  Use the action below to review this certificate without the cramped embedded viewer.
+                </p>
+
+                <div className="mt-5 flex w-full flex-col gap-3">
+                  <CustomButton
+                    title="Open Preview"
+                    icon={<EyeIcon className="h-4 w-4" />}
+                    onClick={() => handleOpenCertificate(url)}
+                    className="w-full justify-center px-3 py-4 font-mono text-sm"
+                  />
+                </div>
+              </div>
+            </div>
+
             <iframe
               src={url}
               width="100%"
               height="320px"
               title={`Preview ${certificateTypes[idx]?.type ?? "Certificate"}`}
-              className="block h-[320px] w-full sm:h-[420px] lg:h-[520px]"
+              className="hidden h-[320px] w-full sm:block sm:h-[420px] lg:h-[520px]"
             />
           </div>
         ))}
