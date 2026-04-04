@@ -1,4 +1,4 @@
-import { spring, type Variants } from "framer-motion";
+import type { Variants } from "framer-motion";
 
 export const containerVariants: Variants = {
   hidden: {},

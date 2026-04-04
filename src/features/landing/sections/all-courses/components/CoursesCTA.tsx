@@ -1,5 +1,5 @@
 import BookingModal from "@/components/common/BookingModal";
-import { Calendar, Sparkles, ArrowRight } from "lucide-react";
+import { Calendar, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import SkillHighFavicon from "@/assets/favicon.jpg";
 

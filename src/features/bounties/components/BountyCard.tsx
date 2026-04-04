@@ -18,6 +18,7 @@ interface Props {
   locked?: boolean;
   isApplied?: boolean;
   onApply?: (bounty: Bounty) => void;
+  onOpen?: () => void | Promise<void>;
 }
 
 const getRemainingTime = (expiry: string) => {
@@ -37,6 +38,7 @@ export default function BountyCard({
   locked,
   isApplied,
   onApply,
+  onOpen,
 }: Props) {
   const [timeLeft, setTimeLeft] = useState(getRemainingTime(bounty.expiryDate));
 
@@ -154,7 +156,14 @@ export default function BountyCard({
                     : "Apply Now"
           }
           disabled={locked || isExpired || isClosed || isApplied}
-          onClick={() => onApply?.(bounty)}
+          onClick={() => {
+            if (onApply) {
+              onApply(bounty);
+              return;
+            }
+
+            void onOpen?.();
+          }}
           icon={locked ? <Lock size={16} /> : undefined}
           className="w-full justify-center font-mono text-sm sm:w-auto"
         />

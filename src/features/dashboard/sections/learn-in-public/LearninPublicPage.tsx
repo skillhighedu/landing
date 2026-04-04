@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import StepsGrid from "./components/StepsGrid";
 import ShareComposer from "./components/ShareComposer";
-import HeaderSection from "@/components/common/HeaderSection";
 import HeaderCard from "./components/HeaderCard";
 import Container from "@/layouts/Container";
 import DashboardLayout from "../../layout/DashboardLayout";

@@ -1,6 +1,5 @@
-import { BookOpen, LogOut, Settings, UserRound } from "lucide-react";
+import { BookOpen, LogOut, Settings } from "lucide-react";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
 import type { StudentProfile } from "../types";
 import CustomButton from "@/components/common/Button";
 import LogoutConfirmDialog from "@/features/dashboard/components/sidebar/LogoutConfirmDialog";
@@ -21,7 +20,6 @@ export default function ProfileSidebar({
   onSectionChange,
 }: Props) {
   const initial = student?.name?.[0] ?? "S";
-  const courses = student?.courses ?? [];
 
   const itemClasses = (isActive: boolean) =>
     clsx(

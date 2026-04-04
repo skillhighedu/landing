@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { BadgeCheck, ShieldCheck, Sparkles } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 import Header from "@/components/common/Header";
 import Container from "@/layouts/Container";

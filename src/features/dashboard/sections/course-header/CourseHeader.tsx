@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpenCheck, Layers3, PlayCircle } from "lucide-react";
+import { BookOpenCheck } from "lucide-react";
 import CourseHeaderActions from "./CourseHeaderActions";
 import type { CourseHeaderProps } from "./types";
 
