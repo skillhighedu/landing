@@ -26,6 +26,8 @@ import Container from "@/layouts/Container";
 import { submitContactLead } from "@/services/contactus-service";
 import type { ContactUsDetails } from "@/types";
 
+type ContactField = keyof ContactUsDetails;
+
 const categoryOptions: Array<{
   value: ContactUsDetails["category"];
   label: string;
@@ -85,6 +87,8 @@ export default function ContactUs() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [touchedFields, setTouchedFields] = useState<Partial<Record<ContactField, boolean>>>({});
 
   const errors = useMemo(() => {
     const nextErrors: Partial<Record<keyof ContactUsDetails, string>> = {};
@@ -117,8 +121,16 @@ export default function ContactUs() {
     return nextErrors;
   }, [category, email, message, name, phone]);
 
+  const shouldShowError = (field: ContactField) =>
+    Boolean(errors[field] && (hasSubmitted || touchedFields[field]));
+
+  const markTouched = (field: ContactField) => {
+    setTouchedFields((prev) => (prev[field] ? prev : { ...prev, [field]: true }));
+  };
+
   async function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setHasSubmitted(true);
     setSubmitError("");
     setSuccessMessage("");
 
@@ -147,6 +159,8 @@ export default function ContactUs() {
       setPhone("");
       setMessage("");
       setCategory("NEWSTUDENT");
+      setHasSubmitted(false);
+      setTouchedFields({});
     } catch {
       const fallback = "Failed to submit. Please try again.";
       setSubmitError(fallback);
@@ -282,10 +296,11 @@ export default function ContactUs() {
                       placeholder="Your name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="h-12 pl-10"
+                      onBlur={() => markTouched("name")}
+                      className="h-12 pl-10 text-neutral-900 placeholder:text-neutral-400 dark:text-white dark:placeholder:text-neutral-500"
                     />
                   </div>
-                  {errors.name ? <p className="text-sm text-red-600 dark:text-red-300">{errors.name}</p> : null}
+                  {shouldShowError("name") ? <p className="text-sm text-red-600 dark:text-red-300">{errors.name}</p> : null}
                 </div>
 
                 <div className="space-y-2">
@@ -299,10 +314,11 @@ export default function ContactUs() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="h-12 pl-10"
+                      onBlur={() => markTouched("email")}
+                      className="h-12 pl-10 text-neutral-900 placeholder:text-neutral-400 dark:text-white dark:placeholder:text-neutral-500"
                     />
                   </div>
-                  {errors.email ? <p className="text-sm text-red-600 dark:text-red-300">{errors.email}</p> : null}
+                  {shouldShowError("email") ? <p className="text-sm text-red-600 dark:text-red-300">{errors.email}</p> : null}
                 </div>
               </div>
 
@@ -317,29 +333,40 @@ export default function ContactUs() {
                       placeholder="9876543210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="h-12 pl-10"
+                      onBlur={() => markTouched("phone")}
+                      className="h-12 pl-10 text-neutral-900 placeholder:text-neutral-400 dark:text-white dark:placeholder:text-neutral-500"
                     />
                   </div>
-                  {errors.phone ? <p className="text-sm text-red-600 dark:text-red-300">{errors.phone}</p> : null}
+                  {shouldShowError("phone") ? <p className="text-sm text-red-600 dark:text-red-300">{errors.phone}</p> : null}
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-neutral-900 dark:text-white">
                     I am contacting as
                   </label>
-                  <Select value={category} onValueChange={(value) => setCategory(value as ContactUsDetails["category"])}>
-                    <SelectTrigger className="h-12">
+                  <Select
+                    value={category}
+                    onValueChange={(value) => {
+                      setCategory(value as ContactUsDetails["category"]);
+                      markTouched("category");
+                    }}
+                  >
+                    <SelectTrigger className="h-12 text-neutral-900 dark:text-white">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="text-neutral-900 dark:text-white">
                       {categoryOptions.map((option) => (
-                        <SelectItem key={option.label} value={option.value}>
+                        <SelectItem
+                          key={option.label}
+                          value={option.value}
+                          className="text-neutral-900 dark:text-white"
+                        >
                           {option.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  {errors.category ? <p className="text-sm text-red-600 dark:text-red-300">{errors.category}</p> : null}
+                  {shouldShowError("category") ? <p className="text-sm text-red-600 dark:text-red-300">{errors.category}</p> : null}
                 </div>
               </div>
 
@@ -366,10 +393,11 @@ export default function ContactUs() {
                     rows={7}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="resize-none pl-10 pt-3"
+                    onBlur={() => markTouched("message")}
+                    className="resize-none pl-10 pt-3 text-neutral-900 placeholder:text-neutral-400 dark:text-white dark:placeholder:text-neutral-500"
                   />
                 </div>
-                {errors.message ? <p className="text-sm text-red-600 dark:text-red-300">{errors.message}</p> : null}
+                {shouldShowError("message") ? <p className="text-sm text-red-600 dark:text-red-300">{errors.message}</p> : null}
               </div>
 
               <CustomButton
