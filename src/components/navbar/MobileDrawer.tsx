@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { X, Sun, Moon, ChevronRight, User } from "lucide-react";
+import { X, Sun, Moon, ChevronRight, User, LayoutDashboard } from "lucide-react";
 import Logo from "@/assets/logo.png";
 import CustomButton from "@/components/common/Button";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -143,7 +143,7 @@ export default function MobileDrawer({
           </div>
         </div>
 
-        <div className="border-t border-neutral-200 px-5 py-5 dark:border-neutral-800">
+        <div className="space-y-3 border-t border-neutral-200 px-5 py-5 dark:border-neutral-800">
           {isAuthenticated ? (
             <CustomButton
               title={profileLabel}
@@ -154,7 +154,28 @@ export default function MobileDrawer({
               }}
               className="w-full justify-center"
             />
-          ) : null}
+          ) : (
+            <>
+              <CustomButton
+                title="Access Dashboard"
+                icon={<LayoutDashboard size={15} />}
+                variant="outline"
+                onClick={() => {
+                  onClose();
+                  navigate("/signup");
+                }}
+                className="w-full justify-center border-neutral-300 bg-transparent text-neutral-900 hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-900"
+              />
+              <CustomButton
+                title="Start Learning"
+                onClick={() => {
+                  onClose();
+                  navigate("/all-courses");
+                }}
+                className="w-full justify-center"
+              />
+            </>
+          )}
         </div>
       </div>
     </>

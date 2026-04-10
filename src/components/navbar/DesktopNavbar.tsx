@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Sun, Moon, User } from "lucide-react";
+import { Sun, Moon, User, LayoutDashboard } from "lucide-react";
 import Logo from "@/assets/logo.png";
 import CustomButton from "@/components/common/Button";
 import ProgramsDropdown from "./ProgramsDropdown";
@@ -110,11 +110,20 @@ const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
 
         {/* Unauthenticated + not on course dashboard — CTA */}
         {!isAuthenticated && !shouldHideNavLinks && (
-          <CustomButton
-            title="Start Learning"
-            onClick={() => navigate("/signup")}
-            className="hidden sm:inline-flex"
-          />
+          <>
+            <CustomButton
+              title="Access Dashboard"
+              icon={<LayoutDashboard size={15} />}
+              variant="outline"
+              onClick={() => navigate("/signup")}
+              className="hidden sm:inline-flex border-neutral-900/20 bg-white/80 text-neutral-900 hover:bg-neutral-100 dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+            />
+            <CustomButton
+              title="Start Learning"
+              onClick={() => navigate("/all-courses")}
+              className="hidden sm:inline-flex"
+            />
+          </>
         )}
       </div>
     </div>

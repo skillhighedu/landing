@@ -1,4 +1,4 @@
-import { Calendar, Sword } from "lucide-react";
+import { Calendar, Sword, LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
 import BookingModal from "@/components/common/BookingModal";
 import CustomButton from "@/components/common/Button";
@@ -19,6 +19,15 @@ export default function HeroActions() {
           title="Get Started"
           icon={<Sword />}
           className="w-full sm:w-auto"
+        />
+      </Link>
+
+      <Link to="/signup" className="w-full sm:w-auto">
+        <CustomButton
+          title="Access Dashboard"
+          icon={<LayoutDashboard />}
+          variant="outline"
+          className="w-full sm:w-auto border-white/30 bg-black/20 text-white hover:bg-white/10"
         />
       </Link>
 
