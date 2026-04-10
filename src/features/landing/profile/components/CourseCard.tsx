@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import CustomButton from "@/components/common/Button";
 import {
   createPendingPayment,
@@ -10,6 +11,7 @@ import type { Course } from "../types";
 
 interface Props {
   course: Course;
+  onPaymentSuccess?: () => Promise<void> | void;
 }
 
 type RazorpaySuccessResponse = {
@@ -28,8 +30,9 @@ type RazorpayCheckoutOptions = {
   handler: (response: RazorpaySuccessResponse) => Promise<void>;
 };
 
-export default function CourseCard({ course }: Props) {
+export default function CourseCard({ course, onPaymentSuccess }: Props) {
   const isPending = !course.purchaseDetails?.isFullPayment;
+  const pendingAmount = course.purchaseDetails?.remainingAmount;
 
   const handlePayment = async (orderId: string) => {
     const isLoaded = await loadRazorpayScript();
@@ -57,6 +60,7 @@ export default function CourseCard({ course }: Props) {
               amount: orderDetails.amount,
               orderId,
             });
+            await onPaymentSuccess?.();
             resolve();
           } catch (error) {
             reject(error);
@@ -109,10 +113,35 @@ export default function CourseCard({ course }: Props) {
             : "Continue learning from your course dashboard."}
         </p>
 
+        {isPending && course.purchaseDetails && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm dark:border-amber-900/60 dark:bg-amber-950/30">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-neutral-600 dark:text-neutral-300">Pending amount</span>
+              <span className="font-semibold text-neutral-900 dark:text-white">
+                ₹{Number(pendingAmount ?? 0).toLocaleString()}
+              </span>
+            </div>
+
+            <div className="mt-2 flex items-center justify-between gap-3">
+              <span className="text-neutral-600 dark:text-neutral-300">Discount amount</span>
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                ₹{Number(course.purchaseDetails.discountAmount ?? 0).toLocaleString()}
+              </span>
+            </div>
+          </div>
+        )}
+
         {isPending ? (
           <CustomButton
             title="Pay Pending Payment"
-            onClick={() => handlePayment(course.purchaseDetails?.purchaseId as string)}
+            onClick={async () => {
+              try {
+                await handlePayment(course.purchaseDetails?.purchaseId as string);
+                toast.success("Payment successful!");
+              } catch {
+                toast.error("Payment failed or cancelled.");
+              }
+            }}
             className="w-full bg-red-500 text-white hover:bg-red-600"
           />
         ) : (

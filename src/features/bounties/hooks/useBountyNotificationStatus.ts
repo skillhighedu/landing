@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { fetchBounties } from "../services/bounties.service";
 import {
+  hasNonExpiredBounties,
   isBountyNotificationCacheStale,
   readBountyNotificationCache,
   writeBountyNotificationCache,
@@ -12,43 +13,23 @@ export const useBountyNotificationStatus = (
   slug?: string,
   mode: DashboardMode = "real",
 ) => {
-  const [hasActiveBounties, setHasActiveBounties] = useState(false);
+  const cached =
+    slug && mode !== "demo" ? readBountyNotificationCache(slug, mode) : null;
 
-  useEffect(() => {
-    if (!slug || mode === "demo") {
-      setHasActiveBounties(false);
-      return;
-    }
+  const { data } = useQuery<boolean>({
+    queryKey: ["bounty-notification-status", mode, slug],
+    enabled: !!slug && mode !== "demo",
+    queryFn: async () => {
+      const data = await fetchBounties(slug!);
+      if (mode !== "demo") {
+        writeBountyNotificationCache(slug!, mode, data.bounties);
+      }
+      return hasNonExpiredBounties(data.bounties);
+    },
+    initialData: cached?.hasActiveBounties ?? false,
+    staleTime: cached && !isBountyNotificationCacheStale(cached) ? 1000 * 60 * 15 : 0,
+    refetchOnMount: true,
+  });
 
-    const cached = readBountyNotificationCache(slug, mode);
-    if (cached) {
-      setHasActiveBounties(cached.hasActiveBounties);
-    }
-
-    if (!isBountyNotificationCacheStale(cached)) {
-      return;
-    }
-
-    let cancelled = false;
-
-    fetchBounties(slug)
-      .then((data) => {
-        if (cancelled) return;
-
-        writeBountyNotificationCache(slug, mode, data.bounties);
-        const nextCache = readBountyNotificationCache(slug, mode);
-        setHasActiveBounties(nextCache?.hasActiveBounties ?? false);
-      })
-      .catch(() => {
-        if (!cancelled && cached) {
-          setHasActiveBounties(cached.hasActiveBounties);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [slug, mode]);
-
-  return hasActiveBounties;
+  return data ?? false;
 };

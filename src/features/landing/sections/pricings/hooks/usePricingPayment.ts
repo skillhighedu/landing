@@ -33,6 +33,12 @@ export function usePricingPayment() {
     try {
       await initiateRazorpayPayment({ courseId, priceId, isFullPayment });
       toast.success('Payment successful!');
+      navigate('/profile', {
+        replace: true,
+        state: {
+          section: 'courses',
+        },
+      });
     } catch {
       toast.error('Payment failed or cancelled.');
     }

@@ -31,7 +31,7 @@ export default function CoursesGrid({
       <div
         className={`
           grid grid-cols-3 gap-2.5
-          ${hasMore ? "max-h-[280px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-black/10 dark:scrollbar-thumb-white/10 scrollbar-track-transparent" : ""}
+          ${hasMore ? "max-h-[320px] overflow-y-auto overscroll-contain pr-1 scrollbar-thin scrollbar-thumb-black/10 dark:scrollbar-thumb-white/10 scrollbar-track-transparent" : ""}
         `}
       >
         {courses.map((course) => (

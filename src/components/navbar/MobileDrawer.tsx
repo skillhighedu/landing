@@ -154,15 +154,6 @@ export default function MobileDrawer({
               }}
               className="w-full justify-center"
             />
-          ) : !shouldHideNavLinks ? (
-            <CustomButton
-              title="Start learning"
-              onClick={() => {
-                onClose();
-                navigate("/signup");
-              }}
-              className="w-full justify-center"
-            />
           ) : null}
         </div>
       </div>

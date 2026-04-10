@@ -5,9 +5,10 @@ import { CourseCardSkeleton } from "./skeletons/CourseCardSkeleton";
 interface Props {
   courses: Course[];
   loading: boolean;
+  onPaymentSuccess: () => Promise<void>;
 }
 
-export default function YourCourses({ courses = [], loading }: Props) {
+export default function YourCourses({ courses = [], loading, onPaymentSuccess }: Props) {
   return (
     <section className="space-y-5">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
@@ -49,7 +50,11 @@ export default function YourCourses({ courses = [], loading }: Props) {
       {!loading && courses.length > 0 && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
           {courses.map((course) => (
-            <CourseCard key={course.courseId} course={course} />
+            <CourseCard
+              key={course.courseId}
+              course={course}
+              onPaymentSuccess={onPaymentSuccess}
+            />
           ))}
         </div>
       )}

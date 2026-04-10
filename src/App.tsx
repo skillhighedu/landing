@@ -52,6 +52,8 @@ function App() {
     "/profile",
     "/course-dashboard",
     "/mentor",
+    "/check-certificate",
+    "/certificate/verify",
   ].some((path) => pathname.startsWith(path));
 
   useEffect(() => {

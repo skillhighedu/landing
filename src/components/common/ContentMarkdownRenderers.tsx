@@ -96,4 +96,56 @@ export const lessonMarkdownComponents: Components = {
       {...props}
     />
   ),
+
+  table: ({ className, ...props }) => (
+    <div className="-mx-2 my-5 overflow-x-auto px-2 sm:mx-0 sm:px-0">
+      <table
+        className={cn(
+          "min-w-full border-collapse rounded-xl border border-neutral-200 bg-white text-left text-xs sm:text-sm dark:border-neutral-800 dark:bg-neutral-950",
+          className
+        )}
+        {...props}
+      />
+    </div>
+  ),
+
+  thead: ({ className, ...props }) => (
+    <thead
+      className={cn(
+        "bg-neutral-100/80 dark:bg-neutral-900",
+        className
+      )}
+      {...props}
+    />
+  ),
+
+  tr: ({ className, ...props }) => (
+    <tr
+      className={cn(
+        "border-b border-neutral-200 dark:border-neutral-800",
+        className
+      )}
+      {...props}
+    />
+  ),
+
+  th: ({ className, ...props }) => (
+    <th
+      className={cn(
+        "min-w-[140px] px-3 py-2 text-left align-top text-xs font-semibold text-neutral-900 dark:text-white sm:px-4 sm:py-3 sm:text-sm",
+        className
+      )}
+      {...props}
+    />
+  ),
+
+  td: ({ className, ...props }) => (
+    <td
+      className={cn(
+        "min-w-[140px] px-3 py-2 align-top text-xs leading-6 text-neutral-700 dark:text-neutral-300 sm:px-4 sm:py-3 sm:text-sm",
+        className
+      )}
+      {...props}
+    />
+  ),
 };

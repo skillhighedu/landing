@@ -14,7 +14,7 @@ export default function DepartmentsSidebar({
       className="
         flex flex-row gap-1 p-3 overflow-x-auto no-scrollbar
         sm:flex-col sm:overflow-x-visible
-        sm:w-44 sm:shrink-0 sm:p-4
+        sm:max-h-[320px] sm:w-44 sm:shrink-0 sm:overflow-y-auto sm:overscroll-contain sm:p-4
         border-b sm:border-b-0
         border-black/6 dark:border-white/6
       "

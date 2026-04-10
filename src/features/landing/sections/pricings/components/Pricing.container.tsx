@@ -1,7 +1,8 @@
-
-import { forwardRef, } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { usePricingsStore } from '@/store/pricing.store';
 import { useSelectedCourseStore } from '@/store/useSelectedCourse';
+import { useAuthStore } from '@/store/authStore';
 import type { PricingProps } from '../types';
 
 import { usePricing } from '../hooks/usePricing';
@@ -16,6 +17,10 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(
   ({ courseSlug }, ref) => {
     const { pricings } = usePricingsStore();
     const { selectedCourse } = useSelectedCourseStore();
+    const { isAuthenticated } = useAuthStore();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const resumedPaymentRef = useRef<string | null>(null);
 
 
     const {
@@ -27,6 +32,37 @@ const Pricing = forwardRef<HTMLDivElement, PricingProps>(
 
 
     const { pay } = usePricingPayment();
+
+    useEffect(() => {
+      const pendingPayment = location.state?.openPayment;
+
+      if (!isAuthenticated || !pendingPayment || !selectedCourse?.id) {
+        return;
+      }
+
+      if (pendingPayment.courseId !== selectedCourse.id) {
+        return;
+      }
+
+      const resumeKey = [
+        pendingPayment.courseId,
+        pendingPayment.priceId,
+        pendingPayment.isFullPayment,
+      ].join(':');
+
+      if (resumedPaymentRef.current === resumeKey) {
+        return;
+      }
+
+      resumedPaymentRef.current = resumeKey;
+      navigate(location.pathname, { replace: true, state: {} });
+
+      void pay({
+        courseId: pendingPayment.courseId,
+        priceId: pendingPayment.priceId,
+        isFullPayment: pendingPayment.isFullPayment,
+      });
+    }, [isAuthenticated, location.pathname, location.state, navigate, pay, selectedCourse?.id]);
 
     return (
   <Container size="full">

@@ -1,5 +1,6 @@
 import { ChevronDown, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 import DepartmentsSidebar from "./DepartmentsSidebar";
 import CoursesGrid from "./CoursesGrid";
 import type { Department } from "./types";
@@ -25,6 +26,17 @@ export default function ProgramsDropdown({
     onSelectCourse(slug);
     setCoursesOpen(false);
   };
+
+  useEffect(() => {
+    if (!coursesOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [coursesOpen]);
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -82,6 +94,9 @@ export default function ProgramsDropdown({
               shadow-2xl shadow-black/15 dark:shadow-black/50
               overflow-hidden
             "
+            onWheelCapture={(event) => {
+              event.stopPropagation();
+            }}
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-black/6 dark:border-white/6">
@@ -110,7 +125,7 @@ export default function ProgramsDropdown({
             </div>
 
             {/* Body */}
-            <div className="flex flex-col sm:flex-row">
+            <div className="flex max-h-[min(75vh,420px)] flex-col overflow-hidden sm:flex-row">
               <DepartmentsSidebar
                 departments={departments}
                 selectedIndex={selectedDept}

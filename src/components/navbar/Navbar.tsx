@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Menu } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { ArrowRight, Menu } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { usePublicCoursesStore } from "@/store/publicCoursesStore";
 import { useAuthStore } from "@/store/authStore";
@@ -12,18 +12,30 @@ import DesktopNavbar from "./DesktopNavbar";
 import MobileDrawer from "./MobileDrawer";
 import type { Department } from "./types";
 import Container from "@/layouts/Container";
+const MOBILE_CTA_HIDDEN_ROUTES = [
+  "/mentor",
+  "/certificate/verify",
+  "/course-dashboard",
+  "/profile",
+];
 
 export default function Navbar() {
   const departments = usePublicCoursesStore(
     (s) => s.departments
   ) as Department[];
 
-  const { checkAuth } = useAuthStore();
+  const navigate = useNavigate();
+  const { checkAuth, isAuthenticated } = useAuthStore();
   const { open } = useSidebarStore();
 
   const location = useLocation();
   const isCourseDashboard =
     location.pathname.startsWith("/course-dashboard") || location.pathname.includes("/demo");
+  const shouldShowMobileCta =
+    !isAuthenticated &&
+    !MOBILE_CTA_HIDDEN_ROUTES.some((route) =>
+      location.pathname.startsWith(route)
+    );
 
 
   const [isVisible, setIsVisible] = useState(true);
@@ -96,20 +108,39 @@ export default function Navbar() {
               setSelectedDept={setSelectedDept}
             />
 
-            <button
-              onClick={() => setDrawerOpen(true)}
-              aria-label="Open menu"
-              className="
-                md:hidden
-                inline-flex items-center justify-center
-                rounded-xl p-2.5
-                text-neutral-700 dark:text-neutral-200
-                hover:bg-neutral-200/60 dark:hover:bg-neutral-800/60
-                active:scale-95 transition
-              "
-            >
-              <Menu size={22} />
-            </button>
+            <div className="ml-3 flex items-center gap-2 md:hidden">
+              {shouldShowMobileCta && (
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="
+                    inline-flex h-10 items-center gap-2 rounded-xl
+                    border-2 border-black bg-primary px-3
+                    font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white
+                    shadow-[2px_2px_0_#000] transition
+                    hover:bg-primary/90
+                  "
+                  aria-label="Start Learning"
+                >
+                  <span className="hidden min-[380px]:inline">Start Learning</span>
+                  <span className="min-[380px]:hidden">Start</span>
+                  <ArrowRight size={14} />
+                </button>
+              )}
+
+              <button
+                onClick={() => setDrawerOpen(true)}
+                aria-label="Open menu"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-xl p-2.5
+                  text-neutral-700 dark:text-neutral-200
+                  hover:bg-neutral-200/60 dark:hover:bg-neutral-800/60
+                  active:scale-95 transition
+                "
+              >
+                <Menu size={22} />
+              </button>
+            </div>
           </div>
         </Container>
       </header>

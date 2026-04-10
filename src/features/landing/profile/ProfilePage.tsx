@@ -22,16 +22,16 @@ export default function ProfilePage() {
     location.state?.section === "settings" ? "settings" : "courses"
   );
 
-  useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const response = await profile();
-        setStudentProfile([response]);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchProfile() {
+    try {
+      const response = await profile();
+      setStudentProfile([response]);
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     void fetchProfile();
   }, [setStudentProfile]);
 
@@ -55,6 +55,13 @@ export default function ProfilePage() {
     }
 
     navigate(-1);
+  };
+
+  const handlePaymentSuccess = async () => {
+    setLoading(true);
+    setActiveSection("courses");
+    await fetchProfile();
+    navigate("/profile", { replace: true, state: { section: "courses" } });
   };
 
   return (
@@ -82,7 +89,11 @@ export default function ProfilePage() {
 
             <div className="space-y-8">
               {activeSection === "courses" ? (
-                <YourCourses courses={student?.courses ?? []} loading={loading} />
+                <YourCourses
+                  courses={student?.courses ?? []}
+                  loading={loading}
+                  onPaymentSuccess={handlePaymentSuccess}
+                />
               ) : (
                 !loading && student && <ProfileForm student={student} />
               )}
