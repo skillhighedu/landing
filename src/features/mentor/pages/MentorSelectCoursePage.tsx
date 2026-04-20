@@ -57,9 +57,6 @@ export default function MentorSelectCoursePage() {
                 <h3 className="mt-3 text-lg font-semibold text-foreground">
                   {course.courseName}
                 </h3>
-                <p className="mt-2 break-all text-xs text-muted-foreground">
-                  {course.courseId}
-                </p>
               </button>
             ))}
           </div>
