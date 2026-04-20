@@ -8,7 +8,8 @@ import api from "@/config/axiosConfig";
 import { handleApiError } from "@/utils/errorHandler";
 import type { ApiResponse } from "@/types";
 import type { MentorQuestion } from "../types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useMentorProfile } from "../hooks/useMentorProfile";
 
 type QuestionFilter = "all" | "unanswered" | "answered";
 
@@ -80,6 +81,11 @@ function FilterTab({
 
 export default function Questions() {
   const navigate = useNavigate();
+  const { courseId = "" } = useParams<{ courseId: string }>();
+  const {
+    selectedCourse,
+    isLoading: isProfileLoading,
+  } = useMentorProfile();
   const [questions, setQuestions] = useState<MentorQuestion[]>([]);
   const [answerInputs, setAnswerInputs] = useState<Record<string, string>>({});
   const [openAnswerId, setOpenAnswerId] = useState<string | null>(null);
@@ -91,10 +97,11 @@ export default function Questions() {
 
   useEffect(() => {
     async function fetchQuestions() {
+      setLoading(true);
       try {
-        const response = await api.get<ApiResponse<MentorQuestion[]>>(
-          "/mentors/course/questions/getQuestions"
-        );
+        const response = await api.get<ApiResponse<MentorQuestion[]>>("/mentors/course/questions", {
+          params: { courseId },
+        });
         setQuestions(response.data.additional ?? []);
       } catch (error) {
         handleApiError(error);
@@ -105,7 +112,7 @@ export default function Questions() {
     }
 
     void fetchQuestions();
-  }, []);
+  }, [courseId]);
 
   const handleAnswerChange = (id: string, value: string) => {
     setAnswerInputs((previous) => ({ ...previous, [id]: value }));
@@ -113,14 +120,17 @@ export default function Questions() {
 
   const handleAnswerSubmit = async (id: string) => {
     const answer = answerInputs[id]?.trim();
-    if (!answer) {
+    if (!answer || !courseId) {
       return;
     }
 
     setSubmitting(id);
 
     try {
-      await api.put(`/mentors/course/questions/sendAnswer/${id}`, { answer });
+      await api.put(`/mentors/course/questions/${id}/answer`, {
+        answer,
+        courseId,
+      });
       setQuestions((previous) =>
         previous.map((question) =>
           question.id === id ? { ...question, answer, isAnswered: true } : question
@@ -148,7 +158,7 @@ export default function Questions() {
         ? questions.filter((question) => !question.isAnswered)
         : questions;
 
-  if (loading) {
+  if (isProfileLoading || loading) {
     return (
       <Container size="full">
         <div className="mt-20 py-10 font-mono">
@@ -181,10 +191,15 @@ export default function Questions() {
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
               Review student lesson questions, see the related topic, and send answers without leaving the mentor workspace.
             </p>
+            {selectedCourse && (
+              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-primary/80">
+                Active course: {selectedCourse.courseName}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <CustomButton title="View Performance" onClick={() => navigate("/mentor/performance")}>
+            <CustomButton title="View Performance" onClick={() => navigate(`/mentor/course/${courseId}/performance`)}>
               View Performance
             </CustomButton>
           </div>

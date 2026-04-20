@@ -32,12 +32,12 @@ export default function CertificatePreviewGrid({
 
   return (
     <>
-      <div className="mb-6 flex w-full max-w-6xl flex-col gap-4 rounded-[28px] border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mb-5 flex w-full max-w-6xl flex-col gap-4 rounded-[24px] border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:mb-6 sm:rounded-[28px] sm:p-5 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-primary">
             Preview Ready
           </p>
-          <h2 className="mt-2 font-mono text-xl text-neutral-900 dark:text-white sm:text-2xl">
+          <h2 className="mt-2 font-mono text-lg leading-tight text-neutral-900 dark:text-white sm:text-2xl">
             Review your certificates before downloading
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600 dark:text-neutral-400">
@@ -55,11 +55,11 @@ export default function CertificatePreviewGrid({
         />
       </div>
 
-      <div className="grid w-full max-w-4xl grid-cols-1 gap-5">
+      <div className="grid w-full max-w-4xl grid-cols-1 gap-4 sm:gap-5">
         {previewUrls.map((url, idx) => (
           <div
             key={idx}
-            className="overflow-hidden rounded-[24px] border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+            className="overflow-hidden rounded-[20px] border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:rounded-[24px]"
           >
             <div className="border-b border-neutral-200 bg-neutral-50 px-4 py-4 dark:border-neutral-800 dark:bg-neutral-900/80">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -67,7 +67,7 @@ export default function CertificatePreviewGrid({
                   <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
                     {certificateTypes[idx]?.type}
                   </p>
-                  <p className="mt-1 font-mono text-sm text-gray-700 dark:text-gray-300">
+                  <p className="mt-1 break-all font-mono text-sm text-gray-700 dark:text-gray-300">
                     {getCertificateId(certificateTypes[idx]) || "ID not available"}
                   </p>
                 </div>

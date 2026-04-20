@@ -27,7 +27,7 @@ const MentorLogin = () => {
     mutate(form, {
       onSuccess: (data) => {
         login({ role: data.additional?.role! });
-        navigate("/mentor/dashboard", { replace: true });
+        navigate("/mentor", { replace: true });
       },
     });
   };

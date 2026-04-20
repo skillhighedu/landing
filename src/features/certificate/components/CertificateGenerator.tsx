@@ -302,7 +302,7 @@ export default function CertficateGenerator({
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center gap-6 p-3 sm:p-6 lg:p-8 dark:bg-darkPrimary">
+    <div className="flex min-h-screen flex-col items-center gap-5 px-3 pb-6 pt-2 sm:gap-6 sm:p-6 lg:p-8 dark:bg-darkPrimary">
       {showNameConfirm && (
         <div className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-black/70 p-3 backdrop-blur-sm sm:flex sm:items-center sm:justify-center sm:p-4">
           <div className="relative mx-auto my-4 w-full max-w-2xl overflow-y-auto overscroll-contain rounded-[28px] border border-neutral-200 bg-white p-5 text-neutral-900 shadow-2xl [max-height:calc(100dvh-1.5rem)] dark:border-neutral-800 dark:bg-neutral-950 dark:text-white sm:my-0 sm:rounded-[32px] sm:p-8 sm:[max-height:calc(100dvh-2rem)]">
@@ -398,28 +398,28 @@ export default function CertficateGenerator({
   
       {!isPreviewMode ? (
         <>
-          <div className="w-full max-w-5xl rounded-[28px] border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:p-6 lg:p-8">
+          <div className="w-full max-w-5xl rounded-[24px] border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:rounded-[28px] sm:p-6 lg:p-8">
             <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary">
               Certificate Center
             </p>
-            <h2 className="mt-3 font-mono text-2xl text-neutral-900 dark:text-white sm:text-3xl">
+            <h2 className="mt-3 font-mono text-xl leading-tight text-neutral-900 dark:text-white sm:text-3xl">
               Preview your certificates before downloading
             </h2>
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-gray-500 dark:text-gray-400">
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-gray-500 dark:text-gray-400 sm:leading-7">
               Generate and review your Internship, Industrial, and Participation certificates in one place before you download them.
             </p>
           </div>
 
-          <div className="grid w-full max-w-5xl gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid w-full max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
             {certificateTypes.map((cert) => (
               <div
                 key={cert.type}
-                className="rounded-[24px] border border-neutral-200 bg-white p-4 text-left shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:p-5"
+                className="rounded-[20px] border border-neutral-200 bg-white p-4 text-left shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:rounded-[24px] sm:p-5"
               >
                 <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary">
                   {cert.type}
                 </p>
-                <p className="mt-3 font-mono text-sm text-neutral-900 dark:text-white">
+                <p className="mt-3 break-all font-mono text-sm text-neutral-900 dark:text-white">
                   {getTypeCertificateId(cert) || "ID not available"}
                 </p>
               </div>
@@ -430,7 +430,7 @@ export default function CertficateGenerator({
             icon={  <EyeIcon className="mr-2" />}
             title="Preview Certificates"
             onClick={handlePreviewClick}
-            className="mt-2 cursor-pointer p-3 font-mono text-white"
+            className="mt-1 w-full cursor-pointer justify-center p-3 font-mono text-white sm:mt-2 sm:w-auto"
           >
           </CustomButton>
         </>

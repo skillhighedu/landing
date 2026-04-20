@@ -1,43 +1,58 @@
-import type { ResumeFormValues } from "@/types/resume";
+import { saveAs } from "file-saver";
 import { jsPDF } from "jspdf";
 
+import type { ResumeFormValues } from "@/types/resume";
+
+const stripBulletPrefix = (value: string) => value.replace(/^\s*[-•]\s*/, "");
+
+const sanitizeFileNamePart = (value: string) =>
+  value
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]+/g, "_")
+    .replace(/^_+|_+$/g, "");
 
 export function generatePDF(data: ResumeFormValues): void {
   const doc = new jsPDF();
 
-  // page + margins
   const MARGIN_X = 18;
   const MARGIN_Y = 18;
   const PAGE_W = doc.internal.pageSize.getWidth();
   const PAGE_H = doc.internal.pageSize.getHeight();
+  const CONTENT_W = PAGE_W - MARGIN_X * 2;
 
   const LH_BODY = 5.6;
   const LH_TIGHT = 5.2;
 
   doc.setLineHeightFactor(1.15);
 
-  const ensureSpace = (y: number, need: number): number => {
+  const ensureSpace = (y: number, need: number) => {
     if (y + need > PAGE_H - MARGIN_Y) {
       doc.addPage();
       return MARGIN_Y;
     }
+
     return y;
   };
 
-  const hr = (y: number): void => {
+  const hr = (y: number) => {
     doc.setDrawColor(0);
     doc.setLineWidth(0.25);
     doc.line(MARGIN_X, y, PAGE_W - MARGIN_X, y);
   };
 
-  const underline = (text: string, x: number, y: number): void => {
-    doc.text(text, x, y);
-    const w = doc.getTextWidth(text);
+  const underline = (
+    text: string,
+    x: number,
+    y: number,
+    link?: string,
+  ) => {
+    doc.textWithLink(text, x, y, { url: link ?? text });
+    const width = doc.getTextWidth(text);
     doc.setLineWidth(0.25);
-    doc.line(x, y + 0.8, x + w, y + 0.8);
+    doc.line(x, y + 0.8, x + width, y + 0.8);
   };
 
-  const section = (title: string, y: number): number => {
+  const section = (title: string, y: number) => {
     y = ensureSpace(y, 10);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12.5);
@@ -45,10 +60,10 @@ export function generatePDF(data: ResumeFormValues): void {
     return y + 6;
   };
 
-  const labeledRow = (label: string, value: string, y: number): number => {
-    const LABEL_W = 40;
-    const xText = MARGIN_X + LABEL_W + 2;
-    const maxW = PAGE_W - xText - MARGIN_X;
+  const labeledRow = (label: string, value: string, y: number) => {
+    const labelWidth = 40;
+    const xText = MARGIN_X + labelWidth + 2;
+    const maxWidth = PAGE_W - xText - MARGIN_X;
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
@@ -56,84 +71,125 @@ export function generatePDF(data: ResumeFormValues): void {
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
-    const lines = doc.splitTextToSize(value || "—", maxW);
+    const lines = doc.splitTextToSize(value || "-", maxWidth);
     doc.text(lines, xText, y);
-    const used = Math.max(6, lines.length * LH_BODY);
-    return y + used;
+
+    const usedHeight = Math.max(6, lines.length * LH_BODY);
+    return y + usedHeight;
   };
 
-  const bulletBlock = (bullets: string[], y: number): number => {
-    const maxW = PAGE_W - MARGIN_X * 2 - 8;
+  const bulletBlock = (bullets: string[], y: number) => {
+    const maxWidth = PAGE_W - MARGIN_X * 2 - 8;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
+
     bullets.forEach((raw) => {
-      const text = raw.replace(/^\s*[-•]\s*/, "");
-      const wrapped = doc.splitTextToSize(text, maxW);
+      const text = stripBulletPrefix(raw);
+      const wrapped = doc.splitTextToSize(text, maxWidth);
       y = ensureSpace(y, wrapped.length * LH_TIGHT + 2);
       doc.text("•", MARGIN_X + 2, y);
       doc.text(wrapped, MARGIN_X + 8, y);
       y += wrapped.length * LH_TIGHT;
     });
+
     return y + 1.5;
   };
 
-  const drawContactLinks = (items: string[], y: number): void => {
-    const visible = items.filter(Boolean);
-    if (!visible.length) return;
+  const drawContactLinks = (items: Array<{ label: string; href?: string }>, y: number) => {
+    const visible = items.filter((item) => item.label);
+    if (!visible.length) {
+      return;
+    }
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
     doc.setTextColor(0, 0, 255);
 
-    const sep = "  .  ";
-    const widths = visible.map((t) => doc.getTextWidth(t));
-    const sepW = doc.getTextWidth(sep);
-    const totalW =
-      widths.reduce((a, b) => a + b, 0) + sepW * (visible.length - 1);
+    const separator = "  •  ";
+    const widths = visible.map((item) => doc.getTextWidth(item.label));
+    const separatorWidth = doc.getTextWidth(separator);
+    const totalWidth =
+      widths.reduce((sum, width) => sum + width, 0) +
+      separatorWidth * (visible.length - 1);
 
-    let x = (PAGE_W - totalW) / 2;
-    visible.forEach((t, i) => {
-      underline(t, x, y);
-      x += doc.getTextWidth(t);
-      if (i !== visible.length - 1) {
+    let x = MARGIN_X;
+    if (totalWidth < CONTENT_W) {
+      x += (CONTENT_W - totalWidth) / 2;
+    }
+
+    visible.forEach((item, index) => {
+      underline(item.label, x, y, item.href);
+      x += doc.getTextWidth(item.label);
+
+      if (index !== visible.length - 1) {
         doc.setTextColor(0, 0, 0);
-        doc.text(sep, x, y);
-        x += sepW;
+        doc.text(separator, x, y);
+        x += separatorWidth;
         doc.setTextColor(0, 0, 255);
       }
     });
+
     doc.setTextColor(0, 0, 0);
   };
 
-  // small helper to parse "Title - desc"
   const parseProject = (line: string) => {
-    const m = line.match(/^(.+?)\s*[-–—:]\s+(.*)$/);
-    if (m) return { title: m[1]?.trim() ?? "", desc: m[2]?.trim() ?? "" };
+    const match = line.match(/^(.+?)\s*[-–—:]\s+(.*)$/);
+    if (match) {
+      return {
+        title: match[1]?.trim() ?? "",
+        desc: match[2]?.trim() ?? "",
+      };
+    }
+
     return { title: line.trim(), desc: "" };
   };
 
-  // ---------- HEADER ----------
   let y = MARGIN_Y;
+  const imageSize = data.profileImage ? 32 : 0;
+  const imageX = PAGE_W - MARGIN_X - imageSize;
+  const textWidth = imageSize ? CONTENT_W - imageSize - 8 : CONTENT_W;
+
+  if (data.profileImage) {
+    try {
+      doc.addImage(data.profileImage, imageX, y, imageSize, imageSize);
+    } catch {
+      // If the image format is unsupported, keep generating the resume without it.
+    }
+  }
 
   doc.setFont("times", "bold");
   doc.setFontSize(21.5);
   const fullName =
     `${(data.firstname || "").toUpperCase()} ${(data.lastname || "").toUpperCase()}`.trim() ||
     "YOUR NAME";
-  doc.text(fullName, PAGE_W / 2, y, { align: "center" });
+  const nameLines = doc.splitTextToSize(fullName, textWidth);
+  doc.text(nameLines, MARGIN_X, y + 6);
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(11);
-  y += 8;
-  const phone = data.mobnum || "Phone";
-  doc.text(phone, PAGE_W / 2, y, { align: "center" });
+  y += Math.max(imageSize, nameLines.length * 9);
+
+  const phone = (data.mobnum || "").trim();
+  if (phone) {
+    y += 2;
+    doc.text(phone, MARGIN_X, y);
+  }
 
   y += 7;
   drawContactLinks(
     [
-      (data.email || "").trim(),
-      (data.linkedin || "").trim(),
-      (data.github || "").trim(),
+      {
+        label: (data.email || "").trim(),
+        href: data.email ? `mailto:${data.email.trim()}` : undefined,
+      },
+      {
+        label: (data.linkedin || "").trim(),
+        href: (data.linkedin || "").trim() || undefined,
+      },
+      {
+        label: (data.github || "").trim(),
+        href: (data.github || "").trim() || undefined,
+      },
     ],
     y,
   );
@@ -142,45 +198,56 @@ export function generatePDF(data: ResumeFormValues): void {
   hr(y);
   y += 8;
 
-  // ---------- SKILLS ----------
-  y = section("SKILLS", y);
+  if ((data.obj || "").trim()) {
+    y = section("Objective", y);
+    const objectiveLines = doc.splitTextToSize((data.obj || "").trim(), CONTENT_W);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.text(objectiveLines, MARGIN_X, y + 2);
+    y += objectiveLines.length * LH_BODY + 6;
+    hr(y);
+    y += 8;
+  }
+
+  y = section("Skills", y);
   const skillsText =
     (data.skills || "")
       .split(/[,|\n]/)
-      .map((s) => s.trim())
+      .map((value) => value.trim())
       .filter(Boolean)
-      .join(", ") || "—";
+      .join(", ") || "-";
   y = labeledRow("Technical Skills", skillsText, y + 2);
 
   y += 4;
   hr(y);
   y += 8;
 
-  // ---------- EXPERIENCE (optional) ----------
   const expRaw = (data.experience || "").trim();
   if (expRaw) {
-    y = section("EXPERIENCE", y);
+    y = section("Experience", y);
     const blocks = expRaw
       .split(/\n\s*\n/)
-      .map((b) => b.trim())
+      .map((block) => block.trim())
       .filter(Boolean);
-    const HEADING_GAP = 4;
-    const BLOCK_GAP = 6;
 
-    blocks.forEach((block, idx) => {
+    blocks.forEach((block, index) => {
       const lines = block
         .split("\n")
-        .map((l) => l.trim())
+        .map((line) => line.trim())
         .filter(Boolean);
-      if (!lines.length) return;
+
+      if (!lines.length) {
+        return;
+      }
 
       const heading = lines[0] ?? "";
-      const [left, right] = heading.split("|").map((s) => s.trim());
+      const [left, right] = heading.split("|").map((value) => value.trim());
 
       y = ensureSpace(y, 10);
       doc.setFont("helvetica", "bold");
       doc.setFontSize(12);
       doc.text(left ?? "", MARGIN_X, y);
+
       if (right) {
         doc.setFont("helvetica", "normal");
         doc.setFontSize(11);
@@ -188,11 +255,11 @@ export function generatePDF(data: ResumeFormValues): void {
       }
 
       const bullets = lines.slice(1);
-      y = bullets.length
-        ? bulletBlock(bullets, y + HEADING_GAP)
-        : y + HEADING_GAP;
+      y = bullets.length ? bulletBlock(bullets, y + 4) : y + 4;
 
-      if (idx < blocks.length - 1) y += BLOCK_GAP;
+      if (index < blocks.length - 1) {
+        y += 6;
+      }
     });
 
     y += 2;
@@ -200,29 +267,23 @@ export function generatePDF(data: ResumeFormValues): void {
     y += 8;
   }
 
-  // ---------- PROJECTS ----------
-  y = section("PROJECTS", y);
-
+  y = section("Projects", y);
   const projectLines = (data.projects || "")
     .split("\n")
-    .map((s) => s.trim())
+    .map((value) => value.trim())
     .filter(Boolean);
 
-  // If empty, show two tasteful samples
-  const normalized = projectLines.length
+  const normalizedProjects = projectLines.length
     ? projectLines
     : [
         "Smart RAG Assistant - Built a Bedrock-powered RAG chatbot that reduced ticket resolution time by 38%.",
-        "E-commerce Analytics - Designed ELT + dashboards; reduced churn by 12%.",
+        "E-commerce Analytics - Designed ELT pipelines and dashboards that reduced churn by 12%.",
       ];
 
-  const MAX_W = PAGE_W - MARGIN_X * 2 - 8;
-  const ITEM_GAP = 3; // small vertical gap between items
-
-  normalized.forEach((line, idx) => {
+  const projectWidth = PAGE_W - MARGIN_X * 2 - 8;
+  normalizedProjects.forEach((line, index) => {
     const { title, desc } = parseProject(line);
 
-    // bullet + bold title on first line
     y = ensureSpace(y, 8);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
@@ -231,39 +292,41 @@ export function generatePDF(data: ResumeFormValues): void {
     doc.setFont("helvetica", "bold");
     doc.text(title || "Project", MARGIN_X + 8, y);
 
-    // description wrapped on the next line(s)
     if (desc) {
-      const wrapped = doc.splitTextToSize(desc, MAX_W);
+      const wrapped = doc.splitTextToSize(desc, projectWidth);
       y = ensureSpace(y, wrapped.length * LH_TIGHT + 6);
       doc.setFont("helvetica", "normal");
-      doc.text(wrapped, MARGIN_X + 8, y + 4); // slight offset below title line
+      doc.text(wrapped, MARGIN_X + 8, y + 4);
       y += 4 + wrapped.length * LH_TIGHT;
     } else {
       y += LH_TIGHT;
     }
 
-    if (idx < normalized.length - 1) y += ITEM_GAP;
+    if (index < normalizedProjects.length - 1) {
+      y += 3;
+    }
   });
 
   y += 4;
   hr(y);
   y += 8;
 
-  // ---------- EXTRA-CURRICULAR ----------
-  y = section("EXTRA-CURRICULAR ACTIVITIES", y);
+  y = section("Extra-Curricular Activities", y);
   const extraLines = (data.extracurricular || "")
     .split("\n")
-    .map((s) => s.trim())
+    .map((value) => value.trim())
     .filter(Boolean);
   const extras = extraLines.length
     ? extraLines
     : [
-        "Organized monthly tech meetups (150+ attendees) and weekly coding circles.",
-        "Published 12 blog posts on JS and GenAI; 30k total reads.",
+        "Organized monthly tech meetups with 150+ attendees and weekly coding circles.",
+        "Published 12 blog posts on JavaScript and GenAI with 30k total reads.",
       ];
   y = bulletBlock(extras, y + 2);
 
-  const baseName =
-    (data.firstname || "Resume") + "_" + (data.lastname || "Template");
-  doc.save(`${baseName}_ImageStyle.pdf`);
+  const firstNamePart = sanitizeFileNamePart(data.firstname || "Resume");
+  const lastNamePart = sanitizeFileNamePart(data.lastname || "Template");
+  const fileName = `${firstNamePart || "Resume"}_${lastNamePart || "Template"}_Resume.pdf`;
+
+  saveAs(doc.output("blob"), fileName);
 }

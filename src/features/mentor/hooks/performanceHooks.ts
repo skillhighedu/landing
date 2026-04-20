@@ -6,10 +6,11 @@ import {
 
 export const PERFORMANCE_KEY = ["performance"] as const;
 
-export const usePerformance = (page: number, limit: number) =>
+export const usePerformance = (courseId: string | undefined, page: number, limit: number) =>
   useQuery({
-    queryKey: [...PERFORMANCE_KEY, page, limit],
-    queryFn: () => fetchPerformanceByCourseId(page, limit),
+    queryKey: [...PERFORMANCE_KEY, courseId, page, limit],
+    queryFn: () => fetchPerformanceByCourseId(courseId!, page, limit),
+    enabled: Boolean(courseId),
     staleTime: 2 * 60 * 1000,
   });
 
@@ -17,8 +18,15 @@ export const useUpsertPerformance = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, percentage }: { userId: string; percentage: number }) =>
-      upsertPerformanceService(userId, percentage),
+    mutationFn: ({
+      userId,
+      percentage,
+      courseId,
+    }: {
+      userId: string;
+      percentage: number;
+      courseId: string;
+    }) => upsertPerformanceService(userId, percentage, courseId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: PERFORMANCE_KEY,

@@ -4,13 +4,14 @@ import { handleApiError } from "@/utils/errorHandler";
 import type { PaginatedStudentPerformance } from "../types";
 
 export const fetchPerformanceByCourseId = async (
+  courseId: string,
   page = 1,
   limit = 8,
 ): Promise<PaginatedStudentPerformance> => {
   try {
-    const res = await api.get<ApiResponse<PaginatedStudentPerformance>>(
-      `/mentors/courses/performance?page=${page}&limit=${limit}`,
-    );
+    const res = await api.get<ApiResponse<PaginatedStudentPerformance>>("/mentors/courses/performance", {
+      params: { page, limit, courseId },
+    });
     return (
       res.data.additional ?? {
         students: [],
@@ -32,10 +33,15 @@ export const fetchPerformanceByCourseId = async (
 
 export const upsertPerformanceService = async (
   userId: string,
-  percentage: number
+  percentage: number,
+  courseId: string,
 ): Promise<void> => {
   try {
-    await api.post("/mentors/student/update/performance", { userId, percentage });
+    await api.post("/mentors/student/update/performance", {
+      userId,
+      percentage,
+      courseId,
+    });
   } catch (error) {
     handleApiError(error);
     throw error;

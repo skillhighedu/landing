@@ -7,6 +7,7 @@ export const validationSchemaType = Yup.object({
   lastname: Yup.string().required("Last name is required"),
   mobnum: Yup.string().required("Mobile number is required"),
   skills: Yup.string().required("Skills are required"),
+  profileImage: Yup.string().notRequired(),
   // optional fields (won't block submit)
   grad: Yup.string().notRequired(),
   obj: Yup.string().notRequired(),
@@ -33,6 +34,7 @@ export interface ResumeFormValues {
   email: string;
   firstname: string;
   lastname: string;
+  profileImage?: string;
   grad: string;
   obj: string;
   mobnum: string;

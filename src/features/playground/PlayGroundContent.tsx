@@ -3,6 +3,7 @@ import Player from "@/features/dashboard/components/player/Player";
 import Actions from "@/features/dashboard/components/actions/Actions";
 import Description from "@/features/dashboard/components/Description";
 import { cn } from "@/lib/utils";
+import { useEffect, useRef } from "react";
 import type { CourseLesson } from "../dashboard/types";
 
 export default function PlayGroundContent({
@@ -13,6 +14,7 @@ export default function PlayGroundContent({
   setCurrentLesson,
   activeTab,
   setActiveTab,
+  onPlayerHeightChange,
 }: {
   slug: string;
   mode: "demo" | "real";
@@ -21,12 +23,38 @@ export default function PlayGroundContent({
   setCurrentLesson: (lesson: CourseLesson) => void;
   activeTab: "description" | "questions";
   setActiveTab: (tab: "description" | "questions") => void;
+  onPlayerHeightChange?: (height: number) => void;
 }) {
+  const playerCardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const playerCard = playerCardRef.current;
+    if (!playerCard || !onPlayerHeightChange) return;
+
+    const updatePlayerHeight = () => {
+      onPlayerHeightChange(playerCard.getBoundingClientRect().height);
+    };
+
+    updatePlayerHeight();
+
+    const resizeObserver = new ResizeObserver(updatePlayerHeight);
+    resizeObserver.observe(playerCard);
+    window.addEventListener("resize", updatePlayerHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updatePlayerHeight);
+    };
+  }, [currentLesson?.id, onPlayerHeightChange]);
+
   if (!currentLesson) return null;
 
   return (
     <div className="min-w-0 space-y-6">
-      <div className="rounded-[1.5rem] border border-border bg-card p-3 shadow-sm sm:p-4">
+      <div
+        ref={playerCardRef}
+        className="rounded-[1.5rem] border border-border bg-card p-3 shadow-sm sm:p-4"
+      >
         <Player currentLesson={currentLesson} />
       </div>
 

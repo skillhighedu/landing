@@ -247,7 +247,7 @@ export default function Navbar() {
             ) : (
               <CustomButton
                 title="Start Learning"
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/login")}
               />
             )}
           </div>
@@ -279,7 +279,7 @@ export default function Navbar() {
             <div className="space-y-3">
               <button
                 onClick={toggleTheme}
-                className="w-full p-3 rounded-xl bg-neutral-800 flex items-center justify-center gap-2"
+                className="w-full p-3 rounded-xl cursor-pointer bg-neutral-800 flex items-center justify-center gap-2"
               >
                 {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
                 Toggle Theme
@@ -288,7 +288,7 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <CustomButton title="Profile" onClick={() => navigate("/profile")} className="w-full" />
               ) : (
-                <CustomButton title="Start Learning" onClick={() => navigate("/signup")} className="w-full" />
+                <CustomButton title="Start Learning" onClick={() => navigate("/login")} className="w-full" />
               )}
             </div>
           </div>

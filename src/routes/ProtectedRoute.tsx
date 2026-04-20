@@ -20,7 +20,7 @@ export default function ProtectedRoute() {
 
   // allow both students AND mentors through — MentorRoute handles the role check
   if (!user) {
-    return <Navigate to="/signup" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

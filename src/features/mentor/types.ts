@@ -91,6 +91,7 @@ export type MentorProfile = {
   role: string;
   courseId?: string | null;
   courseName?: string | null;
+  assignedCourses?: MentorAssignedCourse[];
   createdAt?: string;
   updatedAt?: string;
 };
@@ -99,4 +100,9 @@ export type MentorProjectState = {
   projectName: string;
   projectLink: string;
   id: string;
+};
+
+export type MentorAssignedCourse = {
+  courseId: string;
+  courseName: string;
 };

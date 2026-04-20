@@ -1,7 +1,7 @@
 import React from "react";
 import type { FormikProps } from "formik";
 import type { ResumeFormValues } from "@/types/resume";
-import { Section, TextAreaField, TextField } from "./Fields";
+import { ImageUploadField, Section, TextAreaField, TextField } from "./Fields";
 
 type ResumeFormik = FormikProps<ResumeFormValues>;
 
@@ -9,6 +9,15 @@ export const PersonalInfoSection: React.FC<{ formik: ResumeFormik }> = ({
   formik,
 }) => (
   <Section title="Personal Information">
+    <div className="mb-5">
+      <ImageUploadField
+        name="profileImage"
+        label="Profile photo (optional)"
+        helperText="Start by adding a clean headshot if you want one on the resume."
+        formik={formik}
+      />
+    </div>
+
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
       <TextField
         name="firstname"

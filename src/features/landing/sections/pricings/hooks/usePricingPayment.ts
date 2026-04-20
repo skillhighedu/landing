@@ -19,7 +19,7 @@ export function usePricingPayment() {
     
   }) {
     if (!isAuthenticated) {
-      navigate('/signup', {
+      navigate('/login', {
         replace: true,
         state: {
           from: location.pathname,

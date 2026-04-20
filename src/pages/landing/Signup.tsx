@@ -37,7 +37,6 @@ const getStrengthLabel = (strength: number) => {
 };
 
 export default function Signup() {
-  const [isSignup, setIsSignup] = useState(false);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [form, setForm] = useState<SignupForm>({
     name: "",
@@ -59,13 +58,17 @@ export default function Signup() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from || "/profile";
+  const isSignup = location.pathname === "/signup";
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const toggleMode = () => {
-    setIsSignup((value) => !value);
+    navigate(isSignup ? "/login" : "/signup", {
+      replace: true,
+      state: location.state,
+    });
     setForm({ name: "", email: "", password: "" });
     setIsResetting(false);
     setResetEmailSent(false);

@@ -162,7 +162,7 @@ export default function MobileDrawer({
                 variant="outline"
                 onClick={() => {
                   onClose();
-                  navigate("/signup");
+                  navigate("/login");
                 }}
                 className="w-full justify-center border-neutral-300 bg-transparent text-neutral-900 hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-900"
               />

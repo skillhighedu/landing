@@ -24,6 +24,7 @@ const initialValues: ResumeFormValues = {
   email: "",
   firstname: "",
   lastname: "",
+  profileImage: "",
   grad: "",
   obj: "",
   mobnum: "",
@@ -41,11 +42,9 @@ const initialValues: ResumeFormValues = {
   experience: "",
 };
 
-const Resume: React.FC<PlayGroundProps> = () => {
-  
-   const {mode } =  useDashboardRouteStore()
-
-   const isDemo = mode === "demo"
+const Resume: React.FC<PlayGroundProps> = ({ mode: routeMode }) => {
+  const { mode } = useDashboardRouteStore();
+  const isDemo = (routeMode || mode) === "demo";
   const formik = useFormik<ResumeFormValues>({
     initialValues,
     validationSchema: validationSchemaType,
@@ -74,7 +73,7 @@ const Resume: React.FC<PlayGroundProps> = () => {
             {/* Header */}
             <div className="border-b border-border px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
               <p className="text-sm sm:text-base text-muted-foreground">
-                Fill in your details and generate a clean PDF resume.
+                Fill in your details, optionally add a profile photo, and download a clean PDF resume.
               </p>
             </div>
 

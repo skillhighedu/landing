@@ -34,7 +34,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (get().isCheckingAuth || get().authChecked) return;
 
     // skip on public pages that don't need auth
-    const publicPaths = ["/signup", "/mentor/login"];
+    const publicPaths = ["/login", "/signup", "/mentor/login"];
     if (publicPaths.includes(window.location.pathname)) {
       set({ loading: false, isCheckingAuth: false, authChecked: true });
       return;

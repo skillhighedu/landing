@@ -1,12 +1,10 @@
 import { useEffect, useState, type ReactNode } from "react";
 import HeaderSection from "@/components/common/HeaderSection";
 import Container from "@/layouts/Container";
-import api from "@/config/axiosConfig";
-import { handleApiError } from "@/utils/errorHandler";
-import type { ApiResponse } from "@/types";
-import type { MentorProfile } from "../types";
 import { useAuthStore } from "@/store/authStore";
 import LogoutConfirmDialog from "@/features/dashboard/components/sidebar/LogoutConfirmDialog";
+import { MentorCourseSwitcher } from "../components/MentorCourseSwitcher";
+import { useMentorProfile } from "../hooks/useMentorProfile";
 
 function InfoRow({
   icon,
@@ -48,27 +46,22 @@ function Avatar({ name }: { name: string }) {
 }
 
 export default function Profile() {
-  const [profile, setProfile] = useState<MentorProfile | null>(null);
-  const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const logout = useAuthStore((state) => state.logout);
+  const {
+    profile,
+    assignedCourses,
+    selectedCourseId,
+    setSelectedCourseId,
+    isLoading: loading,
+  } = useMentorProfile();
 
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const response = await api.get<ApiResponse<MentorProfile>>("/mentors/profile");
-        setProfile(response.data.additional ?? null);
-      } catch (error) {
-        handleApiError(error);
-      } finally {
-        setLoading(false);
-        setTimeout(() => setVisible(true), 40);
-      }
+    if (!loading) {
+      setTimeout(() => setVisible(true), 40);
     }
-
-    void fetchProfile();
-  }, []);
+  }, [loading]);
 
   const handleLogout = async () => {
     try {
@@ -133,6 +126,14 @@ export default function Profile() {
                 </div>
 
                 <div className="border-t border-border/60 px-8 pb-4">
+                  <div className="py-4">
+                    <MentorCourseSwitcher
+                      assignedCourses={assignedCourses}
+                      selectedCourseId={selectedCourseId}
+                      onSelectCourse={setSelectedCourseId}
+                      compact
+                    />
+                  </div>
                   <InfoRow
                     icon={
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -151,16 +152,33 @@ export default function Profile() {
                     label="Email Address"
                     value={profile.email}
                   />
-                  {profile.courseName && (
-                    <InfoRow
-                      icon={
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                      }
-                      label="Assigned Course"
-                      value={profile.courseName}
-                    />
+                  {assignedCourses.length > 0 && (
+                    <div className="border-b border-border/60 py-4 last:border-0">
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-primary/15 bg-primary/8 text-primary">
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          </svg>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs text-muted-foreground">Assigned Courses</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {assignedCourses.map((course) => (
+                              <span
+                                key={course.courseId}
+                                className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${
+                                  course.courseId === selectedCourseId
+                                    ? "border-primary/30 bg-primary/10 text-primary"
+                                    : "border-border bg-background text-foreground"
+                                }`}
+                              >
+                                {course.courseName}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
 

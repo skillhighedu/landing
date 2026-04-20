@@ -111,7 +111,7 @@ export default function Navbar() {
             <div className="ml-3 flex items-center gap-2 md:hidden">
               {shouldShowMobileCta && (
                 <button
-                  onClick={() => navigate("/signup")}
+                  onClick={() => navigate("/login")}
                   className="
                     inline-flex h-10 items-center gap-2 rounded-xl
                     border-2 border-black bg-primary px-3

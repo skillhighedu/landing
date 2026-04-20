@@ -22,7 +22,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 403) {
-      window.location.href = "/signup";
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }

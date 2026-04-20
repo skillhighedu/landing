@@ -2,8 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import HeaderSection from "@/components/common/HeaderSection";
 import Container from "@/layouts/Container";
 import { toast } from "sonner";
+import { useParams } from "react-router-dom";
 import { usePerformance, useUpsertPerformance } from "../hooks/performanceHooks";
 import type { StudentPerformance } from "../types";
+import { useMentorProfile } from "../hooks/useMentorProfile";
 
 type PerformanceTone = {
   bar: string;
@@ -121,6 +123,11 @@ function sortStudents(students: StudentPerformance[], sortBy: SortOption) {
 }
 
 export default function StudentPerformancePage() {
+  const { courseId = "" } = useParams<{ courseId: string }>();
+  const {
+    selectedCourse,
+    isLoading: isProfileLoading,
+  } = useMentorProfile();
   const tableSectionRef = useRef<HTMLDivElement | null>(null);
   const [search, setSearch] = useState("");
   const [filterBand, setFilterBand] = useState<FilterBand>("ALL");
@@ -133,7 +140,7 @@ export default function StudentPerformancePage() {
     isLoading,
     isError,
     refetch,
-  } = usePerformance(1, PERFORMANCE_FETCH_LIMIT);
+  } = usePerformance(courseId, 1, PERFORMANCE_FETCH_LIMIT);
   const students = performanceData?.students ?? [];
 
   const filteredStudents = useMemo(() => {
@@ -204,12 +211,17 @@ export default function StudentPerformancePage() {
               Track learner progress in one place, quickly filter weak performers, and update
               percentages without breaking your review flow.
             </p>
+            {selectedCourse && (
+              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-primary/80">
+                Active course: {selectedCourse.courseName}
+              </p>
+            )}
           </div>
 
         
         </div>
 
-        {!isLoading && !isError && students.length > 0 && (
+        {!isProfileLoading && !isLoading && !isError && students.length > 0 && (
           <>
             <div className="mt-8 grid grid-cols-1 font-mono gap-4 md:grid-cols-2 xl:grid-cols-[1.2fr_1fr_1fr_1fr]">
               <div className="rounded-[28px] border border-emerald-200 bg-gradient-to-br from-emerald-50 via-background to-background p-6 shadow-sm dark:border-emerald-900 dark:from-emerald-950/30">
@@ -269,7 +281,7 @@ export default function StudentPerformancePage() {
           </>
         )}
 
-        {!isLoading && students.length > 0 && (
+        {!isProfileLoading && !isLoading && students.length > 0 && (
           <div className="mt-8 rounded-[28px] border border-border bg-card p-5 shadow-sm">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
               <div className="w-full xl:max-w-xl">
@@ -358,7 +370,7 @@ export default function StudentPerformancePage() {
           </div>
         )}
 
-        {isLoading && (
+        {(isProfileLoading || isLoading) && (
           <div className="mt-8 space-y-3">
             {Array.from({ length: 5 }).map((_, index) => (
               <div key={index} className="h-24 animate-pulse rounded-[28px] bg-muted/40" />
@@ -366,7 +378,7 @@ export default function StudentPerformancePage() {
           </div>
         )}
 
-        {isError && (
+        {!isProfileLoading && isError && (
           <div className="mt-8 rounded-[28px] border border-rose-200 bg-rose-50/70 p-6 dark:border-rose-900 dark:bg-rose-950/20">
             <h2 className="text-lg font-semibold text-foreground">Unable to load performance</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -381,7 +393,7 @@ export default function StudentPerformancePage() {
           </div>
         )}
 
-        {!isLoading && !isError && students.length === 0 && (
+        {!isProfileLoading && !isLoading && !isError && students.length === 0 && (
           <div className="mt-8">
             <EmptyState
               title="No student performance records yet"
@@ -390,7 +402,7 @@ export default function StudentPerformancePage() {
           </div>
         )}
 
-        {!isLoading && !isError && students.length > 0 && filteredStudents.length === 0 && (
+        {!isProfileLoading && !isLoading && !isError && students.length > 0 && filteredStudents.length === 0 && (
           <div className="mt-8">
             <EmptyState
               title="No matching students"
@@ -399,7 +411,7 @@ export default function StudentPerformancePage() {
           </div>
         )}
 
-        {!isLoading && !isError && filteredStudents.length > 0 && (
+        {!isProfileLoading && !isLoading && !isError && filteredStudents.length > 0 && (
           <div
             ref={tableSectionRef}
             key={currentPage}
@@ -426,7 +438,7 @@ export default function StudentPerformancePage() {
           </div>
         )}
 
-        {!isLoading && !isError && filteredStudents.length > 0 && totalPages > 1 && (
+        {!isProfileLoading && !isLoading && !isError && filteredStudents.length > 0 && totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -437,9 +449,10 @@ export default function StudentPerformancePage() {
         )}
       </div>
 
-      {editingStudent && (
+      {editingStudent && courseId && (
         <EditPerformanceModal
           student={editingStudent}
+          courseId={courseId}
           onClose={() => setEditingStudent(null)}
         />
       )}
@@ -604,9 +617,11 @@ function CountPill({ label, value }: { label: string; value: number }) {
 
 function EditPerformanceModal({
   student,
+  courseId,
   onClose,
 }: {
   student: StudentPerformance;
+  courseId: string;
   onClose: () => void;
 }) {
   const [value, setValue] = useState(student.percentage);
@@ -620,7 +635,7 @@ function EditPerformanceModal({
     }
 
     mutate(
-      { userId: student.userId, percentage: value },
+      { userId: student.userId, percentage: value, courseId },
       {
         onSuccess: () => {
           toast.success("Student performance updated");

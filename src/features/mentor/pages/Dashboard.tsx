@@ -5,11 +5,17 @@ import PendingBadge from "../components/PendingBadge";
 import SkeletonCard from "../components/Skelton";
 import StatCard from "../components/StatCard";
 import { useProjects } from "../hooks/projectHook";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useMentorProfile } from "../hooks/useMentorProfile";
 
 export default function MentorDashboard() {
-  const { data: projects, isLoading, isError } = useProjects();
   const navigate = useNavigate();
+  const { courseId = "" } = useParams<{ courseId: string }>();
+  const {
+    selectedCourse,
+    isLoading: isProfileLoading,
+  } = useMentorProfile();
+  const { data: projects, isLoading, isError } = useProjects(courseId);
 
   const totalPending =
     projects?.reduce(
@@ -32,7 +38,7 @@ export default function MentorDashboard() {
       project.solutions.some((solution) => solution.reviewState === "REVIEWING")
     ).length ?? 0;
 
-  if (isLoading) {
+  if (isProfileLoading || isLoading) {
     return (
       <Container size="full">
         <div className="mt-20 py-10 font-mono">
@@ -94,13 +100,18 @@ export default function MentorDashboard() {
               Review submitted work, prioritize pending items, and jump directly into performance
               tracking from the same mentor workspace.
             </p>
+            {selectedCourse && (
+              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-primary/80">
+                Active course: {selectedCourse.courseName}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <CustomButton title="View Questions" onClick={() => navigate("/mentor/questions")}>
+            <CustomButton title="View Questions" onClick={() => navigate(`/mentor/course/${courseId}/questions`)}>
               View Questions
             </CustomButton>
-            <CustomButton title="View Performance" onClick={() => navigate("/mentor/performance")}>
+            <CustomButton title="View Performance" onClick={() => navigate(`/mentor/course/${courseId}/performance`)}>
               View Performance
             </CustomButton>
           </div>
@@ -239,7 +250,7 @@ export default function MentorDashboard() {
                     disabled={!hasPending}
                     onClick={() =>
                       hasPending &&
-                      navigate("/mentor/projects/solutions", {
+                      navigate(`/mentor/course/${courseId}/projects/solutions`, {
                         state: { projectId: project.id, projectName: project.projectName },
                       })
                     }

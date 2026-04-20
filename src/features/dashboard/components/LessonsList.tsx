@@ -2,6 +2,7 @@ import { Play, Lock } from "lucide-react";
 import clsx from "clsx";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { CheckedState } from "@radix-ui/react-checkbox";
+import type { Ref } from "react";
 import type { CourseLesson } from "../types";
 
 interface SidebarProps {
@@ -12,6 +13,7 @@ interface SidebarProps {
   onLessonSelect: (lesson: CourseLesson) => void;
   onToggleComplete?: (lessonId: string, completed: boolean) => void;
   onLockedLessonClick?: (lesson: CourseLesson) => void;
+  scrollContainerRef?: Ref<HTMLDivElement>;
   variant?: "desktop" | "mobile";
 }
 
@@ -23,6 +25,7 @@ export default function Sidebar({
   onLessonSelect,
   onToggleComplete,
   onLockedLessonClick,
+  scrollContainerRef,
   variant = "desktop",
 }: SidebarProps) {
   const isMobile = variant === "mobile";
@@ -37,9 +40,10 @@ export default function Sidebar({
 
   return (
     <div
+      ref={scrollContainerRef}
       className={clsx(
         "overflow-y-auto overscroll-y-contain pr-1",
-        isMobile ? "h-full pb-6" : "max-h-[calc(100vh-260px)]"
+        isMobile ? "h-full pb-6" : "h-full min-h-0"
       )}
     >
       <ul className={clsx("flex flex-col", isMobile ? "gap-2.5" : "gap-3")}>

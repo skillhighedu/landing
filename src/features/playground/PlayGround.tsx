@@ -24,6 +24,7 @@ export default function PlayGround({ mode }: PlayGroundProps) {
     useState<"description" | "questions">("description");
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [playerHeight, setPlayerHeight] = useState<number>();
   const [pendingLessonIds, setPendingLessonIds] = useState<string[]>([]);
 
   const {
@@ -85,6 +86,7 @@ export default function PlayGround({ mode }: PlayGroundProps) {
                   setCurrentLesson={setCurrentLesson}
                   activeTab={activeTab}
                   setActiveTab={setActiveTab}
+                  onPlayerHeightChange={setPlayerHeight}
                 />
               </main>
 
@@ -93,6 +95,7 @@ export default function PlayGround({ mode }: PlayGroundProps) {
                 currentLesson={currentLesson}
                 completedLessonIds={completedLessonIds}
                 pendingLessonIds={pendingLessonIds}
+                height={playerHeight}
                 onSelectLesson={setCurrentLesson}
                 onLockedLessonClick={(lesson) => {
                   setCurrentLesson(lesson);

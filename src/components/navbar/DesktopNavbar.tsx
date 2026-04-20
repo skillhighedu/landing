@@ -115,7 +115,7 @@ const profileLabel = user?.role === "mentor" ? "Mentor Profile" : "Profile";
               title="Access Dashboard"
               icon={<LayoutDashboard size={15} />}
               variant="outline"
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/login")}
               className="hidden sm:inline-flex border-neutral-900/20 bg-white/80 text-neutral-900 hover:bg-neutral-100 dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
             />
             <CustomButton

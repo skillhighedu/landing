@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import "./index.css";
 import Popup from "@/components/ui/Popup";
@@ -30,6 +30,11 @@ import StudentPerformancePage from "./features/mentor/pages/StudentPerformancePa
 import MentorQuestionsPage from "./features/mentor/pages/Questions";
 import Resume from "./features/resume/Resume";
 import NotFound from "./pages/NotFound";
+import MentorHomeRedirect from "./features/mentor/pages/MentorHomeRedirect";
+import MentorSelectCoursePage from "./features/mentor/pages/MentorSelectCoursePage";
+import MentorNoCoursePage from "./features/mentor/pages/MentorNoCoursePage";
+import MentorCourseRoute from "./routes/MentorCourseRoute";
+import MentorCourseLayout from "./features/mentor/layouts/MentorCourseLayout";
 
 const Home = lazy(() => import("@/pages/landing/Home"));
 const CourseDetails = lazy(() => import("@/features/landing/pages/AboutCourse"));
@@ -99,6 +104,15 @@ function App() {
 
 
             <Route
+              path="/login"
+              element={
+                <PublicRoute isAuthenticated={isAuthenticated} loading={loading}>
+                  <Signup />
+                </PublicRoute>
+              }
+            />
+
+            <Route
               path="/signup"
               element={
                 <PublicRoute isAuthenticated={isAuthenticated} loading={loading}>
@@ -141,10 +155,31 @@ function App() {
 
             <Route element={<MentorRoute />}>
               <Route element={<MentorLayout />}>
-                <Route path="/mentor/dashboard" element={<MentorDashboard />} />
-                <Route path="/mentor/projects/solutions" element={<ProjectSolutionsPage />} />
-                <Route path="/mentor/questions" element={<MentorQuestionsPage />} />
-                <Route path="/mentor/performance" element={<StudentPerformancePage />} />
+                <Route path="/mentor" element={<MentorHomeRedirect />} />
+                <Route path="/mentor/dashboard" element={<Navigate to="/mentor" replace />} />
+                <Route path="/mentor/select-course" element={<MentorSelectCoursePage />} />
+                <Route path="/mentor/no-course" element={<MentorNoCoursePage />} />
+                <Route element={<MentorCourseRoute />}>
+                  <Route element={<MentorCourseLayout />}>
+                    <Route
+                      path="/mentor/course/:courseId"
+                      element={<MentorHomeRedirect />}
+                    />
+                    <Route path="/mentor/course/:courseId/projects" element={<MentorDashboard />} />
+                    <Route
+                      path="/mentor/course/:courseId/projects/solutions"
+                      element={<ProjectSolutionsPage />}
+                    />
+                    <Route
+                      path="/mentor/course/:courseId/questions"
+                      element={<MentorQuestionsPage />}
+                    />
+                    <Route
+                      path="/mentor/course/:courseId/performance"
+                      element={<StudentPerformancePage />}
+                    />
+                  </Route>
+                </Route>
               </Route>
             </Route>
           </Route>

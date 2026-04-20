@@ -15,7 +15,7 @@ const GoogleCallback = () => {
         const code = searchParams.get("code");
 
         if (!code) {
-          navigate("/signup", { replace: true });
+          navigate("/login", { replace: true });
           return;
         }
 
@@ -29,7 +29,7 @@ const GoogleCallback = () => {
         });
       } catch (error) {
         console.error("OAuth callback error:", error);
-        navigate("/signup", { replace: true });
+        navigate("/login", { replace: true });
       }
     };
 

@@ -22,7 +22,7 @@ export default function HeroActions() {
         />
       </Link>
 
-      <Link to="/signup" className="w-full sm:w-auto">
+      <Link to="/login" className="w-full sm:w-auto">
         <CustomButton
           title="Access Dashboard"
           icon={<LayoutDashboard />}
