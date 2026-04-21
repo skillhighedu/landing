@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 function scrollPageToTop() {
@@ -23,7 +23,7 @@ export default function ScrollToTop() {
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     scrollPageToTop();
   }, [key]);
 

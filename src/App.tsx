@@ -69,6 +69,8 @@ function App() {
     <div className="min-h-screen bg-white text-white dark:bg-neutral-900">
       {!shouldHidePopup && <Popup mode={isAuthenticated ? "real" : "demo"} />}
 
+      <ScrollToTop />
+
       <Suspense
         fallback={
           <div className="flex min-h-screen items-center justify-center">
@@ -76,8 +78,6 @@ function App() {
           </div>
         }
       >
-        <ScrollToTop />
-
         <Routes>
           <Route element={<LandingLayout />}>
             <Route path="/" element={<Home />} />
