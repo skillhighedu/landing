@@ -5,6 +5,7 @@ import "./index.css";
 import Popup from "@/components/ui/Popup";
 import Spinner from "@/components/ui/Spinner";
 import ScrollToTop from "./components/common/ScrollToTop";
+import AuthRedirectHandler from "./components/common/AuthRedirectHandler";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import PublicRoute from "@/routes/PublicRoute";
 import MentorRoute from "./routes/MentorRoute";
@@ -69,6 +70,7 @@ function App() {
     <div className="min-h-screen bg-white text-white dark:bg-neutral-900">
       {!shouldHidePopup && <Popup mode={isAuthenticated ? "real" : "demo"} />}
 
+      <AuthRedirectHandler />
       <ScrollToTop />
 
       <Suspense

@@ -42,6 +42,10 @@ export const handleApiError = (error: unknown): string => {
     }
 
     const fallbackMessage = message || "An error occurred";
+    if (error.response?.status === 403) {
+      return fallbackMessage;
+    }
+
     toast.error(fallbackMessage, { id: API_ERROR_TOAST_ID });
 
     return fallbackMessage;
